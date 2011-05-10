@@ -1,1 +1,6 @@
-None
+mailform sitegins
+
+<?
+
+p($params);
+?>

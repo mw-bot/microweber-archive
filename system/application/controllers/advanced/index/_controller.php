@@ -460,7 +460,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		if ($editmode == true) {
 			$is_admin = is_admin ();
 			if ($is_admin == true) {
-				$layout = CI::model ( 'template' )->addTransparentBackgroudToFlash ( $layout );
+				//$layout = CI::model ( 'template' )->addTransparentBackgroudToFlash ( $layout );
 				$layout_toolbar = CI::view ( 'admin/toolbar', true, true );
 				if ($layout_toolbar != '') {
 					$layout = str_replace ( '</body>', $layout_toolbar . '</body>', $layout );

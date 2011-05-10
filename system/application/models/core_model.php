@@ -1400,7 +1400,7 @@ class Core_model extends Model {
 		$today = date ( 'Y-m-d H-i-s' );
 		
 		if ($full_path == false) {
-			$history_dir = APPPATH . '/history/' . $table . '/' . $id . '/' . $field . '/';
+			$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 			$history_dir = normalize_path ( $history_dir );
 		
 		} else {
@@ -1417,8 +1417,15 @@ class Core_model extends Model {
 		
 		$newstamp = 0;
 		$newname = "";
+		
+		$file_counter_to_keep = 0;
+		
 		$dc = opendir ( $dir );
 		while ( $fn = readdir ( $dc ) ) {
+			
+			//if ($file_counter < 1000) {
+			
+
 			# Eliminate current directory, parent directory
 			if (ereg ( '^\.{1,2}$', $fn ))
 				continue;
@@ -1430,6 +1437,7 @@ class Core_model extends Model {
 				$newstamp = $timedat;
 				$newname = $fn;
 			}
+			//}
 		}
 		# $timedat is the time for the latest file
 		# $newname is the name of the latest file
@@ -1440,7 +1448,7 @@ class Core_model extends Model {
 		if (trim ( $value ) != '') {
 			if ($newest != $value) {
 				
-				touch ( APPPATH . '/history/' . 'index.php' );
+				touch ( HISTORY_DIR . 'index.php' );
 				
 				$hf = $history_dir . $today . '.php';
 				//p($hf);
@@ -1465,21 +1473,40 @@ class Core_model extends Model {
 		}
 		//copy for hiustory
 		$today = date ( 'Y-m-d H-i-s' );
-		$history_dir = APPPATH . '/history/' . $table . '/' . $id . '/' . $field . '/';
+		$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 		$history_dir = normalize_path ( $history_dir );
-		//p($history_dir);
-		$his = array ();
-		foreach ( glob ( $history_dir . "*.php" ) as $filename ) {
-			$size = filesize ( $filename );
-			//p($size);
-			if (intval ( $size ) != 0) {
-				$his [] = $filename;
-			} else {
-				print $filename;
-				@unlink ( $filename );
-			}
+		
+		if ($history_dir == false) {
+			mkdir_recursive ( $history_dir );
 		}
 		
+		//p($history_dir);
+		$his = array ();
+		$file_counter = 0;
+		
+		$filez = glob ( $history_dir . "*.php" );
+		if (! empty ( $filez )) {
+			$filez = array_reverse ( $filez );
+			foreach ( $filez as $filename ) {
+				
+				if ($file_counter < 1000) {
+					
+					$size = filesize ( $filename );
+					//p($size);
+					if (intval ( $size ) != 0) {
+						$his [] = $filename;
+					} else {
+						print $filename;
+						@unlink ( $filename );
+					}
+				} else {
+					@unlink ( $filename );
+				}
+				
+				$file_counter ++;
+			
+			}
+		}
 		if (! empty ( $his )) {
 			//	$his = array_reverse($his);
 		}
@@ -4611,7 +4638,7 @@ class Core_model extends Model {
 		$function_cache_id = false;
 		
 		$test_for_long = strlen ( $sVeryLongText );
-		if ($test_for_long > 50000) {
+		if ($test_for_long > 1000) {
 			
 			$args = func_get_args ();
 			$i = 0;
@@ -4654,9 +4681,11 @@ class Core_model extends Model {
 		
 		} else {
 			$sNewText = str_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText );
+			//$sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement, $sVeryLongText);
 		
+
 		}
-		if ($test_for_long > 50000) {
+		if ($test_for_long > 1000) {
 			CI::model ( 'core' )->cacheWrite ( $sNewText, $function_cache_id, $cache_group );
 		}
 		return $sNewText;
@@ -6244,7 +6273,7 @@ $w
 		
 		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		$target_path = MEDIAFILES;
-		//var_dump($media_get); 
+		
 		$media_get_to_return = array ();
 		
 		$media_get_to_return_pictures = array ();
@@ -6263,7 +6292,8 @@ $w
 				case 'pics' :
 					
 					$file_path = MEDIAFILES . 'pictures/original/' . $item ['filename'];
-					
+					$file_path = normalize_path ( $file_path, false );
+					//p ( $file_path );
 					if (is_file ( $file_path ) == true) {
 						
 						$data = array ();
@@ -6303,7 +6333,7 @@ $w
 				case 'vid' :
 					
 					$file_path = MEDIAFILES . 'pictures/original/' . $item ['filename'];
-					
+					$file_path = normalize_path ( $file_path, false );
 					if (is_file ( $file_path ) == true) {
 						
 						$data = array ();
@@ -6336,6 +6366,7 @@ $w
 				case 'files' :
 					
 					$file_path = MEDIAFILES . 'files/' . $item ['filename'];
+					$file_path = normalize_path ( $file_path, false );
 					//var_dump($file_path);
 					
 
@@ -6414,6 +6445,8 @@ $w
 			$media_get_to_return ['files'] = $media_get_to_return_files;
 		
 		}
+		//	 var_dump($media_get); 
+	//	var_dump ( $media_get_to_return );
 		
 		if (! empty ( $media_get_to_return )) {
 			
@@ -6819,6 +6852,11 @@ $w
 											
 											$target_path_pictures_folder = MEDIAFILES . 'pictures/original/';
 											$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder );
+											
+											if (is_dir ( $target_path_pictures_folder ) == false) {
+												mkdir_recursive ( $target_path_pictures_folder );
+											}
+											
 											$target_path_pictures_file = basename ( $the_target_path );
 											$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
 											//p($target_path_pictures_new);

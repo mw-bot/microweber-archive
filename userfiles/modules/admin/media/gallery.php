@@ -1,4 +1,4 @@
-<? //p($params); ?>
+<?  //p($params); ?>
 <?    // p($config); ?>
 <?
 $rand = rand();
@@ -323,11 +323,12 @@ function save_media_close<? print $rand ;?>()  {
                   <td><h4>Filename: <?php print character_limiter( $pic['filename'], 10) ?></h4>
                     </td>
                 </tr>-->
-                
+                 <label>Title</label>
                 <input name="media_name" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('media_name', $params['module_id']) ?>" />
-                <?php print option_get('media_name', $params['module_id']) ?>
+               
                 
                 
+                 <label>Skin</label>
                 <select name="skin" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
                   <option value="'" <? if( trim(option_get('skin', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >None</option>
                 <option value="1" <? if( option_get('skin', $params['module_id']) == '1') : ?>  selected="selected" <? endif; ?> >1</option>
@@ -336,20 +337,15 @@ function save_media_close<? print $rand ;?>()  {
                 
                 </select>
                 
-                         <input  value="<?php print option_get('media_name', $params['module_id']) ?>" />
-                <?php print option_get('media_name', $params['module_id']) ?>
-                
-                <br />
-<br />
-<br />
-<br />
-<br />
-
-      <label>Title</label>
-      
+              <!--           <input  value="<?php print option_get('media_name', $params['module_id']) ?>" />
+                 -->
+ 
+ 
       
       <label>Description</label>
-      <textarea name="media_description" cols=""  rows="2"><?php print $pic['media_description'] ?></textarea>
+ 
+               
+      <textarea name="media_description" cols=""  class="mw_option_field" option_group="<? print $params['module_id'] ?>" rows="2"><?php print option_get('media_description', $params['module_id']) ?></textarea>
       <div style="display:none;">
         <label>Type</label>
         <select name="media_type">

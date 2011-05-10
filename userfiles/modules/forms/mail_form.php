@@ -18,8 +18,8 @@
                 });
             </script>
 
-<div class="contact_form">
-  <h3 class="title nopadding">Send us a message</h3>
+<div class="contact_form"> 
+  <h3 class="title nopadding">Send us a message <? print rand() ?>  <? print ($params['module_id']); ?></h3>
   <br />
   <br />
   Form text

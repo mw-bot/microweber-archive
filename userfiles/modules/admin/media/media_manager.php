@@ -19,7 +19,7 @@
   
    if(strval($params['for_what']) != ''){
 	 $for = $params['for_what'];
-	 
+	 $for = false;
  }
   
   
@@ -36,12 +36,13 @@
  
  
  
- //p($params);
+// p($params);
   
   ?>
 <?  $media1 = get_media($id, $for, $media_type,  $queue_id, $collection);
  
- 
+  
+ //p($media1);
  
 
    
@@ -302,7 +303,7 @@ $(document).ready(function() {
     <?php $thumb = $this->core_model->mediaGetThumbnailForMediaId($pic['id']);
 //p($thumb);
 ?>
-    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module('<?php print $pic['id'] ?>')"> <img class="handle" src="<?php print $thumb;  ?>" />
+    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module('<?php print $pic['id'] ?>')"><center><img class="handle" src="<?php print $thumb;  ?>" /></center>
       <!--<a href="javascript:;" onClick="contentMediaEditPicture('<?php print $pic['id'] ?>')">edit</a> <a href="javascript:;" class="right" onClick="contentMediaDeletePicture('<?php print $pic['id'] ?>')">delete</a>-->
       <div class="mw_modal" id="pic_edit_form_<?php print $pic['id'] ?>" style="display:none;">
         <?

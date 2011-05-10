@@ -14,7 +14,7 @@ class js extends Controller {
 	}
 	
 	function index() {
-		
+		header("Content-type: text/javascript");
 		$url = url ();
 		$cache_id = "js_api_" . md5 ( $url );
 		$cache_group = 'global/blocks';

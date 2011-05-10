@@ -1456,7 +1456,7 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 	$to_table = CI::model ( 'core' )->guessDbTable ( $for );
 	//var_dump($to_table, $content_id);
 	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
-	return $media;
+	return $media; 
 	// p($media);
 
 

@@ -18,7 +18,7 @@
 $(document).ready(function(){
 						 
 						   
-						    
+		mw_load_history_module();				    
 			data1 = {}
    data1.module = 'admin/content/module_bar';
    data1.do_not_wrap = '1';
@@ -54,111 +54,10 @@ $("#admin_sidebar").live("hover",function(){
 
  //$('.mw_sidebar_module_group_table').corner();
  
- 
+ mw_sidebar_make_sortables()
   
 		//  $dragable_opts2.helper = 'original';
-
-  $(".module_draggable").draggable({
-								   
-			connectToSortable: ".edit, .edit *",
-						appendTo: 'body',
-containment: 'window',
-
-scroll: true,
-		    helper: 'clone',
-		 cursor: 'move', 
-		 zIndex: 20000,
-		//  cancel: '.module *',
  
-			//containment: 'document',
-			revert: "invalid",
-			
-start: function(e,ui){
-	
-	if(window.saving ===true){
-		//alert('Saving.. please wait');
-	//return false;	
-	}
-	
- 
-	
-	
-	
-	
-	
-	
-	
-	window.mw_dragging = true;
-	//$(".to_here").removeClass("to_here");
-	
-	
-	
-	
-	
-	 /*        var dialog = $('#module_temp_holder');
-
-         
-         
-         dialog.css({
-        
-        	    'width': 200,
-        	    'height': 200  
-        	    //'position': 'absolute',
-        	    
-        	    
-        	});*/
-	
-	
-	//dialog.show();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-   //$(this).addClass('fade');
-  // ui.helper.find('.caption').text("I'm being dragged!");
-  },
-  stop: function(e,ui){
-	  window.mw_dragging = false;
-	//  var dialog = $('#module_temp_holder').hide();
-
-   //$(this).removeClass('fade');
-   //ui.helper.find('.caption').text("Drag me to my target");
-  }
- 
-  
-
-		});
-//$("#module_temp_holder").draggable($dragable_opts2);
-$("#module_temp_holder").draggable( "option" , 'helper' , 'original' );
-
-
-
 			
 
 
@@ -208,6 +107,9 @@ $(document).ready(function(){
 
  
 });
+
+
+ 
 </script>
 <script>
 
@@ -277,7 +179,7 @@ $(document).ready(function(){
 }
 
 
-
+/*
 
 $.ctrl = function(key, callback, args) {
     $(document).keydown(function(event) {
@@ -298,7 +200,7 @@ $.ctrl = function(key, callback, args) {
 
     });
 };
-
+*/
 
 
 
@@ -312,7 +214,7 @@ $(document).ready(function(){
 
 
   $(".modules_list").sortable({
-    connectWith:'editblock'
+   // connectWith:'editblock'
   });
 
 
@@ -329,16 +231,7 @@ $(document).ready(function(){
   });
 
 
-$.ctrl('S', function() {
-
-    var content = $(".nicEdit-selected").html();
-    var id = $(".nicEdit-selected").attr("id");
-
-    nic_save(content, id);
-
-
-
-});
+ 
 
 
 
@@ -421,12 +314,7 @@ $(".js_generated").remove();
 		  },
 		  beforeSend :  function() {
 			  window.saving =true;
-			   $('*[mw_last_hover!=""]').each(function(index) {
-			            		
-			            		$(this).attr('mw_last_hover', '');
-								// $(this).removeAttr("mw_last_hover")
-								
-										 });
+		 
 		  },
 		  success: function(data) {
 			   window.saving =false;
@@ -448,7 +336,7 @@ $(".js_generated").remove();
  }
  
 
- nic_save_all = function(callback){
+ nic_save_all = function(callback, only_preview){
 
  var master = {}
   // $(".mw_edited").each(function(j){
@@ -510,34 +398,33 @@ master[objX] = obj;
 		  datatype: "jsonp",
           async:true,
 		  beforeSend :  function() {
-			  $( ".module_draggable" ).draggable( "option", "disabled", true );
+			 
 			  window.saving =true;
 			  $( "#ContentSave" ).fadeOut();
-			  $('*[mw_last_hover!=""]').attr('mw_last_hover', '');
-			  $('*[mw_last_hover!=""]').each(function(index) {
-			            		
-			            		$(this).attr('mw_last_hover', '');
-								// $(this).removeAttr("mw_last_hover")
-								
-										 });
+		 
 		  },
 		  success: function(data) {
 			  			  
-			  
+			  if(only_preview  == undefined){
 			  	$.ajax({
 		  type: 'POST',
 		  url: "<?php print site_url('api/content/save_field');  ?>",
 		  data: master,
-		  datatype: "jsonp",
+		  datatype: "json",
           async:true,
 		  beforeSend :  function() {
 			  
 		  },
 		  success: function(data2) {
+			  
 			  window.saving =false;
   $( "#ContentSave" ).fadeIn();
-    $( ".module_draggable" ).draggable( "option", "disabled", false );
-  
+ //   $( ".module_draggable" ).draggable( "option", "disabled", false );
+ 
+  init_edits()
+  mw_load_history_module()
+		  
+		   
 
 		  }
 		})
@@ -545,7 +432,7 @@ master[objX] = obj;
 			  
 			  
 			  
-			  
+			 } 
 			  
 			  
 			  
@@ -580,25 +467,42 @@ master[objX] = obj;
 			  
 			  
 			//  mw.modal.alert("Content Saved");
-			$(".to_here_drop").removeClass("to_here_drop");
+	//		$(".to_here_drop").removeClass("to_here_drop");
   if(typeof window.parent.mw_edit_init == 'function'){
      window.parent.mw_edit_init(window.location.href);
   }
  //  $("#"+data[0].page_element_id).html(data[0].page_element_content);
   //$(this).html(data);
    //$('#module_temp_holder').hide();
-  $.each(data, function(i, item) {
+ 
+ 
+ if(only_preview  == undefined){
+ $.each(data, function(i, item) {
 						$("#"+data[i].page_element_id).html(data[i].page_element_content);
 				//		alert(item.page_element_id+item.page_element_content);
 	//$("#"+data[i].page_element_id).html(data[i].page_element_content);
      
 });
   
-  callback.call(this);
+  
   //mw_make_draggables();
  init_edits()
-  $(".mw_edited").removeClass('mw_edited');
-  $( ".module_draggable" ).draggable( "option", "disabled", false );
+ 
+ }
+ 
+ callback.call(this);
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+//  $(".mw_edited").removeClass('mw_edited');
+ // $( ".module_draggable" ).draggable( "option", "disabled", false );
  
   
   // mw.modal.close();
@@ -618,8 +522,8 @@ master[objX] = obj;
 
 $(document).ready(function(){
 
-
-
+window.mw_sortables_created = false;
+init_edits()
 
 
 
@@ -654,17 +558,17 @@ nic_save(content, id, instance);
 
 myNicEditor.setPanel('mw_editbar');
 
-  $(".edit").each(function(){
-     var id = mw.id();
-     $(this).attr("id", "edit_" + id);
+ // $(".edit").each(function(){
+   //  var id = mw.id();
+     //$(this).attr("id", "edit_" + id);
 
-    /*here1*/     myNicEditor.addInstance("edit_" + id);
-
-
-  });
+    /*here1*/ //    myNicEditor.addInstance("edit_" + id);
 
 
-          $(".edit").attr('contentEditable','false');
+ // });
+
+
+        //  $(".edit").attr('contentEditable','false');
 
 
 
@@ -674,7 +578,39 @@ myNicEditor.setPanel('mw_editbar');
 
 //}//end onload
 
+function mw_load_history_module(){
+	
+	
+	data1 = {}
+   data1.module = 'admin/mics/edit_block_history';
+   
+   
+   data1.page_id = '<? print intval(PAGE_ID) ?>';
+   data1.post_id = '<? print intval(POST_ID) ?>';
+   data1.category_id = '<? print intval(CATEGORY_ID) ?>';
+   data1.for_url = document.location.href;
+   
+   
+   
+   $.ajax({
+  url: "<? print site_url('api/module') ?>",
+   type: "POST",
+      data: data1,
 
+      async:true,
+
+  success: function(resp) {
+
+   $('#history_module_resp').html(resp);
+ 
+
+
+
+  }
+    }); 
+	
+	
+}
 
 
 
@@ -689,16 +625,19 @@ myNicEditor.setPanel('mw_editbar');
     Outline Draggable Regions;
     <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.editblock', '#2667B7'):mw.outline.remove('.editblock')" />
     Toggle Browse
-    <input type="checkbox"   id="enable_browse" /></div>
+    <input type="checkbox"   id="enable_browse" />
     
-    <input type="hidden" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
-  <input type="hidden" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
-  <input type="hidden" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" />
-      <input type="hidden"  id="mw_module_param_to_copy" value="" />
-      <input type="hidden"  id="module_temp_holder_id" value="" />
-    <input type="hidden"  id="module_focus_holder_id" value="" />
+    <input type="text" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
+  <input type="text" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
+  <input type="text" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" /></div>
+      <input type="text"  id="mw_module_param_to_copy" value="" />
+      <input type="text"  id="module_temp_holder_id" value="" />
+    <input type="text"  id="module_focus_holder_id" value="" />
     
-    
+   <div id="sortable-delete" style="display:none;" class="edit">del
+   <br />
+<br />
+</div>
     
     <div class="module_draggable"  id="module_temp_holder">
                       <textarea rows="1"  style="display: none;" id="module_temp_holder_value">test</textarea>
@@ -720,7 +659,7 @@ myNicEditor.setPanel('mw_editbar');
     }
 }
     </script>
-    <input name="mw_make_draggables()" type="button" onClick="mw_make_draggables()" value="mw_make_draggables()" />
+  <!--  <input name="mw_load_history_module()" type="button" onClick="mw_load_history_module()" value="mw_load_history_module()" />-->
     <input name="reloadIframesreloadIframes" type="button" onClick="reloadIframes()" value="reloadIframes" />
   </div>
   <div class="toobar_container_right">
@@ -891,7 +830,19 @@ function mw_sidebar_nav($selector){
 <div id="edit_table" style="display: none">
   <input type="text" onkeyup="alert(cellID)" />
 </div>
-<a href="#" onclick='mw.saveALL()' id="ContentSave">Save</a>
+<div class="mw_bottom_nav">
+<a href="#" class="mw_bottom_btn" onclick='mw.saveALL()' id="ContentSave">Save</a>
+
+
+
+
+<div id="history_module_resp"></div>
+
+</div>
+
+
+
+
 <div id="admin_sidebar">
    
   <div id="mw_sidebar_module_edit_holder">
@@ -962,7 +913,19 @@ function mw_sidebar_nav($selector){
   </div>
   <div id="mw_sidebar_design_holder">
   
-  mw_sidebar_design_holder
+
+
+<?  include "toolbar_design_editor.php" ?>
+
+
+
+
+
+
+
+
+
+
   </div>
   
   

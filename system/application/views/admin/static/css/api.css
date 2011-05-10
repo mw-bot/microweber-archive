@@ -91,8 +91,21 @@ module {
 
 .to_here_drop {
 	min-height:30px;
-	min-width:100px;
+/*	min-width:100px;*/
 	border:dashed #CCC 1px;
+/*	margin-left:3px;*/
+	background-color: #0F0;
+	 
+	
+	/*	*/
+}
+
+.mw_to_here_box_big {
+	height:50px;
+	width:50px;
+	border:dashed #CCC 1px;
+	 
+	margin-left:3px;
 /*	clear: both;*/
 }
 
@@ -152,6 +165,25 @@ padding:0px;
  margin-bottom:15px;
 }
 
+.mw_module_box_place {
+height:100px;
+width:100px;
+background-color:#09C;
+	display:block;
+}
+
+
+.mw_mod_wrap {
+background-color:#F00;	
+}
+
+/*.mw_module_overlay {
+ min-height:30px;
+	min-width:100px;
+	border:dashed #CCC 1px;
+	 
+	margin-left:3px;
+}*/
 
 .mw_iframe_header_title{
 	font-size:12px;

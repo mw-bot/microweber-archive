@@ -347,6 +347,9 @@ define ( 'TEMPLATEFILES_DIRNAME', 'templates' );
 define ( 'TEMPLATEFILES', USERFILES . TEMPLATEFILES_DIRNAME . '/' );
 
 define ( 'MEDIAFILES', USERFILES . 'media' . '/' );
+define ( 'HISTORY_DIR', USERFILES . 'history' . '/' );
+
+define ( 'ELEMENTS_DIR', USERFILES . 'elements' . '/' );
 
 define ( 'PLUGINS_DIRNAME', USERFILES . 'plugins' . '/' );
 
@@ -442,6 +445,10 @@ $media_url = SITEURL;
 $media_url = $media_url . '/' . USERFILES_DIRNAME . '/media/';
 
 define ( 'MEDIA_URL', $media_url );
+
+$media_url = $media_url . '/' . USERFILES_DIRNAME . '/elements/';
+
+define ( 'ELEMENTS_URL', $media_url );
 
 ////var_dump( ADMIN_STATIC_FILES_URL);  
 
