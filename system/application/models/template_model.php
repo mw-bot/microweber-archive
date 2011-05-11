@@ -962,7 +962,7 @@ p($modules );
 	 */
 	function parseMicrwoberTags($layout, $options = false) {
 		
-/*		$function_cache_id = false;
+		/*		$function_cache_id = false;
 		
 		//$args = func_get_args ();
 		if (! empty ( $options )) {
@@ -1052,12 +1052,10 @@ p($modules );
 		if (strstr ( $layout, '<block' ) == true) {
 			
 			$editmode = CI::model ( 'core' )->is_editmode ();
-			//p($editmode);
 			
-
 			$relations = array ();
 			$tags = CI::model ( 'core' )->extractTags ( $layout, 'block', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8' );
-			//	p($tags);
+			
 			$matches = $tags;
 			if (! empty ( $matches )) {
 				//
@@ -1071,7 +1069,7 @@ p($modules );
 						$attr = $m ['attributes'];
 						
 						if ($attr ['id'] != '') {
-							//	p($m);
+							
 							$attr ['id'] = trim ( $attr ['id'] );
 							
 							$is_global = $attr ['global'];
@@ -1087,7 +1085,7 @@ p($modules );
 								$try_file = TEMPLATE_DIR . 'blocks/' . PAGE_ID;
 								$try_file = normalize_path ( $try_file );
 								$try_file .= $attr ['id'] . '.php';
-								//p($try_file);
+								
 								if (is_file ( $try_file )) {
 								
 								} else {
@@ -1129,11 +1127,8 @@ p($modules );
 								$this->load->vars ( $this->template );
 								$module_file = $this->load->file ( $try_file, true );
 								
-								//p($arrts);
-								
-
 								/*	if ($editmode == true) {
-									//p($m);
+									 
 									$edtid_hash = base64_encode ( $m ['full_tag'] );
 									if (strval ( $module_file ) != '') {
 										$module_file = '<div class="editblock"  id="' . $attr ['id'] . '">' . $module_file . '</div>';
@@ -1327,17 +1322,16 @@ p($modules );
 									if (is_file ( $try_config_file )) {
 										$config = false;
 										
-										
 										include ($try_config_file);
 										
 										if (! empty ( $config )) {
-												$check_icon = MODULES_DIR . '' . $attr ['module'].'.png';
-											 $icon = pathToURL($check_icon);
+											$check_icon = MODULES_DIR . '' . $attr ['module'] . '.png';
+											$icon = pathToURL ( $check_icon );
 											//p($config);
 											
-										 $config ['icon'] = $icon; 
-											 
-										 
+
+											$config ['icon'] = $icon;
+											
 											$this->template ['config'] = $config;
 											
 											if (! empty ( $config ['options'] )) {
@@ -1356,7 +1350,6 @@ p($modules );
 												
 												$cache_for_session = true;
 											}
-											
 											
 											if ($config ['no_edit'] == true) {
 												$no_edit = true;
@@ -1381,8 +1374,7 @@ p($modules );
 									if ($force_cache_this == false) {
 										if (strstr ( $attr ['module'], 'admin/' ) == true) {
 											$cache_this = false;
-											
-																		
+										
 										}
 									}
 									if (($attr ['module_id']) == true) {
@@ -1509,7 +1501,9 @@ p($modules );
 									$module_file = self::parseMicrwoberTags ( $module_file, $options );
 								}
 								
+								//	$layout = str_replace_count ( $m ['full_tag'],htmlentities($m ['full_tag']). $module_file, $layout, 1 );
 								$layout = str_replace_count ( $m ['full_tag'], $module_file, $layout, 1 );
+								
 								//$layout = str_replace ( $m ['full_tag'], $module_file, $layout );
 								//$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
 								$layout = str_replace_count ( '</mw>', '', $layout, 1 );
@@ -1628,7 +1622,11 @@ p($modules );
 						$field_content = htmlspecialchars_decode ( $field_content );
 						
 						$attrs_to_append = false;
+						$field_content = CI::model ( 'template' )->parseMicrwoberTags ( $field_content, $options = false );
 						
+						//$field_content = str_replace_count ( "</div>\n</div>", "</div>" . $field_content . '</div>', $field_content, 1 );
+						
+						//print htmlspecialchars ( $field_content );
 						if ($editmode == true) {
 							
 							foreach ( $attr as $at_key => $at_value ) {
@@ -1637,7 +1635,9 @@ p($modules );
 							//p($attrs_to_append);
 							$layout = str_replace_count ( $m ['full_tag'], "<div class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, 1 );
 						} else {
-							$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
+							//$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
+							$layout = str_replace_count ( $m ['full_tag'], "<div class='edit'>" . $field_content . '</div>', $layout, 1 );
+						
 						}
 						
 						$layout = str_replace ( '<mw', '<microweber', $layout );
@@ -1659,26 +1659,26 @@ p($modules );
 		//$layout = str_replace ( '{SITE_URL}', $site_url, $layout );
 		
 
-		$layout = CI::model ( 'core' )->replace_in_long_text ( '{SITE_URL}', $site_url, $layout , true);
-		$layout = CI::model ( 'core' )->replace_in_long_text ( '{SITEURL}', $site_url, $layout , true);
+		$layout = CI::model ( 'core' )->replace_in_long_text ( '{SITE_URL}', $site_url, $layout, true );
+		$layout = CI::model ( 'core' )->replace_in_long_text ( '{SITEURL}', $site_url, $layout, true );
 		//$layout = str_replace ( '{SITEURL}', $site_url, $layout );
 		//$layout = $this->badWordsRemove ( $layout );
 		
 
 		if (defined ( 'POST_ID' ) == true) {
 			//$layout = str_replace ( '{POST_ID}', POST_ID, $layout );
-			$layout = CI::model ( 'core' )->replace_in_long_text ( '{POST_ID}', POST_ID, $layout , true);
+			$layout = CI::model ( 'core' )->replace_in_long_text ( '{POST_ID}', POST_ID, $layout, true );
 		
 		}
 		
 		if (defined ( 'PAGE_ID' ) == true) {
 			//$layout = str_replace ( '{PAGE_ID}', PAGE_ID, $layout );
-			$layout = CI::model ( 'core' )->replace_in_long_text ( '{PAGE_ID}', PAGE_ID, $layout , true);
+			$layout = CI::model ( 'core' )->replace_in_long_text ( '{PAGE_ID}', PAGE_ID, $layout, true );
 		}
 		
 		if (defined ( 'CATEGORY_ID' ) == true) {
 			//$layout = str_replace ( '{CATEGORY_ID}', CATEGORY_ID, $layout );
-			$layout = CI::model ( 'core' )->replace_in_long_text ( '{CATEGORY_ID}', CATEGORY_ID, $layout , true);
+			$layout = CI::model ( 'core' )->replace_in_long_text ( '{CATEGORY_ID}', CATEGORY_ID, $layout, true );
 		
 		}
 		

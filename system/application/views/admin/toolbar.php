@@ -68,20 +68,26 @@ scroll: true,
 		    helper: 'clone',
 		 cursor: 'move', 
 		 zIndex: 20000,
-		   cancel: $('.edit *').find('.module'),
+		   cancel: $('.module *'),
  
 			//containment: 'document',
 			revert: "invalid",
 			
 start: function(e,ui){
-	
+	mw_make_dropables()
 	if(window.saving ===true){
 		//alert('Saving.. please wait');
 	//return false;	
 	}
-	  $('.edit *').find('.module').droppable( "option", "disabled", true );
+	$(".edit").attr('contentEditable', false);
+	$('.edit').find('.module').droppable( "option", "disabled", true );
+	$('.edit').find('.module *').droppable( "option", "disabled", true );
+	// $(".edit").has("not:div").css('background-color', 'red');
+
+//$(".edit:not(:has(div))").append('<div class="mw_to_here_box_big">Module</div>');
+	//  $('.edit *').find('.module').droppable( "option", "disabled", true );
 // $(".module").append("aaaaaaaaaaaaaa");
-	//$('.edit').find('.module').css('background-color', 'red');
+	 //$('.edit').find('.module').css('background-color', 'red');
 	
 	//
 	// $('.edit *').find('.module').append('<div class="mw_module_box_place js_remove">Module</div>');
@@ -112,14 +118,14 @@ start: function(e,ui){
 
          
          
-         dialog.css({
+   /*      dialog.css({
         
         	    'width': 20,
         	    'height': 20  
         	    //'position': 'absolute',
         	    
         	    
-        	});
+        	});*/
 	
 	
 	//dialog.show();
@@ -158,10 +164,12 @@ start: function(e,ui){
   },
   stop: function(e,ui){
 	  window.mw_dragging = false;
-	  
-	    $('.edit *').find('.module').droppable( "option", "disabled", false );
+	  $(".edit").attr('contentEditable', true);
+	  //$( ".module_draggable" ).draggable( "option", "revert", true );
+	  //  $('.edit *').find('.module').droppable( "option", "disabled", false );
 	//  $('.edit').find('.module').show();
-	
+	$('.edit').find('.module').droppable( "option", "disabled", false );
+	$('.edit').find('.module *').droppable( "option", "disabled", false );
 	
 //	$(".js_remove").remove();
 	//   $('.mw_module_box_place').removeClass('mw_module_box_place');
@@ -564,7 +572,8 @@ master[objX] = obj;
 			  window.saving =false;
   $( "#ContentSave" ).fadeIn();
     $( ".module_draggable" ).draggable( "option", "disabled", false );
-  
+  mw_make_dropables()
+  init_edits()
 
 		  }
 		})
@@ -716,14 +725,14 @@ myNicEditor.setPanel('mw_editbar');
     Outline Draggable Regions;
     <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.editblock', '#2667B7'):mw.outline.remove('.editblock')" />
     Toggle Browse
-    <input type="checkbox"   id="enable_browse" /></div>
+    <input type="checkbox"   id="enable_browse" />
     
-    <input type="hidden" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
-  <input type="hidden" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
-  <input type="hidden" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" />
-      <input type="hidden"  id="mw_module_param_to_copy" value="" />
-      <input type="hidden"  id="module_temp_holder_id" value="" />
-    <input type="hidden"  id="module_focus_holder_id" value="" />
+    <input type="text" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
+  <input type="text" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
+  <input type="text" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" /></div>
+      <input type="text"  id="mw_module_param_to_copy" value="" />
+      <input type="text"  id="module_temp_holder_id" value="" />
+    <input type="text"  id="module_focus_holder_id" value="" />
     
     
     

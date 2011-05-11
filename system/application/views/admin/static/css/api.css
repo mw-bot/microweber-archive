@@ -98,6 +98,15 @@ module {
 /*	clear: both;*/
 }
 
+.mw_to_here_box_big {
+	height:50px;
+	width:50px;
+	border:dashed #CCC 1px;
+	 
+	margin-left:3px;
+/*	clear: both;*/
+}
+
 br.to_here_drop {
 	min-height:30px;
 	min-width:100px;

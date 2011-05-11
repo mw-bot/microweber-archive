@@ -11,6 +11,6 @@
   
   <editable  rel="page" field="custom_field_sidebar"><p>sidebar content here</p></editable>
   
-    <microweber module="content/pages_tree" />
+ 
   </div>
 </div>

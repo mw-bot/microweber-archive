@@ -323,16 +323,17 @@ li.plupload_droptext {
 	display: none;
 }
 .module {
-	position: relative;
+	/*position: relative;
 	zoom:1;
+	zoom:1;*/
 }
 .module:after {
-	content: ".";
+	/*content: ".";
 	display: block;
 	clear: both;
 	visibility: hidden;
 	line-height: 0;
-	height: 0;
+	height: 0;*/
 }
 .module_edit_bar_handle {
 	display: inline-block;
@@ -613,8 +614,11 @@ li.plupload_droptext {
 }
 #module_temp_holder {
 	font-size:9px;
-	background-color:#CCC;
-	opacity:0.2;
-	filter:alpha(opacity=20);
+	background-color:#09F;
+	opacity:0.8;
+	filter:alpha(opacity=80);
 	cursor:move;
+	height:30px;
+	width:30px;
+	display:block;
 }
