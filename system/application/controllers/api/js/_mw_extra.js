@@ -264,8 +264,28 @@ $.fn.insertAtCaret = function (myValue) {
 	
 	
  
+	function setCaretAfter(el) {
+	    var sel, range;
+	    if (window.getSelection && document.createRange) {
+	        range = document.createRange();
+	        range.setStartAfter(el);
+	        range.collapse(true);
+	        sel = window.getSelection(); 
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    } else if (document.body.createTextRange) {
+	        range = document.body.createTextRange();
+	        range.moveToElementText(el);
+	        range.collapse(false);
+	        range.select();
+	    }
+	}
 	
 	
+	// jquery_trigger_ready.js
+	// this function is added to jQuery, it allows access to the readylist
+	// it works for jQuery 1.3.2, it might break on future versions
+	 
 	
 	/**
 	* hoverIntent is similar to jQuery's built-in "hover" function except that
@@ -484,4 +504,6 @@ $.fn.insertAtCaret = function (myValue) {
 
 	})( jQuery );
  
+	
+	
 	

@@ -1030,26 +1030,27 @@ p($modules );
 		$function_cache_id = false;
 		
 		//$args = func_get_args ();
-//		if (! empty ( $options )) {
-//			foreach ( $options as $k => $v ) {
-//				
-//				$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-//			
-//			}
-//		}
-//		
-//		$function_cache_id = __FUNCTION__ . md5 ( $layout ) . md5 ( $function_cache_id );
-//		
-//		$cache_group = 'extract_tags';
-//		
-//		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
-//		
-//		if (($cache_content) != false) {
-//			
-//			return $cache_content;
-//		
-//		}
+		//		if (! empty ( $options )) {
+		//			foreach ( $options as $k => $v ) {
+		//				
+		//				$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
+		//			
+		//			}
+		//		}
+		//		
+		//		$function_cache_id = __FUNCTION__ . md5 ( $layout ) . md5 ( $function_cache_id );
+		//		
+		//		$cache_group = 'extract_tags';
+		//		
+		//		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		//		
+		//		if (($cache_content) != false) {
+		//			
+		//			return $cache_content;
+		//		
+		//		}
 		
+
 		//echo memory_get_usage() . "\n"; // 36640
 		/*$cache_id =  md5 ( $layout ) . md5 ( serialize ( $options ) );
 		$cache_group = 'blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
@@ -1384,8 +1385,10 @@ p($modules );
 									
 									$cache_this = true;
 									$force_cache_this = false;
+									
+									//p($try_config_file);
+									$config = false;
 									if (is_file ( $try_config_file )) {
-										$config = false;
 										
 										include ($try_config_file);
 										
@@ -1396,8 +1399,6 @@ p($modules );
 											
 
 											$config ['icon'] = $icon;
-											
-											$this->template ['config'] = $config;
 											
 											if (! empty ( $config ['options'] )) {
 												$this->setup_module_options ( $config ['options'] );
@@ -1428,6 +1429,13 @@ p($modules );
 										}
 									
 									}
+									
+									$config ['url_to_module'] = (MODULES_DIR . '' . $attr ['module'] . '.php');
+									$config ['path_to_module'] =  ( dirname ( $config ['url_to_module'] ) ) . '/';
+									
+									$config ['url_to_module'] = pathToURL ( dirname ( $config ['url_to_module'] ) ) . '/';
+									
+									$this->template ['config'] = $config;
 									
 									if ($arrts ['no_cache'] == true) {
 										$cache_this = false;
@@ -1752,7 +1760,11 @@ p($modules );
 			$layout = CI::model ( 'core' )->replace_in_long_text ( '{CATEGORY_ID}', CATEGORY_ID, $layout, true );
 		
 		}
+		$layout = str_replace ( '</microweber>', '', $layout );
 		
+		//$layout = str_replace ( '</microweber>', '</div>', $layout );
+		
+
 		//	$this->load->vars ( $this->template );
 		if (stristr ( $layout, 'content_meta_title' )) {
 			

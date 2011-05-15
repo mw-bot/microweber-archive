@@ -22,7 +22,8 @@
 
   ?>
   
-<?php print option_get('media_name', $params['module_id']) ?>
+<h3 class="mw_gallery_title"><?php print option_get('media_name', $params['module_id']) ?></h3>
+<div class="mw_gallery_description"><?php print option_get('media_description', $params['module_id']) ?></div>
 <?
 //p($config);
   $skin = option_get('skin', $params['module_id']);  

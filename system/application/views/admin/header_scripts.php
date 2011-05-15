@@ -12,15 +12,9 @@
 <!--<script id="mw_ready_js" type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/mw.ready.js"></script>-->
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
 <!--<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/jquery.ui.plupload.css" rel="stylesheet" type="text/css"/>-->
-<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/plupload.queue.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js" />
 
- 
 
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
-
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/tiny_mce.js"></script>
+<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
 	tinyMCE.init({
 		// General options
@@ -67,7 +61,7 @@
 			staffid : "991234"
 		}
 	});
-</script>
+</script>-->
 
 
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/jquery.ui.nestedSortable.js"></script>

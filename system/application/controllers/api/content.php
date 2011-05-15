@@ -879,7 +879,29 @@ class Content extends Controller {
 							
 							$html_to_save = str_replace ( 'add_element_string', 'add_element_string', $html_to_save );
 							$html_to_save = str_replace ( 'ADD_ELEMENT_STRING', 'add_element_string', $html_to_save );
+							$html_to_save = str_replace ( 'Z-INDEX: 5000;', '', $html_to_save );
+							$html_to_save = str_replace ( 'FILTER: alpha(opacity=100);', '', $html_to_save );
+							$html_to_save = str_replace ( 'MARGIN-TOP: 0px;', '', $html_to_save );
+							$html_to_save = str_replace ( 'ZOOM: 1', '', $html_to_save );
+							$html_to_save = str_replace ( 'contenteditable="true"', '', $html_to_save );
+							$html_to_save = str_replace ( 'contenteditable="false"', '', $html_to_save );
+							$html_to_save = str_replace ( 'sizset=""', '', $html_to_save );
+							$html_to_save = str_replace ( 'sizcache=""', '', $html_to_save );
 							
+							
+							$html_to_save = str_replace ( 'sizcache sizset', '', $html_to_save );
+							
+							
+							 
+							
+							
+							//sizcache="14533" sizset="40"
+							
+							//	$html_to_save = preg_replace ( "#*sizcache=\"[^0-9]\"#", '', $html_to_save );
+							
+							//$html_to_save = str_replace ( 'Z-INDEX: 5000;', '', $html_to_save );
+							
+
 							//$html_to_save = str_replace ( '<div><br></div>', '<br>', $html_to_save );
 							//$html_to_save = str_replace ( '<div><br /></div>', '<br />', $html_to_save );
 							//$html_to_save = str_replace ( '<div></div>', '<br />', $html_to_save );
@@ -1377,14 +1399,15 @@ class Content extends Controller {
 		
 		//
 		
-		
+
 		$json_print = json_encode ( $json_print );
 		
 		if ($is_no_save == true) {
 			
-		///	$for_history = serialize ( $json_print );
-		//$for_history = base64_encode ( $for_history );
+			///	$for_history = serialize ( $json_print );
+			//$for_history = base64_encode ( $for_history );
 			
+
 			$history_to_save = array ();
 			$history_to_save ['table'] = 'edit';
 			$history_to_save ['id'] = (parse_url ( strtolower ( $_SERVER ['HTTP_REFERER'] ), PHP_URL_PATH ));
@@ -1392,7 +1415,6 @@ class Content extends Controller {
 			$history_to_save ['field'] = 'html_content';
 			CI::model ( 'core' )->saveHistory ( $history_to_save );
 		}
-		
 		
 		print $json_print;
 		
@@ -1421,6 +1443,7 @@ class Content extends Controller {
 				//$for_history = base64_decode ( $history_file );
 				//$for_history = unserialize ( $for_history );
 				
+
 				//$history_file = CI::model ( 'template' )->parseMicrwoberTags ( $history_file );
 				header ( 'Cache-Control: no-cache, must-revalidate' );
 				header ( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );

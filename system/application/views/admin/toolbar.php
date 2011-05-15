@@ -7,7 +7,12 @@
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/toolbar.css?<? print rand();?>" />
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/nicedit.js"></script>
+<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/nicedit.js"></script>-->
+
+<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/aloha.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Format/plugin.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Table/plugin.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.List/plugin.js"></script>-->
 <script type="text/javascript">
     static_url = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>";
 </script>
@@ -398,7 +403,7 @@ master[objX] = obj;
 		  datatype: "jsonp",
           async:true,
 		  beforeSend :  function() {
-			 
+			
 			  window.saving =true;
 			  $( "#ContentSave" ).fadeOut();
 		 
@@ -413,13 +418,19 @@ master[objX] = obj;
 		  datatype: "json",
           async:true,
 		  beforeSend :  function() {
-			  
+			  	  window.mw_sortables_created = false;
+ 
 		  },
 		  success: function(data2) {
 			  
 			  window.saving =false;
   $( "#ContentSave" ).fadeIn();
  //   $( ".module_draggable" ).draggable( "option", "disabled", false );
+   window.mw_sortables_created = false;
+	  window.mw_drag_started = false;
+	  mw_make_editables()
+ 
+		remove_sortables()
  
   init_edits()
   mw_load_history_module()
@@ -524,7 +535,7 @@ $(document).ready(function(){
 
 window.mw_sortables_created = false;
 init_edits()
-
+	setup()
 
 
 
@@ -538,34 +549,34 @@ init_edits()
 
 // here2
 
-
-myNicEditor = new nicEditor({
-
-          fullPanel : true,
-          iconsPath : "<?php print( ADMIN_STATIC_FILES_URL);  ?>js/nicEditorIcons.gif",
-		  uploadURI : "<? print site_url('api/media/nic_upload') ?>",
-          onSave:function(content, id, instance){
-
-nic_save(content, id, instance);
-
-
-          }
-
-});
-
-
-
-
-myNicEditor.setPanel('mw_editbar');
-
- // $(".edit").each(function(){
-   //  var id = mw.id();
-     //$(this).attr("id", "edit_" + id);
-
-    /*here1*/ //    myNicEditor.addInstance("edit_" + id);
-
-
- // });
+//
+//myNicEditor = new nicEditor({
+//
+//          fullPanel : true,
+//          iconsPath : "<?php print( ADMIN_STATIC_FILES_URL);  ?>js/nicEditorIcons.gif",
+//		  uploadURI : "<? print site_url('api/media/nic_upload') ?>",
+//          onSave:function(content, id, instance){
+//
+//nic_save(content, id, instance);
+//
+//
+//          }
+//
+//});
+//
+//
+//
+//
+//myNicEditor.setPanel('mw_editbar');
+//
+//   $(".edit").each(function(){
+//   //  var id = mw.id();
+//      var id = $(this).attr("id");
+//
+//      myNicEditor.addInstance(id);
+//
+//
+//  });
 
 
         //  $(".edit").attr('contentEditable','false');
@@ -629,10 +640,17 @@ function mw_load_history_module(){
     
     <input type="text" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
   <input type="text" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
-  <input type="text" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" /></div>
-      <input type="text"  id="mw_module_param_to_copy" value="" />
+  <input type="text" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" />
+  
+  
+        <input type="text"  id="mw_module_param_to_copy" value="" />
       <input type="text"  id="module_temp_holder_id" value="" />
     <input type="text"  id="module_focus_holder_id" value="" />
+  </div>
+ 
+
+  <div id="buttons">
+  </div>
     
    <div id="sortable-delete" style="display:none;" class="edit">del
    <br />
@@ -659,8 +677,43 @@ function mw_load_history_module(){
     }
 }
     </script>
+    
+    
+    
+    
+    
+    
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   <!--  <input name="mw_load_history_module()" type="button" onClick="mw_load_history_module()" value="mw_load_history_module()" />-->
-    <input name="reloadIframesreloadIframes" type="button" onClick="reloadIframes()" value="reloadIframes" />
+    <!--<input name="reloadIframesreloadIframes" type="button" onClick="reloadIframes()" value="reloadIframes" />-->
   </div>
   <div class="toobar_container_right">
     <div id="mw_toolbar_pre_nav"> <span id="mw_toolbar_pre_nav_title">Live edit</span> <a href="#">
@@ -930,6 +983,10 @@ function mw_sidebar_nav($selector){
   
   
    <div id="mw_sidebar_add_holder">
+   
+   
+  
+
   
   mw_sidebar_add_holder
   </div>

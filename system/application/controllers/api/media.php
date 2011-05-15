@@ -142,6 +142,9 @@ class Media extends Controller {
 				$queue_id = $_POST ['queue_id'];
 			}
 			
+			
+			var_dump($for, $id, $queue_id, $collection);
+			
 			$status = CI::model ( 'core' )->upload ( $for, $id, $queue_id, $collection = $module_id );
 			//p ( $status );
 			print json_encode ( $status );

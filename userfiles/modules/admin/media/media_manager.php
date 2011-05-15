@@ -19,7 +19,7 @@
   
    if(strval($params['for_what']) != ''){
 	 $for = $params['for_what'];
-	 $for = false;
+	 
  }
   
   
@@ -31,17 +31,16 @@
  
  if($params['module_id']){
 	 $collection = $params['module_id'];
-	 
+	 $queue_id = false;
  }
  
  
  
-// p($params);
+ //p($params);
   
   ?>
 <?  $media1 = get_media($id, $for, $media_type,  $queue_id, $collection);
  
-  
  //p($media1);
  
 
@@ -99,7 +98,7 @@ var answer = confirm("Are you sure?")
 	  //$(".gallery_module_sortable_pics_positions_"+$id).fadeOut();
 
 	  $("#picture_id_"+$id).remove();
- parent.mw.reload_module('media/gallery');
+ mw.reload_module('media/gallery');
 	// contentMediaPicturesRefreshList();
 
    //alert("Data Loaded: " + data);
@@ -280,7 +279,7 @@ $(document).ready(function() {
   success: function(resp) {
 
   // $('#media_manager').html(resp);
- parent.mw.reload_module('media/gallery');
+ mw.reload_module('media/gallery');
  
 
   }
@@ -301,9 +300,9 @@ $(document).ready(function() {
     <?php $i = 1; if(!empty($media1)): ?>
     <?php foreach($media1 as $pic): ?>
     <?php $thumb = $this->core_model->mediaGetThumbnailForMediaId($pic['id']);
-//p($thumb);
+ 
 ?>
-    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module('<?php print $pic['id'] ?>')"><center><img class="handle" src="<?php print $thumb;  ?>" /></center>
+    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module('<?php print $pic['id'] ?>')"> <img class="handle" src="<?php print $thumb;  ?>" />
       <!--<a href="javascript:;" onClick="contentMediaEditPicture('<?php print $pic['id'] ?>')">edit</a> <a href="javascript:;" class="right" onClick="contentMediaDeletePicture('<?php print $pic['id'] ?>')">delete</a>-->
       <div class="mw_modal" id="pic_edit_form_<?php print $pic['id'] ?>" style="display:none;">
         <?
@@ -367,9 +366,10 @@ $(document).ready(function() {
     <?php $i++; endforeach; ?>
   </ul>
   <?php endif; ?>
-  <?php endif; ?>
+  
   <br />
   <br />
   <br />
   <div id="edit_media_cloned_form"> </div>
 </div>
+<?php endif; ?>

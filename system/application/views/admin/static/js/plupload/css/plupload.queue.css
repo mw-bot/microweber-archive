@@ -35,9 +35,10 @@
 .plupload_wrapper {
 	font: normal 11px Verdana, sans-serif;
 	width: 100%;
+	clear:both;
 }
 .plupload_container {
-	padding: 8px;
+	/*padding: 8px;*/
 	background: url('../img/transp50.png');/*-moz-border-radius: 5px;*/
 }
 .plupload_container input {
@@ -68,12 +69,12 @@
 	list-style: none;
 }
 .plupload_scroll .plupload_filelist {
-	height: 35px;
+	height: 90px; 
 	background: #F5F5F5;
 	overflow-y: scroll;
 }
 .plupload_filelist li {
-	padding: 10px 8px;
+	padding: 2px 2px;
 	background: #F5F5F5 url('../img/backgrounds.gif') repeat-x 0 -156px;
 	border-bottom: 1px solid #DDD;
 }
@@ -114,7 +115,7 @@
 	text-align: right;
 }
 .plupload_filelist .plupload_file_name {
-	width: 205px
+	width: 100%;
 }
 .plupload_file_action {
 	float: right;

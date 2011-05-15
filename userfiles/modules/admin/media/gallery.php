@@ -1,13 +1,67 @@
+<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/plupload.queue.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
 <?  //p($params); ?>
 <?    // p($config); ?>
 <?
 $rand = rand();
     $call_media_manager =  $rand;
 ?>
+<script type="text/javascript">
+//// Convert divs to queue widgets when the DOM is ready
+//$(document).ready(function(){
+//	$("#uploader").plupload({
+//		// General settings
+//		runtimes : 'flash,silverlight,browserplus,html5, html4',
+//		url : 'upload.php',
+//		max_file_size : '10mb',
+//		chunk_size : '1mb',
+//		unique_names : true,
+//
+//		// Resize images on clientside if we can
+//		resize : {width : 320, height : 240, quality : 90},
+//
+//		// Specify what files to browse for
+//		filters : [
+//			{title : "Image files", extensions : "jpg,gif,png"},
+//			{title : "Zip files", extensions : "zip"}
+//		],
+//
+//		// Flash settings
+//		flash_swf_url : '<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.flash.swf',
+//
+//		// Silverlight settings
+//		silverlight_xap_url : '<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.silverlight.xap'
+//	});
+//
+//	// Client side form validation
+//	$('form').submit(function(e) {
+//		var uploader = $('#uploader').pluploadQueue();
+//
+//		// Validate number of uploaded files
+//		if (uploader.total.uploaded == 0) {
+//			// Files in queue upload them first
+//			if (uploader.files.length > 0) {
+//				// When all files are uploaded submit form
+//				uploader.bind('UploadProgress', function() {
+//					if (uploader.total.uploaded == uploader.files.length)
+//						$('form').submit();
+//				});
+//
+//				uploader.start();
+//			} else
+//				alert('You must at least upload one file.');
+//
+//			e.preventDefault();
+//		}
+//	});
+//});
+</script>
+
 
 <div class="formitem">
   <div style="display:none"> <a href="javascript:set_media_type_dropdown('picture')" class="btn">picture</a> <a href="javascript:set_media_type_dropdown('video')" class="btn">video</a>
-    <select name="media_type" id="media_type" onchange="call_media_manager<? print $call_media_manager ?>()">
+    <select name="media_type" id="media_type" onchange="call_media_manager<? print $rand ?>()">
       <option value="picture">picture</option>
       <option value="video">video</option>
     </select>
@@ -16,8 +70,9 @@ $rand = rand();
 <div id="image_embed_media">
   <? if($params['quick_edit']) { $qe_class = 'quick_edit' ;} else { $qe_class = false ;}  ?>
   <div id="admin_pl" class="drag_files<? print $rand ?> drag_files_here <? print $qe_class ?>">drag files here</div>
-  <div  class="drag_files_here_more" style="display:none;"> <small> <a href="javascript:make_the_uploader()"><strong>Click here add more files</strong></a> </small> </div>
-  <div id="media_manager<? print $rand ?>" class="<? print $qe_class ?>"></div>
+  <div  class="drag_files_here_more" style="display:none;"> <small> <a href="javascript:make_the_uploader<? print $rand ?>()"><strong>Click here add more files</strong></a> </small> </div>
+    <div id="media_manager<? print $rand ?>" class="<? print $qe_class ?>">media_manager</div>
+
 </div>
 <?
  
@@ -29,12 +84,12 @@ if($params['page_id']){
 	$id = $params['page_id'];
 }
 
-if($params['post_id']){
+if(intval($params['post_id']) > 0){
 	$for = 'content';
 	$id = $params['post_id'];
 }
 
-if($params['category_id']){
+if(intval($params['category_id']) > 0){
 	$for = 'category';
 	$id = $params['category_id'];
 }
@@ -67,17 +122,15 @@ if($id == false){
 }
 ?>
 <input type="hidden" name="queue_id" value="<? print $rand ?>" />
-<script>
+<script type="text/javascript">
 
 
 
-var call_media_manager<? print $call_media_manager; ?> = function(){
+function call_media_manager<? print $call_media_manager; ?>() {
 
 	
 	//alert($id);
-	
-	 
-	 data1 = {}
+		 data1 = {}
    data1.module = 'admin/media/media_manager';
     data1.for_what = '<? print $for ?>';
 	data1.module_id = '<? print $module_id ?>';
@@ -86,34 +139,107 @@ var call_media_manager<? print $call_media_manager; ?> = function(){
 	data1.queue_id = '<? print $rand ?>';
 	//data1.type = 'picture';
  data1.type =  $("#media_type").val();
-   $.ajax({
-  url: '<? print site_url('api/module') ?>',
-   type: "POST",
-      data: data1,
-
-      async:true,
-
-  success: function(resp) {
-
-   $('#media_manager<? print $rand ?>').html(resp);
-
-   $("#image_embed_media").hide();
-   $("#video_embed_media").hide();
-
-   if($("#media_type").val()=='video'){
-       $("#video_embed_media").show();
-   }
-   else{
-      $("#image_embed_media").show();
-   }
-
- parent.mw.reload_module('media/gallery');
-
-  }
-    });
 	
-	
- 
+	$('#media_manager<? print $rand ?>').load('<? print site_url('api/module') ?>',data1);
+
+	 
+
+	 
+//	 data1 = {}
+//   data1.module = 'admin/media/media_manager';
+//    data1.for_what = '<? print $for ?>';
+//	data1.module_id = '<? print $module_id ?>';
+//	data1.quick_edit = '<? print $params['quick_edit']; ?>';
+//	data1.for_id = '<? print $id ?>';
+//	data1.queue_id = '<? print $rand ?>';
+//	//data1.type = 'picture';
+// data1.type =  $("#media_type").val();
+//   $.ajax({
+//  url: '<? print site_url('api/module') ?>/rand:'+Math.random(),
+//   type: "POST", 
+//      data: data1,
+//	  cache: false,
+//	 dataType: "html",
+//global: false,
+//  
+////dataType: 'script',
+//      async:false,
+//
+//  success: function(resp) {
+//
+//// alert(resp);
+//  
+// 
+//  // $('#toobar_container').html(resp);
+//   
+//   
+//  //  $('#admin_sidebar').html(resp);
+//  
+////  elems = resp 
+////  if (window.console != undefined) {
+////	console.log('elems '+elems);
+////}
+////  
+////  elems.filter("script").appendTo("head"); //now do whatever with the scripts 
+////  console.log('elems '+elems.filter("script"));
+////  elems.filter(":not(script)").appendTo('#media_manager<? print $rand ?>'); //e.g.
+////  
+////  
+////  
+//	
+//	//alert(resp)
+//	//$('#media_manager<? print $rand ?>').html(resp);
+//	
+//	//$('#mw_toolbar').html(resp);
+//	
+//	//innerHTML 
+//	
+//	var d = resp.getElementsByTagName("script")
+//var t = d.length
+//for (var x=0;x<t;x++){
+//var newScript = document.createElement('script');
+//newScript.type = "text/javascript";
+//newScript.text = d[x].text;
+//document.getElementById('head').appendChild (newScript);
+//
+//}
+//
+//
+//
+//	
+//	$elem = gEBI('media_manager<? print $rand ?>');
+//	$elem.innerHTML =resp; 
+//	//alert($('#media_manager<? print $rand ?>').html())
+//	
+//    $('#media_manager<? print $rand ?>').show();
+// 
+// 
+// 
+// 
+//	asdfgg();
+//
+// 
+// //mw.ready = function(elem, callback) 
+// 
+//  //  $('#admin_sidebar').append(resp);
+//
+//   $("#image_embed_media").hide();
+//   $("#video_embed_media").hide();
+//
+//   if($("#media_type").val()=='video'){
+//       $("#video_embed_media").show();
+//   }
+//   else{
+//      $("#image_embed_media").show();
+//   }
+//
+// //mw.reload_module('media/gallery');
+//
+//  }
+//    });
+//	
+//	
+// 
 	
 	
 	
@@ -128,7 +254,7 @@ function set_media_type_dropdown($newval){
 	
 $("#media_type").val($newval);
  
-call_media_manager<? print $call_media_manager ?>()
+call_media_manager<? print $rand ?>()
 }
 
 // ******************************** UPLOADER *******************************
@@ -153,7 +279,7 @@ function upload_by_embed(){
 	$.post("<? print site_url('api/media/upload_to_library/'); ?>", { 'for':'<? print $for?>',  'for_id':'<? print $id?>',  'queue_id':'<? print $rand?>',media_name:media_name, media_description:media_description, embed_code: embed_code, media_type:media_type, screenshot_url: screenshot_url, original_link: original_link }  ,
    function(data) {
      //alert("Data Loaded: " + data);
-	  call_media_manager<? print $call_media_manager ?>();
+	  call_media_manager<? print $rand ?>();
 	  
    });
 	
@@ -163,20 +289,44 @@ function upload_by_embed(){
  
 
 }
+
+
+function OnloadFunction<? print $rand ?> ()
+{
+      // call_media_manager<? print $rand ?>();
+ //make_the_uploader<? print $rand ?>();
+
+}
+//$(document).onready(OnloadFunction<? print $rand ?>());
+
+
+
+
+
+
+
+//
+//window.onload = function () {
+//
+//
+//}
 $(document).ready(function(){
-						   
-						   call_media_manager<? print $call_media_manager ?>();
+						//  alert(1);
+						  
+						  make_the_uploader<? print $rand ?>()
+						  
+			 call_media_manager<? print $rand ?>();
   // $(document.body).append('<div class="drag_files<? print $rand ?>"></div>');
 
-     make_the_uploader()
+    // 
 
  	
-
+ 
 
 });
 
 
-function make_the_uploader(){
+function make_the_uploader<? print $rand ?>(){
 	
 	
 	$(".drag_files_here_more").hide();
@@ -185,19 +335,18 @@ function make_the_uploader(){
 	
 $(".drag_files<? print $rand ?>").pluploadQueue({
 		// General settings
-		runtimes: 'html5,flash,gears,html4,browserplus',
+		runtimes: 'html5,flash,gears,browserplus,html4',
 		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id.'/queue_id:'.$rand.'/module_id:'.$module_id); ?>",
-		max_file_size: '100mb',
-		chunk_size: '1000mb',
-		unique_names: true,
+		//max_file_size: '100mb',
+		//chunk_size: '1000mb',
+		unique_names: false,
 
 
-		resize: {width: 320, height: 240, quality: 90},
+		//resize: {width: 320, height: 240, quality: 90},
 
 
 		filters: [
-			{title: "Image files", extensions: "jpg,gif,png,bmp"},
-			{title: "Zip files", extensions: "zip"}
+			{title: "Image files", extensions: "jpg,gif,png,bmp"}
 		],
 
 
@@ -223,8 +372,8 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
          FileUploaded: function(up, file, info) {
 			 
 			   $(".drag_files_here_more").show();
-   call_media_manager<? print $call_media_manager ?>();
-   
+   call_media_manager<? print $rand ?>();
+   mw.reload_module('media/gallery');
 			 
 			 
        //   var obj = eval("(" + info.response + ")");
@@ -248,10 +397,40 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
 // ******************************** END UPLOADER *******************************
 
 </script>
+<label>Title</label>
+    <input name="media_name" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('media_name', $params['module_id']) ?>" />
+    <label>Skin</label>
+    <select name="skin" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
+      <option value="'" <? if( trim(option_get('skin', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >None</option>
+      <option value="1" <? if( option_get('skin', $params['module_id']) == '1') : ?>  selected="selected" <? endif; ?> >1</option>
+      <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >2</option>
+      <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >3</option>
+    </select>
+    <!--           <input  value="<?php print option_get('media_name', $params['module_id']) ?>" />
+                 -->
+    <label>Description</label>
+    <textarea name="media_description" cols=""  class="mw_option_field" option_group="<? print $params['module_id'] ?>" rows="2"><?php print option_get('media_description', $params['module_id']) ?></textarea>
+    <div style="display:none;">
+      <label>Type</label>
+      <select name="media_type">
+        <option value="picture" <? if($pic['media_description'] == 'picture') :  ?>  selected="selected" <? endif; ?>  >picture</option>
+        <option value="video" <? if($pic['media_description'] == 'video') :  ?>  selected="selected" <? endif; ?> >video</option>
+      </select>
+    </div>
+    <? if($pic['media_type'] == 'video') :  ?>
+    <b>Embed code:</b>
+    <textarea name="embed_code" cols="" style="width: 200px;" rows="2"><?php print $pic['embed_code'] ?></textarea>
+    <b>Original link:</b>
+    <textarea name="original_link" cols="" style="width: 200px;" rows="2"><?php print $pic['original_link'] ?></textarea>
+    <? endif; ?>
+    <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
+    <input name="save"  class="mw_form_button" type="button" onclick="save_media_item<? print $rand ;?>()" value="Save" />
+    <input name="close"    type="button" onclick="save_media_close<? print $rand ;?>()" value="Close" />
+ 
 <? if($params['quick_edit'] and $params['module_id']) :   ?>
 <?
  
- $rand=intval($params['id']).rand().rand().rand();
+// $rand=intval($params['id']).rand().rand().rand();
 ?>
 <script type="text/javascript">
  var save_media_item<? print $rand ;?> = function(){
@@ -293,8 +472,8 @@ function media_pics_showResponse<? print $rand ;?>(responseText, statusText)  {
 
 	// Modal.close();
 	$('.mw_modal').hide();
-	if( parent.mw.reload_module != undefined){
-	 parent.mw.reload_module('media/gallery');
+	if( mw.reload_module != undefined){
+	 mw.reload_module('media/gallery');
 	}
 	// call_media_manager();
 	
@@ -309,62 +488,12 @@ function save_media_close<? print $rand ;?>()  {
 }
 
 </script>
-
-
-
-
-
-
-
  
-  <div class="mw_admin_rounded_box">
-    <div class="mw_admin_box_padding">
-      <!-- <tr>
+    <!-- <tr>
                   <td><h4>Filename: <?php print character_limiter( $pic['filename'], 10) ?></h4>
                     </td>
                 </tr>-->
-                 <label>Title</label>
-                <input name="media_name" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('media_name', $params['module_id']) ?>" />
-               
-                
-                
-                 <label>Skin</label>
-                <select name="skin" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
-                  <option value="'" <? if( trim(option_get('skin', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >None</option>
-                <option value="1" <? if( option_get('skin', $params['module_id']) == '1') : ?>  selected="selected" <? endif; ?> >1</option>
-                 <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >2</option>
-                  <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >3</option>
-                
-                </select>
-                
-              <!--           <input  value="<?php print option_get('media_name', $params['module_id']) ?>" />
-                 -->
- 
- 
-      
-      <label>Description</label>
- 
-               
-      <textarea name="media_description" cols=""  class="mw_option_field" option_group="<? print $params['module_id'] ?>" rows="2"><?php print option_get('media_description', $params['module_id']) ?></textarea>
-      <div style="display:none;">
-        <label>Type</label>
-        <select name="media_type">
-          <option value="picture" <? if($pic['media_description'] == 'picture') :  ?>  selected="selected" <? endif; ?>  >picture</option>
-          <option value="video" <? if($pic['media_description'] == 'video') :  ?>  selected="selected" <? endif; ?> >video</option>
-        </select>
-      </div>
-      <? if($pic['media_type'] == 'video') :  ?>
-      <b>Embed code:</b>
-      <textarea name="embed_code" cols="" style="width: 200px;" rows="2"><?php print $pic['embed_code'] ?></textarea>
-      <b>Original link:</b>
-      <textarea name="original_link" cols="" style="width: 200px;" rows="2"><?php print $pic['original_link'] ?></textarea>
-      <? endif; ?>
-      <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
-      <input name="save"  class="mw_form_button" type="button" onclick="save_media_item<? print $rand ;?>()" value="Save" />
-      <input name="close"    type="button" onclick="save_media_close<? print $rand ;?>()" value="Close" />
-    </div>
-  </div>
- 
+    
 <? endif; ?>
 <div class="embed_media" id="video_embed_media" style="display: none">
   <h4>Add media by url or embed code: </h4>
@@ -393,8 +522,8 @@ function save_media_close<? print $rand ;?>()  {
   </table>
   <div class="c" style="padding-bottom: 20px;">&nbsp;</div>
   <input class="btn" type="button" name="save" value="save" onclick="upload_by_embed()" />
-  <input class="btn" type="button" name="refresh" value="refresh" onclick="call_media_manager<? print $call_media_manager ?>();" />
-  <script type="text/javascript">
+  <input class="btn" type="button" name="refresh" value="refresh" onclick="call_media_manager<? print $rand ?>();" />
+<script type="text/javascript">
         $(document).ready(function() {
           	 if($("#embed_code").val()!=''){
                   parse_embeds();

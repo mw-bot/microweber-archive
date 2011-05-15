@@ -4692,7 +4692,7 @@ class Core_model extends Model {
 	
 	}
 	
-	function extractTags($html, $tag, $selfclosing = null, $return_the_entire_tag = false, $charset = 'ISO-8859-1') {
+	function extractTags($html, $tag, $selfclosing = null, $return_the_entire_tag = false, $charset = 'UTF-8') {
 		
 		$function_cache_id = false;
 		
@@ -5285,12 +5285,14 @@ $w
 			
 			if (trim ( strval ( $cache_content ) ) == 'false') {
 				
-				return false;
+			//return false;
 			
+
 			} else {
 				
-				return $cache_content;
+			//return $cache_content;
 			
+
 			}
 		
 		}
@@ -5304,6 +5306,8 @@ $w
 		}
 		
 		$this->load->library ( 'image_lib' );
+		
+		require_once (LIBSPATH . 'thumb/ThumbLib.inc.php');
 		
 		global $cms_db_tables;
 		
@@ -5359,6 +5363,9 @@ $w
 				
 				foreach ( $media_get as $item ) {
 					
+					//	p($item);
+					
+
 					switch ($item ['media_type']) {
 						
 						case 'picture' :
@@ -5381,7 +5388,7 @@ $w
 								
 								$origina_filename = $item ['filename'];
 								
-								$the_original_dir = MEDIAFILES . $test1;
+								$the_original_dir = MEDIAFILES;
 								
 								$the_original_dir = dirname ( $file_path );
 								
@@ -5389,7 +5396,7 @@ $w
 								
 								$the_original_dir = reduce_double_slashes ( $the_original_dir );
 								
-								$new_filename = $the_original_dir . $size . '_' . $size_height . '/' . $origina_filename;
+								$new_filename = $the_original_dir .'/'. $size . '_' . $size_height . '/' . $origina_filename;
 								
 								$new_filename = str_ireplace ( ' ', '-', $new_filename );
 								
@@ -5417,6 +5424,15 @@ $w
 								
 								$new_filename = str_ireplace ( '%', '-', $new_filename );
 								
+								$new_filename = normalize_path ( $new_filename, false );
+								
+								$file_path = normalize_path ( $file_path, false );
+								
+								$new_filename_dir = dirname ( $new_filename );
+								if (! is_dir ( $new_filename_dir )) {
+									mkdir_recursive ( $new_filename_dir );
+								}
+								
 								if (! is_dir ( $the_original_dir . $size . '_' . $size_height )) {
 									
 									@mkdir_recursive ( $the_original_dir . $size . '_' . $size_height . '/' );
@@ -5442,8 +5458,8 @@ $w
 									$src = $new_filename_url;
 								
 								} else {
-									
-									$config ['image_library'] = 'gd2';
+									$config = array ();
+									$config ['image_library'] = 'gd';
 									
 									$config ['source_image'] = $file_path;
 									
@@ -5459,17 +5475,35 @@ $w
 									
 									$config ['quality'] = '100%';
 									
-									//	p ( $new_filename, 1 );
 									$src = $new_filename_url;
+									//p($config);
+									//$this->image_lib->initialize ( $config );
 									
-									$this->image_lib->initialize ( $config );
-									
-									if (! $this->image_lib->resize ()) {
+
+									try {
+										$thumb = PhpThumbFactory::create ( $file_path );
 										
-										echo $this->image_lib->display_errors ();
+										$thumb->resize ( $size, $size_height );
+										
+										$thumb->save ( $new_filename );
 									
+									} catch ( Exception $e ) {
+										// handle error here however you'd like
+										print 'cant open image file'.$file_path;
 									}
 									
+								// do your manipulations
+								
+
+								//if (! $this->image_lib->resize ()) {
+								
+
+								//	echo $this->image_lib->display_errors ();
+								
+
+								//}
+								
+
 								//	$this->image_lib->resize ();
 								}
 							
@@ -6446,8 +6480,9 @@ $w
 		
 		}
 		//	 var_dump($media_get); 
-	//	var_dump ( $media_get_to_return );
+		//	var_dump ( $media_get_to_return );
 		
+
 		if (! empty ( $media_get_to_return )) {
 			
 			$this->cacheWriteAndEncode ( $media_get_to_return, $function_cache_id, $cache_group );
@@ -6802,14 +6837,14 @@ $w
 						
 					//@chmod ( $path, '0777' );
 					}
-					
+					$original_path = normalize_path ( $original_path, false );
 					$the_target_path = $target_path . '/original/';
 					
 					$original_path = $the_target_path;
-					
+					$original_path = normalize_path ( $original_path, false );
 					if (is_dir ( $the_target_path ) == false) {
 						
-						@mkdir ( $the_target_path );
+						mkdir_recursive ( $the_target_path );
 						
 					//@chmod ( $the_target_path, '0777' );
 					}
