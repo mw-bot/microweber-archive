@@ -82,9 +82,7 @@
 	width: 100%;
 	background: #5F8FAD
 }
-.blue {
-background-color:#00C;	
-}
+ 
 .mw_mod_wrap_main {
 	cursor:move;
 	border:dashed #CCC 1px;
@@ -98,11 +96,12 @@ background-color:#00C;
 outline:none;    
 }
 .to_here_drop {
-	/*min-height:100px;
+	/*
 	min-width:100px;*/
 	border:dashed #CCC 1px;
+	min-height:10px;
 	/*	margin-left:3px;*/
-	background-color: #FF9;
+	background-color: ;
 	/*margin:3px;
 	display:inline-block; */
 	background-image: url(../img/drop.png);
@@ -180,13 +179,13 @@ padding:0px;
 .mw_module_box_place {
 height:100px;
 width:100px;
-background-color:#09C;
+background-color:;
 	display:block;
 }
 
 
 .mw_mod_wrap {
-background-color:#F00;	
+/*background-color:#F00;	*/
 }
 
 /*.mw_module_overlay {

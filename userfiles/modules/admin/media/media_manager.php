@@ -2,17 +2,11 @@
 <? 
 //p($params);
 ?>
-<script> 
-  
-	$(document).ready(function(){
-		 
- 
-		 
- 
-	});
+<?
+$rand = rand();
     
-    
-    </script>
+?>
+ 
 <?
   $id = $params['for_id'];
   $for = $params['for'];
@@ -69,7 +63,7 @@
 
 	
 
-function  contentMediaDeletePicture($id){
+function  contentMediaDeletePicture<? print $rand ?>($id){
 
 
 
@@ -95,11 +89,11 @@ var answer = confirm("Are you sure?")
 
   function(data){
 
-	  //$(".gallery_module_sortable_pics_positions_"+$id).fadeOut();
+	  //$(".gallery_module_sortable_pics<? print $rand ?>_positions_"+$id).fadeOut();
 
 	  $("#picture_id_"+$id).remove();
  mw.reload_module('media/gallery');
-	// contentMediaPicturesRefreshList();
+	// contentMediaPicturesRefreshList<? print $rand ?>();
 
    //alert("Data Loaded: " + data);
 
@@ -123,7 +117,7 @@ var answer = confirm("Are you sure?")
 
 
 
-function contentMediaPicturesRefreshList(){
+function contentMediaPicturesRefreshList<? print $rand ?>(){
 
 var media_upload_queue_pic = $('#media_queue_pictures').val();
 
@@ -135,17 +129,17 @@ $.post("<?php print site_url('admin/media/contentMediaPicturesList') ?>/to_table
 
   $("#media_pictures_placeholder").html(data);
 
- parent.mw.reload_module('media/gallery');
+ mw.reload_module('media/gallery');
 
-if ( $(".gallery_module_sortable_pics").exists() ){
+if ( $(".gallery_module_sortable_pics<? print $rand ?>").exists() ){
 
-	$(".gallery_module_sortable_pics").sortable(
+	$(".gallery_module_sortable_pics<? print $rand ?>").sortable(
 
 	{
 
 	update : function () {
 
-	var order = $('.gallery_module_sortable_pics').sortable('serialize');
+	var order = $('.gallery_module_sortable_pics<? print $rand ?>').sortable('serialize');
 
 	$.post("<?php print site_url('admin/media/reorderMedia') ?>", order,
 
@@ -184,16 +178,9 @@ if ( $(".gallery_module_sortable_pics").exists() ){
   
   
   
-  // prepare the form when the DOM is ready 
-$(document).ready(function() { 
-   
+ 
 
-    // bind form using 'ajaxForm' 
-    //$('.picsAjaxSaveForm').ajaxForm(media_pics_options); 
-}); 
-
-
-function  contentMediaEditPicture($id){
+function  contentMediaEditPicture<? print $rand ?>($id){
 
 
 
@@ -225,7 +212,7 @@ $('#pic_edit_form_'+$id).show();
 
 
 
-function load_media_edit_module($media_id){
+function load_media_edit_module<? print $rand ?>($media_id){
 	
 	   $.ajax({
   url: '<? print site_url('api/module'); ?>',
@@ -261,10 +248,10 @@ Please upload some media in the gallery.
 <script type="text/javascript"> 
 // When the document is ready set up our sortable with it's inherant function(s) 
 $(document).ready(function() { 
-  $(".gallery_module_sortable_pics").sortable({ 
+  $(".gallery_module_sortable_pics<? print $rand ?>").sortable({ 
     handle : '.handle', 
     update : function () { 
-      var order = $('.gallery_module_sortable_pics').sortable('serialize'); 
+      var order = $('.gallery_module_sortable_pics<? print $rand ?>').sortable('serialize'); 
 	 // alert(order);
 	 
 	 //
@@ -296,14 +283,15 @@ $(document).ready(function() {
 <br />
 <br />
 <div class="gallery_module_sortable_holder <? print $qe_class ?>">
-  <ul class="gallery_module_sortable_pics">
+  <ul class="gallery_module_sortable_pics<? print $rand ?>">
     <?php $i = 1; if(!empty($media1)): ?>
     <?php foreach($media1 as $pic): ?>
     <?php $thumb = $this->core_model->mediaGetThumbnailForMediaId($pic['id']);
  
 ?>
-    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module('<?php print $pic['id'] ?>')"> <img class="handle" src="<?php print $thumb;  ?>" />
-      <!--<a href="javascript:;" onClick="contentMediaEditPicture('<?php print $pic['id'] ?>')">edit</a> <a href="javascript:;" class="right" onClick="contentMediaDeletePicture('<?php print $pic['id'] ?>')">delete</a>-->
+    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module<? print $rand ?>('<?php print $pic['id'] ?>')"> <img class="handle" src="<?php print $thumb;  ?>" />
+     <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>
+      <!--<a href="javascript:;" onClick="contentMediaEditPicture<? print $rand ?>('<?php print $pic['id'] ?>')">edit</a> <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>-->
       <div class="mw_modal" id="pic_edit_form_<?php print $pic['id'] ?>" style="display:none;">
         <?
    /* <form action=""   class="picsAjaxSaveForm" id="picsAjaxSaveForm<?php print $pic['id'] ?>" method="post" enctype="multipart/form-data">

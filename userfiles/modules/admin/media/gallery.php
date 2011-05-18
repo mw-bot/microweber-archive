@@ -60,8 +60,8 @@ $rand = rand();
 
 
 <div class="formitem">
-  <div style="display:none"> <a href="javascript:set_media_type_dropdown('picture')" class="btn">picture</a> <a href="javascript:set_media_type_dropdown('video')" class="btn">video</a>
-    <select name="media_type" id="media_type" onchange="call_media_manager<? print $rand ?>()">
+  <div style="display:none"> <a href="javascript:set_media_type_dropdown<? print $rand ?>('picture')" class="btn">picture</a> <a href="javascript:set_media_type_dropdown<? print $rand ?>('video')" class="btn">video</a>
+    <select name="media_type" id="media_type<? print $rand ?>" onchange="call_media_manager<? print $rand ?>()">
       <option value="picture">picture</option>
       <option value="video">video</option>
     </select>
@@ -69,8 +69,8 @@ $rand = rand();
 </div>
 <div id="image_embed_media">
   <? if($params['quick_edit']) { $qe_class = 'quick_edit' ;} else { $qe_class = false ;}  ?>
-  <div id="admin_pl" class="drag_files<? print $rand ?> drag_files_here <? print $qe_class ?>">drag files here</div>
-  <div  class="drag_files_here_more" style="display:none;"> <small> <a href="javascript:make_the_uploader<? print $rand ?>()"><strong>Click here add more files</strong></a> </small> </div>
+  <div id="admin_pl<? print $rand ?>" class="drag_files<? print $rand ?> drag_files_here <? print $qe_class ?>">drag files here</div>
+  <div  class="drag_files_here_more<? print $rand ?>" style="display:none;"> <small> <a href="javascript:make_the_uploader<? print $rand ?>()"><strong>Click here add more files</strong></a> </small> </div>
     <div id="media_manager<? print $rand ?>" class="<? print $qe_class ?>">media_manager</div>
 
 </div>
@@ -138,7 +138,7 @@ function call_media_manager<? print $call_media_manager; ?>() {
 	data1.for_id = '<? print $id ?>';
 	data1.queue_id = '<? print $rand ?>';
 	//data1.type = 'picture';
- data1.type =  $("#media_type").val();
+ data1.type =  $("#media_type<? print $rand ?>").val();
 	
 	$('#media_manager<? print $rand ?>').load('<? print site_url('api/module') ?>',data1);
 
@@ -153,7 +153,7 @@ function call_media_manager<? print $call_media_manager; ?>() {
 //	data1.for_id = '<? print $id ?>';
 //	data1.queue_id = '<? print $rand ?>';
 //	//data1.type = 'picture';
-// data1.type =  $("#media_type").val();
+// data1.type =  $("#media_type<? print $rand ?>").val();
 //   $.ajax({
 //  url: '<? print site_url('api/module') ?>/rand:'+Math.random(),
 //   type: "POST", 
@@ -226,7 +226,7 @@ function call_media_manager<? print $call_media_manager; ?>() {
 //   $("#image_embed_media").hide();
 //   $("#video_embed_media").hide();
 //
-//   if($("#media_type").val()=='video'){
+//   if($("#media_type<? print $rand ?>").val()=='video'){
 //       $("#video_embed_media").show();
 //   }
 //   else{
@@ -246,20 +246,20 @@ function call_media_manager<? print $call_media_manager; ?>() {
 	
 }
 
-function set_media_type_dropdown($newval){
+function set_media_type_dropdown<? print $rand ?>($newval){
 	
  
 	
 	
 	
-$("#media_type").val($newval);
+$("#media_type<? print $rand ?>").val($newval);
  
 call_media_manager<? print $rand ?>()
 }
 
 // ******************************** UPLOADER *******************************
 
-function upload_by_embed(){
+function upload_by_embed<? print $rand ?>(){
 	
  
 	
@@ -268,7 +268,7 @@ function upload_by_embed(){
 	embed_code =  $("#embed_code").val();
 	screenshot_url =  $("#screenshot_url").val();
 	original_link =  $("#original_link").val();
-	media_type =  $("#media_type").val();
+	media_type =  $("#media_type<? print $rand ?>").val();
 	
 	media_name =  $("#media_name").val();
 	media_description =  $("#media_description").val();
@@ -291,16 +291,7 @@ function upload_by_embed(){
 }
 
 
-function OnloadFunction<? print $rand ?> ()
-{
-      // call_media_manager<? print $rand ?>();
- //make_the_uploader<? print $rand ?>();
-
-}
-//$(document).onready(OnloadFunction<? print $rand ?>());
-
-
-
+ 
 
 
 
@@ -329,7 +320,7 @@ $(document).ready(function(){
 function make_the_uploader<? print $rand ?>(){
 	
 	
-	$(".drag_files_here_more").hide();
+	$(".drag_files_here_more<? print $rand ?>").hide();
 	
 	
 	
@@ -338,8 +329,9 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
 		runtimes: 'html5,flash,gears,browserplus,html4',
 		url: "<? print site_url('api/media/upload_to_library/for:'.$for.'/for_id:'.$id.'/queue_id:'.$rand.'/module_id:'.$module_id); ?>",
 		//max_file_size: '100mb',
-		//chunk_size: '1000mb',
+		chunk_size: '1000000000mb',
 		unique_names: false,
+		browse_button : 'admin_pl<? print $rand ?>',
 
 
 		//resize: {width: 320, height: 240, quality: 90},
@@ -371,7 +363,7 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
          },
          FileUploaded: function(up, file, info) {
 			 
-			   $(".drag_files_here_more").show();
+			   $(".drag_files_here_more<? print $rand ?>").show();
    call_media_manager<? print $rand ?>();
    mw.reload_module('media/gallery');
 			 
@@ -521,7 +513,7 @@ function save_media_close<? print $rand ;?>()  {
     </tr>
   </table>
   <div class="c" style="padding-bottom: 20px;">&nbsp;</div>
-  <input class="btn" type="button" name="save" value="save" onclick="upload_by_embed()" />
+  <input class="btn" type="button" name="save" value="save" onclick="upload_by_embed<? print $rand ?>()" />
   <input class="btn" type="button" name="refresh" value="refresh" onclick="call_media_manager<? print $rand ?>();" />
 <script type="text/javascript">
         $(document).ready(function() {

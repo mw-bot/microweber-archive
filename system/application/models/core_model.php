@@ -5396,7 +5396,7 @@ $w
 								
 								$the_original_dir = reduce_double_slashes ( $the_original_dir );
 								
-								$new_filename = $the_original_dir .'/'. $size . '_' . $size_height . '/' . $origina_filename;
+								$new_filename = $the_original_dir . '/' . $size . '_' . $size_height . '/' . $origina_filename;
 								
 								$new_filename = str_ireplace ( ' ', '-', $new_filename );
 								
@@ -5489,7 +5489,7 @@ $w
 									
 									} catch ( Exception $e ) {
 										// handle error here however you'd like
-										print 'cant open image file'.$file_path;
+										print 'cant open image file' . $file_path;
 									}
 									
 								// do your manipulations
@@ -6821,7 +6821,7 @@ $w
 			
 			foreach ( $_FILES as $k => $item ) {
 				
-				$target_path = MEDIAFILES;
+				$target_path = MEDIAFILES.'/pictures/';
 				
 				$filename = basename ( $_FILES [$k] ['name'] );
 				
@@ -6841,40 +6841,56 @@ $w
 					$the_target_path = $target_path . '/original/';
 					
 					$original_path = $the_target_path;
-					$original_path = normalize_path ( $original_path, false );
+					$original_path = normalize_path ( $original_path, true );
 					if (is_dir ( $the_target_path ) == false) {
 						
 						mkdir_recursive ( $the_target_path );
 						
 					//@chmod ( $the_target_path, '0777' );
 					}
-					
-					$the_target_path = $the_target_path . $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
-					
-					if (is_file ( $the_target_path ) == true) {
-						
-						$filename = date ( "ymdHis" ) . basename ( $_FILES [$k] ['name'] );
-						
-						$the_target_path = $original_path . $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
-					
-					}
-					
-					if (stristr ( $the_target_path, '.exe' ) or stristr ( $the_target_path, '.php' ) or stristr ( $the_target_path, '.pl' ) or stristr ( $the_target_path, '.cgi' )) {
+					$the_target_path1 = $the_target_path;
+					$the_target_path = $the_target_path . $filename;
+					//					if (is_file ( $the_target_path ) == true) {
+					//						
+					//						$filename = date ( "ymdHis" ) . '_' . rand () . '_' . basename ( $_FILES [$k] ['name'] );
+					//						$filename = $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
+					//						$the_target_path = $original_path . $filename;
+					//					
+					//					} else {
+					//						$filename = $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
+					//						
+					//						$the_target_path = $the_target_path1 . $filename;
+					//					}
+					$filename = date ( "ymdHis" ) . '_' . rand () . '_' . basename ( $_FILES [$k] ['name'] );
+					$filename = $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
+					$the_target_path = $original_path . $filename;
+					if (stristr ( $the_target_path, '.exe' ) or stristr ( $the_target_path, '.php' ) or stristr ( $the_target_path, '.htm' ) or stristr ( $the_target_path, '.js' ) or stristr ( $the_target_path, '.rb' ) or stristr ( $the_target_path, '.pl' ) or stristr ( $the_target_path, '.cgi' )) {
 						exit ( 'This file type is not permited due security measures!' );
 					}
-					
+					//p($_FILES);
+					$the_target_path = normalize_path ( $the_target_path, false );
+					//touch($the_target_path);
+					//if (! move_uploaded_file ( $_FILES[$k] ['tmp_name'], $the_target_path  )) {
+						//echo "CANNOT MOVE {$_FILES["userfile"]["name"]}";
+					//}
 					if (move_uploaded_file ( $_FILES [$k] ['tmp_name'], $the_target_path )) {
 						
-						if (is_file ( $the_target_path ) == true) {
+						if ($the_target_path == true) {
 							$upl = array ();
 							if (is_readable ( $the_target_path ) == true) {
-								$fn1 = $this->url_title ( $filename, $separator = 'dash', $no_slashes = false, $leave_dots = true );
 								
+								$fn1 = $filename;
 								//exit ();
+								$target_path_pictures_file = $fn1;
 								$upl ['filename'] = $fn1;
 								
 								$extension = substr ( strrchr ( $fn1, '.' ), 1 );
 								$extension_lower = strtolower ( $extension );
+								
+							//	p ( $filename );
+								
+								//p ( $the_target_path );
+								
 								switch ($extension_lower) {
 									
 									case 'jpg' :
@@ -6886,19 +6902,26 @@ $w
 										{
 											
 											$target_path_pictures_folder = MEDIAFILES . 'pictures/original/';
-											$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder );
-											
+											$target_path_pictures_folder = normalize_path ( $target_path_pictures_folder, true );
+											$target_path_pictures_folder = $target_path_pictures_folder . DIRECTORY_SEPARATOR;
 											if (is_dir ( $target_path_pictures_folder ) == false) {
 												mkdir_recursive ( $target_path_pictures_folder );
 											}
 											
-											$target_path_pictures_file = basename ( $the_target_path );
 											$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
+											if (is_file ( $target_path_pictures_new )) {
+												//$target_path_pictures_file = date ( "YMDHis" ) . '_' . $target_path_pictures_file;
+											//$upl ['filename'] = $target_path_pictures_file;
+											//$target_path_pictures_new = $target_path_pictures_folder . $target_path_pictures_file;
+											
+
+											}
 											//p($target_path_pictures_new);
 											
 
-											rename ( $the_target_path, $target_path_pictures_new );
+											//	rename ( $the_target_path, $target_path_pictures_new );
 											
+
 											list ( $width, $height, $type, $attr ) = getimagesize ( $target_path_pictures_new );
 											
 											$status = array ();
@@ -6932,8 +6955,9 @@ $w
 											//p($target_path_pictures_new);
 											
 
-											rename ( $the_target_path, $target_path_pictures_new );
+											//	rename ( $the_target_path, $target_path_pictures_new );
 											
+
 											$upl ['type'] = 'video';
 											break;
 										
@@ -6947,8 +6971,9 @@ $w
 										//p($target_path_pictures_new);
 										
 
-										rename ( $the_target_path, $target_path_pictures_new );
+										//	rename ( $the_target_path, $target_path_pictures_new );
 										
+
 										$upl ['type'] = 'file';
 										break;
 								
@@ -6970,6 +6995,8 @@ $w
 			
 			return $status;
 		}
+		
+		p ( $upl );
 		
 		if (trim ( $_POST ['embed_code'] ) != '') {
 			$embed_item = array ();

@@ -98,22 +98,29 @@ mw.reload_module = function($module_name) {
 									if (mw_params_module == $module_name) {
 										var mw_params_encoded = $(this).attr(	"mw_params_encoded");
 										var elem = $(this)
+										
+										
+								 
+										 url1= '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded;
+										 elem.load(url1,$all_attr);
+											
+											
 
-										$.ajax( {
-													url : '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded,
-													type : "POST",
-													data: $all_attr,
-													async : false,
-
-													success : function(resp) {
-												//	alert(resp);
-														//$(this).empty();
-											elem.before(resp).remove(); 
-													// elem.empty();
-													// elem.append(resp);
-
-												}
-												});
+//										$.ajax( {
+//													url : '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded,
+//													type : "POST",
+//													data: $all_attr,
+//													async : false,
+//
+//													success : function(resp) {
+//												//	alert(resp);
+//														//$(this).empty();
+//											elem.before(resp).remove(); 
+//													// elem.empty();
+//													// elem.append(resp);
+//
+//												}
+//												});
 
 									}
 

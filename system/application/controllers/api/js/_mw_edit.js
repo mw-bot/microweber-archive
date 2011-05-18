@@ -410,10 +410,10 @@ function init_edits(){
 	 
 	 
 	 var sort_opts = {
-			//	forcePlaceholderSize: true,
+				forcePlaceholderSize: true,
 			//	forceHelperSize : true ,
-				//tolerance: 'pointer',
-				tolerance: 'intersect',
+				tolerance: 'pointer',
+				//tolerance: 'intersect',
 			   //cancel: '.module > * :not(:has(.module)) ',
 			  // cancel: '.mw_mod_wrap',
 				placeholder: "to_here_drop",
