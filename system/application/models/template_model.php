@@ -1453,7 +1453,10 @@ p($modules );
 									if (($attr ['module_id']) == true) {
 										$mod_id = $attr ['module_id'];
 									} else {
-										$mod_id = false;
+										//$mod_id = false;
+										$mod_id = $attr ['module'];
+										$mod_id = str_replace('/','-',$mod_id);
+										$mod_id = str_replace('\\','-',$mod_id);
 									}
 									
 									if ($options ['admin'] == true) {

@@ -13,6 +13,15 @@
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Format/plugin.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Table/plugin.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.List/plugin.js"></script>-->
+
+
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/vitch-jScrollPane/script/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/vitch-jScrollPane/script/jquery.jscrollpane.min.js"></script>
+<link href='<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/vitch-jScrollPane/style/jquery.jscrollpane.css' rel='stylesheet' type='text/css'>
+
+
+ 
+
 <script type="text/javascript">
     static_url = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>";
 </script>
@@ -42,34 +51,38 @@ $("#admin_sidebar").live("hover",function(){
  });
    
   
+ 	  $('#module_bar_resp').load('<? print site_url('api/module') ?>',data1, function() {
+  //alert('Load was performed.');
+  mw_sidebar_make_sortables()
+});
+	   
  
  
- 
-   $.ajax({
-  url: "<? print site_url('api/module') ?>",
-   type: "POST",
-      data: data1,
-
-      async:true,
-
-  success: function(resp) {
-
-   $('#module_bar_resp').html(resp);
-  // $('.mw_sidebar_module_group_table').corner();
-
- //$('.mw_sidebar_module_group_table').corner();
- 
- mw_sidebar_make_sortables()
-  
-		//  $dragable_opts2.helper = 'original';
- 
-			
-
-
-
-
-  }
-    }); 
+//   $.ajax({
+//  url: "<? print site_url('api/module') ?>",
+//   type: "POST",
+//      data: data1,
+//
+//      async:true,
+//
+//  success: function(resp) {
+//
+//   $('#module_bar_resp').html(resp);
+//  // $('.mw_sidebar_module_group_table').corner();
+//
+// //$('.mw_sidebar_module_group_table').corner();
+// 
+// mw_sidebar_make_sortables()
+//  
+//		//  $dragable_opts2.helper = 'original';
+// 
+//			
+//
+//
+//
+//
+//  }
+//    }); 
  
 	});
  
@@ -602,23 +615,23 @@ function mw_load_history_module(){
    data1.for_url = document.location.href;
    
    
-   
-   $.ajax({
-  url: "<? print site_url('api/module') ?>",
-   type: "POST",
-      data: data1,
-
-      async:true,
-
-  success: function(resp) {
-
-   $('#history_module_resp').html(resp);
- 
-
-
-
-  }
-    }); 
+    $('#history_module_resp').load('<? print site_url('api/module') ?>',data1);
+//   $.ajax({
+//  url: "<? print site_url('api/module') ?>",
+//   type: "POST",
+//      data: data1,
+//
+//      async:true,
+//
+//  success: function(resp) {
+//
+//   $('#history_module_resp').html(resp);
+// 
+//
+//
+//
+//  }
+//    }); 
 	
 	
 }

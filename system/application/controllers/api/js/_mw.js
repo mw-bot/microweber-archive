@@ -102,8 +102,12 @@ mw.reload_module = function($module_name) {
 										
 								 
 										 url1= '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded;
-										 elem.load(url1,$all_attr);
-											
+										 elem.load(url1,$all_attr,function() {
+											 window.mw_sortables_created = false;
+										 });
+										 
+										
+										 
 											
 
 //										$.ajax( {
@@ -129,6 +133,10 @@ mw.reload_module = function($module_name) {
 			}
 
 		}
+		 if(typeof init_edits == 'function') { 
+			 window.mw_sortables_created = false;
+			 init_edits(); 
+			 }
 
 	}
 

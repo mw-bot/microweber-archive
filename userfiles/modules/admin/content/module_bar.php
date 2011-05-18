@@ -107,6 +107,8 @@ $modules = CI::model('template')->getModules($modules_options );
 </script>
 <? $showed_module_groups = array(); ?>
 
+
+
 <div class="module_bar">
   <div class="sortable_modules">
     <? if(intval($params['page_id']) != 0): ?>

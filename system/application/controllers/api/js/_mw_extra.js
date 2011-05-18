@@ -17,7 +17,7 @@ mw_forms.make_fields = function(){
 	
 	$(".mw_option_field").not('.mw_option_field_parsed').each(function(){
 		$(this).addClass('mw_option_field_parsed');
-		 
+		 $(this).die('change');
 		$(this).change(function() {
 			 //alert('Handler for .change() called.');
 			//<? print site_url('api/content/save_option') ?>
@@ -60,7 +60,7 @@ mw_forms.make_fields = function(){
 					}
 					
 					if(parent.mw.reload_module != undefined){
-						parent.mw.reload_module(refresh_modules11);
+						//parent.mw.reload_module(refresh_modules11);
 					}
 
 				/*		*/

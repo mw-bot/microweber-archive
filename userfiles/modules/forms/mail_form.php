@@ -19,11 +19,11 @@
             </script>
 
 <div class="contact_form"> 
-  <h3 class="title nopadding">Send us a message <? print rand() ?>  <? print ($params['module_id']); ?></h3>
+  <h3 class="title nopadding"><?php print option_get('form_title', $params['module_id']) ?></h3>
   <br />
   <br />
-  Form text
-  <br />
+  <?php print option_get('form_description', $params['module_id']) ?>
+  
   <form method="post" action="">
     <input  type="hidden"   name="to_emails" value="<? print base64_encode($params['email']); ?>"  />
     <span class="field">

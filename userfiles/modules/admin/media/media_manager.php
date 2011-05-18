@@ -63,53 +63,7 @@ $rand = rand();
 
 	
 
-function  contentMediaDeletePicture<? print $rand ?>($id){
 
-
-
-if($("#content_form_object").hasClass("save_disabled")){
-
-alert("Error: You cannot delete while uploading!");
-
-return false;
-
-}
-
-
-
-
-
-
-
-var answer = confirm("Are you sure?")
-
-	if (answer){
-
-		$.post("<?php print site_url('api/media/media_delete') ?>", { id: $id, time: "2pm" },
-
-  function(data){
-
-	  //$(".gallery_module_sortable_pics<? print $rand ?>_positions_"+$id).fadeOut();
-
-	  $("#picture_id_"+$id).remove();
- mw.reload_module('media/gallery');
-	// contentMediaPicturesRefreshList<? print $rand ?>();
-
-   //alert("Data Loaded: " + data);
-
-  });
-
-	}
-
-	else{
-
-		//alert("Thanks for sticking around!")
-
-	}
-
- 
-
-}
 
 
 
@@ -282,15 +236,21 @@ $(document).ready(function() {
 <br />
 <br />
 <br />
+
 <div class="gallery_module_sortable_holder <? print $qe_class ?>">
-  <ul class="gallery_module_sortable_pics<? print $rand ?>">
+  <ul class="gallery_module_sortable_pics<? print $rand ?> <? print $qe_class ?> gallery_module_sortable_pics">
     <?php $i = 1; if(!empty($media1)): ?>
     <?php foreach($media1 as $pic): ?>
     <?php $thumb = $this->core_model->mediaGetThumbnailForMediaId($pic['id']);
  
 ?>
-    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module<? print $rand ?>('<?php print $pic['id'] ?>')"> <img class="handle" src="<?php print $thumb;  ?>" />
-     <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>
+    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module<? print $rand ?>('<?php print $pic['id'] ?>')"> 
+    
+    <center><img class="handle" src="<?php print $thumb;  ?>" /></center>
+    
+    
+    
+    <!-- <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>-->
       <!--<a href="javascript:;" onClick="contentMediaEditPicture<? print $rand ?>('<?php print $pic['id'] ?>')">edit</a> <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>-->
       <div class="mw_modal" id="pic_edit_form_<?php print $pic['id'] ?>" style="display:none;">
         <?

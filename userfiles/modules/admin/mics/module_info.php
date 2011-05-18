@@ -16,14 +16,10 @@ if($params['module_info']){
 
 ?>
 <? if(!empty($config)): ?>
+
 <div class="mw_iframe_header">
-    <div class="mw_iframe_header_title">  
-     
-    
-    
-    
-    
-    
-    <img src="<? print($config['icon']); ?>" align="left" height="25"  class="mw_iframe_header_icon" /> <? print($config['name']); ?></div>
-    <a href="javascript:parent.mw_sidebar_nav('#mw_sidebar_modules_holder')" class="mw_nav_button_blue_small"> <span> Back </span> </a> </div>
-    <? endif; ?>
+  <div class="mw_iframe_header_title"> <img src="<? print($config['icon']); ?>" align="left" height="25"  class="mw_iframe_header_icon" /> <? print($config['name']); ?></div>
+ 
+ <a href="javascript:mw_delete_module_by_id('<? print $params['module_id'] ?>','1')" class="mw_nav_button_delete">&nbsp</a>
+  <a href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')" class="mw_nav_button_blue_small"> <span> Back </span> </a> </div>
+<? endif; ?>

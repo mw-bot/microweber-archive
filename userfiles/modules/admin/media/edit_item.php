@@ -57,10 +57,62 @@ function save_media_close<? print $rand ;?>()  {
 	 
 }
 
+ function  contentMediaDeletePicture<? print $rand ?>($id){
+
+
+
+if($("#content_form_object").hasClass("save_disabled")){
+
+alert("Error: You cannot delete while uploading!");
+
+return false;
+
+}
+
+
+
+
+
+
+
+var answer = confirm("Are you sure?")
+
+	if (answer){
+
+		$.post("<?php print site_url('api/media/media_delete') ?>", { id: $id, time: "2pm" },
+
+  function(data){
+
+	  //$(".gallery_module_sortable_pics<? print $rand ?>_positions_"+$id).fadeOut();
+
+	  $("#picture_id_"+$id).fadeOut();
+ mw.reload_module('media/gallery');
+	// contentMediaPicturesRefreshList<? print $rand ?>();
+
+   //alert("Data Loaded: " + data);
+
+  });
+
+	}
+
+	else{
+
+		//alert("Thanks for sticking around!")
+
+	}
+
+ 
+
+}
+
 </script>
 
 <form action=""  id="mw_media_edit_<? print $rand ;?>"  method="post" enctype="multipart/form-data">
   <input name="id" type="hidden" value="<?php print $pic['id'] ?>" />
+  
+  
+  <span class="mw_sidebar_module_box_title">Edit picture</span>
+  
   <div class="mw_admin_rounded_box">
     <div class="mw_admin_box_padding">
       <!-- <tr>
@@ -90,7 +142,8 @@ function save_media_close<? print $rand ;?>()  {
       
         <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
   <input name="save"  class="mw_form_button" type="button" onclick="save_media_item<? print $rand ;?>()" value="Save" />
-    <input name="close"    type="button" onclick="save_media_close<? print $rand ;?>()" value="Close" />
+    <input name="close"    type="button" onclick="save_media_close<? print $rand ;?>()" value="Close" /> 
+    <input name="Delete"    type="button" onclick="contentMediaDeletePicture<? print $rand ?>(<?php print $pic['id'] ?>)" value="Delete" />
     </div>
   </div>
 

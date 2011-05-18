@@ -266,20 +266,15 @@
 	position: fixed;
 	top: 54px;
 	width: 290px;
+	
  
 	  z-index:50000;
 	right:0px;
 	height:10px;
 	background-color:#e1e4e9;
-	overflow:auto;
+	overflow:hidden;
 	
-	scrollbar-face-color: #8AB200;
-scrollbar-shadow-color: #FFFFFF;
-scrollbar-highlight-color: #FFFFFF;
-scrollbar-3dlight-color:#53670D;
-scrollbar-darkshadow-color: #53670D;
-scrollbar-track-color: #D4E597;
-scrollbar-arrow-color: #53670D;
+
 	
 	
 	
@@ -348,7 +343,7 @@ scrollbar-arrow-color: #53670D;
 /* modules */
 .mw_sidebar_module_group_title {
 	font-size:18px;
-	font-family: calibri, Verdana, Geneva, sans-serif;
+	font-family: Verdana, Geneva, sans-serif;
 	font-weight:bold;
 	color: #576075;
 	clear:both;
@@ -357,6 +352,19 @@ scrollbar-arrow-color: #53670D;
 	margin-bottom:3px;
 	display:block;
 }
+
+
+.mw_sidebar_module_box_title {
+	font-size:14px;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #333;
+	clear:both;
+	margin-left:5px;
+	text-transform: capitalize;
+	margin-bottom:3px;
+	display:block;
+}
+
 .mw_sidebar_module_group_div {
 	clear: both;
 	margin-left:10px;
@@ -413,12 +421,20 @@ scrollbar-arrow-color: #53670D;
 #mw_sidebar_modules_holder, #mw_sidebar_design_holder, #mw_sidebar_add_holder, #mw_edit_module_iframe_holder, #mw_sidebar_css_editor_holder {
 	display:none;
 }
-#mw_sidebar_module_edit_holder iframe {
+/*#mw_sidebar_module_edit_holder iframe {
 	height:800px;
 	width:300px;
 	border:0;
 	display:block;
+}*/
+
+
+#mw_sidebar_module_edit_holder{
+	display:block;
+overflow:hidden;	
 }
+
+
 .module_draggable_last {
 	background-color:red;
 }

@@ -57,8 +57,6 @@ $rand = rand();
 //	});
 //});
 </script>
-
-
 <div class="formitem">
   <div style="display:none"> <a href="javascript:set_media_type_dropdown<? print $rand ?>('picture')" class="btn">picture</a> <a href="javascript:set_media_type_dropdown<? print $rand ?>('video')" class="btn">video</a>
     <select name="media_type" id="media_type<? print $rand ?>" onchange="call_media_manager<? print $rand ?>()">
@@ -71,8 +69,7 @@ $rand = rand();
   <? if($params['quick_edit']) { $qe_class = 'quick_edit' ;} else { $qe_class = false ;}  ?>
   <div id="admin_pl<? print $rand ?>" class="drag_files<? print $rand ?> drag_files_here <? print $qe_class ?>">drag files here</div>
   <div  class="drag_files_here_more<? print $rand ?>" style="display:none;"> <small> <a href="javascript:make_the_uploader<? print $rand ?>()"><strong>Click here add more files</strong></a> </small> </div>
-    <div id="media_manager<? print $rand ?>" class="<? print $qe_class ?>">media_manager</div>
-
+  <div id="media_manager<? print $rand ?>" class="<? print $qe_class ?>">media_manager</div>
 </div>
 <?
  
@@ -389,19 +386,43 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
 // ******************************** END UPLOADER *******************************
 
 </script>
-<label>Title</label>
-    <input name="media_name" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('media_name', $params['module_id']) ?>" />
-    <label>Skin</label>
-    <select name="skin" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
-      <option value="'" <? if( trim(option_get('skin', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >None</option>
-      <option value="1" <? if( option_get('skin', $params['module_id']) == '1') : ?>  selected="selected" <? endif; ?> >1</option>
-      <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >2</option>
-      <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >3</option>
-    </select>
-    <!--           <input  value="<?php print option_get('media_name', $params['module_id']) ?>" />
-                 -->
-    <label>Description</label>
-    <textarea name="media_description" cols=""  class="mw_option_field" option_group="<? print $params['module_id'] ?>" rows="2"><?php print option_get('media_description', $params['module_id']) ?></textarea>
+<span class="mw_sidebar_module_box_title">Gallery settings</span>
+<div class="mw_admin_rounded_box">
+  <div class="mw_admin_box_padding">
+    <table width="100%" border="0" cellspacing="4" cellpadding="0">
+      <tr>
+        <td colspan="2"><label>Title</label>
+          <input name="media_name" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('media_name', $params['module_id']) ?>" />
+          <!--           <input  value="<?php print option_get('media_name', $params['module_id']) ?>" />
+                 --></td>
+      </tr>
+      <tr>
+        <td colspan="2"><label>Description</label>
+          <textarea name="media_description" cols=""  class="mw_option_field" refresh_modules="media/gallery"   option_group="<? print $params['module_id'] ?>" rows="2"><?php print option_get('media_description', $params['module_id']) ?></textarea></td>
+      </tr>
+      <tr>
+        <td><label>Skin</label></td>
+        <td><select name="skin" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
+            <option value="'" <? if( trim(option_get('skin', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >None</option>
+            <option value="1" <? if( option_get('skin', $params['module_id']) == '1') : ?>  selected="selected" <? endif; ?> >1</option>
+            <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >2</option>
+            <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >3</option>
+          </select></td>
+      </tr>
+      <tr>
+        <td><label>Thumbnail size</label></td>
+        <td><select name="tn_size" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
+            <option value="60" <? if( trim(option_get('tn_size', $params['module_id'])) == '60') : ?>  selected="selected" <? endif; ?> >60px</option>
+            <option value="90" <? if( option_get('tn_size', $params['module_id']) == '90') : ?>  selected="selected" <? endif; ?> >90px</option>
+            <option value="120" <? if( option_get('tn_size', $params['module_id']) == '120') : ?>  selected="selected" <? endif; ?> >120px</option>
+            <option value="250" <? if( option_get('tn_size', $params['module_id']) == '250') : ?>  selected="selected" <? endif; ?> >250px</option>
+          </select></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
     <div style="display:none;">
       <label>Type</label>
       <select name="media_type">
@@ -415,10 +436,8 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
     <b>Original link:</b>
     <textarea name="original_link" cols="" style="width: 200px;" rows="2"><?php print $pic['original_link'] ?></textarea>
     <? endif; ?>
-    <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
-    <input name="save"  class="mw_form_button" type="button" onclick="save_media_item<? print $rand ;?>()" value="Save" />
-    <input name="close"    type="button" onclick="save_media_close<? print $rand ;?>()" value="Close" />
- 
+  </div>
+</div>
 <? if($params['quick_edit'] and $params['module_id']) :   ?>
 <?
  
@@ -475,17 +494,15 @@ function media_pics_showResponse<? print $rand ;?>(responseText, statusText)  {
 function save_media_close<? print $rand ;?>()  { 
 
 
-	 $('#mw_media_edit_<? print $rand ;?>').fadeOut();
+	 $('.mw_media_edit_<? print $rand ;?>').fadeOut();
 	 
 }
 
 </script>
- 
-    <!-- <tr>
+<!-- <tr>
                   <td><h4>Filename: <?php print character_limiter( $pic['filename'], 10) ?></h4>
                     </td>
                 </tr>-->
-    
 <? endif; ?>
 <div class="embed_media" id="video_embed_media" style="display: none">
   <h4>Add media by url or embed code: </h4>
@@ -515,7 +532,7 @@ function save_media_close<? print $rand ;?>()  {
   <div class="c" style="padding-bottom: 20px;">&nbsp;</div>
   <input class="btn" type="button" name="save" value="save" onclick="upload_by_embed<? print $rand ?>()" />
   <input class="btn" type="button" name="refresh" value="refresh" onclick="call_media_manager<? print $rand ?>();" />
-<script type="text/javascript">
+  <script type="text/javascript">
         $(document).ready(function() {
           	 if($("#embed_code").val()!=''){
                   parse_embeds();

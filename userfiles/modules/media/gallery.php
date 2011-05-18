@@ -1,4 +1,3 @@
- 
 <?
   $id = $params['content_id'];
   $for = $params['for'];
@@ -15,13 +14,22 @@
 	$media_type = 'picture';  
   }
   
+  
+  
+  
+ 
+  
    if($size == false){
+	  $size =  option_get('tn_size', $params['module_id']);
+ 
+  }
+  if(intval($size) == 0){
 	  $size = 120;
  
   }
-
   ?>
-  
+<?php // print option_get('tn_size', $params['module_id']) ?>
+
 <h3 class="mw_gallery_title"><?php print option_get('media_name', $params['module_id']) ?></h3>
 <div class="mw_gallery_description"><?php print option_get('media_description', $params['module_id']) ?></div>
 <?
@@ -36,31 +44,21 @@ $media1 = CI::model ( 'core' )->mediaGet($to_table = false, $to_table_id = false
 $media = $media1;
 
 ?>
-
-
 <?php if(empty($media1)  ): ?>
-
 Gallery is empty
 <?php else : ?>
- 
- 
- <? if(trim($skin) =='' or $skin == '1'): ?>
- 
-   
-    <?php $i = 1; if(!empty($media1)): ?>
-    <?php foreach($media1 as $pic): ?>
-    <?php $thumb =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], $size);
+<? if(trim($skin) =='' or $skin == '1'): ?>
+<?php $i = 1; if(!empty($media1)): ?>
+<?php foreach($media1 as $pic): ?>
+<?php $thumb =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], $size);
 	 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
 //p($thumb);
 ?>
-    <a href="<? print  $orig; ?>"  title="<?php print addslashes($pic['media_name']); ?>"  alt="<?php print addslashes($pic['media_description']); ?>" > <img src="<? print  $thumb; ?>" /></a> 
-    <?php $i++; endforeach; ?>
-    <?php endif; ?>
-    
-    
-    <?php else : ?>
-    
-    <?
+<a href="<? print  $orig; ?>"  title="<?php print addslashes($pic['media_name']); ?>"  alt="<?php print addslashes($pic['media_description']); ?>" > <img src="<? print  $thumb; ?>" /></a>
+<?php $i++; endforeach; ?>
+<?php endif; ?>
+<?php else : ?>
+<?
 	
 	
 	$skin_file = dirname(__FILE__).'/skins/'.$skin.'.php';
@@ -68,17 +66,8 @@ Gallery is empty
 	
 	$skins_url =dirToURL(dirname(__FILE__).'/skins/').'/';
 	?>
-     <?  if(is_file($skin_file)): ?>
-    
-    <?  include($skin_file); ?>
-     <?php endif; ?>
- <?php endif; ?>
- 
- 
- 
- 
-
+<?  if(is_file($skin_file)): ?>
+<?  include($skin_file); ?>
 <?php endif; ?>
-
-
-
+<?php endif; ?>
+<?php endif; ?>

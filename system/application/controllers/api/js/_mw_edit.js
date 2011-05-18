@@ -210,9 +210,22 @@ $('.edit .module').live('hover',function() {
 //});
 
 
-$('.edit .module *:not(.mw_mod_wrap)').live('click',function(event) {
+//$('.edit .module *:not(.mw_mod_wrap)').live('click',function(event) {
+$('.module, .module *').die("click");
+$('.module, .module *').live('click',function(event) {
 //	mw_make_editables()
 	
+	
+	
+	
+	
+$is_sidebar =	$(this).parents('#admin_sidebar').length;
+$is_toolbarr =	$(this).parents('#mw_toolbar').length;
+
+
+//	alert($is_sidebar);
+	
+	if($is_sidebar ==0 && $is_toolbarr ==0){
 	if(  $(this).hasClass('.module')){
 	alert("hasClass('.module') ??? ");	
 	}
@@ -223,15 +236,47 @@ $('.edit .module *:not(.mw_mod_wrap)').live('click',function(event) {
 	//$(this).focus();
 	//restoreCaretPos();
 	//setCaretPos(startNodeIndex, endNodeIndex, start, end)
-	
-	
-	//items: '*:not(.mw_mod_wrap)',
-	  //event.preventDefault(); // this prevents the original href of the link from being opened
-//	 event.stopPropigation(); // this prevents the click from triggering click events up the DOM from this element
-	//init_edits()
-	//event.preventDefault();
-});
 
+    mod_id112= $(this).attr('module_id');    
+  mod_name= $(this).attr('mw_params_module');    
+   
+ if(mod_id112 == undefined   ){
+ 	    mod_id112= $(this).parents('.module').attr('module_id');    
+		     mod_name= $(this).parents('.module').attr('mw_params_module');    
+			 // alert(mod_id112);
+ }
+
+//    if(mod_name != 'content/text'){
+ //$(this).disableSelection();
+//   } 
+// alert(mod_id112);
+	if(mod_id112 != undefined  ){
+load_edit_module_by_module_id(mod_id112);
+	}
+	// return false;  
+	 
+	 
+	
+	init_edits()
+	//items: '*:not(.mw_mod_wrap)',
+	 event.preventDefault(); // this prevents the original href of the link from being opened
+	// event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+	return false;
+	//init_edits()
+	
+	
+	
+	
+	
+	}
+	
+	
+	
+});
+$('.module, .module *', '#admin_sidebar').die("click");
+
+
+$('#admin_sidebar').die("mouseenter");
 $('#admin_sidebar').live('mouseenter',function() {
 //	mw_make_editables()
 	  window.mw_sortables_created = false;
@@ -281,9 +326,9 @@ $('.edit *:not(.module)').live('click',function(event) {
 	
 	//$(this).parentsUntil('.edit').attr('contentEditable', true);	
 	
-	
+	if (window.console != undefined) {
 	console.log('Making CE'+is+$(this).attr('class'));	
-	
+	}
 	$ce =   $(this).attr('contentEditable');	
 	if($ce  == false){
 		$(this).attr('contentEditable', true);	
@@ -317,8 +362,8 @@ $('.edit *:not(.module)').live('click',function(event) {
 	
 	  //event.preventDefault(); // this prevents the original href of the link from being opened
  //event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-	
-	
+//	 window.mw_sortables_created = false;
+	//init_edits()
 	
 	
 });
@@ -329,7 +374,41 @@ $('.edit *:not(.module)').live('click',function(event) {
 function mw_resize_admin_sidebar(){
 	 var h1 = $(window).height();
 	 var h2 = $('#mw_toolbar').height();
-	 $('#admin_sidebar').height(h1-h2-20);	
+	 $('#admin_sidebar').height(h1-h2);	
+	 
+	 
+	 var h3 = $('.mw_iframe_header').height();
+	// var h4 = $('#admin_sidebar').height(); 
+	 $('.mw_edit_module_settings_iframe').height(h1-(h3));	
+	 
+	 
+
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+			
+			
+	 
+	 
 	//
 }
 
@@ -374,7 +453,7 @@ function init_edits(){
 	$('.edit .module' ).attr('contentEditable', false);
 	$('".edit .module *' ).attr('contentEditable', false);
 
-	$( ".module" ,window.mw_editables_on_page ).disableSelection();
+	$( ".module" ,'.edit' ).disableSelection();
 	bind_module_edit_iframe_click()
 //	window.mw_sortables_created = false;
 	if( window.mw_sortables_created == false && window.mw_drag_started == false){
@@ -410,12 +489,12 @@ function init_edits(){
 	 
 	 
 	 var sort_opts = {
-				forcePlaceholderSize: true,
-			//	forceHelperSize : true ,
-				tolerance: 'pointer',
-				//tolerance: 'intersect',
+				//forcePlaceholderSize: true,
+				forceHelperSize : true ,
+				//tolerance: 'pointer',
+				tolerance: 'intersect',
 			   //cancel: '.module > * :not(:has(.module)) ',
-			  // cancel: '.mw_mod_wrap',
+			    //cancel: '.mw_mod_wrap',
 				placeholder: "to_here_drop",
 				create:function(){
 							      
@@ -483,7 +562,7 @@ function init_edits(){
 							        	if (ui.item.hasClass("mw_mod_wrap")) {
 							                // This is a new item
 							               // ui.item.remove();;
-							            ui.item.html("<b>HI mw_mod_wrap bug in mw_edit.js see there :) set 	items: '*:not(.mw_mod_wrap)', in the sortable</b>");
+							            ui.item.html("<b>HI mw_mod_wrap bug in mw_edit.js see there.... ??? maybe threre is setting of - 	items: '*:not(.mw_mod_wrap)' -, in the init_edits</b>");
 							            }
 					
 							        	
@@ -492,6 +571,7 @@ function init_edits(){
 							        	},
 		        
 				  start: function(event, ui) { 
+							        		mw_remove_editables();
 							      /*  		   var list=this;
 										       
 										         list_has = list.className;
@@ -579,7 +659,9 @@ function init_edits(){
 tempArray=new Array(); 
 	for (var ed=0;ed<length123; ed++) {  
 		$edit_field_id = $edit_fields[ed].id;
+		if (window.console != undefined) {
 		console.log($edit_field_id);
+		}
 	//	$selects1 = $selects1 +  ', #'+$edit_field_id 
 		tempArray[ed]='#'+$edit_field_id;
 		$( '#'+$edit_field_id).sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
@@ -693,27 +775,23 @@ tempArray=new Array();
 
 function bind_module_edit_iframe_click(){
 	
-	$(".module, .edit .module *", '.edit').die("mouseup");
-	$('.module, .edit .module *', '.edit').live('mouseup', function(event) {
+	//$(".module, .edit .module *", '.edit').die("mouseup");
+	//$('.module, .edit .module *', '.edit').live('mouseup', function(event) {
+	
+	
+	//$(".module").not($("#admin_sidebar .module")).die("mouseup");
+//	$(".module").not($("#admin_sidebar .module")).live('mouseup', function(event) {
+	$(".module, .module *").die("mouseup");
+	$('.module, .module *').live('mouseup', function(event) {
+		//$(".module > a").attr('href');
 	// mw.outline.remove('.module');
 	if(window.saving ==false){
 	// return false;	
 	}
 		//event.preventDefault();
 	
-	
-	
-	
-	
-	
-	
-	
 	if(window.mw_drag_started == false){
-		
-
 		 	init_edits()
-	 	
-	 
 	}
 	
 	
@@ -767,8 +845,14 @@ function bind_module_edit_iframe_click(){
 			// return false;	
 		  
 		});
+	
+	
+	$(".module, .module *", '#admin_sidebar').die("mouseup");
+	
+	
+	
 }
-
+var copyHelper= null;
 function mw_sidebar_make_sortables(){
 	var copyHelper= null;
 	$(".sortable_modules").sortable({
@@ -780,7 +864,7 @@ function mw_sidebar_make_sortables(){
 	forcePlaceholderSize: true,
 	forceHelperSize : true ,
 	tolerance: 'pointer',
-  
+  //
 	placeholder: "to_here_drop",
  
 	
@@ -1166,7 +1250,7 @@ $(document).ready(function() {
 		  });
 
 	
-	init_edits()
+	//init_edits()
 	 
 	
 //	$(document).bind('keydown', 'ctrl+z', mw_click_on_history_prev);
@@ -1213,12 +1297,32 @@ $(window).load(function(){
 
 var $curent_edit_element_id
 
-function mw_delete_module_by_id($id){
+function mw_delete_module_by_id($id, $ask){
+	$del = true;
+	if($ask != undefined){
 	
+	var r=confirm("Are you sure you want to delete this module?");
+	if (r==true)
+	  {
+		$del = true;
+	  }
+	else
+	  {
+		$del = false;
+	  }
+	} else {
+		$del = true;
+	}
+	
+	
+	
+	
+	if ($del==true){
 	  var $module_by_id  =   $id;
       //alert($module_by_id); 
        $module_by_id  =$("div[module_id='"+$module_by_id+"']"); 
       $module_by_id.remove();
+	}
 }
 window.mw_modules_info_cache = new Array();
 
@@ -1328,6 +1432,7 @@ function load_edit_module_by_module_id($the_module_id) {
 		   $('#mw_edit_module_iframe_'+id).show();
 		  // call_edit_module_ajax($url, id, module_name_original);
 		   call_edit_module_ajax(id, module_name_original);
+		   mw_resize_admin_sidebar()
 	   }  
 	  
 
@@ -1525,182 +1630,183 @@ function dummy_request(){
 }
 
 function call_edit_module_ajax(id, module_name_original) {
- if(id != undefined){
-	//url = url + 'element_id:'+id;
-	$curent_edit_element_id=id;
- }
- 
- 
- 
- 
- //$url = '<? print site_url("api/module") ?>/:'+edit+'/page_id:'+page_id+'/post_id:'+post_id+'/category_id:'+category_id+'/'+'module_to_edit:'+module_name+'/';
-
- 
-
- 
- // alert(url);
-/*
- * $("#mw_edit_module_iframe").attr('src', url);
- * $("#mw_edit_module_iframe").attr("src") =url;
- * $("#mw_edit_module_iframe").load();
- */
- 
- 
-// $fr = window.frames['mw_edit_module_iframe'];
-// $fr.clone().attr('id', 'mw_edit_module_iframe_' + id);
-	
- 
- 
- $el = document.getElementById('mw_edit_module_iframe_'+id);
- mw_sidebar_nav('#mw_sidebar_module_edit_holder');
- $(".mw_edit_module_iframe").hide();
- if ( $el == undefined){
-	 
-	// module_name_original
-	 $('<div>', {
-		 className: 'mw_edit_module_iframe',
-		    id:   'mw_edit_module_settings_'+id 
-		     
-		   
-		}).appendTo('#mw_sidebar_module_edit_holder');
-	 
-	 
-
-	 
-	 
-	 $('<div>', {
-		  
-		  className: 'mw_edit_module_settings_header',
-		    id:   'mw_edit_module_info_'+id
-		   
-		   
-		}).appendTo('#mw_edit_module_settings_'+id);
-	 
-	 
-	 $('<div />', {
-		    name:  'mw_edit_module_iframe_'+id,
-		 // className: 'mw_edit_module_iframe',
-		    className: 'mw_edit_module_settings_iframe',
-		    id:   'mw_edit_module_iframe_'+id
-		    //borderWidth :0,
-		   // src:  url
-		   
-		}).appendTo('#mw_edit_module_settings_'+id);
-	 document.getElementById('mw_edit_module_iframe_'+id).style.borderWidth = 0;
-	 document.getElementById('mw_edit_module_iframe_'+id).setAttribute('frameborder', 0);
-	 
-	 
-	 data1 = {}
-	   data1.module = 'admin/mics/module_info';
-	    data1.module_info = module_name_original;
-	   $.ajax({
-	  url: '<? print site_url('api/module') ?>',
-	   type: "POST",
-	      data: data1,
-
-	      async:true,
-
-	  success: function(resp) {
-
-	   $('#mw_edit_module_settings_'+id).prepend(resp);
-
-	 
-
-	  }
-	    });
-	   
-	 	 page_id = $("#mw_edit_page_id").val();
-		 post_id = $("#mw_edit_post_id").val();
-		 category_id = $("#mw_edit_category_id").val();
- 
-			data1 = {}
-		   data1.module = 'admin/'+module_name_original;
-		   data1.page_id =page_id;
-		   data1.post_id = post_id
-		   
-		   data1.category_id =category_id;
-		   data1.element_id = id;
-		   data1.module_id = id;
-		// data1.type =  $("#media_type").val();
-			
-		  $('#mw_edit_module_iframe_'+id).load('<? print site_url('api/module') ?>',data1);
-	   
-//		data1 = {}
-//		   data1.module = 'admin/'+module_name_original;
-//		   data1.page_id = '<? print intval(PAGE_ID) ?>';
-//		   data1.post_id = '<? print intval(POST_ID) ?>';
-//		   
-//		   data1.category_id = '<? print intval(CATEGORY_ID) ?>';
-//		   data1.element_id = id;
-//		   data1.module_id = id;
-//		  
-//		   $.ajax({
-//		  url: "<? print site_url('api/module') ?>",
-//		   type: "POST",
-//		      data: data1,
-//
-//		      async:false,
-//
-//		  success: function(resp) {
-//
-//			   $('#mw_edit_module_iframe_'+id).html(resp);
-//			   
-//			   
-//			   dummy_request()
-//		
-//			   
-//
-//		  }
-//		    }); 
-	   
-	   
-	   
-	 
-	 
-	   $('#mw_edit_module_settings_'+id ).show();
-	 
-	 $('#mw_edit_module_settings_'+id).addClass('mw_edit_module_iframe');
-	} else {
-		// $('#mw_edit_module_iframe_'+id).attr("src") =url;
-		 //$('#mw_edit_module_iframe_'+id).show();
-		$('#mw_edit_module_settings_'+id ).show();
-		
-	}
-
- 
-/*
- * var height=window.innerWidth;//Firefox if (document.body.clientHeight) {
- * height=document.body.clientHeight;//IE } //resize the iframe according to the
- * size of the //window (all these should be on the same line)
- * document.getElementById('mw_edit_module_iframe_'+id).style.height=parseInt(height-document.getElementById('admin_sidebar').offsetTop-8)+"px";
- */
- 
- //$('#mw_edit_module_iframe_'+id).height($("#admin_sidebar").height());
-	
- $('#mw_edit_module_iframe_'+id).show();
- 
-
-
- 
- 
- 
- 
- 
- 
-/*
- * if(window.frames['mw_edit_module_iframe'].location != url){ if
- * (navigator.appName == 'Microsoft Internet Explorer') {
- * window.frames['mw_edit_module_iframe'].document.execCommand('Stop'); } else {
- * window.frames['mw_edit_module_iframe'].stop(); }
- * 
- * window.frames['mw_edit_module_iframe'].location = url;
- *  }
- */
-
- 
-// window.frames['mw_edit_module_iframe_' + id].location = url;
-		// var call_iframe = mw.modal.iframe({src:url, width:700, overlay:true,
-		// height:500, id:"module_edit_iframe"});
+				 if(id != undefined){
+					//url = url + 'element_id:'+id;
+					$curent_edit_element_id=id;
+				 }
+				 
+				 
+				 
+				 
+				 //$url = '<? print site_url("api/module") ?>/:'+edit+'/page_id:'+page_id+'/post_id:'+post_id+'/category_id:'+category_id+'/'+'module_to_edit:'+module_name+'/';
+				
+				 
+				
+				 
+				 // alert(url);
+				/*
+				 * $("#mw_edit_module_iframe").attr('src', url);
+				 * $("#mw_edit_module_iframe").attr("src") =url;
+				 * $("#mw_edit_module_iframe").load();
+				 */
+				 
+				 
+				// $fr = window.frames['mw_edit_module_iframe'];
+				// $fr.clone().attr('id', 'mw_edit_module_iframe_' + id);
+					
+				 
+				 
+				 $el = document.getElementById('mw_edit_module_iframe_'+id);
+				 mw_sidebar_nav('#mw_sidebar_module_edit_holder');
+				 $(".mw_edit_module_iframe").hide();
+				 if ( $el == undefined){
+					 
+					// module_name_original
+					 $('<div>', {
+						 'class': 'mw_edit_module_iframe',
+						    id:   'mw_edit_module_settings_'+id 
+						     
+						   
+						}).appendTo('#mw_sidebar_module_edit_holder');
+					 
+					 
+				
+					 
+					 
+					 $('<div>', {
+						  
+						  'class': 'mw_edit_module_settings_header',
+						    id:   'mw_edit_module_info_'+id
+						   
+						   
+						}).appendTo('#mw_edit_module_settings_'+id);
+					 
+					 
+					 $('<div />', {
+						    name:  'mw_edit_module_iframe_'+id,
+						 // className: 'mw_edit_module_iframe',
+						    'class': 'mw_edit_module_settings_iframe',
+						    id:   'mw_edit_module_iframe_'+id
+						    //borderWidth :0,
+						   // src:  url
+						   
+						}).appendTo('#mw_edit_module_settings_'+id);
+					 document.getElementById('mw_edit_module_iframe_'+id).style.borderWidth = 0;
+					 document.getElementById('mw_edit_module_iframe_'+id).setAttribute('frameborder', 0);
+					 
+					 
+					 data1 = {}
+					   data1.module = 'admin/mics/module_info';
+					    data1.module_info = module_name_original;
+					    data1.module_id = id;
+					   $.ajax({
+					  url: '<? print site_url('api/module') ?>',
+					   type: "POST",
+					      data: data1,
+				
+					      async:true,
+				
+					  success: function(resp) {
+				
+					   $('#mw_edit_module_settings_'+id).prepend(resp);
+				
+					 
+				
+					  }
+					    });
+					   
+					 	 page_id = $("#mw_edit_page_id").val();
+						 post_id = $("#mw_edit_post_id").val();
+						 category_id = $("#mw_edit_category_id").val();
+				 
+							data1 = {}
+						   data1.module = 'admin/'+module_name_original;
+						   data1.page_id =page_id;
+						   data1.post_id = post_id
+						   
+						   data1.category_id =category_id;
+						   data1.element_id = id;
+						   data1.module_id = id;
+						// data1.type =  $("#media_type").val();
+							
+						  $('#mw_edit_module_iframe_'+id).load('<? print site_url('api/module') ?>',data1);
+					   
+				//		data1 = {}
+				//		   data1.module = 'admin/'+module_name_original;
+				//		   data1.page_id = '<? print intval(PAGE_ID) ?>';
+				//		   data1.post_id = '<? print intval(POST_ID) ?>';
+				//		   
+				//		   data1.category_id = '<? print intval(CATEGORY_ID) ?>';
+				//		   data1.element_id = id;
+				//		   data1.module_id = id;
+				//		  
+				//		   $.ajax({
+				//		  url: "<? print site_url('api/module') ?>",
+				//		   type: "POST",
+				//		      data: data1,
+				//
+				//		      async:false,
+				//
+				//		  success: function(resp) {
+				//
+				//			   $('#mw_edit_module_iframe_'+id).html(resp);
+				//			   
+				//			   
+				//			   dummy_request()
+				//		
+				//			   
+				//
+				//		  }
+				//		    }); 
+					   
+					   
+					   
+					 
+					 
+					   $('#mw_edit_module_settings_'+id ).show();
+					 
+					 $('#mw_edit_module_settings_'+id).addClass('mw_edit_module_iframe');
+					} else {
+						// $('#mw_edit_module_iframe_'+id).attr("src") =url;
+						 //$('#mw_edit_module_iframe_'+id).show();
+						$('#mw_edit_module_settings_'+id ).show();
+						
+					}
+				
+				 
+				/*
+				 * var height=window.innerWidth;//Firefox if (document.body.clientHeight) {
+				 * height=document.body.clientHeight;//IE } //resize the iframe according to the
+				 * size of the //window (all these should be on the same line)
+				 * document.getElementById('mw_edit_module_iframe_'+id).style.height=parseInt(height-document.getElementById('admin_sidebar').offsetTop-8)+"px";
+				 */
+				 
+				 //$('#mw_edit_module_iframe_'+id).height($("#admin_sidebar").height());
+					
+				 $('#mw_edit_module_iframe_'+id).show();
+				 
+				
+				
+				 
+				 
+				 
+				 
+				 
+				 
+				/*
+				 * if(window.frames['mw_edit_module_iframe'].location != url){ if
+				 * (navigator.appName == 'Microsoft Internet Explorer') {
+				 * window.frames['mw_edit_module_iframe'].document.execCommand('Stop'); } else {
+				 * window.frames['mw_edit_module_iframe'].stop(); }
+				 * 
+				 * window.frames['mw_edit_module_iframe'].location = url;
+				 *  }
+				 */
+				
+				 
+				// window.frames['mw_edit_module_iframe_' + id].location = url;
+						// var call_iframe = mw.modal.iframe({src:url, width:700, overlay:true,
+						// height:500, id:"module_edit_iframe"});
 
 }
 

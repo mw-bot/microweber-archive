@@ -85,8 +85,8 @@
  
 .mw_mod_wrap_main {
 	cursor:move;
-	border:dashed #CCC 1px;
-	background-color: #FF9;
+	border:dashed #FF9 1px;
+	/*background-color: #FF9;*/
 	/*border:dashed #CCC 1px;*/
 }
 .to_here {
@@ -98,15 +98,18 @@ outline:none;
 .to_here_drop {
 	/*
 	min-width:100px;*/
-	border:dashed #CCC 1px;
-	min-height:10px;
+	border:dashed #5eaceb 1px;
+	height:50px;
 	/*	margin-left:3px;*/
 	background-color: ;
 	/*margin:3px;
 	display:inline-block; */
+	width:80px;
+	display:block;
 	background-image: url(../img/drop.png);
 	background-repeat: no-repeat;
 	background-position: right bottom;	 
+	background-color:#FFFF9B;
 	
 	/*	*/
 }
@@ -167,8 +170,31 @@ padding-right:15px;
 
 .mw_edit_module_settings_iframe{
 border:0px;
-margin:0px;
-padding:0px;
+ height:500px;
+padding:10px;
+width:265px;
+overflow:scroll;
+/*overflow: scroll;
+overflow-x: hidden;
+ -ms-overflow-x: hidden;
+ 
+ 	scrollbar-face-color: #8AB200;
+scrollbar-shadow-color: #FFFFFF;
+scrollbar-highlight-color: #FFFFFF;
+scrollbar-3dlight-color:#53670D;
+scrollbar-darkshadow-color: #53670D;
+scrollbar-track-color: #D4E597;
+scrollbar-arrow-color: #53670D;*/ 
+    scrollbar-face-color: #808080; /*/ obviously change this to whatever you want /*/
+    scrollbar-arrow-color: #FFFFFF;
+    scrollbar-highlight-color: #FFFBF0;
+    scrollbar-3dlight-color: #808080;
+    scrollbar-shadow-color: #FFFBF0;
+    scrollbar-darkshadow-color: #808080;
+    scrollbar-track-color: #CCCCCC;
+
+
+
 }
 
 .mw_iframe_sub_header{
@@ -224,6 +250,20 @@ background-color:;
     
     width: 72px;
 }
+
+a.mw_nav_button_delete{
+	width: 12px;
+	height: 12px;
+	float: left;
+	display: inline;
+	margin-left: 5px;
+	margin-top: 9px;
+	background-attachment: scroll;
+	background-color: transparent;
+	background-image: url(../img/1305917864_delete.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
 .mw_nav_button_blue_small span {
     font-size: 11px;
     left: 21px;
@@ -243,46 +283,46 @@ background-color:;
 
 }
 
-.quick_edit .gallery_module_sortable_pics{
+.gallery_module_sortable_pics{
 
  padding:0px;
 	
 }
  
-.quick_edit .gallery_module_sortable_pics li{
+.gallery_module_sortable_pics li{
   margin-right: 1px;
   border: 2px solid #EFEFEF;
   cursor: move;
   padding: 0px;
- 
+  
 }
 
 
 
 
-.quick_edit .gallery_module_sortable_pics li:hover{
+.gallery_module_sortable_pics li:hover{
   border: 2px solid #e3c470;
 }
 
 
-.quick_edit .gallery_module_sortable_pics li{
+.gallery_module_sortable_pics li{
   list-style: none;
   float: left;
   height:60px;
-  width:80px;
+  width:75px;
    display:inline;
    background-color:#000;
    
 }
 
-.quick_edit .gallery_module_sortable_pics li img{
+.gallery_module_sortable_pics li img{
 	height:60px;
  
  text-align: center;
 	vertical-align: middle;
 }
 
-.quick_edit .gallery_module_sortable_pics{
+.gallery_module_sortable_pics{
   overflow: hidden;
   zoom:1;
  }
@@ -290,14 +330,22 @@ background-color:;
  
 .mw_admin_rounded_box {
 	background-color: #f7f7f7;
-	width: 95%;
+	width: 100%;
 
 	border: 1px solid #bbbbbb;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	behavior: url("../img/border-radius.htc");
+	margin-bottom:10px;
 }
+
+.mw_admin_rounded_box hr{
+	height:1px;
+	color:#bbbbbb;
+	background-color:#bbbbbb;
+}
+
 
 .mw_admin_rounded_box label{
 	color:#2d5e88;
@@ -318,6 +366,18 @@ padding:3px;
 	behavior: url("../img/border-radius.htc");
 }
 
+
+.mw_admin_rounded_box select{
+	 	width: 95%;
+height:25px;
+padding:1px;
+	border: 1px solid #bbbbbb;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url("../img/border-radius.htc");
+}
+
 .mw_admin_rounded_box textarea{
  	width: 95%;
 height:50px;
@@ -330,22 +390,24 @@ padding:3px;
 }
 
 .mw_admin_rounded_box input[type="button"], .mw_admin_rounded_box input[type="submit"],.mw_admin_rounded_box input[type="reset"]{
-	min-width: 20px;;
-	width: 50px;;
-height:25px;
-line-height:25px;
- margin-top:5px;
-color:#3D556B;
-cursor:pointer;
+	min-width: 20px;
+ 
+	width: 50px;
+ 
+	height:25px;
+	margin-top:5px;
+	color:#3D556B;
+	cursor:pointer;
 	border: 1px solid #bbbbbb;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	behavior: url("../img/border-radius.htc");
-	padding-bottom:3px;
-	 background-image: url("../img/toolbar/bg2.jpg");
-    background-repeat: repeat-x;
-
+	background-image: url("../img/toolbar/bg2.jpg");
+	background-repeat: repeat-x;
+	font-size: 12px;
+	text-decoration: none;
+	display: inline-block;
 }
 
 .mw_admin_box_padding {

@@ -888,17 +888,15 @@ class Content extends Controller {
 							$html_to_save = str_replace ( 'sizset=""', '', $html_to_save );
 							$html_to_save = str_replace ( 'sizcache=""', '', $html_to_save );
 							
-							
 							$html_to_save = str_replace ( 'sizcache sizset', '', $html_to_save );
-							
-							
-							 
-							
+							$html_to_save = str_replace ( ' <p   >', ' <p>', $html_to_save );
 							
 							//sizcache="14533" sizset="40"
 							
+
 							//	$html_to_save = preg_replace ( "#*sizcache=\"[^0-9]\"#", '', $html_to_save );
 							
+
 							//$html_to_save = str_replace ( 'Z-INDEX: 5000;', '', $html_to_save );
 							
 
