@@ -68,60 +68,44 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
       <br />
       <br />
       <br />
-      <div class="mw_box mw_box_closed">
-        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-          <h3>Layout and category</h3>
-        </div>
-        <div class="mw_box_content">
-          <mw module="admin/pages/layout_and_category" id="<? print $form_values['id'] ?>"   />
-        </div>
-      </div>
-      <div class="mw_box mw_box_closed">
-        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-          <h3>Advanced options</h3>
-        </div>
-        <div class="mw_box_content">
-          <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" for="page"  />
-        </div>
-      </div>
-      
-      <div class="mw_box mw_box_closed">
-        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-          <h3>Media</h3>
-        </div>
-        <div class="mw_box_content">
-          <mw module="admin/media/gallery" page_id="<? print $form_values['id'] ?>" for="page"  />
-        </div>
-      </div>
-      
-      
-      
-      <div class="mw_box mw_box_closed">
-        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-          <h3>Meta tags</h3>
-        </div>
-        <div class="mw_box_content">
-          <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
-        </div>
-      </div>
-      <div class="mw_box mw_box_closed">
-        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-          <h3>Menus</h3>
-        </div>
-        <div class="mw_box_content">
-          <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
+      <div id="orders_tabs" class="mw_box">
+        <div class="mw_box_tab_content">
+          <div class="shop_nav_main">
+            <h2 class="box_title">Options</h2>
+            <ul class="shop_nav">
+              <li><a href="#tab=fragment-1"><img src="<? print $url_to_module_static ; ?>page_white_stack.png"  height="16" align="bottom" /><span>Layout and category</span></a></li>
+              <li><a href="#tab=fragment-2"><img src="<? print $url_to_module_static ; ?>images.png"  height="16" align="bottom" /><span>Media</span></a></li>
+              <li><a href="#tab=fragment-3"><img src="<? print $url_to_module_static ; ?>pencil.png"  height="16" align="bottom" /><span>Custom Fields</span></a></li>
+              <li><a href="#tab=fragment-4"><img src="<? print $url_to_module_static ; ?>world.png"  height="16" align="bottom" /><span>Meta tags</span></a></li>
+              <li><a href="#tab=fragment-5"><img src="<? print $url_to_module_static ; ?>link.png"  height="16" align="bottom" /><span>Menus</span></a></li>
+              <li><a href="#tab=fragment-6"><img src="<? print $url_to_module_static ; ?>cog.png"  height="16" align="bottom" /><span>Advanced options</span></a></li>
+            </ul>
+          </div>
+          <div id="tabs">
+            <div id="fragment-1" class="tab">
+             
+              <mw module="admin/pages/page_template" id="<? print $form_values['id'] ?>"   />
+            </div>
+            <div id="fragment-2" class="tab">
+              <mw module="admin/media/gallery" page_id="<? print $form_values['id'] ?>" for="page"  />
+            </div>
+            <div id="fragment-3" class="tab">
+             <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
+               <div id="post_custom_fields"></div>
+            </div>
+            <div id="fragment-4" class="tab">
+             <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
+            </div>
+            <div id="fragment-5" class="tab">
+              <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
+            </div>
+            <div id="fragment-6" class="tab">
+              <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
+            </div>
+          </div>
         </div>
       </div>
-      
-      
-      <div class="mw_box mw_box_closed">
-        <div class="mw_box_header"> <span class="mw_boxctrl"> Open </span>
-          <h3>Custom Fields</h3>
-        </div>
-        <div class="mw_box_content">
-          <mw module="admin/content/custom_fields_creator" page_id="<? print $form_values['id'] ?>" />
-        </div>
-      </div>
+       
     </form>
   </div>
 </div>

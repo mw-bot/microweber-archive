@@ -16,6 +16,23 @@
               $cat_edit_link .= '<samp class="inline_add_sub" onclick="edit_category_dialog(0,{id})">Add sub category</samp>';
               $cat_edit_link .= '<samp class="inline_del" onclick="delete_category({id})">Delete Category</samp></div>';
               $cat_edit_link .= '</div>';
+			  
+			  
+			  $url  =  '<div class="field" id="page_list_{id}"><div class="field_ctrl">';
+
+    //$url .=  '<a href="'.ADMIN_URL .'action:page_edit/id:{id}">{content_title}</a>';
+    $url .=  '<a class="fiedl_edit" href="'.ADMIN_URL .'/action:page_edit/id:{id}">Edit page</a>';
+    $url .=  '<a class="fiedl_visit_page" href="{link}/editmode:y">Visit page</a>';
+    $url .=  '<a class="fiedl_add_sub_page" href="'.ADMIN_URL .'/action:page_edit/id:0/content_parent:{id}">Add subpage</a>';
+	//$url .=  '<a class="fiedl_add_sub_page" href="'.ADMIN_URL .'/action:toolbar_fs/page_id:{id}">iframe</a>';
+    $url .=  '<a class="fiedl_delete_page"  href="javascript: del_page_confirm({id})">Delete page</a>';
+    $url .= '</div>';
+    $url .= '<h2><span class="field_ctrl_plus"></span><a href="#">{taxonomy_value}</a></h2>';
+    $url .= '</div>';
+	 $cat_edit_link = $url;
+	
+	
+	
 
 
 $cat_edit_link2 = base64_encode(($cat_edit_link));
@@ -41,6 +58,9 @@ function update_category_list(){
    data1.module = 'admin/content/category_selector';
    data1.update_field = "#cat_list_select" ;
    data1.sortable = 'yes' ;
+   
+   data1.holder_class_name= 'mw_admin_categories';
+   data1.ul_class_name= 'mw_admin_categories';
    data1.link_base64 = "<? print $cat_edit_link2  ?>" ;
     
 	
@@ -146,37 +166,62 @@ function edit_category_dialog( $category_id, $parent_cat){
 	     
 	   
    }
-    
-	
-   $.ajax({
-  url: '<? print site_url('api/module') ?>',
-   type: "POST",
-      data: data1,
-
-      async:false,
-
-  success: function(resp) {
-
-
-
-   mw.modal.close('edit_cat_modal');
-   mw.modal.overlay();
-   mw.modal.init({
-     html:resp,
-     id:'edit_cat_modal',
-     height:'auto',
-     customPosition:{
-       top:100,
-       left:'center'
-     }
-   })
    
-	
-	//$('#results_holder_title').html("Search results for: "+ $kw);
-
-
-  }
-    });
+   
+   		var elem = $('#edit_category')
+										
+										
+								 
+										 url1= '{SITE_URL}api/module/';
+										 elem.load(url1,data1,function($resp) {
+											  //mw.modal.close('edit_cat_modal');
+//												   mw.modal.overlay();
+//												   mw.modal.init({
+//													 html:resp,
+//													 id:'edit_cat_modal',
+//													 height:'auto',
+//													 customPosition:{
+//													   top:100,
+//													   left:'center'
+//													 }
+//												   })
+										 });
+										 
+										 
+										 
+										 
+										 
+    
+//	
+//   $.ajax({
+//  url: '<? print site_url('api/module') ?>',
+//   type: "POST",
+//      data: data1,
+//
+//      async:false,
+//
+//  success: function(resp) {
+//
+//
+//
+//   mw.modal.close('edit_cat_modal');
+//   mw.modal.overlay();
+//   mw.modal.init({
+//     html:resp,
+//     id:'edit_cat_modal',
+//     height:'auto',
+//     customPosition:{
+//       top:100,
+//       left:'center'
+//     }
+//   })
+//   
+//	
+//	//$('#results_holder_title').html("Search results for: "+ $kw);
+//
+//
+//  }
+//    });
    
    
    
@@ -268,10 +313,56 @@ function content_list($kw, $category_id){
 
 
 </script>
+
+
 <div class="box radius">
 <div class="box_header radius_t">
-     <h2>Categories</h2>
+
+<a href="#" class="cms_help">Help</a>
+
+<a class="sbm right" href="<? print ADMIN_URL ?>/action:page_edit/id:0"  >New category</a>
+
+
+
+    <h2>Categories</h2>
 </div>
+
+<div class="url_box">
+    <a class="main_url" href="<? print site_url() ?>">
+       <span></span>
+       <strong><? print site_url() ?></strong>
+       <em></em>
+    </a>
+</div>
+ <div class="Pages">
+  
+ 
+
+      
+<div id="edit_category"></div>
+<div id="categories" class="edit_categories_main"></div>
+<div id="cat_list_select"></div> 
+
+ </div>
+
+     <br /><br /><br />
+<div class="box_footer radius_b" >
+<a href="#" class="cms_help">Help</a>
+<a class="sbm right" href="<? print ADMIN_URL ?>/action:page_edit/id:0"  >New category</a>
+
+<h2>Pages</h2>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+ 
 
 
 
@@ -289,9 +380,6 @@ function content_list($kw, $category_id){
 
 
 
-
-<div id="categories" class="edit_categories_main"></div>
-<div id="cat_list_select"></div><div id="content_list"></div>
 
 
 

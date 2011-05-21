@@ -6996,7 +6996,7 @@ $w
 			return $status;
 		}
 		
-		p ( $upl );
+		//p ( $upl );
 		
 		if (trim ( $_POST ['embed_code'] ) != '') {
 			$embed_item = array ();

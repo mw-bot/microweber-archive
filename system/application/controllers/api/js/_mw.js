@@ -106,6 +106,8 @@ mw.reload_module = function($module_name) {
 											 window.mw_sortables_created = false;
 										 });
 										 
+										 
+										 
 										
 										 
 											
@@ -137,6 +139,8 @@ mw.reload_module = function($module_name) {
 			 window.mw_sortables_created = false;
 			 init_edits(); 
 			 }
+		 
+	//	 $('.mw').trigger('mw_module_reloaded', [$module_name]);
 
 	}
 

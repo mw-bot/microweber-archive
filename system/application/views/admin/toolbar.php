@@ -2,11 +2,11 @@
     static_url = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>";
 </script>
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/font.php" />
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
-<link href='http://fonts.googleapis.com/css?family=Molengo' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/jquery-ui-1.8.13.custom/css/custom-theme/jquery-ui-1.8.13.custom.css" />
+
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/toolbar.css?<? print rand();?>" />
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
+<!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>-->
 <!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/nicedit.js"></script>-->
 
 <!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/aloha.js"></script>
@@ -14,13 +14,10 @@
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Table/plugin.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.List/plugin.js"></script>-->
 
-
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/vitch-jScrollPane/script/jquery.mousewheel.js"></script>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/vitch-jScrollPane/script/jquery.jscrollpane.min.js"></script>
-<link href='<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/vitch-jScrollPane/style/jquery.jscrollpane.css' rel='stylesheet' type='text/css'>
-
-
  
+ <? include('headers_shared.php')  ?>
+
+
 
 <script type="text/javascript">
     static_url = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>";
@@ -418,7 +415,7 @@ master[objX] = obj;
 		  beforeSend :  function() {
 			
 			  window.saving =true;
-			  $( "#ContentSave" ).fadeOut();
+			 // $( "#ContentSave" ).fadeOut();
 		 
 		  },
 		  success: function(data) {
@@ -660,7 +657,7 @@ function mw_load_history_module(){
       <input type="text"  id="module_temp_holder_id" value="" />
     <input type="text"  id="module_focus_holder_id" value="" />
   </div>
- 
+      <a href="<? print site_url('admin'); ?>" class="mw_toolbar_nav_go_to_admin"> <span> Switch to Admin </span> </a> 
 
   <div id="buttons">
   </div>
@@ -868,8 +865,8 @@ function mw_sidebar_nav($selector){
 </script>
     </div>
     <div id="mw_toolbar_nav"> 
-    
-    <a class="mw_toolbar_nav_icons active"  title="Modules" rel="modules"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules.png"  style="float:left" /> </span> </a>
+
+    <a class="mw_toolbar_nav_icons active"  title="Modules" rel="modules"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules2.png"  style="float:left" /> </span> </a>
     
     <a   class="mw_toolbar_nav_icons" title="Design" rel="design"  href="javascript:mw_sidebar_nav('#mw_sidebar_design_holder')"> <span> <img     src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_design.png"   style="float:left" /> </span> </a>
     
@@ -878,7 +875,23 @@ function mw_sidebar_nav($selector){
     
     
     </div>
-    <a href="<? print site_url('admin'); ?>" id="mw_toolbar_nav_go_to_admin"> <span> Switch to Admin </span> </a> </div>
+    <a href="adasd" class="mw_toolbar_nav_go_to_admin"> <span> Style element    </span> 
+    
+
+    
+    
+    </a> 
+    
+    
+    
+      <div id="mw_sidebar_styler">
+   
+   
+ 
+  </div>
+    
+    
+    </div>
 </div>
 <div id="mw_toolbar">
   <div id="drag_mw_toolbar"></div>
@@ -940,6 +953,7 @@ function mw_sidebar_nav($selector){
   <div id="mw_block_history"></div>
   <div class="modules_list"> </div>
   <div id="module_bar_resp"></div>
+ 
   
   
   <? 
@@ -962,15 +976,12 @@ function mw_sidebar_nav($selector){
            
            
            ?>
-  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_page) ?>/admin:y', 'aa')">Edit page</a> <br />
+<!--  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_page) ?>/admin:y', 'aa')">Edit page</a> <br />
   <br />
-  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_post) ?>/admin:y', 'aa')">Edit post</a>
+  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_post) ?>/admin:y', 'aa')">Edit post</a>-->
   
   <?   //p(CATEGORY_IDS); ?>
-  <br />
-  <br />
-  <br />
-  
+
   
   </div>
    <div id="mw_sidebar_css_editor_holder">
@@ -1002,6 +1013,15 @@ function mw_sidebar_nav($selector){
 
   
   mw_sidebar_add_holder
+  </div>
+  
+      <div id="mw_sidebar_html_element_holder">
+   
+   
+  
+
+   <input  id="style_mw_id" disabled="disabled"  value="" style="display:none;" />
+      <input  id="style_mw_tag" onclick="mw_html_tag_editor()" value=""  />
   </div>
   
 </div>

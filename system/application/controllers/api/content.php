@@ -948,7 +948,7 @@ class Content extends Controller {
 							// p($tags1); 	
 							$html = str_get_html ( $content );
 							foreach ( $html->find ( 'div[mw_params_encoded="edit_tag"]' ) as $checkbox ) {
-								
+								//var_Dump($checkbox);
 								$re1 = $checkbox->module_id;
 								$re2 = $checkbox->mw_params_module;
 								$tag1 = "<microweber ";
@@ -957,7 +957,7 @@ class Content extends Controller {
 								$tag1 .= " />";
 								
 								$checkbox->outertext = $tag1;
-								;
+							 
 							
 							}
 							$content = $html->save ();

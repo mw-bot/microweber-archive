@@ -29,6 +29,15 @@
 	width:100%;
 	z-index:190;
 }
+
+
+
+
+
+
+
+
+
 .drag_area {
 	height: 12px;
 	width: 100%;
@@ -84,8 +93,8 @@
 }
  
 .mw_mod_wrap_main {
-	cursor:move;
-	border:dashed #FF9 1px;
+/*	cursor:move;
+	border:dashed #FF9 1px;*/
 	/*background-color: #FF9;*/
 	/*border:dashed #CCC 1px;*/
 }
@@ -95,21 +104,29 @@
 .edit *[contenteditable]:focus{
 outline:none;    
 }
+.original-placeholder{
+background-color:#00F;	
+}
 .to_here_drop {
 	/*
 	min-width:100px;*/
-	border:dashed #5eaceb 1px;
-	height:50px;
+	/*border:dashed #5eaceb 1px;
+	height:50px;*/
 	/*	margin-left:3px;*/
-	background-color: ;
+	/*background-color: ;*/
 	/*margin:3px;
 	display:inline-block; */
-	width:80px;
+	/*width:80px;
 	display:block;
 	background-image: url(../img/drop.png);
 	background-repeat: no-repeat;
 	background-position: right bottom;	 
-	background-color:#FFFF9B;
+	background-color:#FFFF9B;*/
+	
+	background-color:  #FBF9EE;
+    border: 10px solid #FCEFA1;
+	
+  
 	
 	/*	*/
 }
@@ -174,6 +191,9 @@ border:0px;
 padding:10px;
 width:265px;
 overflow:scroll;
+overflow-x: hidden;
+-ms-overflow-x: hidden;
+
 /*overflow: scroll;
 overflow-x: hidden;
  -ms-overflow-x: hidden;
@@ -199,8 +219,38 @@ scrollbar-arrow-color: #53670D;*/
 
 .mw_iframe_sub_header{
  font-size:12px;
- margin-bottom:15px;
+ margin-bottom:25px;
+ margin-left: 10px; 
+  
 }
+
+#style_mw_tag{
+	font-size: 10px;
+	color: #CCC;
+	width:35px;
+	text-decoration: none;
+	display: inline-block;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+}
+
+.mw_iframe_sub_header a {
+	font-size:9px;
+	color:#0A0AAF;
+	border:none;
+}
+
+.mw_iframe_sub_header_left {
+ float:left; width:80%; display:inline;
+  
+}
+.mw_iframe_sub_header_right {
+ float:right; width:80%; display:inline;
+  
+}
+
 
 .mw_module_box_place {
 height:100px;
@@ -211,6 +261,7 @@ background-color:;
 
 
 .mw_mod_wrap {
+ 
 /*background-color:#F00;	*/
 }
 
@@ -368,9 +419,10 @@ padding:3px;
 
 
 .mw_admin_rounded_box select{
-	 	width: 95%;
+	 	width: 140px;
 height:25px;
 padding:1px;
+font-size:10px;
 	border: 1px solid #bbbbbb;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -412,4 +464,11 @@ padding:3px;
 
 .mw_admin_box_padding {
 	padding:11px;
+}
+
+
+
+input.css_property {
+ width:50px;
+ font-size:10px;
 }

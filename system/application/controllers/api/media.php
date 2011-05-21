@@ -143,7 +143,7 @@ class Media extends Controller {
 			}
 			
 			
-			var_dump($for, $id, $queue_id, $collection);
+			//var_dump($for, $id, $queue_id, $collection);
 			
 			$status = CI::model ( 'core' )->upload ( $for, $id, $queue_id, $collection = $module_id );
 			//p ( $status );

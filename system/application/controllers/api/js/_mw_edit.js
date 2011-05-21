@@ -115,59 +115,24 @@ function mw_insert_module_at_cursor($module, $full_tag){
 }
 
 
-
+window.mw_editables_created = false;
 function mw_make_editables(){
 	   window.mw_sortables_created = false;
+	  
+
+ if(window.mw_editables_created == false){
   $('.edit').attr('contentEditable', true);	
-  $('.mw_editbar').empty();	
-  //make_nic_editor()
-  $('.edit *:not(.mw_mod_wrap)').attr('contentEditable',true);	
-  //$('.edit *:not(.mw_mod_wrap)').attr('unselectable','off');	
-  $('.edit .mw_mod_wrap').attr('contentEditable', false);	
-  myNicEditor = window.myNicEditor;
-
- 
-  //myNicEditor.setPanel('mw_editbar');
-
-     $(".edit").each(function(){
-     //  var id = mw.id();
-        var id = $(this).attr("id");
-      // myNicEditor.removeInstance(id);
-        
-     //   myNicEditor.addInstance(id);
-
-
-    });
- 
   
-  //$('.edit *:not(.mw_mod_wrap)').attr('contentEditable', true);	
 
-	// $('.module').attr('contentEditable', false);	
-/*	 $('.edit').onmousedown = function() {
-       //  this.focus();
-     }; */
-	
-/*	$('.edit')
-    .attr('contenteditable','true')
-    .focus(function() {
-        $(this).addClass("selected");
-    })
-    .click(function() {
-        $(this).removeClass("selected");
-    })
-    .blur(function() {
-        $(this).removeClass("selected");
-    })
-    .keypress(function(e) {
-        var k=new String(e.which);
-        if (!k.match(/^(0|13)$/)) {
-            if ($(this).hasClass("selected")) {
-                $(this).removeClass("selected");
-                $(this).text("");
-            }
-        }
-    });
-$('.edit:first').focus();*/
+
+//document.execCommand("styleWithCSS",false,false);
+ 
+  myNicEditor = window.myNicEditor;
+  $('.module', '.edit').attr('contentEditable', false);	
+  //$('.module *', '.edit').attr('contentEditable', false);	
+ 
+  window.mw_editables_created = true
+ }
 
 
 }
@@ -178,30 +143,31 @@ function mw_remove_editables(){
  * try { $('.edit').removeAttr('contentEditable'); } catch (e) {
  * $('.edit').attr('contentEditable', false); }
  */
+	window.mw_editables_created = false;
 	$('.edit').attr('contentEditable', false);
-	$('.edit *').attr('contentEditable', false);
+//	$('.edit *').attr('contentEditable', false);
 }
 
  
-$('.edit .module').live('hover',function() {
-//	mw_make_editables()
-	//$('.edit .module').attr('contentEditable', false);
-	//$('.edit .module *').attr('contentEditable', false);
-	
-	
-	
-	
-//	mw_remove_editables()
-	//mw_remove_inner_sortables()
- init_edits()
-});
+//$('.edit .module').live('hover',function() {
+////	mw_make_editables()
+//	//$('.edit .module').attr('contentEditable', false);
+//	//$('.edit .module *').attr('contentEditable', false);
+//	
+//	
+//	
+//	
+////	mw_remove_editables()
+//	//mw_remove_inner_sortables()
+// init_edits()
+//});
 //$('.edit div.module').live('click',function() {
 //	
 //
 //});
 
 //$('.edit .module').live('mouseleave',function() {
-//	mw_make_editables()
+ 
 	
  
 //	$('.mw_module_overlay').remove();
@@ -211,74 +177,83 @@ $('.edit .module').live('hover',function() {
 
 
 //$('.edit .module *:not(.mw_mod_wrap)').live('click',function(event) {
-$('.module, .module *').die("click");
-$('.module, .module *').live('click',function(event) {
-//	mw_make_editables()
-	
-	
-	
-	
-	
-$is_sidebar =	$(this).parents('#admin_sidebar').length;
-$is_toolbarr =	$(this).parents('#mw_toolbar').length;
+//$('.module').not($("#admin_sidebar .module *")).die("click");
+//$('.module, .module *').live('click',function(event) {
+//$('.module').not($("#admin_sidebar .module")).live('click',function(event) {
+//
+//
+//// 
+//	
+//	
+//	
+//	
+//	
+//$is_sidebar =	$(this).parents('#admin_sidebar').size();
+//$is_toolbarr =	$(this).parents('#mw_toolbar').size();
+//
+//
+////	alert($is_sidebar);
+//	
+//	if($is_sidebar ==0 && $is_toolbarr ==0){
+//	if(  $(this).hasClass('.module')){
+//	alert("hasClass('.module') ??? ");	
+//	}
+//	
+//	//alert($is_sidebar + $is_toolbarr);
+//	//  $(this).attr('contentEditable', true);	
+//
+//	//$(this).focus();
+//	//restoreCaretPos();
+//	//setCaretPos(startNodeIndex, endNodeIndex, start, end)
+//
+//    mod_id112= $(this).attr('module_id');    
+//  mod_name= $(this).attr('mw_params_module');    
+//   
+// if(mod_id112 == undefined   ){
+// 	    mod_id112= $(this).parents('.module').attr('module_id');    
+//		     mod_name= $(this).parents('.module').attr('mw_params_module');    
+//			 // alert(mod_id112);
+// }
+//
+////    if(mod_name != 'content/text'){
+// //$(this).disableSelection();
+////   } 
+//// alert(mod_id112);
+//	if(mod_id112 != undefined  ){
+//load_edit_module_by_module_id(mod_id112);
+//	}
+//	// return false;  
+//	 
+//	 
+//	
+//	init_edits()
+//	//items: '*:not(.mw_mod_wrap)',
+//	 event.preventDefault(); // this prevents the original href of the link from being opened
+//	// event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+//	return false;
+//	//init_edits()
+//	
+//	
+//	
+//	
+//	
+//	}
+//	
+//	
+//	
+//});
+//$('.module, .module *', '#admin_sidebar').die("click");
 
 
-//	alert($is_sidebar);
-	
-	if($is_sidebar ==0 && $is_toolbarr ==0){
-	if(  $(this).hasClass('.module')){
-	alert("hasClass('.module') ??? ");	
-	}
-	
-	
-	//  $(this).attr('contentEditable', true);	
-
-	//$(this).focus();
-	//restoreCaretPos();
-	//setCaretPos(startNodeIndex, endNodeIndex, start, end)
-
-    mod_id112= $(this).attr('module_id');    
-  mod_name= $(this).attr('mw_params_module');    
-   
- if(mod_id112 == undefined   ){
- 	    mod_id112= $(this).parents('.module').attr('module_id');    
-		     mod_name= $(this).parents('.module').attr('mw_params_module');    
-			 // alert(mod_id112);
- }
-
-//    if(mod_name != 'content/text'){
- //$(this).disableSelection();
-//   } 
-// alert(mod_id112);
-	if(mod_id112 != undefined  ){
-load_edit_module_by_module_id(mod_id112);
-	}
-	// return false;  
-	 
-	 
-	
+$('#mw_sidebar_modules_holder').die("mouseenter");
+$('#mw_sidebar_modules_holder').live('mouseenter',function() {
+ 
+	  window.mw_sortables_created = false;
 	init_edits()
-	//items: '*:not(.mw_mod_wrap)',
-	 event.preventDefault(); // this prevents the original href of the link from being opened
-	// event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-	return false;
-	//init_edits()
-	
-	
-	
-	
-	
-	}
-	
-	
-	
 });
-$('.module, .module *', '#admin_sidebar').die("click");
-
-
-$('#admin_sidebar').die("mouseenter");
-$('#admin_sidebar').live('mouseenter',function() {
-//	mw_make_editables()
+$('#mw_sidebar_module_edit_holder').die("mouseenter");
+$('#mw_sidebar_module_edit_holder').live('mouseenter',function() {
+ 
 	  window.mw_sortables_created = false;
 	init_edits()
 });
@@ -304,69 +279,737 @@ $('#admin_sidebar').live('mouseenter',function() {
 //	//}
 //})
 
-$('.edit *:not(.module)').live('click',function(event) {
-	
-	
-	is = $(this).attr('contentEditable');	
-	
-	
-	
-	
-	//$(this).focus();
-	
-//if(is == false){
-//	setCaretAfter(this);
-	//}
-//	 range = document.body.createTextRange();
-//     range.moveToElementText(this);
-//     range.collapse(false);
-//     range.select();
-     
-	
-	
-	//$(this).parentsUntil('.edit').attr('contentEditable', true);	
-	
-	if (window.console != undefined) {
-	console.log('Making CE'+is+$(this).attr('class'));	
-	}
-	$ce =   $(this).attr('contentEditable');	
-	if($ce  == false){
-		$(this).attr('contentEditable', true);	
-		$(this).parent().attr('contentEditable', true);	
-	//	alert('ce 0');
-		$(this).attr('contentEditable', false);	
-	window.mw_drag_started = false;
-	 window.mw_sortables_created = false;
-	 remove_sortables()
-	
-	
-	//restoreCaretPos();
-//	mw_remove_inner_sortables()
- // $(this).attr('contentEditable', true);	
-	 mw_make_editables()
-	// $(this).siblings().attr('contentEditable', true);	
-	// $(this).parentsUntil('.edit').attr('contentEditable', true);	
-	// $(this).focus();
-	} else {
-		//alert('ce 1');
-		//$(this).focus();
-		 remove_sortables()
-		
-		
-		// $(this).attr('contentEditable', true);	
-		 mw_make_editables()
-	//	 $(this).siblings().attr('contentEditable', true);	
-		//$(this).parentsUntil('.edit').attr('contentEditable', true);	
-		
-	}
-	
-	  //event.preventDefault(); // this prevents the original href of the link from being opened
- //event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-//	 window.mw_sortables_created = false;
-	//init_edits()
-	
-	
+
+
+//$('.edit .module').die("mousedown");
+//$('.edit .module').live('mousedown', function(event) {
+//
+//
+//	       mod_id112= $(this).attr('module_id');    
+//	     mod_name= $(this).attr('mw_params_module');    
+//	      
+//	    if(mod_id112 == undefined   ){
+//	    	    mod_id112= $(this).parents('.module').attr('module_id');    
+//			     mod_name= $(this).parents('.module').attr('mw_params_module');    
+//				 // alert(mod_id112);
+//	    }
+//
+//	  //    if(mod_name != 'content/text'){
+//	    //$(this).disableSelection();
+//	   //   } 
+//	    //  alert(mod_id112);
+//		if(mod_id112 != undefined  ){
+//	   load_edit_module_by_module_id(mod_id112);
+//		}
+////		 return false;  
+//		//event.preventDefault();
+//		init_edits()
+//		// return false;	
+//	  
+//	});
+
+
+
+//$('.edit .module').die("hover");
+
+ 
+
+
+//
+//$('.module *', '.edit' ).live('mouseup', function(event) {
+//	//$(".module > a").attr('href');
+//// mw.outline.remove('.module');
+//if(window.saving ==false){
+//// return false;	
+//}
+//	//event.preventDefault();
+//
+////if(window.mw_drag_started == false){
+//	//window.mw_sortables_created = false;
+//	
+//	if (window.console != undefined) {
+//		console.log('module hover making init_edits()');
+//	}
+//	//window.mw_editables_created = false;
+//	mw_remove_editables();
+//	 	init_edits()
+//	 	
+// 	event.preventDefault(); // this prevents the original href of the link from being opened
+// 	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+//		// 
+//		// 
+//	 return false;
+//
+//
+////	       mod_id112= $(this).attr('module_id');    
+////	     mod_name= $(this).attr('mw_params_module');    
+////	      
+////	    if(mod_id112 == undefined   ){
+////	    	    mod_id112= $(this).parents('.module').attr('module_id');    
+////			     mod_name= $(this).parents('.module').attr('mw_params_module');    
+////				 // alert(mod_id112);
+////	    }
+////
+////	  //    if(mod_name != 'content/text'){
+////	    //$(this).disableSelection();
+////	   //   } 
+////	    //  alert(mod_id112);
+////		if(mod_id112 != undefined  ){
+////	   load_edit_module_by_module_id(mod_id112);
+////		}
+////		 return false;  
+////		//event.preventDefault();
+////
+////		// return false;	
+//	  
+//	});
+
+
+
+
+ 
+
+window.mw_making_sortables = false;
+
+$('.edit a').live('click',function(e) {
+	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
+    e.preventDefault();
+	 }
+    //do other stuff when a click happens
 });
+
+$('.edit .module a').live('click',function(e) {
+	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {	
+    e.preventDefault();
+	 }
+    //do other stuff when a click happens
+});
+
+ $('.mw .module *, .mw .module').live('click',function(e) {
+	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 if (window.console != undefined) {
+				console.log('click on module 1 ' );	
+			}
+		  window.mw_making_sortables = false;
+		  
+		$clicked_on_module = 	$(this).attr('module_id');
+		  if($clicked_on_module == undefined || $clicked_on_module == ''){
+				$clicked_on_module = 	$(this).parents('.module:first').attr('module_id');
+		  }
+		  
+		  $('.mw_non_sortable').removeClass('mw_non_sortable');
+		  load_edit_module_by_module_id($clicked_on_module) 
+		  
+			//event.preventDefault(); // this prevents the original href of the link from being opened
+		 	//event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+				// 
+				// 
+			// return false;
+		  
+		  window.mw_sortables_created = false;
+		  init_edits()
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+    e.preventDefault();
+			//event.preventDefault(); // this prevents the original href of the link from being opened
+			e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+			return false;
+	 }
+    //do other stuff when a click happens
+});
+
+$(".mw .module").live("mouseup mousedown click mouseenter", function(event) {
+	 
+	
+	
+	
+	
+	
+	
+	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
+	
+	if ( event.type == "mouseup" ) {
+
+
+		  if (window.console != undefined) {
+				console.log('mouseup on module '  );	
+				
+			}
+		  
+		  
+		
+			
+		  
+		  
+		  window.mw_making_sortables = false;
+		  
+	  }  else if ( event.type == "mousedown" ) {
+
+		  if (window.console != undefined) {
+				console.log('mousedown on module ' );	
+			}
+		  
+		  $('.edit .mw_non_sortable').removeClass('mw_non_sortable');
+		 // window.mw_making_sortables = true;
+			$( this).children().disableSelection();
+		//  mw_remove_editables();
+			
+		 	init_edits()
+		 	
+		 		event.preventDefault(); // this prevents the original href of the link from being opened
+		 	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+				// 
+				// 
+			 return false;
+		  
+	  }  else if ( event.type == "click" ) {
+		  if (window.console != undefined) {
+				console.log('click on module ' );	
+			}
+		  window.mw_making_sortables = false;
+		  
+		$clicked_on_module = 	$(this).attr('module_id');
+		  
+		  
+		  
+		  load_edit_module_by_module_id($clicked_on_module) 
+		  
+			//event.preventDefault(); // this prevents the original href of the link from being opened
+		 	//event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+				// 
+				// 
+			// return false;
+		  
+		  window.mw_sortables_created = false;
+		  init_edits()
+		  
+		  
+		  
+	  } else if ( event.type == "mouseenter" ) {
+		  if (window.console != undefined) {
+				console.log('mouseenter on module ' );	
+			}
+		  
+	//	  $( this ).disableSelection();
+		//	$( this ).children().disableSelection();
+			$(this).attr('contentEditable', false);
+			$( this ).children().attr('contentEditable', false);
+		  
+			$( '.mw_non_sortable' ).removeClass('mw_non_sortable');
+			//$( this ).children().removeClass('mw_non_sortable');
+ 
+		  init_edits()
+		  
+	  }
+	  
+	  
+	  else {
+	    // do something on mouseout
+		  window.mw_making_sortables = false;
+	  }
+	
+	
+	
+	
+	
+	 }
+	
+	
+	
+	
+	
+	});
+
+
+//$('a:not("a[href^=mailto]").live('click',function(){ });
+
+$(".edit *").live("click mouseup mousedown", function(event) {
+	
+
+	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
+	
+	  if ( event.type == "mousedown" ) {
+ 
+//		    cssApplier.toggleSelection();
+	 rangy.init();
+	 
+	var sel = rangy.getSelection();
+	//var sel1 = rangy.getRange();
+
+		//  rangy.refresh(true);
+	//sel.normalizeBoundaries();
+	
+	var el = this;
+	var range = rangy.createRange();
+	range.selectNodeContents(el);
+	range.normalizeBoundaries();
+	 
+	
+	
+	sel.removeAllRanges();
+		  
+	  }  else if ( event.type == "click" ) {
+
+		  
+		  
+		  
+		  
+	  }  else if ( event.type == "mouseup" ) {
+		  
+		  
+			if($(this).hasClass('module')) {
+				mw_remove_editables()
+				$( this ).removeClass('mw_non_sortable');
+				$( this ).children().removeClass('mw_non_sortable');
+				window.mw_sortables_created = false;
+				 init_edits();
+					event.preventDefault(); // this prevents the original href of the link from being opened
+					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+				 
+				return;
+			}
+			
+
+			if($(this).parents().hasClass('module')) {
+				$( this ).removeClass('mw_non_sortable');
+				$( this ).children().removeClass('mw_non_sortable');
+				mw_remove_editables()
+				 if (window.console != undefined) {
+						console.log('click inside module ');	
+					}
+				 window.mw_sortables_created = false;
+				 init_edits();
+					event.preventDefault(); // this prevents the original href of the link from being opened
+					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+				 
+				return;
+			}
+
+		  
+		  
+			var randomCssClass = "rangyTemp_" + (+new Date());
+		  rangy.init();
+		  
+		  
+		   
+		  var classApplier = rangy.createCssClassApplier(randomCssClass, true);
+		//   cssApplier.toggleSelection();
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+
+			 if(window.mw_making_sortables == false){
+			 
+			 
+			 
+//			$('.to_here_click').removeClass('to_here_click')
+			//$('.module *', '.edit' ).addClass('mw_mod_wrap');
+			//$('.module', '.edit' ).addClass('mw_mod_wrap');
+		
+			 
+			
+			
+			
+
+			// event.target.setAttribute('mw_id', window.mw_last_hover);	
+			 
+			
+			
+			 
+			 
+//			 is_editable = event.target.getAttribute('contentEditable');
+			
+			 
+			 //$is_in_module=	$(this).parents('.module').size();
+			 
+			 $is_ce_edit=	$(this).parent('.edit').attr('contentEditable');
+			 
+			 $is_in_module = 0;
+			
+			 
+			 
+			
+			 
+			 if($is_in_module == 0){
+				 
+					if (window.console != undefined) {
+						console.log('not in module');	
+					}
+					//addClass(event.target, 'mw_non_sortable');
+					
+					//$('.edit .module *').removeClass('mw_non_sortable');
+					$(this).addClass('mw_non_sortable');
+				//	$('.edit').addClass('mw_non_sortable');
+					
+					
+					if(window.mw_sortables_created == true){
+					
+					remove_sortables();
+					}
+				    
+
+					
+//				     var range = rangy.getSelection();
+//				     range= range.rangeCount ? range.getRangeAt(0) : null;
+//				     if (range != null && range != '') {
+//					     	//  var newdiv = document.createElement('div');
+//								     	  //newdiv.innerHTML ='ahaaa';
+//								        // range.insertNode(newdiv);
+//				         rangy.getSelection().setSingleRange(range);
+//				         cssApplier.applyToSelection();
+//				         
+//				         
+//				     }
+//				    
+					
+					
+					
+					
+					if(event.target.nodeName != undefined){
+					
+					
+					$("#mw_sidebar_styler").html("clicked: " + event.target.nodeName).show();
+					 window.mw_last_hover++;
+					 event.target.setAttribute('mw_tag_edit', window.mw_last_hover);	
+					 
+					 
+			//
+			 
+					 
+					 
+					 
+					 
+					 $("#style_mw_id").val( window.mw_last_hover);
+					 $("#mw_css_editor_element_id").val( window.mw_last_hover);
+					 $("#style_mw_tag").val( event.target.nodeName);
+					 
+					 
+					 
+					 
+				    	// var randomCssClass = "rangyTemp";
+						   
+						   classApplier.applyToSelection();
+					 
+					//	   classApplier.toggleSelection();
+					   
+					   var range = rangy.getSelection();
+	 
+					     range= range.rangeCount ? range.getRangeAt(0) : null;
+					     if (range != null && range != '') {
+					    	 window.mw_last_hover++
+							  
+							  // classApplier.toggleSelection();
+							   
+							   $sel123 =   $("." + randomCssClass);
+							   
+//							   var el = $("." + randomCssClass);
+//							   var range = rangy.createRange();
+//							   range.selectNodeContents(el);
+//							   var sel = rangy.getSelection();
+//							   sel.setSingleRange(range);
+							    //classApplier.applyToSelection();
+							  
+							    // Now use jQuery to add the CSS colour and remove the class
+							   $sel123.attr( "mw_tag_edit",window.mw_last_hover );
+							    
+							   // rangy.refresh(true);
+							    var sel = rangy.getSelection();
+							    sel.refresh(true);
+							   
+							    
+							    
+							    $("#style_mw_id").val( window.mw_last_hover);
+								 $("#mw_css_editor_element_id").val( window.mw_last_hover);
+								 $("#style_mw_tag").val( event.target.nodeName);
+						    
+								 $sel123.removeClass( randomCssClass );
+								 
+								 mw_html_tag_editor(window.mw_last_hover)
+						    
+					     } else {
+					    	
+					    	// undoToRange
+					    	 mw_html_tag_editor(window.mw_last_hover)
+					     }
+					    // classApplier.toggleSelection();
+					   
+		
+					     var sel = rangy.getSelection();
+						    sel.refresh(true);
+					
+					
+				
+					
+					 if (window.console != undefined) {
+							console.log('click on ' + event.target.nodeName );	
+						}
+					
+					
+					
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				 if(window.mw_editables_created == false){
+					if( $is_ce_edit != 'true'){
+				 
+				 
+				
+				 
+				 is_editable =  $is_ce_edit;
+			
+			 // $(this).sortable('destroy');
+			 	 if(is_editable == undefined || is_editable != 'true'){
+			 		 
+			 		// event.target.setAttribute('contentEditable', true);	
+			 		 
+			 		 
+			 		if (window.console != undefined) {
+			 		//	console.log('Making CE   ' + event.target.nodeName);	
+			 		}
+			 		 
+//				 $("#mw_sidebar_styler").html("clicked: " + event.target.nodeName).show();
+					 if (window.console != undefined) {
+				 			console.log('is_editable ' + is_editable);	
+				 		}
+					 
+						if (window.console != undefined) {
+							console.log('making editables - click on ' + event.target.nodeName + $is_ce_edit +$is_in_module);	
+						}
+				 
+				 
+				//	 remove_sortables()
+				 	 mw_make_editables()
+				 	window.mw_editables_created = true;
+		 	// window.mw_sortables_created = false;
+		 	// event.target.setAttribute('contentEditable', true);	
+		 //	 $(this).parents('.edit').attr('contentEditable', true);
+			 	 }
+			 	 }
+		 	 
+		 	 
+		 	 
+		 	 
+			// mw_html_tag_editor(window.mw_last_hover)
+					}
+ //		 $(this).focus();
+				 
+				 
+				 
+				 
+				 
+				 	
+			event.preventDefault(); // this prevents the original href of the link from being opened
+					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+					 
+					
+		//	return false;
+				 
+				 
+				 
+				 
+			 } else {
+				// mw_remove_editables()
+				 //$(this).parents('.module').attr('contentEditable', false);
+				// init_edits();
+				 
+		//event.preventDefault(); // this prevents the original href of the link from being opened
+				//event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+				// 
+				// 
+			//return false;
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+					if (window.console != undefined) {
+						console.log('module hover making init_edits()');
+					}
+					//window.mw_editables_created = false;
+					
+					 	
+				 	event.preventDefault(); // this prevents the original href of the link from being opened
+					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+						// 
+						// 
+					 return false;
+				 
+
+			 }
+			 
+			
+			 
+			 
+			 
+			 
+		 }
+			
+		  
+		  
+		  
+		  
+	  } else {
+	    // do something on mouseout
+		  //window.mw_making_sortables = false;
+	  }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	 }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	});
+
+
+
+//$(".edit .module *").live("mouseup", function(event){
+//	if (window.console != undefined) {
+//		console.log('hover on module ' + event.target.nodeName );	
+//	}
+//	
+//	
+//	
+//	
+//});
+
+
+
+//$('.edit *:not(.mw_mod_wrap)').die('click') ;
+
+ 
+ //$('.edit *').live('click',function(event) {
+//$('.edit *').filter('.module)').live('click', function(event){ 
+ 
+
+//
+//$('.edit *').live('click',function(event) {
+//	
+//	
+//	is = $(this).attr('contentEditable');	
+//	
+//	
+//
+//	//alert(is);
+//	
+//	//$(this).focus();
+//	
+////if(is == false){
+////	setCaretAfter(this);
+//	//}
+////	 range = document.body.createTextRange();
+////     range.moveToElementText(this);
+////     range.collapse(false);
+////     range.select();
+//     
+//	//	$(this).parentsUntil('.edit').attr('contentEditable', true);	
+//	 	//$(this).parent().attr('contentEditable', true);	
+//
+//	
+//	if (window.console != undefined) {
+//	console.log('Making CE'+is+$(this).attr('class'));	
+//	}
+////	$ce =   $(this).attr('contentEditable');	
+////	if($ce  == false){
+////	//	$(this).attr('contentEditable', true);	
+////		//$(this).parent().attr('contentEditable', true);	
+////		
+////		
+////	
+////	//	alert('ce 0');
+////	//	$(this).attr('contentEditable', false);	
+////	window.mw_drag_started = false;
+////	 window.mw_sortables_created = false;
+////	 remove_sortables()
+////	
+////	
+////	//restoreCaretPos();
+//////	mw_remove_inner_sortables()
+//// // $(this).attr('contentEditable', true);	
+////	 mw_make_editables()
+////	// $(this).siblings().attr('contentEditable', true);	
+////	// $(this).parentsUntil('.edit').attr('contentEditable', true);	
+////	// $(this).focus();
+////	} else {
+////		//alert('ce 1');
+////		//$(this).focus();
+////		 
+////		
+////		
+////		// $(this).attr('contentEditable', true);	
+////		
+////	//	 $(this).siblings().attr('contentEditable', true);	
+////		//$(this).parentsUntil('.edit').attr('contentEditable', true);	
+////		
+////	}
+//	
+////	 remove_sortables()
+////	 mw_make_editables()
+////	 window.mw_sortables_created = false;
+////	 $(this).sortable('destroy');
+////	 $(this).parents().sortable('destroy');
+////	 $(".edit").sortable('destroy');
+////	$(this).attr('contentEditable', true);	
+////	
+//	
+//	
+//	//  event.preventDefault(); // this prevents the original href of the link from being opened
+// //event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+// 
+// 
+// //return false;
+// 
+////	 window.mw_sortables_created = false;
+//	//init_edits()
+//
+//	
+//});
  
 
 
@@ -374,16 +1017,69 @@ $('.edit *:not(.module)').live('click',function(event) {
 function mw_resize_admin_sidebar(){
 	 var h1 = $(window).height();
 	 var h2 = $('#mw_toolbar').height();
-	 $('#admin_sidebar').height(h1-h2);	
+	 $('#admin_sidebar').height(h1-45);	
 	 
 	 
-	 var h3 = $('.mw_iframe_header').height();
+	 var h3 = $('#admin_sidebar').height();
 	// var h4 = $('#admin_sidebar').height(); 
-	 $('.mw_edit_module_settings_iframe').height(h1-(h3));	
+	 $('.mw_edit_module_settings_iframe').height(h1-(145));	
 	 
 	 
+	 var viewportwidth;
+	 var viewportheight;
+	 
+	 // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+	 
+	 if (typeof window.innerWidth != 'undefined')
+	 {
+	      viewportwidth = window.innerWidth,
+	      viewportheight = window.innerHeight
+	 }
+	 
+	// IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
 
+	 else if (typeof document.documentElement != 'undefined'
+	     && typeof document.documentElement.clientWidth !=
+	     'undefined' && document.documentElement.clientWidth != 0)
+	 {
+	       viewportwidth = document.documentElement.clientWidth,
+	       viewportheight = document.documentElement.clientHeight
+	 }
+	 
+	 // older versions of IE
+	 
+	 else
+	 {
+	       viewportwidth = document.getElementsByTagName('body')[0].clientWidth,
+	       viewportheight = document.getElementsByTagName('body')[0].clientHeight
+	 }
+	 
+	 
+	 
+	 
+	  $w1 =  viewportwidth;
+	  $w2 = $('#wrapper').width();
+	//  $w2 =  document.body.clientWidth;
+	  if(($('#wrapper').size()) > 0){
+	  $w2 = $('#wrapper').width();
+	  }
+	  
+	  if(($('.wrapper').size()) > 0){
+		  $w2 = $('.wrapper').width();
+		  }
 
+	  
+	  if($w1 <  $w2+200){
+		  if (window.console != undefined) {
+	 			console.log('Body size '+$w2 );	
+	 			console.log('Window size '+ $w1);	
+	 		}
+		  
+		  $('body').width($w2+650+'px');
+	  }
+	  
+	  
+	
 	 
 	 
 	 
@@ -427,9 +1123,30 @@ function remove_sortables(){
 	if( window.mw_editables_on_page == undefined){
 		window.mw_editables_on_page  = $( ".edit" );
 	}
-	//if(window.mw_sortables_created == true){
-	$('.edit').sortable('destroy');
-	// window.mw_sortables_created = false;
+	
+	if (window.console != undefined) {
+ 			console.log('remove_sortables   ');	
+ 		}
+	
+	
+	
+//	if(window.mw_sortables_created == true){
+	
+	try
+	  {
+		$('.edit').sortable('destroy');
+	  }
+	catch(err)
+	  {
+	  //Handle errors here
+	  }
+	
+	
+	
+	
+	
+	//$('.edit *').sortable('destroy');
+	 window.mw_sortables_created = false;
 	//}
 }
 var wscrolltop = 0;
@@ -440,24 +1157,38 @@ function init_edits(){
 //	mw_make_draggables();
 	
 	
-	if( window.mw_editables_on_page == undefined){
-		window.mw_editables_on_page  = $( ".edit" );
-	}
 	
-	 
-	
-	
-	
-	
-	
-	$('.edit .module' ).attr('contentEditable', false);
-	$('".edit .module *' ).attr('contentEditable', false);
-
-	$( ".module" ,'.edit' ).disableSelection();
-	bind_module_edit_iframe_click()
 //	window.mw_sortables_created = false;
 	if( window.mw_sortables_created == false && window.mw_drag_started == false){
-	
+		$('.module *', '.edit' ).addClass('mw_mod_wrap');
+		
+		
+		if( window.mw_editables_on_page == undefined){
+			window.mw_editables_on_page  = $( ".edit" );
+		}
+		
+		 
+		
+		mw_sidebar_make_sortables();
+		
+		
+		
+		//$('.edit .module' ).attr('contentEditable', false);
+		//$('".edit .module *' ).attr('contentEditable', false);
+
+//		$( ".module" ,'.edit' ).disableSelection();
+		bind_module_edit_iframe_click()
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	 window.mw_sortables_created = true;
 	
 	 start =  window.mw_last_hover;
@@ -489,21 +1220,38 @@ function init_edits(){
 	 
 	 
 	 var sort_opts = {
-				//forcePlaceholderSize: true,
+				forcePlaceholderSize: true,
 				forceHelperSize : true ,
 				//tolerance: 'pointer',
 				tolerance: 'intersect',
+			//	iframeFix: true,
 			   //cancel: '.module > * :not(:has(.module)) ',
-			    //cancel: '.mw_mod_wrap',
+			    cancel: '.mw_non_sortable',
 				placeholder: "to_here_drop",
-				create:function(){
+				placeholderElement: 'div',
+			//	placeholderElement: '.edit *',
+				create:function(event, ui){
 							      
-							         
+		 if( $(ui.item).has('.close').length == 0 ) {
+				$(ui.item).prepend('<a href="#" class="close" onclick="$(this).parent().remove();">x</a>');
+			}   
 							         
 	 		},
+	 		over: function(e, ui) {
+           //     $(this).addClass('to_here_drop'); //Adding a class that will add a border
+           //     ui.placeholder.css($.data(ui.sender[0], 'ui-sortable').placeholderElement.offset()); //So I have to relocate the placeholder by two pixels
+        },
 		     beforeStop: function (event, ui) {
 						    	 if( ui.offset !== undefined )
 						    	  ui.helper.css('margin-top', 0);
+						    	 
+						    	 
+						    	 
+						    	 $( ".edit .mw_non_sortable" ).removeClass('mw_non_sortable');
+						    	 
+						    	 
+						    	 
+						    	 
 		    	},
 
 
@@ -513,12 +1261,17 @@ function init_edits(){
 				//items: '*:not(:has(.module))',
 				//revert: true,
 				
-				zIndex: 5000,
+				//zIndex: 5000,
 			//	 grid: [5, 5],
-		 	opacity: 0.6,
-		   	distance: 10,
+		 	//opacity: 0.6,
+		   	distance: 5,
 				
-				update: function(event, ui) {
+							update: function(event, ui) {
+		    		$( ".edit .mw_non_sortable" ).removeClass('mw_non_sortable');
+		    		
+		    		
+		    		
+		    		
 							 		window.mw_drag_started = false;
 							            if(this.id == 'sortable-delete') {
 							                // Remove the ele ment dropped on #sortable-delete
@@ -546,8 +1299,12 @@ function init_edits(){
 							        
 							        
 							        start : function(event, ui) { 
-							        
+							       	mw_remove_editables();
 							        window.mw_drag_started = true;
+							        
+							  //      $(".edit").disableSelection()
+							    //    ui.item.show().addClass('original-placeholder');
+
 							        },
 							        
 							        
@@ -565,41 +1322,20 @@ function init_edits(){
 							            ui.item.html("<b>HI mw_mod_wrap bug in mw_edit.js see there.... ??? maybe threre is setting of - 	items: '*:not(.mw_mod_wrap)' -, in the init_edits</b>");
 							            }
 					
-							        	
+							        	$(".edit").enableSelection()
+							        	if (ui.item.hasClass("mw_mod_wrap_main")) {
+							        	ui.item.css('zoom', '');
+							        	ui.item.css('filter', '');
+							        	ui.item.css('margin-top', '');
+							        	ui.item.css('opacity', ''); 
+							        	}
+				 
+							        //	mw_make_editables();
 							        	
 		        	
 							        	},
 		        
-				  start: function(event, ui) { 
-							        		mw_remove_editables();
-							      /*  		   var list=this;
-										       
-										         list_has = list.className;
-										         list_has1 =  list_has.indexOf("edit");
-										         console.log('class: '+list_has);
-										         
-										         if(list_has1 >= 0){
-										      
-										         resize=function(){
-										             $(list).css("height","auto");
-										             $(list).height($(list).height());
-										         };
-										         $(list).height($(list).height());
-										         $(list).find('img').load(resize).error(resize);
-										         }*/
-		        	 // wscrolltop = $(window).scrollTop();
-
-		        	  
-								//mw_remove_inner_sortables()
-						        //	if( ui.helper !== undefined )
-						        	//	  ui.helper.css('position','absolute').css('margin-top', $(window).scrollTop() );
-			 	
-								//
-								
-								//mw_remove_editables();
-							//	$( ".edit *" ).sortable( "option", "disabled", true );
-								//$( ".edit .module" ).sortable( "option", "disabled", true );
-			},
+			 
 			
 
 			
@@ -613,7 +1349,7 @@ function init_edits(){
 							$( ".edit .module_draggable" ).removeClass('module_draggable');
 							$( ".edit .mw_put_module_ids" ).removeClass('mw_put_module_ids');
 							$( ".edit .mw_no_module_mask" ).removeClass('mw_no_module_mask');
-							$( ".edit .mw_mod_wrap" ).removeClass('mw_mod_wrap');
+					//		$( ".edit .mw_mod_wrap" ).removeClass('mw_mod_wrap');
 							//$( ".edit .mw_mod_wrap" ).remove();
 							
 							 
@@ -629,6 +1365,7 @@ function init_edits(){
 							
 							mw.saveALL();
 							 window.mw_sortables_created = false;
+							// mw_make_editables()
 							init_edits()
 							bind_module_edit_iframe_click()
 							
@@ -664,15 +1401,24 @@ tempArray=new Array();
 		}
 	//	$selects1 = $selects1 +  ', #'+$edit_field_id 
 		tempArray[ed]='#'+$edit_field_id;
-		$( '#'+$edit_field_id).sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
+		$( '#'+$edit_field_id+'').sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
+ 
 	} 
+	
+	
+	$( "#draggable" ).draggable({
+		connectToSortable: "#sortable",
+		helper: "clone",
+		revert: "invalid"
+	});
+	$( "ul, li" ).disableSelection();
 	//tempArray_string = tempArray.join(', ') 
 //	alert(tempArray_string);
  //	$( tempArray_string ).sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
 	//$( ".edit" ).sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
 	
 
-	 
+	
 	
 	sort_opts_sidebar = sort_opts;
 //	sort_opts_sidebar.items = "*"
@@ -681,7 +1427,7 @@ tempArray=new Array();
 	
 	
 	
-	$( ".module > *" , '.edit' ).disableSelection()
+//	$( ".module > *" , '.edit' ).disableSelection()
 	//$( ".edit .module > *" ).disableSelection()
 	//$('.edit .module *').addClass('mw_mod_wrap');
 	
@@ -708,7 +1454,7 @@ tempArray=new Array();
 
  	$( ".mw_mod_wrap_main", '.edit' ).sortable('destroy');
 		$( ".mw_mod_wrap_main", '.edit' ).sortable(sort_opts2).sortable( "option", "connectWith", ".edit" );;	
-		$( ".mw_mod_wrap", '.module' ).disableSelection();
+	//	$( ".mw_mod_wrap", '.module' ).disableSelection();
 		$( ".mw_mod_wrap", '.module' ).sortable('destroy');
 	//	$( ".edit .module" ).children().sortable( "disable" );
 	//$( ".edit .module" ).children().sortable( "destroy" );
@@ -718,8 +1464,8 @@ tempArray=new Array();
 		//$('.edit .module *').css('opacity','0.5').css('z-index','-10');
 	
 
-		$('.edit .module a').attr('href', '#');
-		$('.edit .module a').attr('onclick', '');
+		//$('.edit .module a').attr('href', '#');
+	//	$('.edit .module a').attr('onclick', '');
 		$('.edit .module').attr('contentEditable', false);
 		$('.edit .module *').attr('contentEditable', false);
 		
@@ -781,73 +1527,110 @@ function bind_module_edit_iframe_click(){
 	
 	//$(".module").not($("#admin_sidebar .module")).die("mouseup");
 //	$(".module").not($("#admin_sidebar .module")).live('mouseup', function(event) {
-	$(".module, .module *").die("mouseup");
-	$('.module, .module *').live('mouseup', function(event) {
-		//$(".module > a").attr('href');
-	// mw.outline.remove('.module');
-	if(window.saving ==false){
-	// return false;	
-	}
-		//event.preventDefault();
-	
-	if(window.mw_drag_started == false){
-		 	init_edits()
-	}
 	
 	
 	
+//	$('.edit .module *').die("click");
+//	$('.edit .module *').live('click', function(event) {
+//		
+//		  mod_id112= $(this).attr('module_id');    
+//		     mod_name= $(this).attr('mw_params_module');    
+//		      
+//		    if(mod_id112 == undefined   ){
+//		    	    mod_id112= $(this).parents('.module').attr('module_id');    
+//				     mod_name= $(this).parents('.module').attr('mw_params_module');    
+//					 // alert(mod_id112);
+//		    }
+//
+//		  //    if(mod_name != 'content/text'){
+//		    //$(this).disableSelection();
+//		   //   } 
+//		    //  alert(mod_id112);
+//			if(mod_id112 != undefined  ){
+//		   load_edit_module_by_module_id(mod_id112);
+//			}
+//			 return false;  
+//		
+//		
+//		event.stopPropagation();
+//		 event.preventDefault(); // this prevents the original href of the link from being opened
+//		 return false;	
+//	});
+	
+//	$('.edit .module *').die("click");
+//	$('.edit .module *').live('click', function(event) {
+//		//$(".module > a").attr('href');
+//	// mw.outline.remove('.module');
+//	if(window.saving ==false){
+//	// return false;	
+//	}
+//		//event.preventDefault();
+//	
+//	//if(window.mw_drag_started == false){
+//		//window.mw_sortables_created = false;
+//		
+//		if (window.console != undefined) {
+//			console.log('module mouse up making init_edits()');
+//		}
+//		
+//		
+//		
+//		 	init_edits()
+//	//}
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	//alert(31231);
+//	
+//	
+//	
+//	
+//	
+//	
+//
+//		       mod_id112= $(this).attr('module_id');    
+//		     mod_name= $(this).attr('mw_params_module');    
+//		      
+//		    if(mod_id112 == undefined   ){
+//		    	    mod_id112= $(this).parents('.module').attr('module_id');    
+//				     mod_name= $(this).parents('.module').attr('mw_params_module');    
+//					 // alert(mod_id112);
+//		    }
+//
+//		  //    if(mod_name != 'content/text'){
+//		    //$(this).disableSelection();
+//		   //   } 
+//		    //  alert(mod_id112);
+//			if(mod_id112 != undefined  ){
+//		   load_edit_module_by_module_id(mod_id112);
+//			}
+//			 return false;  
+//			//event.preventDefault();
+//
+//			// return false;	
+//		  
+//		});
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-		       mod_id112= $(this).attr('module_id');    
-		     mod_name= $(this).attr('mw_params_module');    
-		      
-		    if(mod_id112 == undefined   ){
-		    	    mod_id112= $(this).parents('.module').attr('module_id');    
-				     mod_name= $(this).parents('.module').attr('mw_params_module');    
-					 // alert(mod_id112);
-		    }
-
-		  //    if(mod_name != 'content/text'){
-		    //$(this).disableSelection();
-		   //   } 
-		    //  alert(mod_id112);
-			if(mod_id112 != undefined  ){
-		   load_edit_module_by_module_id(mod_id112);
-			}
-			 return false;  
-			//event.preventDefault();
-
-			// return false;	
-		  
-		});
-	
-	
-	$(".module, .module *", '#admin_sidebar').die("mouseup");
+	 
 	
 	
 	
@@ -855,6 +1638,9 @@ function bind_module_edit_iframe_click(){
 var copyHelper= null;
 function mw_sidebar_make_sortables(){
 	var copyHelper= null;
+	
+	$(".sortable_modules").sortable('destroy');
+	
 	$(".sortable_modules").sortable({
 	//connectWith: '.edit',
 	items: '.module_draggable',
@@ -863,8 +1649,9 @@ function mw_sidebar_make_sortables(){
 	zIndex: 50000,
 	forcePlaceholderSize: true,
 	forceHelperSize : true ,
-	tolerance: 'pointer',
+	tolerance: 'intersect',
   //
+	cancel: '.mw_mod_wrap',
 	placeholder: "to_here_drop",
  
 	
@@ -877,7 +1664,7 @@ function mw_sidebar_make_sortables(){
 	stop: function() {
 	copyHelper && copyHelper.remove();
 	}
-	}).sortable( "option", "connectWith", ".edit:not(.mw_mod_wrap)" ).disableSelection();
+	}).sortable( "option", "connectWith", ".edit" ).disableSelection();
 }
 function mw_remove_inner_sortables(){
 	
@@ -1203,6 +1990,8 @@ function add_edit_button(x, text, cmd, val)
 var cssApplier;
 $(document).ready(function() {
 
+	 rangy.init();
+	 //   cssApplier = rangy.createCssClassApplier("red", true);
 
 
 	 
@@ -1341,6 +2130,13 @@ function load_edit_module_by_module_id($the_module_id) {
 
 	var edit = $module_by_id.attr("edit");
 	 var rel = $module_by_id.attr("rel");
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	  
 	// if(edit ==undefined){

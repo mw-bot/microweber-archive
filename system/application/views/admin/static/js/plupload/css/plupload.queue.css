@@ -34,7 +34,7 @@
 }
 .plupload_wrapper {
 	font: normal 11px Verdana, sans-serif;
-	width: 100%;
+	width: 95%;
 	clear:both;
 }
 .plupload_container {
@@ -67,11 +67,13 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
+	overflow:hidden;
 }
 .plupload_scroll .plupload_filelist {
 	height: 90px; 
 	background: #F5F5F5;
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
+	overflow-y: hidden;
 }
 .plupload_filelist li {
 	padding: 2px 2px;

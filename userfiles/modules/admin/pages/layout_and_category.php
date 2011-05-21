@@ -168,8 +168,20 @@ function ajax_content_subtype_change_set_form_value(val){
 <div id="layout_config_module_placeholder"></div>
 
 <h3>Choose Layout</h3>
+<? 
 
-<? $layouts = CI::model('template')->layoutsList();  ?>
+$template_options = array();
+//p($params);
+if($params['active_site_template'] != ''){
+$template_dir = $params['active_site_template'];	
+$template_options['site_template'] = $template_dir;
+} else {
+	$template_dir = false;	
+	
+}
+
+?>
+<? $layouts = CI::model('template')->layoutsList($template_options);  ?>
 <? if(!empty($layouts)): ?>
 <select name="layoutsList">
 <option>Inherit</option>
@@ -178,7 +190,7 @@ function ajax_content_subtype_change_set_form_value(val){
 <!-- <a href="<? print $layout['screenshot'] ?>"> <img src="<? print $layout['screenshot'] ?>" height="100" /></a>-->
 <? endif; ?>
 
-<option onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')" value="<? print $layout['filename'] ?>"><? print $layout['layout_name'] ?></option>
+<option onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')" value="<? print $layout['filename'] ?>"><? print $layout['name'] ?> (<? print $layout['layout_name'] ?>)</option>
 
 
 

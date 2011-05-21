@@ -64,7 +64,7 @@ $(document).ready(function() {
           height:530,
           id:'categories_popup',
           oninit:function(){
-            $("#cat_lis li input").uncheck();
+           // $("#cat_lis li input").uncheck();
             $("#cat_lis li span").removeClass("active");
           }
         })
@@ -73,7 +73,7 @@ $(document).ready(function() {
   $("#cat_lis li span").click(function(){
      var input = $(this).find("input:first");
      if(input.is(":checked")){
-       input.uncheck();
+      // input.uncheck();
        $(this).removeClass("active")
      }
      else{

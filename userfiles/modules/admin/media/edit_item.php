@@ -84,7 +84,7 @@ var answer = confirm("Are you sure?")
   function(data){
 
 	  //$(".gallery_module_sortable_pics<? print $rand ?>_positions_"+$id).fadeOut();
-
+save_media_close<? print $rand ;?>()
 	  $("#picture_id_"+$id).fadeOut();
  mw.reload_module('media/gallery');
 	// contentMediaPicturesRefreshList<? print $rand ?>();

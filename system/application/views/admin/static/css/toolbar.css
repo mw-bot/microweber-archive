@@ -132,10 +132,23 @@
 	left: 0px;
 	display: none;
 }
-.module {
+.module:hover {
 	/*position: relative;
 	zoom:1;
 	zoom:1;*/
+ 
+/*outline-style:solid;
+outline-width:1px;
+outline-color:#FC0;*/
+}
+.module:focus, .module:active, .module:click {
+	/*position: relative;
+	zoom:1;
+	zoom:1;*/
+/* 
+outline-style:none;
+outline-width:0px;*/
+
 }
 .module:after {
 	/*content: ".";
@@ -167,7 +180,7 @@
 }
 /*toolbar */
 .toobar_container {
-	height:53px;
+	height:45px;
 	width:100%;
 	position:fixed;
 	z-index: 100;
@@ -185,13 +198,13 @@
 	
 }
 .toobar_container_right {
-	height:53px;
+	height:45px;
 	color:#717880;
 	float:right;
 	margin-right:15px;
 }
 .toobar_container_left {
-	height:53px;
+	height:45px;
 	color:#FFF;
 	float:left;
 }
@@ -199,7 +212,7 @@
 	background-image:url(../img/toolbar/bg2.jpg);
 	background-repeat:repeat-x;
 	position: fixed;
-	top: 53px;
+	top: 55px;
 	z-index: 100;
 	width: 100%;
 	text-align: center;
@@ -216,7 +229,7 @@
 #mw_toolbar_pre_nav_title {
 	display: inline;
 	font-size:17px;
-	line-height:30px;
+	line-height:30px; 
 	font-family: Verdana, Geneva, sans-serif;
 	font-weight:bold;
 	color: #576075;
@@ -227,22 +240,24 @@
 	position:relative;
 }
 #mw_toolbar_nav img {
-	height:30px;
+	margin-top: 5px; 
 }
 #mw_toolbar_nav a {
 	border-left: 1px solid #CBCBCB;
 	border-right: 1px solid #AFAFAF;
 	display: inline-block;
 	float: left;
-	padding-top: 13px;
+	padding-top: 5px;
 	padding-right: 20px;
-	padding-bottom: 10px;
+	padding-bottom: 5px;
 	padding-left: 20px;
+		height:34px;
 }
 #mw_toolbar_nav a:hover, #mw_toolbar_nav a.active {
 	background: url("../img/toolbar/hbg.jpg") no-repeat scroll 0 0 transparent;
+
 }
-#mw_toolbar_nav_go_to_admin {
+.mw_toolbar_nav_go_to_admin {
 	background: url("../img/toolbar/btn_go_to_admin.png") no-repeat scroll 0 0 transparent;
 	color: #434343;
 	display: inline;
@@ -252,28 +267,37 @@
 	margin-top: 8px;
 	width: 120px;
 }
-#mw_toolbar_nav_go_to_admin span {
+.mw_toolbar_nav_go_to_admin span {
 	left: 18px;
-	;
+ 
 	position: relative;
 	top: 10px;
 	font-size:10px;
 }
-#mw_toolbar_nav_go_to_admin:hover span {
+.mw_toolbar_nav_go_to_admin:hover span {
 	text-decoration: underline;
 }
 #admin_sidebar {
 	position: fixed;
-	top: 54px;
+	top: 45px;
 	width: 290px;
-	
- 
-	  z-index:50000;
+	z-index:50000;
 	right:0px;
 	height:10px;
 	background-color:#e1e4e9;
 	overflow:hidden;
+	border-bottom-width: thin;
+	border-bottom-style: solid;
+	border-bottom-color: #666;	
 	
+ 
+	border-left: 1px solid #747474;
+   
+	
+	
+	-moz-box-shadow:1px 0px -4px #747474;
+-webkit-box-shadow:1px 0px -4px #747474;
+box-shadow:1px 0px -4px #747474;
 
 	
 	
@@ -363,6 +387,9 @@
 	text-transform: capitalize;
 	margin-bottom:3px;
 	display:block;
+	font-weight: bold;
+  
+
 }
 
 .mw_sidebar_module_group_div {

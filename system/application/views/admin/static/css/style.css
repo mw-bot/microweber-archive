@@ -1027,8 +1027,19 @@ background: url(../img/mw_close.jpg) no-repeat;
   padding: 14px;
   border: 1px solid
 }
+
+.Pages ul{
+ 
+}
+
 .Pages li{
   list-style: none;
+
+}
+
+.Pages li div.field{
+     margin-left:10px;
+
 }
 .Pages .field{
     height: 35px;

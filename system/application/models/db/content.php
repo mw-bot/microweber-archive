@@ -50,6 +50,8 @@ if ($query [0] == $table_name) {
 	
 	$fields_to_add [] = array ('content_body', "LONGTEXT default NULL" );
 	$fields_to_add [] = array ('content_body_filename', "varchar(150) default NULL" );
+	$fields_to_add [] = array ('active_site_template', "varchar(150) default NULL" );
+	
 	
 	//$fields_to_add [] = array ('content_body2', "LONGTEXT default NULL" );
 	//$fields_to_add [] = array ('content_section_name', "LONGTEXT default NULL" );

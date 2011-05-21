@@ -72,7 +72,6 @@ function save_post_showResponse(responseText, statusText, xhr, $form)  {
 
 
 </script>
-
 <? $url_to_module = dirToURL(dirname(__FILE__));
 $url_to_module_static = $url_to_module. '/static/icons/' ; ?>
 
@@ -88,53 +87,39 @@ $url_to_module_static = $url_to_module. '/static/icons/' ; ?>
     //$("#tabs").tabs();
   });
   </script>
-
-
   <div id="orders_tabs" class="mw_box">
-  <div class="mw_box_tab_content">
-  <div class="shop_nav_main">
-      <h2 class="box_title">Options</h2>
-      <ul class="shop_nav">
-      <li><a href="#tab=fragment-1"><img src="<? print $url_to_module_static ; ?>page_white_stack.png"  height="16" align="bottom" /><span>Categories</span></a></li>
-      <li><a href="#tab=fragment-2"><img src="<? print $url_to_module_static ; ?>images.png"  height="16" align="bottom" /><span>Media</span></a></li>
-      <li><a href="#tab=fragment-4"><img src="<? print $url_to_module_static ; ?>pencil.png"  height="16" align="bottom" /><span>Custom Fields</span></a></li>
-
-      <li><a href="#tab=fragment-5"><img src="<? print $url_to_module_static ; ?>world.png"  height="16" align="bottom" /><span>Meta tags</span></a></li>
-      <li><a href="#tab=fragment-6"><img src="<? print $url_to_module_static ; ?>link.png"  height="16" align="bottom" /><span>Menus</span></a></li>
-            <li><a href="#tab=fragment-3"><img src="<? print $url_to_module_static ; ?>cog.png"  height="16" align="bottom" /><span>Advanced options</span></a></li>
-      </ul>
+    <div class="mw_box_tab_content">
+      <div class="shop_nav_main">
+        <h2 class="box_title">Options</h2>
+        <ul class="shop_nav">
+          <li><a href="#tab=fragment-1"><img src="<? print $url_to_module_static ; ?>page_white_stack.png"  height="16" align="bottom" /><span>Categories</span></a></li>
+          <li><a href="#tab=fragment-2"><img src="<? print $url_to_module_static ; ?>images.png"  height="16" align="bottom" /><span>Media</span></a></li>
+          <li><a href="#tab=fragment-4"><img src="<? print $url_to_module_static ; ?>pencil.png"  height="16" align="bottom" /><span>Custom Fields</span></a></li>
+          <li><a href="#tab=fragment-5"><img src="<? print $url_to_module_static ; ?>world.png"  height="16" align="bottom" /><span>Meta tags</span></a></li>
+          <li><a href="#tab=fragment-6"><img src="<? print $url_to_module_static ; ?>link.png"  height="16" align="bottom" /><span>Menus</span></a></li>
+          <li><a href="#tab=fragment-3"><img src="<? print $url_to_module_static ; ?>cog.png"  height="16" align="bottom" /><span>Advanced options</span></a></li>
+        </ul>
+      </div>
+      <div id="tabs">
+        <div id="fragment-1" class="tab">
+          <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
+        </div>
+        <div id="fragment-2" class="tab">
+          <mw module="admin/media/gallery" for="post" post_id="<? print $form_values['id'] ?>" />
+        </div>
+        <div id="fragment-3" class="tab">
+          <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
+        </div>
+        <div id="fragment-4" class="tab">
+          <div id="post_custom_fields"></div>
+        </div>
+        <div id="fragment-5" class="tab">
+          <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
+        </div>
+        <div id="fragment-6" class="tab">
+          <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
+        </div>
+      </div>
     </div>
-
-
-
-
-
-  <div id="tabs">
-
-
-
-
-
-
-    <div id="fragment-1" class="tab">
-      <mw module="admin/posts/select_categories_for_post" id="<? print $form_values['id'] ?>" />
-    </div>
-    <div id="fragment-2" class="tab">
-      <mw module="admin/media/gallery" for="post" post_id="<? print $form_values['id'] ?>" />
-    </div>
-    <div id="fragment-3" class="tab">
-      <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
-    </div>
-    <div id="fragment-4" class="tab">
-      <div id="post_custom_fields"></div>
-    </div>
-    <div id="fragment-5" class="tab">
-      <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
-    </div>
-    <div id="fragment-6" class="tab">
-      <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
-    </div>
-  </div>
-  </div>
   </div>
 </form>

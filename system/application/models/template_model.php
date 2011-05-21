@@ -190,10 +190,90 @@ class Template_model extends Model {
 	 * @author	Microweber Dev Team
 	 * @since Version 1.0
 	 */
+	function templatesList($options = false) {
+		CI::helper ( 'directory' );
+		//$path = BASEPATH . 'content/templates/';
+		
+
+		$path = TEMPLATEFILES;
+		$path_to_layouts = $path;
+		$layout_path = $path;
+		//	print $path;
+		//exit;
+		
+
+		//$map = directory_map ( $path, TRUE );
+		$map = directory_map ( $path, TRUE, TRUE );
+		//var_dump ( $map );
+		$to_return = array ();
+		
+		foreach ( $map as $dir ) {
+			
+			//$filename = $path . $dir . DIRECTORY_SEPARATOR . 'layout.php';
+			$filename = $path . DIRECTORY_SEPARATOR . $dir;
+			$filename_location = false;
+			$filename_dir = false;
+			$filename = normalize_path ( $filename );
+			$filename = rtrim ( $filename, '\\' );
+			//p ( $filename );
+			if (is_dir ( $filename )) {
+				//
+				$fn1 = normalize_path ( $filename, true ) . 'config.php';
+				$fn2 = normalize_path ( $filename );
+				
+				//  p ( $fn1 );
+				
+
+				if (is_file ( $fn1 )) {
+					$config = false;
+					
+					include ($fn1);
+					if (! empty ( $config )) {
+						$c = $config;
+						$c ['dir_name'] = $dir;
+						$to_return [] = $c;
+					}
+				
+				} else {
+					$filename_dir = false;
+				}
+				//	$path = $filename;
+			}
+			//p($filename);
+		
+
+		}
+		return $to_return;
+	}
+	
+	/**
+	 * @desc  Get the template layouts info under the layouts subdir on your active template
+	 * @param $options
+	 * $options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
+	 * @return array
+	 * @author	Microweber Dev Team
+	 * @since Version 1.0
+	 */
 	function layoutsList($options = false) {
 		CI::helper ( 'directory' );
 		//$path = BASEPATH . 'content/templates/';
-		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+		
+
+		if ($options ['site_template']) {
+			$tmpl = trim ( $options ['site_template'] );
+			$check_dir = TEMPLATEFILES . '' . $tmpl . '/layouts/';
+			if (is_dir ( $check_dir )) {
+				$the_active_site_template = $tmpl;
+			} else {
+				$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+			
+			}
+		
+		} else {
+			$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+		
+		}
+		
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
 		$path_to_layouts = $path;
 		$layout_path = $path;
@@ -952,6 +1032,27 @@ p($modules );
 		}
 	
 	}
+	
+	function getModuleConfig($module_name) {
+		
+		$config = false;
+		$params ['module_info'] = $module_name;
+		if ($params ['module_info']) {
+			$params ['module_info'] = str_replace ( '..', '', $params ['module_info'] );
+			$try_config_file = MODULES_DIR . '' . $params ['module_info'] . '_config.php';
+			if (is_file ( $try_config_file )) {
+				include ($try_config_file);
+				if ($config ['icon'] == false) {
+					$config ['icon'] = MODULES_DIR . '' . $params ['module_info'] . '.png';
+					
+					$config ['icon'] = pathToURL ( $config ['icon'] );
+				}
+			
+			}
+			return $config;
+		}
+	
+	}
 	function getModules($options = false) {
 		//p($options);
 		$dir_name = normalize_path ( MODULES_DIR );
@@ -1335,6 +1436,10 @@ p($modules );
 									if (is_dir ( $dir ) == false) {
 										mkdir_recursive ( $dir );
 									}
+									
+									//p($try_config_file);
+									
+
 									//print ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
 									//var_dump( $try_file, $try_file1);
 									//exit ( "Modile file not found in $try_file1. Please create it!" );
@@ -1388,6 +1493,12 @@ p($modules );
 									
 									//p($try_config_file);
 									$config = false;
+									
+									if (! is_file ( $try_config_file )) {
+										$try_config_file = str_replace ( 'admin', '', $try_config_file );
+										$try_config_file = ltrim ( $try_config_file, '\\' );
+									}
+									
 									if (is_file ( $try_config_file )) {
 										
 										include ($try_config_file);
@@ -1431,7 +1542,7 @@ p($modules );
 									}
 									
 									$config ['url_to_module'] = (MODULES_DIR . '' . $attr ['module'] . '.php');
-									$config ['path_to_module'] =  ( dirname ( $config ['url_to_module'] ) ) . '/';
+									$config ['path_to_module'] = (dirname ( $config ['url_to_module'] )) . '/';
 									
 									$config ['url_to_module'] = pathToURL ( dirname ( $config ['url_to_module'] ) ) . '/';
 									
@@ -1455,8 +1566,9 @@ p($modules );
 									} else {
 										//$mod_id = false;
 										$mod_id = $attr ['module'];
-										$mod_id = str_replace('/','-',$mod_id);
-										$mod_id = str_replace('\\','-',$mod_id);
+										$mod_id = str_replace ( '/', '_', $mod_id );
+										$mod_id = str_replace ( '\\', '_', $mod_id );
+										$mod_id = str_replace ( '-', '_', $mod_id );
 									}
 									
 									if ($options ['admin'] == true) {
@@ -1538,6 +1650,32 @@ p($modules );
 									//$edtid_hash = base64_encode ( $m ['full_tag'] );
 									$edtid_hash = 'edit_tag';
 									
+									$more_attrs = '';
+									$more_attrs = " class='module' ";
+									
+									$more_attrs2 = '';
+									if (! empty ( $arrts )) {
+										
+										foreach ( $arrts as $arrts_k => $arrts_v ) {
+											
+											if ((strtolower ( $arrts_k ) != 'class') && (strtolower ( $arrts_k ) != 'contenteditable')) {
+												$more_attrs2 .= " {$arrts_k}='{$arrts_v}' ";
+											} else {
+											
+											}
+											
+											if (strtolower ( $arrts_k ) == 'style') {
+												//$more_attrs .= " ";
+											} else {
+											
+											}
+										
+										}
+									
+									} else {
+									
+									}
+									
 									if (strval ( $module_file ) != '') {
 										
 										if ($options ['do_not_wrap'] == true) {
@@ -1547,13 +1685,13 @@ p($modules );
 											
 											if ($no_edit == false) {
 												//$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
-												$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												$module_file = '<div ' . $more_attrs .$more_attrs2 . ' mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 												
 											//$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 											
 
 											} else {
-												$module_file = '<div  mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  class="module">' . $module_file . '</div>';
+												$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
 											
 											}
 										}
@@ -1704,6 +1842,11 @@ p($modules );
 						//$field_content = str_replace_count ( "</div>\n</div>", "</div>" . $field_content . '</div>', $field_content, 1 );
 						
 
+						$check_divs = strstr ( '<div', $field_content );
+						if ($check_divs == false) {
+							$field_content = '<div>' . $field_content . '</div>';
+						}
+						
 						//print htmlspecialchars ( $field_content );
 						if ($editmode == true) {
 							

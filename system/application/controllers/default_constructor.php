@@ -33,10 +33,6 @@ if ($profiler) {
 
 }
 
-
-
-
-
 /*print $cms_db_tables ['table_stats_sites'];
 
 define('PIWIK_INCLUDE_PATH', APPPATH.'/stats/');
@@ -49,9 +45,10 @@ require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 Piwik_FrontController::getInstance()->init();
 
 //l = Piwik::getCurrentUserLogin();*/
- 
+
 // This inits the API Request with the specified parameters
- 
+
+
 //$this->benchmark->mark ( 'start' );
 
 
@@ -83,16 +80,15 @@ $this->load->model ( 'Template_model', 'template_model' );
 $this->load->model ( 'Mw_model', 'mw' );*/
 //$CI = get_instance ();
 
+
 require (APPPATH . 'functions' . '/mw_functions.php');
 
 $db_setup = CACHEDIR_ROOT . '/db_tmp/index.php';
-if(is_file($db_setup) == false){
+if (is_file ( $db_setup ) == false) {
 	CI::model ( 'init' )->db_setup ();
-	CI::model ( 'core' )->options_setup_default();
+	CI::model ( 'core' )->options_setup_default ();
 }
 
-
- 
 //some random factor
 $rand = rand ( 1, 30 );
 if ($rand < 4) {
@@ -455,27 +451,62 @@ $this->template ['user_session'] = $user_session;
 
 $this->template ['user_id'] = CI::model ( 'core' )->userId ();
 
-$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+$url = $this->uri->uri_string ();
+
+$url = str_ireplace ( '\\', '', $url );
+
+$is_json = url_param ( 'json' );
+if ($is_json) {
+	$output_format = 'json';
+	$url = url_param_unset ( 'json', $url );
+}
+
+$is_debug = url_param ( 'debug' );
+if ($is_debug) {
+	
+	$url = url_param_unset ( 'debug', $url );
+}
+
+$slash = substr ( "$url", 0, 1 );
+if ($slash == '/') {
+	$url = substr ( "$url", 1, strlen ( $url ) );
+}
+
+$page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
+if (trim ( $page ['active_site_template'] ) != '') {
+	$tmpl = trim ( $page ['active_site_template'] );
+	$check_dir = TEMPLATEFILES . '' . $tmpl . '/layouts/';
+	if (is_dir ( $check_dir )) {
+		$the_active_site_template = $tmpl;
+	} else {
+		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+	
+	}
+
+} else {
+	$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+
+}
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
+$the_active_site_template_dir = normalize_path ( $the_active_site_template_dir, true );
 
-if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
-	
-	define ( 'ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir );
+ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
-}
 
-if (defined ( 'TEMPLATES_DIR' ) == false) {
-	
-	define ( 'TEMPLATES_DIR', $the_active_site_template_dir );
+define ( 'ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir );
+define ( 'TEMPLATE_DIR', $the_active_site_template_dir );
 
-}
+ }
 
-if (defined ( 'TEMPLATE_DIR' ) == false) {
-	
-	define ( 'TEMPLATE_DIR', $the_active_site_template_dir );
 
-}
+ if (defined ( 'TEMPLATES_DIR' ) == false) {
+
+
+define ( 'TEMPLATES_DIR', $the_active_site_template_dir );
+
+ }
+
 
 if (defined ( 'DEFAULT_TEMPLATE_DIR' ) == false) {
 	
@@ -483,7 +514,8 @@ if (defined ( 'DEFAULT_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+//$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -491,11 +523,13 @@ $the_template_url = site_url ( 'userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the
 
 $the_template_url = $the_template_url . '/';
 
-if (defined ( 'TEMPLATE_URL' ) == false) {
-	
-	define ( "TEMPLATE_URL", $the_template_url );
+ if (defined ( 'TEMPLATE_URL' ) == false) {
 
-}
+
+define ( "TEMPLATE_URL", $the_template_url );
+
+ }
+
 
 if (defined ( 'USERFILES_URL' ) == false) {
 	

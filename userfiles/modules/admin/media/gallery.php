@@ -1,8 +1,15 @@
-<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/plupload.queue.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
-<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>
+
+<div class="mw_iframe_sub_header" >
+  <table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><? print $config['description']; ?>
+        <!--<a target="_blank" href="http://microweber.com">(see how)</a>--></td>
+      <td><a target="_blank" href="<? print $config['help_link']; ?>"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></a></td>
+    </tr>
+  </table>
+</div>
 <?  //p($params); ?>
-<?    // p($config); ?>
+<?   //   p($config); ?>
 <?
 $rand = rand();
     $call_media_manager =  $rand;
@@ -317,7 +324,7 @@ $(document).ready(function(){
 function make_the_uploader<? print $rand ?>(){
 	
 	
-	$(".drag_files_here_more<? print $rand ?>").hide();
+	$(".drag_files_here_more<? print $rand ?>").show();
 	
 	
 	
@@ -380,13 +387,19 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
             })*/
          }
 		}
-	});	
+	});
+
+
+
+//$('div.plupload').css('z-index','99999');
+
+	
 }
 
 // ******************************** END UPLOADER *******************************
 
 </script>
-<span class="mw_sidebar_module_box_title">Gallery settings</span>
+ <span class="mw_sidebar_module_box_title">Gallery settings</span>
 <div class="mw_admin_rounded_box">
   <div class="mw_admin_box_padding">
     <table width="100%" border="0" cellspacing="4" cellpadding="0">

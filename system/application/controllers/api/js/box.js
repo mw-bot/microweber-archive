@@ -33,7 +33,7 @@ mw.modal={
         + '</div>'
         + '<div class="mw_modal_content_box">'
             + modal_content
-        + '</div>'
+        + '</div>' 
        + '</div>'
     +'</div>';
     var modaler = document.createElement('div');

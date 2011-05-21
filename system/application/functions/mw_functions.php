@@ -95,6 +95,7 @@ function clean_word($html_to_save) {
 	//$html_to_save = '<p>' . str_replace("<br />","<br />", str_replace("<br /><br />", "</p><p>", $html_to_save)) . '</p>';
 	//$html_to_save = str_replace(array("<p></p>", "<p><h2>", "<p><h1>", "<p><div", "</pre></p>", "<p><pre>", "</p></p>", "<p></td>", "<p><p", "<p><table", "<p><p", "<p><table"), array("<p>&nbsp;</p>", "<h2>", "<h1>", "<div",  "</pre>", "<pre>", "</p>", "</td>", "<p", "<table", "<p", "<table"), $html_to_save);
 	
+
 	//p($html_to_save);
 	return $html_to_save;
 }
@@ -281,8 +282,8 @@ function get_custom_fields_for_content($content_id) {
 }
 
 function option_get($key, $group = false) {
-	$more = CI::model ( 'core' )->optionsGetByKey($key, $return_full = false, $orderby = false, $option_group = $group);
-
+	$more = CI::model ( 'core' )->optionsGetByKey ( $key, $return_full = false, $orderby = false, $option_group = $group );
+	
 	return $more;
 
 }
@@ -1077,7 +1078,18 @@ function category_tree($params) {
 	$active_code = ($params ['active_code']) ? $params ['active_code'] : false;
 	$remove_ids = ($params ['remove_ids']) ? $params ['remove_ids'] : false;
 	$removed_ids_code = ($params ['removed_ids_code']) ? $params ['removed_ids_code'] : false;
-	$ul_class_name = ($params ['ul_class_name']) ? $params ['ul_class_name'] : false;
+	if ($params ['class']) {
+		$ul_class_name = $params ['class'];
+	} else {
+		$ul_class_name = ($params ['ul_class_name']) ? $params ['ul_class_name'] : $params ['ul_class_name'];
+	}
+	
+if ($params ['ul_class']) {
+		$ul_class_name = $params ['ul_class'];
+	}
+	
+	
+	
 	$include_first = ($params ['include_first']) ? $params ['include_first'] : false;
 	$content_type = ($params ['content_type']) ? $params ['content_type'] : false;
 	$add_ids = ($params ['add_ids']) ? $params ['add_ids'] : false;
@@ -1418,10 +1430,9 @@ function breadcrumbs($seperator) {
 }
 
 function get_mediaby_id($id) {
-	$media = CI::model ( 'core' )->mediaGetById($id);
+	$media = CI::model ( 'core' )->mediaGetById ( $id );
 	return $media;
 }
-
 
 /**
  * get_media 
@@ -1456,7 +1467,7 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 	$to_table = CI::model ( 'core' )->guessDbTable ( $for );
 	//var_dump($to_table, $content_id);
 	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
-	return $media; 
+	return $media;
 	// p($media);
 
 

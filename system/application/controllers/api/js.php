@@ -14,7 +14,7 @@ class js extends Controller {
 	}
 	
 	function index() {
-		header("Content-type: text/javascript");
+		header ( "Content-type: text/javascript" );
 		$url = url ();
 		$cache_id = "js_api_" . md5 ( $url );
 		$cache_group = 'global/blocks';
@@ -27,6 +27,11 @@ class js extends Controller {
 			}
 		}
 		
+		
+	 
+			$load_editmode = url_param ( 'load_editmode' );
+			 
+		 
 		$editmode = CI::library ( 'session' )->userdata ( 'editmode' );
 		if ($editmode == true) {
 			$edit = true;
@@ -79,37 +84,40 @@ class js extends Controller {
 			}
 			
 			if (($editmode == true) or $load_extra_libs == true or $and_ui == true) {
-				$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery-ui-1.8.12.custom.js', true );
+				$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery-ui-1.8.9.custom.min.js', true );
 				//$apicss = '<link rel="stylesheet" href="' . ADMIN_STATIC_FILES_URL . 'css/api.css" type="text/css" media="screen"  />';
 			}
 			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.form.js', true );
 			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.embedly.min.js', true );
 			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery_plugins.js', true );
 			
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy-core.js', true );
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy-cssclassapplier.js', true );
+			//$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy-core.js', true );
+			//$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy-cssclassapplier.js', true );
+			
 
 			//	$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/log4javascript.js', true );
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/core.js', true );
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/dom.js', true );
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/domrange.js', true );
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/wrappedrange.js', true );
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/wrappedselection.js', true );
-//			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/rangy-cssclassapplier.js', true );
-//		 
-//			
- 
+			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/core.js', true );
+			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/dom.js', true );
+			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/domrange.js', true );
+			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/wrappedrange.js', true );
+			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/wrappedselection.js', true );
+			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/rangy-cssclassapplier.js', true );
+			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'rangy/rangy-textcommands.js', true );
 			
+			//		 
+			//			
+			
+
 			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.cookie.js', true );
 			
 			$layout = $layout . "\n\n\n // File: _mw.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw.js', true );
 			
 			$ajax = isAjax ();
 			if ($ajax == false) {
-				if ($edit == true and $in_admin == false and $no_mw_edit == false) {
+				if (($edit == true and $in_admin == false and $no_mw_edit == false) or $load_editmode == true) {
 					$layout = $layout . "\n\n\n // File: _mw_edit.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw_edit.js', true );
 				}
-				if (($editmode == true) or $load_extra_libs == true) {
+				if (($editmode == true) or $load_extra_libs == true or $load_editmode == true) {
 					$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw_extra.js', true );
 				}
 			}
