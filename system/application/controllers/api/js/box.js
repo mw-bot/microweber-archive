@@ -46,6 +46,7 @@ mw.modal={
 
     return modaler;
   },
+  
   overlay:function(color){
     if($("#mw_overlay").length==0){
           var overlay = document.createElement('div');

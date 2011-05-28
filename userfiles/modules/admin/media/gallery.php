@@ -1,4 +1,4 @@
-
+<? //p($params); ?>
 <div class="mw_iframe_sub_header" >
   <table width="95%" border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -83,10 +83,12 @@ $rand = rand();
 
 //p($params);
 
-if($params['page_id']){
-	$for = 'content';
+if(intval($params['page_id'])  > 0){
+	$for = 'content'; 
 	$id = $params['page_id'];
 }
+
+
 
 if(intval($params['post_id']) > 0){
 	$for = 'content';
@@ -94,11 +96,14 @@ if(intval($params['post_id']) > 0){
 }
 
 if(intval($params['category_id']) > 0){
-	$for = 'category';
-	$id = $params['category_id'];
+	//$for = 'category';
+	//$id = $params['category_id'];
 }
 
-
+if(intval($params['content_id'])  > 0){
+	$for = 'content'; 
+	$id = $params['content_id'];
+}
 
 if($for == false){
 	
@@ -121,10 +126,21 @@ if($id == false){
 } 
  
  if($module_id == false){
+	 if($params['module_id'] != false){
 	
 	$module_id = $params['module_id'];
+	 }
 }
+
+
+
+
+
+
 ?>
+
+ 
+
 <input type="hidden" name="queue_id" value="<? print $rand ?>" />
 <script type="text/javascript">
 
@@ -143,6 +159,10 @@ function call_media_manager<? print $call_media_manager; ?>() {
 	data1.queue_id = '<? print $rand ?>';
 	//data1.type = 'picture';
  data1.type =  $("#media_type<? print $rand ?>").val();
+ 
+ 
+ 
+ 
 	
 	$('#media_manager<? print $rand ?>').load('<? print site_url('api/module') ?>',data1);
 
@@ -399,7 +419,8 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
 // ******************************** END UPLOADER *******************************
 
 </script>
- <span class="mw_sidebar_module_box_title">Gallery settings</span>
+<? if($params['quick_edit'] and $params['module_id']) :   ?>
+<span class="mw_sidebar_module_box_title">Gallery settings</span>
 <div class="mw_admin_rounded_box">
   <div class="mw_admin_box_padding">
     <table width="100%" border="0" cellspacing="4" cellpadding="0">
@@ -451,7 +472,7 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
     <? endif; ?>
   </div>
 </div>
-<? if($params['quick_edit'] and $params['module_id']) :   ?>
+
 <?
  
 // $rand=intval($params['id']).rand().rand().rand();

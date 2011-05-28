@@ -155,14 +155,25 @@ class Template_model extends Model {
 		return $file;
 	}
 	
-	function layoutGetConfig($filename) {
-		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+	function layoutGetConfig($filename, $template = false) {
+		if (trim ( $template ) == '' or strtolower ( $template ) == 'default') {
+			$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+		} else {
+			
+			$the_active_site_template = $template;
+		}
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
 		$layout_path = $path;
 		//$file = @file_get_contents ( $layout_path. $filename );
 		
 
 		$try = $layout_path . $filename;
+		$try1 = str_ireplace ( '.php', '.png', $try );
+		$screensshot_file = $try1;
+		$screensshot_file = normalize_path ( $screensshot_file, false );
+		//p($screensshot_file);
+		
+
 		$try = str_ireplace ( '.php', '_config.php', $try );
 		if (is_file ( $try )) {
 			include ($try);
@@ -177,8 +188,11 @@ class Template_model extends Model {
 			}
 		}
 		//p ( $try );
+		//	p($screensshot_file);
+		if (is_file ( $screensshot_file )) {
+			$config ['screenshot'] = pathToURL ( $screensshot_file );
+		}
 		
-
 		return $config;
 	}
 	
@@ -231,6 +245,14 @@ class Template_model extends Model {
 					if (! empty ( $config )) {
 						$c = $config;
 						$c ['dir_name'] = $dir;
+						
+						$screensshot_file = $fn2 . '/screenshot.png';
+						$screensshot_file = normalize_path ( $screensshot_file, false );
+						//p($screensshot_file);
+						if (is_file ( $screensshot_file )) {
+							$c ['screenshot'] = pathToURL ( $screensshot_file );
+						}
+						
 						$to_return [] = $c;
 					}
 				
@@ -259,7 +281,7 @@ class Template_model extends Model {
 		//$path = BASEPATH . 'content/templates/';
 		
 
-		if ($options ['site_template']) {
+		if ($options ['site_template'] and (strtolower ( $options ['site_template'] ) != 'default')) {
 			$tmpl = trim ( $options ['site_template'] );
 			$check_dir = TEMPLATEFILES . '' . $tmpl . '/layouts/';
 			if (is_dir ( $check_dir )) {
@@ -375,7 +397,8 @@ class Template_model extends Model {
 							$result = str_ireplace ( 'content_type:', '', $result );
 							$to_return_temp ['content_type'] = trim ( $result );
 						}
-						$screensshot_file = $path . 'screenshots' . DIRECTORY_SEPARATOR . $filename_no_ext . '.jpg';
+						$screensshot_file = $path . $filename_dir . DIRECTORY_SEPARATOR . $filename_no_ext . '.png';
+						$screensshot_file = normalize_path ( $screensshot_file, false );
 						//p($screensshot_file);
 						if (is_file ( $screensshot_file )) {
 							$to_return_temp ['screenshot'] = pathToURL ( $screensshot_file );
@@ -1628,8 +1651,23 @@ p($modules );
 								
 
 								//
+								$more_attrs2 = '';
+								if (! empty ( $arrts )) {
+									
+									foreach ( $arrts as $arrts_k => $arrts_v ) {
+										
+										if ((strtolower ( $arrts_k ) != 'class') && (strtolower ( $arrts_k ) != 'contenteditable') && (strtolower ( $arrts_k ) != 'style')) {
+											$more_attrs2 .= " {$arrts_k}='{$arrts_v}' ";
+										} else {
+										
+										}
+									
+									}
 								
-
+								} else {
+								
+								}
+								
 								if ($editmode == true) {
 									//	p($m);
 									//p( $arrts);
@@ -1653,29 +1691,7 @@ p($modules );
 									$more_attrs = '';
 									$more_attrs = " class='module' ";
 									
-									$more_attrs2 = '';
-									if (! empty ( $arrts )) {
-										
-										foreach ( $arrts as $arrts_k => $arrts_v ) {
-											
-											if ((strtolower ( $arrts_k ) != 'class') && (strtolower ( $arrts_k ) != 'contenteditable')) {
-												$more_attrs2 .= " {$arrts_k}='{$arrts_v}' ";
-											} else {
-											
-											}
-											
-											if (strtolower ( $arrts_k ) == 'style') {
-												//$more_attrs .= " ";
-											} else {
-											
-											}
-										
-										}
-									
-									} else {
-									
-									}
-									
+									//
 									if (strval ( $module_file ) != '') {
 										
 										if ($options ['do_not_wrap'] == true) {
@@ -1685,7 +1701,7 @@ p($modules );
 											
 											if ($no_edit == false) {
 												//$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
-												$module_file = '<div ' . $more_attrs .$more_attrs2 . ' mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												$module_file = '<div ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 												
 											//$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 											
@@ -1704,7 +1720,7 @@ p($modules );
 
 								} else {
 									if (strval ( $module_file ) != '') {
-										$module_file = '<div class="module" mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
+										$module_file = '<div ' . $more_attrs2 . ' class="module" mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
 									}
 								}
 								//}  ++

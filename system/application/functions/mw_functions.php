@@ -272,13 +272,96 @@ function get_custom_fields($content_id) {
 	return get_custom_fields_for_content ( $content_id );
 }
 
-function get_custom_fields_for_content($content_id) {
+function get_custom_fields_config_for_content($content_id) {
+	$cf_cfg = array ();
 	
+	 
+	$cf_from_id ['to_table_id'] = $content_id;
+	
+	
+	
+	 
+	$cf_cfg1 = get_custom_fields_for_content($content_id);
+	
+	$to_return = array ();
+	if (! empty ( $cf_cfg1 )) {
+		
+		//$cf_cfg = ($cf_cfg1);
+		//$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
+		foreach ( $cf_cfg1 as $value ) {
+			$to_return [] = $value;
+		}
+	
+	}
+	
+	
+	$cf_cfg1 = array ();
+	$cf_cfg1 ['post_id'] = $cf_from_id ['to_table_id'];
+	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
+	//    p( $cf_cfg1);
+	$cf_cfg1 = CI::model ( 'core' )->getCustomFieldsConfig ( $cf_cfg1 );
+	
+	//$to_return = array ();
+	if (! empty ( $cf_cfg1 )) {
+		
+		//$cf_cfg = ($cf_cfg1);
+		//$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
+		foreach ( $cf_cfg1 as $value ) {
+			$to_return [] = $value;
+		}
+	
+	}
+	
+	$cf_cfg1 = array ();
+	$page_for_post = get_page_for_post ( $cf_from_id ['to_table_id'] );
+	$cf_cfg1 ['page_id'] = $page_for_post ['id'];
+	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
+	//    p( $cf_cfg1);
+	$cf_cfg1 = CI::model ( 'core' )->getCustomFieldsConfig ( $cf_cfg1 );
+	if (! empty ( $cf_cfg1 )) {
+		
+		$cf_cfg = ($cf_cfg1);
+	//	$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
+	//	$to_return [] = $cf_cfg1;
+		foreach ( $cf_cfg1 as $value ) {
+			
+			$f = false;
+			foreach ( $to_return as $d ) {
+				if ($d ["name"] == $value ["name"]) {
+					$f = true;
+				
+				}
+				
+			if ($d ["custom_field_name"] == $value ["param"]) {
+					$f = true;
+				
+				}
+				
+				if ($d ["id"] == $value ["id"]) {
+					//$f = true;
+				
+				}
+			
+			}
+			if ($f == false) {
+				$to_return [] = $value;
+			
+			}
+		
+		}
+	
+	}
+	
+	return $to_return;
+}
+
+//p($cf_cfg);
+
+
+function get_custom_fields_for_content($content_id) {
 	$more = false;
 	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id, true );
-	
 	return $more;
-
 }
 
 function option_get($key, $group = false) {
@@ -1084,11 +1167,9 @@ function category_tree($params) {
 		$ul_class_name = ($params ['ul_class_name']) ? $params ['ul_class_name'] : $params ['ul_class_name'];
 	}
 	
-if ($params ['ul_class']) {
+	if ($params ['ul_class']) {
 		$ul_class_name = $params ['ul_class'];
 	}
-	
-	
 	
 	$include_first = ($params ['include_first']) ? $params ['include_first'] : false;
 	$content_type = ($params ['content_type']) ? $params ['content_type'] : false;

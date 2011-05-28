@@ -1,11 +1,11 @@
  <?
 $id = $params['id'];
 
-
+if(intval($id) != 0){
 
 $form_values = get_content($id);
  
-
+}
 ?>
       <fieldset>
         <legend>Add this post to menus</legend>

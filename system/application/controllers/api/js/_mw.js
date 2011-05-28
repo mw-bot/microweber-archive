@@ -77,9 +77,14 @@ mw.reload_module = function($module_name) {
 		for ( var i = 0; i < refresh_modules_explode.length; i++) {
 			var $module_name = refresh_modules_explode[i];
 
+			
+			
+			
 			if ($module_name != undefined) {
+			//	$("div.module").each(
+				//$("div.module[mw_params_module='"+$module_name+"']").each(
 				$("div.module").each(
-								function() {
+ 								function() {
 
 									var mw_params_module = $(this).attr(	"mw_params_module");
 									
@@ -136,8 +141,8 @@ mw.reload_module = function($module_name) {
 
 		}
 		 if(typeof init_edits == 'function') { 
-			 window.mw_sortables_created = false;
-			 init_edits(); 
+		//	 window.mw_sortables_created = false;
+			// init_edits(); 
 			 }
 		 
 	//	 $('.mw').trigger('mw_module_reloaded', [$module_name]);

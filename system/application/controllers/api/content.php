@@ -117,10 +117,69 @@ class Content extends Controller {
 		
 		if ($_POST) {
 			
-			p ( $_POST );
-			exit ( 'TODO: not finished in file: ' . __FILE__ );
-			exit ();
+			//p ( $_POST );
+			
+
+			$save = CI::model ( 'taxonomy' )->taxonomySave ( $_POST, $preserve_cache = false );
+			CI::model ( 'core' )->cleanCacheGroup ( 'taxonomy' );
+			exit ( $save );
+			//exit ( 'TODO: not finished in file: ' . __FILE__ );
+		//exit ();
 		}
+	}
+	
+	function cf_reorder() {
+		
+		$id = user_id ();
+		if ($id == 0) {
+			exit ( 'Error: not logged in.' );
+		}
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		global $cms_db_tables;
+		$custom_field_table1 = $cms_db_tables ['table_custom_fields'];
+		$custom_field_table2 = $cms_db_tables ['table_custom_fields_config'];
+		foreach ( $_POST ['cf_id'] as $key => $value ) {
+			$q1 = "UPDATE {$custom_field_table1}  SET field_order={$key}  WHERE id={$value}";
+		 	//p($q1);
+			$q1 = CI::model ( 'core' )->dbQ ( $q1 );
+			
+			$q1 = "UPDATE {$custom_field_table2}  SET field_order={$key}  WHERE id={$value}";
+			//p($q1);
+			$q1 = CI::model ( 'core' )->dbQ ( $q1 );
+		
+		}
+		CI::model ( 'core' )->cleanCacheGroup ( 'custom_fields' );
+		//p ( $_POST );
+	}
+	
+	function save_cf() {
+		$id = user_id ();
+		if ($id == 0) {
+			exit ( 'Error: not logged in.' );
+		}
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		$s = CI::model ( 'core' )->saveCustomFieldConfig ( $_POST );
+		exit ( $s );
+	}
+	
+	function delete_cf() {
+		$id = user_id ();
+		if ($id == 0) {
+			exit ( 'Error: not logged in.' );
+		}
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		$s = CI::model ( 'core' )->deleteDataById ( 'table_custom_fields_config', $_POST ['id'], $delete_cache_group = false );
+		CI::model ( 'core' )->cleanCacheGroup ( 'custom_fields' );
+		exit ( $s );
 	}
 	
 	function save_taxonomy_items_order() {
@@ -183,12 +242,41 @@ class Content extends Controller {
 	
 	function get_layout_config() {
 		if ($_POST ['filename']) {
-			$file = CI::model ( 'template' )->layoutGetConfig ( $_POST ['filename'] );
+			$file = CI::model ( 'template' )->layoutGetConfig ( $_POST ['filename'], $_POST ['template'] );
 			$file = json_encode ( $file );
 			print $file;
 			exit ();
 		}
 	
+	}
+	
+	function get_taxonomy() {
+		$id = user_id ();
+		if ($id == 0) {
+			exit ( 'Error: not logged in.' );
+		}
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		
+		if ($_POST ['id']) {
+			$del_id = $_POST ['id'];
+		}
+		
+		if (url_param ( 'id' )) {
+			$del_id = url_param ( 'id', true );
+		}
+		//p($del_id);
+		if ($del_id != 0) {
+			$getSingleItem = CI::model ( 'taxonomy' )->getSingleItem ( $del_id );
+			//p($getSingleItem);
+			if (! empty ( $getSingleItem )) {
+				$getSingleItem = json_encode ( $getSingleItem );
+				exit ( $getSingleItem );
+			}
+		
+		}
 	}
 	
 	function delete_taxonomy() {
@@ -227,7 +315,9 @@ class Content extends Controller {
 		
 		if ($_POST) {
 			$save = post_save ( $_POST );
-			$save = json_encode ( $save );
+			$j = array ();
+			$j ['id'] = $save ['id'];
+			$save = json_encode ( $j );
 			print $save;
 			exit ();
 		}
@@ -864,12 +954,31 @@ class Content extends Controller {
 							$html_to_save = $the_field_data ['html'];
 							$html_to_save = str_replace ( 'MICROWEBER', 'microweber', $html_to_save );
 							
+							if ($is_no_save != true) {
+								$pattern = "/mw_last_hover=\"[0-9]*\"/"; 
+								$pattern = "/mw_last_hover=\"[0-9]*\"/i";
+								
+								$html_to_save = preg_replace ( $pattern, "", $html_to_save );
+								
+								$pattern = "/mw_last_hover=\"\"/";
+								$html_to_save = preg_replace ( $pattern, "", $html_to_save );
+								
+								$pattern = "/mw_tag_edit=\"[0-9]*\"/i";
+								
+								$html_to_save = preg_replace ( $pattern, "", $html_to_save );
+								
+								$pattern = "/mw_tag_edit=\"\"/";
+								$html_to_save = preg_replace ( $pattern, "", $html_to_save );
+							}
+							
 							$html_to_save = str_replace ( '<DIV', '<div', $html_to_save );
 							$html_to_save = str_replace ( '/DIV', '/div', $html_to_save );
 							$html_to_save = str_replace ( '<P>', '<p>', $html_to_save );
 							$html_to_save = str_replace ( '</P>', '</p>', $html_to_save );
 							$html_to_save = str_replace ( 'ui-droppable-disabled', '', $html_to_save );
 							$html_to_save = str_replace ( 'ui-state-disabled', '', $html_to_save );
+							$html_to_save = str_ireplace ( '<span >', '<span>', $html_to_save );
+							$html_to_save = str_replace ( '<SPAN >', '<span>', $html_to_save );
 							
 							//	$mw123 = 'microweber module_id="module_'.rand().rand().rand().rand().'" ';
 							
@@ -889,7 +998,8 @@ class Content extends Controller {
 							$html_to_save = str_replace ( 'sizcache=""', '', $html_to_save );
 							
 							$html_to_save = str_replace ( 'sizcache sizset', '', $html_to_save );
-							$html_to_save = str_replace ( ' <p   >', ' <p>', $html_to_save );
+							$html_to_save = str_replace ( '<p   >', ' <p>', $html_to_save );
+							$html_to_save = str_replace ( '<p >', ' <p>', $html_to_save );
 							
 							//sizcache="14533" sizset="40"
 							
@@ -936,12 +1046,13 @@ class Content extends Controller {
 								}
 							
 							}
+							
 							//p ( $html_to_save, 1 );
 							$content = $html_to_save;
 							$html_to_save = $content;
 							//if (strstr ( $content, 'mw_params_encoded' ) == true) {
-							
-
+							$content = str_ireplace ( '<span >', '<span>', $content );
+							//p($content);
 							//$tags2 = html2a($content);
 							$tags1 = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true );
 							//p($tags1); 
@@ -957,7 +1068,35 @@ class Content extends Controller {
 								$tag1 .= " />";
 								
 								$checkbox->outertext = $tag1;
-							 
+							
+							}
+							$content = $html->save ();
+							$html = str_get_html ( $content );
+							foreach ( $html->find ( 'span' ) as $checkbox ) {
+								//var_Dump($checkbox);
+								$style = $checkbox->style;
+								$class = $checkbox->class;
+								
+								if (trim ( $style ) == '' and trim ( $class ) == '') {
+									//var_Dump($style);
+									//var_Dump($class);
+									//var_Dump($in);
+									$in = $checkbox->innertext;
+									$checkbox->outertext = $in;
+								}
+								
+								foreach ( $checkbox->find ( 'span' ) as $sp ) {
+									$style = $sp->style;
+									$class = $sp->class;
+									
+									if (trim ( $style ) == '' and trim ( $class ) == '') {
+										//var_Dump($style);
+										//var_Dump($class);
+										//var_Dump($in);
+										$in = $sp->innertext;
+										$sp->outertext = $in;
+									}
+								}
 							
 							}
 							$content = $html->save ();
@@ -1135,22 +1274,8 @@ class Content extends Controller {
 
 							}*/
 							//p ( $content );
-							if ($is_no_save != true) {
-								$pattern = "/mw_last_hover=\"[0-9]*\"/";
-								$pattern = "/mw_last_hover=\"[0-9]*\"/i";
-								
-								$content = preg_replace ( $pattern, "", $content );
-								
-								$pattern = "/mw_last_hover=\"\"/";
-								$content = preg_replace ( $pattern, "", $content );
-								
-								$pattern = "/mw_tag_edit=\"[0-9]*\"/i";
-								
-								$content = preg_replace ( $pattern, "", $content );
-								
-								$pattern = "/mw_tag_edit=\"\"/";
-								$content = preg_replace ( $pattern, "", $content );
-							}
+							
+
 							//$content = preg_replace ( "#<div[^>]*id=\"{$some_mod_k}\".*?</div>#si", $some_mod_v, $content );
 							
 
@@ -1485,6 +1610,28 @@ class Content extends Controller {
 		}
 	}
 	
+	function get_url() {
+		
+		if ($_POST ['id']) {
+			$del_id = $_POST ['id'];
+		}
+		
+		if (url_param ( 'id' )) {
+			$del_id = url_param ( 'id', true );
+		}
+		//p($del_id);
+		if ($del_id != 0) {
+			$url = (page_link ( $del_id ));
+			if ($url == false) {
+				
+				$url = (post_link ( $del_id ));
+			
+			}
+			
+			exit ( $url );
+		}
+	}
+	
 	function save_page() {
 		$usr = user_id ();
 		if ($usr == 0) {
@@ -1503,7 +1650,9 @@ class Content extends Controller {
 			
 			$save = page_save ( $_POST );
 			
-			$save = json_encode ( $save );
+			$j = array ();
+			$j ['id'] = $save ['id'];
+			$save = json_encode ( $j );
 			print $save;
 			exit ();
 		}

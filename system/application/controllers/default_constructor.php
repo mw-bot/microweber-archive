@@ -475,38 +475,51 @@ if ($slash == '/') {
 $page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
 if (trim ( $page ['active_site_template'] ) != '') {
 	$tmpl = trim ( $page ['active_site_template'] );
-	$check_dir = TEMPLATEFILES . '' . $tmpl . '/layouts/';
-	if (is_dir ( $check_dir )) {
-		$the_active_site_template = $tmpl;
-	} else {
+	if (strtolower ( $tmpl ) == 'default') {
 		$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 	
+	} else {
+		$check_dir = TEMPLATEFILES . '' . $tmpl . '/layouts/';
+		if (is_dir ( $check_dir )) {
+			$the_active_site_template = $tmpl;
+		} else {
+			$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+		
+		}
+		
 	}
-
 } else {
 	$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
 
 }
+if (strtolower ( $the_active_site_template ) == 'default') {
+	
+	$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+	//p($the_active_site_template,1);
+//
+}
+
+
+
+
+
+
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 $the_active_site_template_dir = normalize_path ( $the_active_site_template_dir, true );
 
- if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
+//if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
+	
+	define ( 'ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir );
+	define ( 'TEMPLATE_DIR', $the_active_site_template_dir );
 
+//}
 
-define ( 'ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir );
-define ( 'TEMPLATE_DIR', $the_active_site_template_dir );
+if (defined ( 'TEMPLATES_DIR' ) == false) {
+	
+	define ( 'TEMPLATES_DIR', $the_active_site_template_dir );
 
- }
-
-
- if (defined ( 'TEMPLATES_DIR' ) == false) {
-
-
-define ( 'TEMPLATES_DIR', $the_active_site_template_dir );
-
- }
-
+}
 
 if (defined ( 'DEFAULT_TEMPLATE_DIR' ) == false) {
 	
@@ -523,13 +536,11 @@ $the_template_url = site_url ( 'userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the
 
 $the_template_url = $the_template_url . '/';
 
- if (defined ( 'TEMPLATE_URL' ) == false) {
+if (defined ( 'TEMPLATE_URL' ) == false) {
+	
+	define ( "TEMPLATE_URL", $the_template_url );
 
-
-define ( "TEMPLATE_URL", $the_template_url );
-
- }
-
+}
 
 if (defined ( 'USERFILES_URL' ) == false) {
 	

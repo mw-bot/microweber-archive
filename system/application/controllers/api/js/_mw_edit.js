@@ -394,12 +394,17 @@ $('.edit .module a').live('click',function(e) {
 		 
 		 
 		 
-		 if (window.console != undefined) {
-				console.log('click on module 1 ' );	
-			}
+		
 		  window.mw_making_sortables = false;
 		  
 		$clicked_on_module = 	$(this).attr('module_id');
+		
+		
+		 if (window.console != undefined) {
+				console.log('click on module 1 ' + $clicked_on_module );	
+			}
+		
+		
 		  if($clicked_on_module == undefined || $clicked_on_module == ''){
 				$clicked_on_module = 	$(this).parents('.module:first').attr('module_id');
 		  }
@@ -554,12 +559,13 @@ $(".edit *").live("click mouseup mousedown", function(event) {
 	//sel.normalizeBoundaries();
 	
 	var el = this;
-	var range = rangy.createRange();
-	range.selectNodeContents(el);
-	range.normalizeBoundaries();
-	 
-	
-	
+//	var range = rangy.createRange();
+	//range.selectNodeContents(el);
+//	range.normalizeBoundaries();
+	// this.undoToSelection()
+//	sel.undoToSelection()
+	//sel.undoToSelection(sel)
+
 	sel.removeAllRanges();
 		  
 	  }  else if ( event.type == "click" ) {
@@ -602,12 +608,7 @@ $(".edit *").live("click mouseup mousedown", function(event) {
 		  
 		  
 			var randomCssClass = "rangyTemp_" + (+new Date());
-		  rangy.init();
-		  
-		  
-		   
-		  var classApplier = rangy.createCssClassApplier(randomCssClass, true);
-		//   cssApplier.toggleSelection();
+			//   cssApplier.toggleSelection();
 		  
 		  
 		  
@@ -692,12 +693,21 @@ $(".edit *").live("click mouseup mousedown", function(event) {
 					 event.target.setAttribute('mw_tag_edit', window.mw_last_hover);	
 					 
 					 
+					 
+				//	 $(this).children().attr('mw_tag_edit', window.mw_last_hover);	
+				//	 $(this).parent().attr('mw_tag_edit', window.mw_last_hover);	
+					 
 			//
 			 
 					 
 					 
 					 
-					 
+					  rangy.init();
+					  
+					  
+					   
+					  var classApplier = rangy.createCssClassApplier(randomCssClass, true);
+				
 					 $("#style_mw_id").val( window.mw_last_hover);
 					 $("#mw_css_editor_element_id").val( window.mw_last_hover);
 					 $("#style_mw_tag").val( event.target.nodeName);
@@ -826,7 +836,7 @@ $(".edit *").live("click mouseup mousedown", function(event) {
 				 
 				 
 				 	
-			event.preventDefault(); // this prevents the original href of the link from being opened
+		//	event.preventDefault(); // this prevents the original href of the link from being opened
 					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 					 
 					
@@ -2515,10 +2525,16 @@ function call_edit_module_ajax(id, module_name_original) {
 						 post_id = $("#mw_edit_post_id").val();
 						 category_id = $("#mw_edit_category_id").val();
 				 
-							data1 = {}
+						//	data1 = {}
+						 var $module_by_id  =$("div[module_id='"+$curent_edit_element_id+"']"); 
+						 
+						 
+						 data1 =  $module_by_id.getAttributes();
+						// alert(data1);
 						   data1.module = 'admin/'+module_name_original;
 						   data1.page_id =page_id;
 						   data1.post_id = post_id
+						   delete    data1.mw_params_module ;
 						   
 						   data1.category_id =category_id;
 						   data1.element_id = id;

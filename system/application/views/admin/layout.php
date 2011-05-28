@@ -37,7 +37,17 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 
 
       </div>
-      <a class="go_live_edit" href="#!"><span>Go Live Edit</span></a>
+      <? $p = get_page();
+						if(!empty($p)){
+							$le_link = page_link($p['id']);
+							$le_link = $le_link .'/editmode:y';
+							 
+							 
+							
+							
+						}?> 
+                         
+      <a class="go_live_edit" href="<? print $le_link  ?>"><span>Go Live Edit</span></a>
       <a href="<? print ADMIN_URL ?>/action:comments" class="comments_url <? if((url_param('action') == 'comments') or (url_param('action') == 'comment_edit')): ?>active<? endif; ?>">
         12
         <span class="comments_arr">&nbsp;</span>

@@ -129,8 +129,7 @@ if($params['sortable']){
 
 <div class="<? print $params ['holder_class_name'] ?> <? print $multiselect; ?> <? print $params ['ul_class_name'] ?>" id="<? print $rand_id ?>">
   <?
-//p($params);
-
+ 
     // $params = array();
     // $params['content_parent'] = 0; //parent id
 

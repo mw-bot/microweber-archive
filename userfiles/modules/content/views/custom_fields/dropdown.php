@@ -1,5 +1,12 @@
 <? if (!empty($data)) : ?>
-<? $vals = $params['value']; 
+<? $val = $params['value']; 
+
+
+if( $val == false){
+	$val = $data['param_default']; 
+	
+}
+
 
 if( $vals == false){
 	$vals = $data['param_values']; 
@@ -10,7 +17,8 @@ if( $vals != false){
 	$vals = explode(',',$vals);
 }
 ?>
-
+<? //p($vals); ?>
+<? //p($data); ?>
 <label class="custom_field_label custom_field_label_<?  print $data['param'];  ?>"> <span>
   <?  print $data['name'];  ?>
   </span>

@@ -18,14 +18,14 @@
               $cat_edit_link .= '</div>';
 			  
 			  
-			  $url  =  '<div class="field" id="page_list_{id}"><div class="field_ctrl">';
+			  $url  =  '<div class="field" category_id="{id}"><div class="field_ctrl">';
 
     //$url .=  '<a href="'.ADMIN_URL .'action:page_edit/id:{id}">{content_title}</a>';
-    $url .=  '<a class="fiedl_edit" href="'.ADMIN_URL .'/action:page_edit/id:{id}">Edit page</a>';
-    $url .=  '<a class="fiedl_visit_page" href="{link}/editmode:y">Visit page</a>';
-    $url .=  '<a class="fiedl_add_sub_page" href="'.ADMIN_URL .'/action:page_edit/id:0/content_parent:{id}">Add subpage</a>';
+    $url .=  '<a class="fiedl_edit" href="javascript:edit_category_dialog({id})">Edit category</a>';
+ 
+    $url .=  '<a class="fiedl_add_sub_page" href="javascript: edit_category_dialog(0,{id})">Add sub-category</a>';
 	//$url .=  '<a class="fiedl_add_sub_page" href="'.ADMIN_URL .'/action:toolbar_fs/page_id:{id}">iframe</a>';
-    $url .=  '<a class="fiedl_delete_page"  href="javascript: del_page_confirm({id})">Delete page</a>';
+    $url .=  '<a class="fiedl_delete_page"  href="javascript:delete_category({id})">Delete category</a>';
     $url .= '</div>';
     $url .= '<h2><span class="field_ctrl_plus"></span><a href="#">{taxonomy_value}</a></h2>';
     $url .= '</div>';
@@ -40,7 +40,7 @@ $cat_edit_link2 = base64_encode(($cat_edit_link));
 ?>
 
 function delete_category($id){
-  if (confirm("Are you sure you want to delete")) {
+  if (confirm("Are you sure you want to delete this category?")) {
 	  
  	$.post("<? print site_url('api/content/delete_taxonomy') ?>", { id: $id} ,	function(data1){  
 						$('[category_id="'+$id+'"]').fadeOut();																
@@ -168,23 +168,18 @@ function edit_category_dialog( $category_id, $parent_cat){
    }
    
    
-   		var elem = $('#edit_category')
+   		var elem = $('#edit_category_inner')
 										
 										
 								 
 										 url1= '{SITE_URL}api/module/';
 										 elem.load(url1,data1,function($resp) {
 											  //mw.modal.close('edit_cat_modal');
-//												   mw.modal.overlay();
-//												   mw.modal.init({
-//													 html:resp,
-//													 id:'edit_cat_modal',
-//													 height:'auto',
-//													 customPosition:{
-//													   top:100,
-//													   left:'center'
-//													 }
-//												   })
+ 											    $('#edit_category').show();
+												$('#edit_category_inner').show();
+												
+												
+												 $('#categories').hide();
 										 });
 										 
 										 
@@ -309,83 +304,44 @@ function content_list($kw, $category_id){
 								
     
  } 
-
+function back_to_category_list(){
+	  $('#edit_category').hide();
+												$('#edit_category_inner').hide();
+												
+												
+												 $('#categories').show();
+	
+}
 
 
 </script>
 
-
 <div class="box radius">
-<div class="box_header radius_t">
-
-<a href="#" class="cms_help">Help</a>
-
-<a class="sbm right" href="<? print ADMIN_URL ?>/action:page_edit/id:0"  >New category</a>
-
-
-
+  <div class="box_header radius_t"> <a href="#" class="cms_help">Help</a> <a class="sbm right" href="javascript:edit_category_dialog(0);"  >New category</a>
     <h2>Categories</h2>
+  </div>
+  <div class="Pages">
+    <div id="edit_category" style="display:none; width:400px; margin:15px" >
+      <div id="edit_category_inner" style="display:none" ></div>
+      <br />
+      <br />
+      <a class="btn right" href="javascript:back_to_category_list()">Back to categories</a> </div>
+    <div id="categories" class="edit_categories_main"></div>
+    <div id="cat_list_select"></div>
+  </div>
+  <br />
+  <br />
+  <br />
+  <div class="box_footer radius_b" > <a href="#" class="cms_help">Help</a> <a class="sbm right" href="javascript:edit_category_dialog(0);"  >New category</a>
+    <h2>Categories</h2>
+  </div>
 </div>
-
-<div class="url_box">
-    <a class="main_url" href="<? print site_url() ?>">
-       <span></span>
-       <strong><? print site_url() ?></strong>
-       <em></em>
-    </a>
-</div>
- <div class="Pages">
-  
- 
-
-      
-<div id="edit_category"></div>
-<div id="categories" class="edit_categories_main"></div>
-<div id="cat_list_select"></div> 
-
- </div>
-
-     <br /><br /><br />
-<div class="box_footer radius_b" >
-<a href="#" class="cms_help">Help</a>
-<a class="sbm right" href="<? print ADMIN_URL ?>/action:page_edit/id:0"  >New category</a>
-
-<h2>Pages</h2>
-</div>
-
-</div>
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-<div id="posts_nav">
-
+<!--<div id="posts_nav">
   <ul class="posts_nav_list">
     <li><a href="#" class="view_posts_btn">All categories</a></li>
     <li><a href="javascript:edit_category_dialog(0);" class="add_post_btn">Add category</a></li>
   </ul>
-</div>
-
-
-
-
-
-
-
-
-
- 
+</div>-->
 <?
 
  $params = array();
@@ -394,7 +350,4 @@ function content_list($kw, $category_id){
 
 
 //category_tree( $params ) ; ?>
-
-
 </div>
-

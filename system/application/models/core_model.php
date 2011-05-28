@@ -1524,7 +1524,26 @@ class Core_model extends Model {
 		}
 		
 		//p($data_to_save);
+		
+
+		if (intval ( $data_to_save ['post_id'] ) != 0) {
+			if (($data_to_save ['param'])) {
+				
+					$q = " delete from  $table_custom_field where
+								 post_id = '{$data_to_save ['post_id']}'
+								 and param='{$data_to_save ['param']}'
+								   ";
+				
+				 //p($q);
+				
+				$q = $this->dbQ ( $q );
+				
+			}
+		}
+		
 		$save = $this->saveData ( $table_custom_field, $data_to_save );
+		
+		$this->cleanCacheGroup ( 'custom_fields' );
 		
 		return $save;
 	
@@ -1535,6 +1554,9 @@ class Core_model extends Model {
 		global $cms_db_tables;
 		$cache_group = 'custom_fields';
 		$table_custom_field = $cms_db_tables ['table_custom_fields_config'];
+		
+		$orderby = array('field_order', 'asc');
+		
 		
 		$get = $this->getDbData ( $table_custom_field, $get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		
@@ -1561,6 +1583,29 @@ class Core_model extends Model {
 	
 	}
 	
+	function getCustomFieldById($id) {
+		$id = intval ( $id );
+		
+		if ($id == 0) {
+			
+			return false;
+		
+		}
+		
+		global $cms_db_tables;
+		$table_custom_field = $cms_db_tables ['table_custom_fields'];
+		$q = " SELECT *  from  $table_custom_field  where	id={$id}";
+		
+		$cache_id = __FUNCTION__ . '_' . md5 ( $q );
+		
+		$cache_id = md5 ( $cache_id );
+		
+		$q = $this->dbQuery ( $q, $cache_id, 'custom_fields/' . $id );
+		
+		if (! empty ( $q [0] )) {
+			return $q [0];
+		}
+	}
 	function getCustomFields($table, $id = 0, $return_full = false) {
 		
 		$id = intval ( $id );
@@ -1587,7 +1632,9 @@ class Core_model extends Model {
 								 * from  $table_custom_field where
 								 to_table = '$table_assoc_name'
 								 and to_table_id={$id}
-								   ";
+								 order by field_order asc  ";
+				
+				 
 				
 				$cache_id = __FUNCTION__ . '_' . md5 ( $q );
 				
@@ -1651,7 +1698,7 @@ class Core_model extends Model {
 		}
 		
 		$result = $the_data_with_custom_field__stuff;
-		
+		$result = (array_change_key_case($result,CASE_LOWER));
 		return $result;
 	
 	}
@@ -1865,6 +1912,8 @@ class Core_model extends Model {
 
             
              $my_limit_q
+             
+             order by field_order asc
 
                     ";
 				
@@ -2353,6 +2402,8 @@ class Core_model extends Model {
 								 * from  $table_custom_field where
 								 to_table = '$table_assoc_name'
 								 and to_table_id={$item['id']}
+								 
+								 order by field_order asc
 								   ";
 													
 													//	print $q;
@@ -3313,6 +3364,7 @@ class Core_model extends Model {
 
             custom_field_value = '$v'   $ids_q   $only_custom_fieldd_ids_q 
 
+            order by field_order asc
             
              $my_limit_q
 
@@ -5459,7 +5511,7 @@ $w
 								
 								} else {
 									$config = array ();
-									$config ['image_library'] = 'gd';
+									$config ['image_library'] = 'gd2';
 									
 									$config ['source_image'] = $file_path;
 									
@@ -6821,7 +6873,7 @@ $w
 			
 			foreach ( $_FILES as $k => $item ) {
 				
-				$target_path = MEDIAFILES.'/pictures/';
+				$target_path = MEDIAFILES . '/pictures/';
 				
 				$filename = basename ( $_FILES [$k] ['name'] );
 				
@@ -6871,7 +6923,7 @@ $w
 					$the_target_path = normalize_path ( $the_target_path, false );
 					//touch($the_target_path);
 					//if (! move_uploaded_file ( $_FILES[$k] ['tmp_name'], $the_target_path  )) {
-						//echo "CANNOT MOVE {$_FILES["userfile"]["name"]}";
+					//echo "CANNOT MOVE {$_FILES["userfile"]["name"]}";
 					//}
 					if (move_uploaded_file ( $_FILES [$k] ['tmp_name'], $the_target_path )) {
 						
@@ -6887,10 +6939,12 @@ $w
 								$extension = substr ( strrchr ( $fn1, '.' ), 1 );
 								$extension_lower = strtolower ( $extension );
 								
-							//	p ( $filename );
+								//	p ( $filename );
 								
+
 								//p ( $the_target_path );
 								
+
 								switch ($extension_lower) {
 									
 									case 'jpg' :
@@ -6998,6 +7052,7 @@ $w
 		
 		//p ( $upl );
 		
+
 		if (trim ( $_POST ['embed_code'] ) != '') {
 			$embed_item = array ();
 			

@@ -1,410 +1,234 @@
 <?
-
- 
 //p($params);
+$cf_cfg = array ();
 
-
-
-?>
-<? if(isset($params['page_id'])) :  ?>
-<? $page_data = get_page($params['page_id']); 
-$custom_fields = $page_data['custom_fields' ];
-$the_content_id = $page_data['id'];
-$for = 'page';
-?>
-<? endif; ?>
-<? if(isset($params['post_id'])) :  ?>
-<? $post_data = get_post($params['post_id']); 
-$custom_fields = $post_data['custom_fields' ];
-$the_content_id = $post_data['id'];
-$for = 'post';
-?>
-<? endif; ?>
-<? if(isset($params['post_id'])) :  ?>
-<? $post_data = get_post($params['post_id']); 
- 
-$post_custom_fields = $custom_fields = $post_data['custom_fields' ];
-
-$the_content_id = $post_data['id'];
-
-$for = 'post';
-?>
-<? endif; ?>
-<? if(isset($params['category_id'])) :  ?>
-<? $cat = get_category($params['category_id']);
- $catetogy_id = $cat['id'];
-$custom_fields = $cat['custom_fields' ];
-$for = 'category';
-?>
-<? endif; ?>
-<?
-
- if(empty($page_data) and !empty($post_custom_fields )){
-	$no_page_data_only_post = true;
+if(intval($params['id'] ) == 0){
+	 $params ['id'] = ($params['cf_id'] ) ;	
 	
- }
-?>
-
-<? 
-
-if($params['file'] == ''){
-	if($page_data == false){
-		if(($params['page_id'] == false) and ($params['post_id'] != false)){
-		$page_data = get_page_for_post($params['post_id']);
-		$params['page_id'] = $page_data['id'];
-		
-		}
-	
-	}
-	$params['file'] =$page_data['content_layout_file'];
 }
-?>
-
- 
-<? if(($params['file']) != '' or ($params['for']== 'global') or ($no_page_data_only_post== true) ) :  ?>
-<? 
-
-$layouts = CI::model('template')->layoutsList(); 
- 
-?>
-
-
-
-<? if(($params['for']) == 'global' or $no_page_data_only_post  == true) :  
-$layouts = array();
-$layouts1 = CI::model('template')->layoutsList(); 
-$layouts[] = $layouts1[0];
-?>
-<? endif; ?>
-
-
-
-<? //p($post_custom_fields); ?>
-
-
-<? if(!empty($layouts)): ?>
-<? foreach($layouts as $layout): ?>
-<? if($layout['filename'] == $params['file'] or ($params['for']== 'global') or  $no_page_data_only_post  == true): ?>
-<? 
-
- 
-
-
-
- $custom_fields_from_page_config = array();
- 
- $custom_fields_from_page_config['page_id'] =$params['page_id'];
- if($for){
-  $custom_fields_from_page_config['content_type'] =$for;
- }
- //var_dump($custom_fields_from_page_config); 
- $custom_fields_from_page_config =  CI::model('core')->getCustomFieldsConfig( $custom_fields_from_page_config);
- //
- if(!empty($custom_fields_from_page_config)){
-	foreach($custom_fields_from_page_config as $cfg){
-		$k = $cfg['param'];
+ if($page_data != false){
+$cf_cfg ['page_id'] = $page_data['id'];				 
+		} 
 		
-		$found = false;
-		foreach($layout['custom_fields'][$for] as $item){
-			if($item['param'] ==$k ){
-			$found = true;
-			}
-		}
-		if($found == false){
-			if($cfg['content_type'] == $for){
-			$new_cf = array();
-			// p($cfg);
-			  
-			$cfg['values'] = $cfg['param_values'];
-			$cfg['default'] = $cfg['param_default'];
+		
+		
+		if(intval($params['post_id']) > 0){
 			
-		$new_cf = $cfg;
-			$layout['custom_fields'][$for][] = $new_cf;
-			}
-		}
-
-	}
-}
-
-if(!empty($custom_fields)){
-	foreach($custom_fields as $k=>$v){
-		$param_to_find = $k;
-		
-		$found = false;
-		foreach($layout['custom_fields'][$for] as $item){
-			if($item['param'] ==$k ){
-			$found = true;
-			}
-		}
-		if($found == false){
-			$new_cf = array();
-			$new_cf['param'] = $k;
-			$new_cf['name'] = ucfirst($k);
-			$new_cf['not_in_config'] =true;
-			$new_cf['default'] = $v;
-			$new_cf['content_type'] =$for ;
-			//$cfg['values'] = $v;
-			$layout['custom_fields'][$for][] = $new_cf;
-		}
-
-	}
-}
-
-
-
-if(!empty($post_custom_fields)){
-	foreach($post_custom_fields as $k=>$v){
-		$param_to_find = $k;
-		
-		$found = false;
-		foreach($layout['custom_fields'][$for] as $item){
-			if($item['param'] ==$k ){
-			$found = true;
-			}
-		}
-		if($found == false){
-			$new_cf = array();
-			$new_cf['param'] = $k;
-			$new_cf['name'] = ucfirst($k);
-			$new_cf['not_in_config'] =true;
-			$new_cf['default'] = $v;
-			$new_cf['content_type'] =$for ;
-			//$cfg['values'] = $v;
-			$layout['custom_fields'][$for][] = $new_cf;
-		}
-
-	}
-}
-
-
-
- if(!empty($params)){
-	
-		
-		
-		
-		$param_to_find = $params['param'];
-		$for1 = $params['for'];
-		$name1 = $params['name'];
-		$param_id = $params['id'];
-		
-		$found = false;
-		foreach($layout['custom_fields'][$for] as $item){
-			if($item['param'] ==$k ){
-			$found = true;
-			}
-		}
-		if($found == false){
+			$cf_cfg ['post_id'] = $params['post_id'];
 			
-			
-			$new_cf = array();
-			$new_cf['param'] = $param_to_find;
-			$new_cf['name'] =      ucfirst($param_to_find);
-			$new_cf['not_in_config'] =true;
-			$new_cf['default'] = $param_to_find;
-			$new_cf['content_type'] =$for1 ;
-			$new_cf['param_id'] =$param_id ;
+		}
+		
+		
+		
+		
+	 if($params['id'] != false){
 		 
-	 
-			//$cfg['values'] = $v;
-			$layout['custom_fields'][$for][] = $new_cf;
+		  if(intval($params['id'] ) == 0){
+			 $new = true;
+			
+		 }
+
+		 
+		 
+$cf_cfg ['id'] = ($params['id'] ) ;				 
+		} 	
+		if(intval($cf_cfg ['id'] )== 0){
+			  $cf_cfg ['id'] = ($params['cf_id'] ) ;	
 		}
+		   
+		 
+//p($cf_cfg);		
+
+
+
+
+$data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
+
+
+if(empty($data )){
+	if(intval($params['post_id']) > 0){
+		if(intval($cf_cfg['id']) > 0){
+			$cf_cfg2 = array ();
+			unset($cf_cfg['post_id']);
+			$data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
+			$new_for_post = true;
+		}		
+	}
 }
- 
+
+//p($data);
+?>
+<script type="text/javascript">
+function save_cf($form_id){
+	  data1 = ($('.'+$form_id).serialize());
+	  $.ajax({
+	  type: 'POST',
+	  url: '<? print site_url('api/content/save_cf') ?>',
+	  data: data1,
+	   success: function(){
+   mw.reload_module('admin/content/custom_fields');
+   
+   mw.reload_module('content/custom_fields');
+   
+   
+  },
+	 
+	  dataType: 'html'
+	});
+	  
+
+	
+//	 $.ajax({
+//  url: '<? print site_url('api/content/save_cf'); ?>',
+//   type: "POST",
+//      data: (data1),
+//      
+//      async:true,
+//	  success: function(resp) {
+//		  $("#cf_save_resp").html(resp);
+//		  mw.reload_module('admin/content/custom_fields_editor');
+//		
+//	  }
+//    });
+	
+
+}
 
 
- 
- 
- 
-if(!empty($layout['custom_fields'][$for])): ?>
-<script>
+function delete_cf($form){
+	
+$f = '#'+$form;
+	 data1 = ($($f).serialize());
+	 
+//	 data1=data1+'&module=admin/content/custom_fields_creator';
+//	  data1=data1+'&page_id=<? print $params['page_id'] ?>';
+//	   data1=data1+'&delete=true';
+//	 
+//	//alert(data1);
+//	
+//	 $.ajax({
+//  url: '<? print site_url('api/module'); ?>',
+//   type: "POST",
+//      data: (data1),
+//      dataType: "html",
+//      async:true,
+//	  success: function(resp) {
+//		  $("#cf_save_resp").html(resp);
+//		    $($f).fadeOut();
+//	  }
+//    });
+//	
 
-
-function cf_save($form){
+	 
+	 
+	//alert(data1);
 	
-	data1 = ($('#'+$form).serialize());
-	
-	
-	
- 
-   $.ajax({
-  url: '<? print site_url('api/content/save_field_simple') ?>',
+	 $.ajax({
+  url: '<? print site_url('api/content/delete_cf'); ?>',
    type: "POST",
-      data: data1,
-
+      data: (data1),
+      dataType: "html",
       async:true,
-
-  success: function(resp) {
-
-  // $('#cf_adresp').html(resp);
-
- 
- 
-  }
+	  success: function(resp) {
+		  $("#cf_save_resp").html(resp);
+		    $($f).fadeOut();
+			 mw.reload_module('admin/content/custom_fields');
+			  mw.reload_module('content/custom_fields');
+	  }
     });
 	
 	
 	
+  
+
 }
-
-
-function cf_delete($form){
-	
-	data1 = ($('#'+$form).serialize());
-	
-	
-	
- 
-   $.ajax({
-  url: '<? print site_url('api/content/delete_custom_field_by_name') ?>',
-   type: "POST",
-      data: data1,
-
-      async:true,
-
-  success: function(resp) {
-($('#'+$form).fadeOut());
-  // $('#cf_adresp').html(resp);
-
- 
- 
-  }
-    });
-	
-	
-	
+<? 
+if($new == true){
+	$data2 = array();
+$data2[] = array();	
+$data = $data2;
 }
-
-
-
-
-function cf_add($tr_id){
-	//alert($('#'+$tr_id).serialize());
-	//alert($tr_id);
-	
-	
-				 data1 = {}
-   data1.module = 'admin/content/custom_fields_creator';
-   if(typeof $tr_id  != undefined){
-   data1.base64 = $tr_id;
-   }
-    data1.parent_base64_params = '<? print encode_var($params)  ?>';
-
- 
-   $.ajax({
-  url: '<? print site_url('api/module') ?>',
-   type: "POST",
-      data: data1,
-
-      async:true,
-
-  success: function(resp) {
-
-  // $('#cf_adresp').html(resp);
-  mw.modal.init({html:resp});
-
- 
- 
-  }
-    });
-	
-	
-	
-	
-	
-	
-	
-}
-
+?>
 </script>
+<? foreach($data as $item): ?>
 
- 
- 
-<div id="cf_adresp"></div>
-<? foreach($layout['custom_fields'][$for] as $item): ?>
-<?   if(($item['disable_edit']) == false):  ?>
-
-
-<? if($params['no_form'] == false): ?>
-<form id="cf_edit_<? print $item['param'] ?>">
-<? endif; ?>
-
-    <div id="cf_<? print $item['param'] ?>">
-     <table class="formtable" width="100%">
-
-
-
-
-      <? // p($item); ?>
-      
-      
-      <? if($params['no_form'] == false): ?>
-      
-       <input type="hidden"    name="field_id" value="<? print $item['id'] ?>" />
-      <input type="hidden"    name="for" value="<? print $for; ?>" />
-        <input type="hidden"    name="content_id" value="<? print $the_content_id; ?>" />
-        
-        
-        
-         <? endif; ?>
-
-         <tr>
-         <td width="400">
-        <? if( $item['not_in_config']) :?>
-        <? $item['name'] = str_replace('_', ' ', $item['name']);  ?>
-
-
-        <input type="hidden" class="newcf"  name="new_cf_<? print $item['param'] ?>" value="<? print $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; ?>" />
-
-        <label><? print $item['name'] ?></label>
-
-
-        <? else: ?>
-        <label><? print $item['name'] ?></label>
-        <? endif ?>
-        <br />
-
-        <?   if(($item['help'])):  ?>
-        <small><? print $item['help'] ?></small>
-        <? endif; ?>
-
-        <small style="color:#999"><? print( $item['param_group']) ?></small>
-        </td>
-        <td>
-      <mw module="forms/field" name="custom_field_<? print $item['param'] ?>" value="<? print $custom_fields[$item['param']]? $custom_fields[$item['param']] : $item['default'] ; ?>" values="<? print $item['values']?>" type="<? print $item['type']?>"  />
-     </td> </tr>
-
-    </table>
-
-
-	    <? if($params['no_form'] == false): ?>
-	  <? // p($item) ?>
-        <input name="save" type="button" onclick="cf_save('cf_edit_<? print $item['param'] ?>')" value="save" />
-        <? if( $item['not_in_config']) :?>
-
-
-
-        <input name="delete" type="button" onclick="cf_delete('cf_edit_<? print $item['param'] ?>')" value="clear" />
-        <? else: ?>
-        <input name="delete" type="button" onclick="cf_delete('cf_edit_<? print $item['param'] ?>')" value="clear" />
-         <? endif; ?>
-      <? endif; ?>
-
-
-
-    </div>
-    <? endif; ?>
-
-  <? if($params['no_form'] == false): ?>
+<form class="cf_form" action="" method="post" id="cf_form_<? print $item['id'] ?>">
+  <? if($new_for_post == false): ?>
+  <input name="id" type="hidden" class="cf_form_<? print $item['id'] ?>" value="<? print $item['id'] ?>" />
+  <? endif;  ?>
+  
+  <input name="field_order" type="hidden" class="cf_form_<? print $item['id'] ?>" value="<? print $item['field_order'] ?>" />
+  
+  
+  
+  
+  <? if(intval($params['post_id'])> 0 ): ?>
+  <input name="post_id" type="text" class="cf_form_<? print $item['id'] ?>"  value="<? print $params['post_id'] ?>" />
+  <?  else:  ?>
+  <input name="page_id" type="text" class="cf_form_<? print $item['id'] ?>"  value="<? print $params['page_id'] ?>" />
+  <? endif;  ?>
+  <div class="formitem">
+    <label>Name:</label>
+    <span class="formfield">
+    <input name="name" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['name'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Group:</label>
+    <span class="formfield">
+    <input name="param_group" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param_group'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Help:</label>
+    <span class="formfield">
+    <input name="help" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['help'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Content Type:</label>
+    <span class="formfield">
+    <select name="content_type" class="cf_form_<? print $item['id'] ?>">
+      <option <? if(($item['content_type']) == 'page') :  ?>  selected="selected" <? endif; ?> value="page">page</option>
+      <option  <? if(($item['content_type']) == 'post') :  ?>  selected="selected" <? endif; ?> value="post">post</option>
+      <option  <? if(($item['content_type']) == 'category') :  ?>  selected="selected" <? endif; ?> value="category">category</option>
+      <option  <? if(($item['content_type']) == 'media') :  ?>  selected="selected" <? endif; ?> value="media">media</option>
+    </select>
+    </span> </div>
+  <div class="formitem">
+    <label>Type: </label>
+    <span class="formfield">
+    <input name="type" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['type'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Type:</label>
+    <select name="type" class="cf_form_<? print $item['id'] ?>">
+      <option <? if(($item['type']) == 'text') :  ?>  selected="selected" <? endif; ?> value="text">text</option>
+      <option <? if(($item['type']) == 'textarea') :  ?>  selected="selected" <? endif; ?> value="textarea">textarea</option>
+      <option  <? if(($item['type']) == 'richtext') :  ?>  selected="selected" <? endif; ?> value="richtext">richtext</option>
+      <option  <? if(($item['type']) == 'dropdown') :  ?>  selected="selected" <? endif; ?> value="dropdown">dropdown</option>
+      <option  <? if(($item['type']) == 'radio') :  ?>  selected="selected" <? endif; ?> value="radio">radio</option>
+      <option  <? if(($item['type']) == 'checkbox') :  ?>  selected="selected" <? endif; ?> value="checkbox">checkbox</option>
+      <option  <? if(($item['type']) == 'date') :  ?>  selected="selected" <? endif; ?> value="date">date</option>
+      <option  <? if(($item['type']) == 'category_selector') :  ?>  selected="selected" <? endif; ?> value="category_selector">category_selector</option>
+      <option  <? if(($item['type']) == 'image') :  ?>  selected="selected" <? endif; ?> value="image">image</option>
+    </select>
+  </div>
+  <div class="formitem">
+    <label>Param:</label>
+    <span class="formfield">
+    <input name="param" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Param values:</label>
+    <span class="formfield">
+    <input name="param_values" class="cf_form_<? print $item['id'] ?>" type="text" value="<? print $item['param_values'] ?>"  />
+    </span> </div>
+  <div class="formitem">
+    <label>Param default: </label>
+    <span class="formfield">
+    <input name="param_default" class="cf_form_<? print $item['id'] ?>" type="text" value="<? print $item['param_default'] ?>"  />
+    </span> </div>
+  <input class="btn" name="save"  value="save <? print $item['id'] ?>" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" />
+  <? if(($item['id']) != false) :  ?>
+  <input class="btn" name="delete" value="delete <? print $item['id'] ?>" type="button" onClick="delete_cf('cf_form_<? print $item['id'] ?>')" />
+  <? endif; ?>
 </form>
-<? endif; ?>
 <? endforeach; ?>
-<? endif; ?>
-<? endif; ?>
-<? endforeach; ?>
-<? endif; ?>
-<? endif; ?>
-
-<div style="height: 20px;">&nbsp;</div>
-
-<a href="javascript:void(0)" class="btn" onclick="cf_add()">edit custom fields settings</a>

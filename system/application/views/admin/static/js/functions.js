@@ -204,6 +204,9 @@ $("input").live("mousedown", function(){
 
 $("#preloader").ajaxStart(function(){
   $(this).show();
+  
+  
+  setTimeout('$("#preloader").fadeOut()',3000)
 
 
 })

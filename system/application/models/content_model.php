@@ -320,7 +320,7 @@ class content_model extends Model {
 					$new_category = CI::model ( 'taxonomy' )->taxonomySave ( $new_category );
 					
 					$data_to_save ['content_subtype_value'] = $new_category;
-					$data_to_save ['content_subtype'] = 'blog_section';
+					$data_to_save ['content_subtype'] = 'dynamic';
 				
 				}
 			}
@@ -1616,7 +1616,7 @@ class content_model extends Model {
 		
 		$data ['content_type'] = 'page';
 		
-		$data ['content_subtype'] = 'blog_section';
+		$data ['content_subtype'] = 'dynamic';
 		
 		$data ['content_subtype_value'] = $category_id;
 		
@@ -1641,7 +1641,7 @@ class content_model extends Model {
 				
 				$data1 ['content_type'] = 'page';
 				
-				$data1 ['content_subtype'] = 'blog_section';
+				$data1 ['content_subtype'] = 'dynamic';
 				
 				$data1 ['content_subtype_value'] = $item;
 				
@@ -1686,7 +1686,7 @@ class content_model extends Model {
 		
 		$data ['content_type'] = 'page';
 		
-		$data ['content_subtype'] = 'blog_section';
+		$data ['content_subtype'] = 'dynamic';
 		
 		$data ['content_subtype_value'] = $category_id;
 		
@@ -1717,7 +1717,7 @@ class content_model extends Model {
 					
 					$data1 ['content_type'] = 'page';
 					
-					$data1 ['content_subtype'] = 'blog_section';
+					$data1 ['content_subtype'] = 'dynamic';
 					
 					$data1 ['content_subtype_value'] = $item ['id'];
 					
@@ -1758,7 +1758,7 @@ class content_model extends Model {
 					
 					$data1 ['content_type'] = 'page';
 					
-					$data1 ['content_subtype'] = 'blog_section';
+					$data1 ['content_subtype'] = 'dynamic';
 					
 					$data1 ['content_subtype_value'] = $item;
 					
@@ -2658,7 +2658,7 @@ class content_model extends Model {
 		
 		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
 		
-		if ($content ['content_subtype'] == 'blog_section') {
+		if ($content ['content_subtype'] == 'dynamic') {
 			
 			$base_category = $content ['content_subtype_value'];
 			
@@ -2942,7 +2942,7 @@ class content_model extends Model {
 		
 		$content = $content [0];
 		
-		if ($content ['content_subtype'] == 'blog_section') {
+		if ($content ['content_subtype'] == 'dynamic') {
 			
 			$base_category = $content ['content_subtype_value'];
 			
@@ -5202,7 +5202,7 @@ $my_limit_q
 		
 		$data = array ();
 		
-		$data ['content_subtype'] = 'blog_section';
+		$data ['content_subtype'] = 'dynamic';
 		
 		$data ['content_type'] = 'page';
 		
@@ -5444,14 +5444,14 @@ $my_limit_q
 			
 			$content = array ();
 			
-			$content ['content_subtype'] = 'blog_section';
+			$content ['content_subtype'] = 'dynamic';
 			
 			$content ['content_subtype_value'] = $id;
 			
 			//$orderby = array ('id', 'desc' );
 			
 
-			//$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$id} limit 0,1";
+			//$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$id} limit 0,1";
 			
 
 			//$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
@@ -5492,13 +5492,13 @@ $my_limit_q
 				
 				$content = array ();
 				
-				$content ['content_subtype'] = 'blog_section';
+				$content ['content_subtype'] = 'dynamic';
 				
 				$content ['content_subtype_value'] = $item;
 				
 				$orderby = array ('id', 'desc' );
 				
-				$q = " select * from $table_content where content_subtype ='blog_section' and content_subtype_value={$item} limit 0,1";
+				$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
 				
 				//$q = CI::model('core')->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 				$content = $this->getContentAndCache ( $content, $orderby );
@@ -5737,7 +5737,6 @@ $my_limit_q
 		
 		$quick_nav = $this->getBreadcrumbsByURLAsArray ( $the_url, $include_home );
 		
-		 
 		if (! empty ( $quick_nav )) {
 			
 			?>
@@ -6001,7 +6000,7 @@ $my_limit_q
 						//if (intval ( $page ['content_subtype_value'] ) != 0) {
 						
 
-						if ($page ['content_subtype'] == 'blog_section') {
+						if ($page ['content_subtype'] == 'dynamic') {
 							
 							$active_categories = $this->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $the_url, true );
 							
@@ -6151,7 +6150,7 @@ $my_limit_q
 	
 	function getMenuByMenuUnuqueId($uid) {
 		
-		$data = false; 
+		$data = false;
 		
 		$data ['menu_unique_id'] = $uid;
 		
@@ -7299,7 +7298,7 @@ $my_limit_q
 				
 				if ($meta ['content_meta_keywords'] == '') {
 					
-					if ($content ['content_subtype'] == 'blog_section') {
+					if ($content ['content_subtype'] == 'dynamic') {
 						
 						$temp = CI::model ( 'taxonomy' )->getChildrensRecursiveAndCache ( $content ['content_subtype_value'], 'category' );
 						
@@ -7680,7 +7679,7 @@ $my_limit_q
 
 	}
 	
-	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false) {
+	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false) {
 		
 		global $cms_db_tables;
 		
@@ -7692,18 +7691,22 @@ $my_limit_q
 		
 		}
 		
-		$sql = "SELECT * from $table where  content_parent=$content_parent and content_type='page'  ";
+		$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  ";
 		
 		$q = CI::model ( 'core' )->dbQuery ( $sql );
 		
 		$result = $q;
-		
+	 
 		if (! empty ( $result )) {
 			
 			//$output = "<ul>";
 			
 
-			print "<ul>";
+			if ($ul_class_name == false) {
+				print "<ul>";
+			} else {
+				print "<ul class='{$ul_class_name}'>";
+			}
 			
 			foreach ( $result as $item ) {
 				
@@ -7715,7 +7718,7 @@ $my_limit_q
 					
 					switch ($item ['content_subtype']) {
 						
-						case 'blog_section' :
+						case 'dynamic' :
 							
 							$content_type_li_class = 'is_category';
 							
@@ -7816,7 +7819,7 @@ $my_limit_q
 				
 				}
 				
-				$children = $this->content_helpers_getPagesAsUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code );
+				$children = $this->content_helpers_getPagesAsUlTree ( $item ['id'], $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name );
 				
 				print "</li>";
 			

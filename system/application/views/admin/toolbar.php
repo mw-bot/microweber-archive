@@ -3,22 +3,15 @@
 </script>
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/font.php" />
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/jquery-ui-1.8.13.custom/css/custom-theme/jquery-ui-1.8.13.custom.css" />
-
 <link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>css/toolbar.css?<? print rand();?>" />
 <!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/plupload.full.min.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/js/jquery.plupload.queue.min.js"></script>-->
 <!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/nicedit.js"></script>-->
-
 <!--<script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/aloha.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Format/plugin.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.Table/plugin.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/aloha-0.9.3/aloha/plugins/com.gentics.aloha.plugins.List/plugin.js"></script>-->
-
- 
- <? include('headers_shared.php')  ?>
-
-
-
+<? include('headers_shared.php')  ?>
 <script type="text/javascript">
     static_url = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>";
 </script>
@@ -638,43 +631,28 @@ function mw_load_history_module(){
 
 </script>
 <div class="toobar_container">
-  <div class="toobar_container_left"> 
-  
-  <div style="display:none">Outline Editable Regions;
-    <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.edit', '#DCCC01'):mw.outline.remove('.edit')" />
-    <br />
-    Outline Draggable Regions;
-    <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.editblock', '#2667B7'):mw.outline.remove('.editblock')" />
-    Toggle Browse
-    <input type="checkbox"   id="enable_browse" />
-    
-    <input type="text" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
-  <input type="text" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
-  <input type="text" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" />
-  
-  
-        <input type="text"  id="mw_module_param_to_copy" value="" />
+  <div class="toobar_container_left">
+    <div style="display:none">Outline Editable Regions;
+      <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.edit', '#DCCC01'):mw.outline.remove('.edit')" />
+      <br />
+      Outline Draggable Regions;
+      <input type="checkbox" class="show_editable" onclick="this.checked==true?mw.outline.init('.editblock', '#2667B7'):mw.outline.remove('.editblock')" />
+      Toggle Browse
+      <input type="checkbox"   id="enable_browse" />
+      <input type="text" id="mw_edit_page_id" value="<?  print(PAGE_ID); ?>" />
+      <input type="text" id="mw_edit_post_id" value="<?  print(POST_ID); ?>" />
+      <input type="text" id="mw_edit_category_id" value="<?  print(CATEGORY_ID); ?>" />
+      <input type="text"  id="mw_module_param_to_copy" value="" />
       <input type="text"  id="module_temp_holder_id" value="" />
-    <input type="text"  id="module_focus_holder_id" value="" />
-  </div>
-      <a href="<? print site_url('admin'); ?>" class="mw_toolbar_nav_go_to_admin"> <span> Switch to Admin </span> </a> 
-
-  <div id="buttons">
-  </div>
-    
-   <div id="sortable-delete" style="display:none;" class="edit">del
-   <br />
-<br />
-</div>
-    
+      <input type="text"  id="module_focus_holder_id" value="" />
+      <div id="buttons"> </div>
+    </div>
+    <div id="sortable-delete" style="display:none;" class="edit">del <br />
+      <br />
+    </div>
     <div class="module_draggable"  id="module_temp_holder">
-                      <textarea rows="1"  style="display: none;" id="module_temp_holder_value">test</textarea>
-                      
-                      
-            </div>
-            
-            
-    
+      <textarea rows="1"  style="display: none;" id="module_temp_holder_value">test</textarea>
+    </div>
     <script>
     
     reloadIframes = function()
@@ -687,42 +665,7 @@ function mw_load_history_module(){
     }
 }
     </script>
-    
-    
-    
-    
-    
-    
-    
-     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  <!--  <input name="mw_load_history_module()" type="button" onClick="mw_load_history_module()" value="mw_load_history_module()" />-->
+    <!--  <input name="mw_load_history_module()" type="button" onClick="mw_load_history_module()" value="mw_load_history_module()" />-->
     <!--<input name="reloadIframesreloadIframes" type="button" onClick="reloadIframes()" value="reloadIframes" />-->
   </div>
   <div class="toobar_container_right">
@@ -864,34 +807,17 @@ function mw_sidebar_nav($selector){
 
 </script>
     </div>
-    <div id="mw_toolbar_nav"> 
-
-    <a class="mw_toolbar_nav_icons active"  title="Modules" rel="modules"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules2.png"  style="float:left" /> </span> </a>
-    
-    <a   class="mw_toolbar_nav_icons" title="Design" rel="design"  href="javascript:mw_sidebar_nav('#mw_sidebar_design_holder')"> <span> <img     src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_design.png"   style="float:left" /> </span> </a>
-    
-    <a  class="mw_toolbar_nav_icons"  title="Add new content"  rel="add"    href="javascript:mw_sidebar_nav('#mw_sidebar_add_holder')"> <span> <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_add.png" style="float:left" /> </span> </a> 
-    
-    
-    
-    </div>
-    <a href="adasd" class="mw_toolbar_nav_go_to_admin"> <span> Style element    </span> 
+    <div id="mw_toolbar_nav"> <a class="mw_toolbar_nav_icons active"  title="Modules" rel="modules"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules.png"  style="float:left" /> </span> </a> <a   class="mw_toolbar_nav_icons" title="Design" rel="design"  href="javascript:mw_sidebar_nav('#mw_sidebar_design_holder')"> <span> <img     src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_design.png"   style="float:left" /> </span> </a> <a  class="mw_toolbar_nav_icons"  title="Add new content"  rel="add"    href="javascript:mw_sidebar_nav('#mw_sidebar_add_holder')"> <span> <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_add.png" style="float:left" /> </span> </a> </div>
+    <!--    <a href="adasd" class="mw_toolbar_nav_go_to_admin"> <span> Style element    </span> 
     
 
     
     
     </a> 
-    
-    
-    
-      <div id="mw_sidebar_styler">
-   
-   
- 
+    -->
+    <a href="<? print site_url('admin'); ?>" class="mw_toolbar_nav_go_to_admin"> <span> Switch to Admin </span> </a>
+    <div id="mw_sidebar_styler"> </div>
   </div>
-    
-    
-    </div>
 </div>
 <div id="mw_toolbar">
   <div id="drag_mw_toolbar"></div>
@@ -909,54 +835,30 @@ function mw_sidebar_nav($selector){
 <div id="edit_table" style="display: none">
   <input type="text" onkeyup="alert(cellID)" />
 </div>
-<div class="mw_bottom_nav">
-<a href="#" class="mw_bottom_btn" onclick='mw.saveALL()' id="ContentSave">Save</a>
-
-
-
-
-<div id="history_module_resp"></div>
-
+<div class="mw_bottom_nav"> <a href="#" class="mw_bottom_btn" onclick='mw.saveALL()' id="ContentSave">Save</a>
+  <div id="history_module_resp"></div>
 </div>
-
-
-
-
 <div id="admin_sidebar">
-   
-  <div id="mw_sidebar_module_edit_holder">
- 
-  </div>
-  
-   
-   <div id="mw_sidebar_modules_holder">
-  
-  
-  <div class="search_container">
-    <table width="250" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td><form class="mw_sidebar_searchform">
-            <div class="mw_sidebar_searchform_input_holder">
-              <input class="mw_sidebar_searchform_searchfield" type="text" value="Search..." onfocus="if (this.value == 'Search modules...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search modules...';}" />
-            </div>
-          </form></td>
-        <td align="right"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></td>
-      </tr>
-    </table>
-  </div>
-  <div class="mw_admin_sidebar_text" > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/drag.png" hspace="5" style="float:left" /> Drag and drop the modules in your website <a target="_blank" href="http://microweber.com">(see how)</a> </div>
-  <br />
-  
-  
-  
-  
-  <div id="mw_block_history"></div>
-  <div class="modules_list"> </div>
-  <div id="module_bar_resp"></div>
- 
-  
-  
-  <? 
+  <div id="mw_sidebar_module_edit_holder"> </div>
+  <div id="mw_sidebar_modules_holder">
+    <div class="search_container">
+      <table width="250" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><form class="mw_sidebar_searchform">
+              <div class="mw_sidebar_searchform_input_holder">
+                <input class="mw_sidebar_searchform_searchfield" type="text" value="Search..." onfocus="if (this.value == 'Search modules...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search modules...';}" />
+              </div>
+            </form></td>
+          <td align="right"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></td>
+        </tr>
+      </table>
+    </div>
+    <div class="mw_admin_sidebar_text" > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/drag.png" hspace="5" style="float:left" /> Drag and drop the modules in your website <a target="_blank" href="http://microweber.com">(see how)</a> </div>
+    <br />
+    <div id="mw_block_history"></div>
+    <div class="modules_list"> </div>
+    <div id="module_bar_resp"></div>
+    <? 
            $iframe_module_params = array();
            $iframe_module_params['module'] = 'admin/pages/edit';
            $iframe_module_params['id'] = PAGE_ID;
@@ -976,52 +878,20 @@ function mw_sidebar_nav($selector){
            
            
            ?>
-<!--  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_page) ?>/admin:y', 'aa')">Edit page</a> <br />
+    <!--  <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_page) ?>/admin:y', 'aa')">Edit page</a> <br />
   <br />
   <a href="#" onclick="call_edit_module_iframe('<? print site_url('api/module/iframe:'. $iframe_module_params_post) ?>/admin:y', 'aa')">Edit post</a>-->
-  
-  <?   //p(CATEGORY_IDS); ?>
-
-  
+    <?   //p(CATEGORY_IDS); ?>
   </div>
-   <div id="mw_sidebar_css_editor_holder">
-  
-   <?  include "toolbar_tag_editor.php" ?>
+  <div id="mw_sidebar_css_editor_holder">
+    <?  include "toolbar_tag_editor.php" ?>
   </div>
   <div id="mw_sidebar_design_holder">
-  
-
-
-<?  include "toolbar_design_editor.php" ?>
-
-
-
-
-
-
-
-
-
-
+    <?  include "toolbar_design_editor.php" ?>
   </div>
-  
-  
-   <div id="mw_sidebar_add_holder">
-   
-   
-  
-
-  
-  mw_sidebar_add_holder
+  <div id="mw_sidebar_add_holder"> mw_sidebar_add_holder </div>
+  <div id="mw_sidebar_html_element_holder">
+    <input  id="style_mw_id" disabled="disabled"  value="" style="display:none;" />
+    <input  id="style_mw_tag" onclick="mw_html_tag_editor()" value=""  />
   </div>
-  
-      <div id="mw_sidebar_html_element_holder">
-   
-   
-  
-
-   <input  id="style_mw_id" disabled="disabled"  value="" style="display:none;" />
-      <input  id="style_mw_tag" onclick="mw_html_tag_editor()" value=""  />
-  </div>
-  
 </div>

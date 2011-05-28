@@ -49,6 +49,16 @@ function content_list($kw, $category_id){
 }
 
 $(document).ready(function() {
+				
+		content_list_h =  $("#content_list").height();
+			posts_sidebar_h =  $("#posts_sidebar").height();
+				
+				if(content_list_h > posts_sidebar_h){
+					$("#posts_sidebar").height(content_list_h);
+					
+				}
+						   
+						   
 
   $(".content_search").onStopWriting(function(){
        content_list(this.value);
@@ -102,6 +112,14 @@ $(document).ready(function() {
 });
 
 
+tree_ctrl_close = function(){
+ $(".tree_ctrl:visible").not('.tree_ctrl_plus').click();
+}
+tree_ctrl_open = function(){
+// $(".tree_ctrl_plus").click();
+ $(".tree_ctrl").click();
+}
+ 
 
 movement_selector = function(elem, id){
 
@@ -110,78 +128,100 @@ movement_selector = function(elem, id){
 </script>
 
 <div class="box radius">
- <div class="shop_nav_main">
-  <h2 class="box_title">Posts</h2>
-  <ul class="shop_nav">
-    <li><a href="<? print site_url('admin/action:posts') ?>" class="view_posts_btn">View posts</a></li>
-    <li><a href="<? print site_url('admin/action:post_edit/id:0') ?>" class="add_post_btn">Add posts</a></li>
-    <li><a href="<? print site_url('admin/action:categories') ?>" class="categories_btn">Categories</a></li>
-  </ul>
-     </div>
-<div class="c">&nbsp;</div>
-
-<div id="cat_lis_holder" style="display: none">
-  <div id="cat_lis">
-    <?
-
- $params = array();
-
- $params['link'] = '<span><input type="checkbox" value="{id}" /><strong>{taxonomy_value}</strong></span>';
-
-
-category_tree( $params ) ; ?>
+  <div class="box_header radius_t"  style="margin-bottom:0px !important;">
+    <table width="100%" border="0">
+      <tr>
+        <td><h2>My Posts</h2></td>
+        <td><div class="right">
+            <input type="text" default="Search content"  class="content_search_wide" id="content_search"  />
+            <a href="#" id="content_search_btn" class="btn3 hovered">Search</a> </div></td>
+        <td><a href="<? print site_url('admin/action:post_edit/id:0') ?>" id="content_search_btn" class="sbm right">Add new post</a></td>
+      </tr>
+    </table>
+    <? if(intval($form_values['id']) != 0): ?>
+    <? endif; ?>
   </div>
-  <div  style="text-align: center;padding: 15px 0 0 0;">&nbsp; <a href="#" class="btn2" id="cat_lis_apply" style="margin-right: 10px;">Apply</a> <a href="#" class="btn2" onclick="mw.modal.close('categories_popup');">Cancel</a> </div>
-</div>
-<div id="d_bar" class="">
-  <div class="left">
-    <h2>Content</h2>
+  <!--<div class="shop_nav_main">
+    <h2 class="box_title">Posts</h2>
+    <ul class="shop_nav">
+      <li><a href="<? print site_url('admin/action:posts') ?>" class="view_posts_btn">View posts</a></li>
+      <li><a href="<? print site_url('admin/action:post_edit/id:0') ?>" class="add_post_btn">Add posts</a></li>
+      <li><a href="<? print site_url('admin/action:categories') ?>" class="categories_btn">Categories</a></li>
+    </ul>
+  </div>-->
+  <div id="cat_lis_holder" style="display: none">
+    <div id="cat_lis">
+      <?
 
+ $tree_params = array(); 
+
+$tree_params['link'] = '<span><input type="checkbox" value="{id}" /><strong>{taxonomy_value}</strong></span>';
+
+//$params['link'] = '<a href="{id}"><span><strong>{taxonomy_value}</strong></span></a>';
+
+
+
+category_tree( $tree_params ) ; ?>
+    </div>
   </div>
-  <div class="right"> <a href="#" id="content_search_btn" class="btn3 hovered">Search</a>
-    <input type="text" default="Search content"  class="content_search" id="content_search"  />
-  </div>
-</div>
-
-
-<div class="select_all">
-  <input type="checkbox" onclick="posts_categorize_all(this);" class="select_all_posts" />
-  <strong><span>Select all</span> content</strong> </div>
-
-
-
-<div id="posts_sidebar">
-
+  <div id="posts_sidebar">
+    <div class="posts_list_bar_info">
+      <table width="80%" border="0" align="center">
+        <tr>
+          <td><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/tree.png" border="0" /></td>
+          <td><strong>Categories tree</strong> <br />
+            <a href="javascript:tree_ctrl_open()">Open all</a> | <a href="javascript:tree_ctrl_close()">Close all</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="posts_list_bar"><a href="<? print site_url('admin/action:categories') ?>" class="blue">Edit categories</a></div>
     <div class="cat_tree">
+      <?
+
+ $tree_params = array();
+
+// $tree_params['link'] = '<a href="javascript:content_list(\'\',{id});">{taxonomy_value}</a>';
+$url123 = site_url('admin/action:posts') .'/category:{id}';
+ $tree_params['link'] ="<a href='{$url123}'>{taxonomy_value}</a>";
 
 
-           <?
-
- $params = array();
-
- $params['link'] = '<a href="javascript:content_list(\'\',{id});">{taxonomy_value}</a>';
-
-
-category_tree( $params ) ; ?>
-
+category_tree( $tree_params ) ; ?>
+    </div>
   </div>
-
+  <div id="content_list">
+    <div class="posts_list_bar_info">
+      <table width="80%" border="0" align="center">
+        <tr>
+          <td></td>
+          <td><!--From here you can add posts in diferent categories. The posts are the dynamic content of your website. Such as blog posts, products, news entries, etc.--></td>
+        </tr>
+      </table>
+    </div>
+    <div class="posts_list_bar"> Content
+      <div class="post_info">
+        <!--   <div class="post_views post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/comment.png" border="0" /></div>-->
+        <div class="post_comments post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/comment.png" border="0" /></div>
+        <div class="post_author post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/pen.png" border="0" /></div>
+      </div>
+    </div>
+    <mw module="admin/posts/list"  />
+  </div>
 </div>
-
-
-<div id="posts_cats_controller">
-  <table cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-      <td valign="top"><div id="selected_posts"></div></td>
-      <td width="33px;">&nbsp;</td>
-      <td width="48%"><div id="selected_posts_cats">
-          <div id="list_of_selected_categories"> </div>
-          <div class="c" style="padding-bottom: 9px;"></div>
-          <a href="#" class="btn2 choose_cats">Select category</a> <a href="#" class="btn2">Move item to this category</a> </div></td>
-    </tr>
-  </table>
-</div>
-<div id="content_list">
-  <mw module="admin/posts/list"  />
-</div>
+<div style="display:none;">
+  <div  style="text-align: center;padding: 15px 0 0 0;">&nbsp; <a href="#" class="btn2" id="cat_lis_apply" style="margin-right: 10px;">Apply</a> <a href="#" class="btn2" onclick="mw.modal.close('categories_popup');">Cancel</a> </div>
+  <div class="select_all">
+    <input type="checkbox" onclick="posts_categorize_all(this);" class="select_all_posts" />
+    <strong><span>Select all</span> content</strong> </div>
+  <div id="posts_cats_controller">
+    <table cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td valign="top"><div id="selected_posts"></div></td>
+        <td width="33px;">&nbsp;</td>
+        <td width="48%"><div id="selected_posts_cats">
+            <div id="list_of_selected_categories"> </div>
+            <div class="c" style="padding-bottom: 9px;"></div>
+            <a href="#" class="btn2 choose_cats">Select category</a> <a href="#" class="btn2">Move item to this category</a> </div></td>
+      </tr>
+    </table>
+  </div>
 </div>

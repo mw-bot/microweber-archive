@@ -472,3 +472,48 @@ input.css_property {
  width:50px;
  font-size:10px;
 }
+
+
+
+
+.custom_fields_table {
+	padding:5px
+	
+}
+
+
+.custom_fields_table th{
+	 
+	padding:0px;
+	border:none;
+}
+
+.gray {
+ color:#999;	
+}
+ 
+.custom_fields_table td{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #999;	 
+	padding:5px
+}
+
+
+
+.custom_fields_table strong{
+	 font-weight:bold;
+	 color:#004074;
+}
+.cf_form {
+	float: left;
+	width: 190px;
+	margin: 10px;
+	padding: 10px;
+	background: #F2F2F2;
+	border: 1px solid #D4D5D6;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius:5px;
+	border-radius: 5px;
+}

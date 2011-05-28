@@ -515,6 +515,17 @@ for(var i=0; i<len; i++) {
 	
 }
 
+
+
+function mw_html_tag_remove_styles(){
+	$element = $('#mw_css_editor_element_id').val();
+		  $('*[mw_tag_edit="'+$element+'"]').removeAttr("style");
+		   $('*[mw_tag_edit="'+$element+'"] *').removeAttr("style");
+	  $('*[mw_tag_edit="'+$element+'"]').children().removeAttr("style");
+	  	//$('*[mw_tag_edit="'+$element+'"]').parent().removeAttr("style");
+}
+
+
 function mw_html_tag_editor_apply_styles(){
 	$element = $('#mw_css_editor_element_id').val();
 	var $inputs = $('#mw_html_css_editor .css_property');
@@ -614,16 +625,64 @@ function mw_html_tag_editor_apply_styles(){
 				
 				
 				
-				 $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').css('');
-				 $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').removeClass('rangyTemp');
+				// $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').css('');
+				// $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').removeClass('rangyTemp');
 				
 				
 				
 				 //$('*[mw_tag_edit="'+$element+'"]').css(cssstr);
 	  $('*[mw_tag_edit="'+$element+'"]').css(cssstr);
-	  $('*[mw_tag_edit="'+$element+'"]').children().css(cssstr);
+	 // $('*[mw_tag_edit="'+$element+'"]').children().css(cssstr);
 	  
-	 
+	//$spans =  $('*[mw_tag_edit="'+$element+'"]').parent().find('span');
+//	
+//	$spans.each(function() {
+//						  
+//			 has =   $(this).attr('mw_tag_edit');
+//			 
+//			 if(has != undefined || has != ''){
+//				 
+//				 st =   $(this).attr('style');
+//				 
+//				  if(st == undefined || st == ''){
+//				    if (window.console != undefined) {
+//									 console.log('has spans with style '+has + st );
+//									 
+//									 }	
+//									 
+//			//						 var el = this;
+////            var range = rangy.createRange();
+////            range.collapseToPoint(el, 0);
+////            range.normalizeBoundaries();
+//
+// 
+//			
+//			
+//									// $(this).replaceWith(function() {
+//									 // return $(this).contents();
+//									//});
+//									 
+//									 
+//									// $(this).parent().replaceWith( $(this).contents() ); 
+//									// $(this).unwrap();
+//
+//									 
+//				  }
+//				 
+//			 }
+//			 
+//			 
+//
+//									 
+//									 
+//						  
+//	 });
+ 
+
+	  
+ //$('*[mw_tag_edit="'+$element+'"]').children().has('span[mw_tag_edit]').css('border','5px solid #ccc');
+
+	// console.log($('*[mw_tag_edit="'+$element+'"]').children('span[mw_tag_edit]'));  
 	
 	
 	
@@ -659,9 +718,12 @@ function mw_html_tag_editor_apply_styles(){
 							 
 							 
 		$("#mw_html_css_editor").accordion({
-				autoHeight: false,
-				icons: true,
+			autoHeight: false,
+			clearStyle: true,
+				 
 				animated: false,
+				icons: { header: "ui-icon-triangle-1-w",
+			headerSelected: "ui-icon-triangle-1-s" },
 				navigation: true
 										   
 									   
@@ -700,7 +762,7 @@ function mw_html_tag_editor_apply_styles(){
   </script>
 <style>
 
-.ui-accordion-header.css_editor_tab_text .ui-icon {
+/*.ui-accordion-header.css_editor_tab_text .ui-icon {
     background: url('<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/1306317754_text_letter_t_1.png');
 }
 .ui-accordion-header.css_editor_tab_size .ui-icon {
@@ -711,7 +773,7 @@ function mw_html_tag_editor_apply_styles(){
 }
 .ui-accordion-header.s4 .ui-icon {
     background: url(http://p.yusukekamiyamane.com/icons/search/fugue/icons/balloon-facebook-left.png);
-}
+}*/
 
 </style>
 <div class="mw_admin_box_padding">
@@ -725,7 +787,14 @@ function mw_html_tag_editor_apply_styles(){
         <!--<a target="_blank" href="http://microweber.com">(see how)</a>--></td>
       <td><a target="_blank" href="<? print $config['help_link']; ?>"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></a></td>
     </tr>
+     <tr>
+      <td align="right"><a  href="javascript:mw_html_tag_remove_styles()"><img  border="0" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/clear_style.png"  /></a></td>
+      <td></td>
+    </tr>
   </table>
+ 
+  
+
 </div>
 
 
@@ -736,15 +805,77 @@ function mw_html_tag_editor_apply_styles(){
 
 
 <div id="mw_html_css_editor">
-  <h3 class="css_editor_tab_text"><a href="#">Text properties</a></h3>
+  <h3 class="css_editor_tab_text"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/text.png"  style="float:left; padding-right:5px;"/>Text properties</a></h3>
   <div>
+  
+  
+  
+  <div class="<? print $text_block_classes ?>">
+  
+  font-family
+  
+  
+  <input   name="font-family" class="mw_ac_fonts css_property"  type="text" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+  
+  
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
       <tr class="<? print $text_block_classes ?>">
-        <td> font-family
+        <td> 
           <!--'font-family','font-size','font-weight','font-style','color',
 	        'text-transform','text-decoration','letter-spacing','word-spacing',
 	        'line-height','text-align'--></td>
-        <td><input   name="font-family" class="mw_ac_fonts css_property"  type="text" />
+        <td>
           <!-- <select name="font-family"   class="css_property" type="text">
           <option value="">Default</option>
           <option value="Arial">Arial</option>
@@ -780,6 +911,7 @@ function mw_html_tag_editor_apply_styles(){
       <tr class="<? print $text_block_classes ?>">
         <td>font-style</td>
         <td><select name="font-style"   class="css_property" type="text">
+          <option value="">Default</option>
             <option value="normal">normal</option>
             <option value="italic">italic</option>
             <option value="oblique">oblique</option>
@@ -836,7 +968,7 @@ function mw_html_tag_editor_apply_styles(){
       </tr>
     </table>
   </div>
-  <h3 class="css_editor_tab_size"><a href="#">Align and size</a></h3>
+  <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align.png"  style="float:left; padding-right:5px;"/>Align and size</a></h3>
   <div>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
       <tr class="mw_edit_tag_img">
@@ -880,7 +1012,7 @@ function mw_html_tag_editor_apply_styles(){
       </tr>
     </table>
   </div>
-  <h3 class="css_editor_tab_size"><a href="#">Border</a></h3>
+  <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/border.png"  style="float:left; padding-right:5px;"/>Border</a></h3>
   <div>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
       <tr class="mw_edit_tag_img">
@@ -908,7 +1040,7 @@ function mw_html_tag_editor_apply_styles(){
       </tr>
     </table>
   </div>
-  <h3 class="css_editor_tab_size"><a href="#">Background</a></h3>
+  <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  style="float:left; padding-right:5px;"/>Background</a></h3>
   <div>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
       <tr class="mw_edit_tag_img">

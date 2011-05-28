@@ -109,10 +109,7 @@ save_media_close<? print $rand ;?>()
 
 <form action=""  id="mw_media_edit_<? print $rand ;?>"  method="post" enctype="multipart/form-data">
   <input name="id" type="hidden" value="<?php print $pic['id'] ?>" />
-  
-  
   <span class="mw_sidebar_module_box_title">Edit picture</span>
-  
   <div class="mw_admin_rounded_box">
     <div class="mw_admin_box_padding">
       <!-- <tr>
@@ -120,31 +117,26 @@ save_media_close<? print $rand ;?>()
                     </td>
                 </tr>-->
       <label>Title</label>
-     
       <input name="media_name" type="text"  value="<?php print $pic['media_name'] ?>" />
       <label>Description</label>
-     
       <textarea name="media_description" cols=""  rows="2"><?php print $pic['media_description'] ?></textarea>
-      
-      
-      
-     <div style="display:none;"> <label>Type</label>
-          <select name="media_type">
-        <option value="picture" <? if($pic['media_description'] == 'picture') :  ?>  selected="selected" <? endif; ?>  >picture</option>
-        <option value="video" <? if($pic['media_description'] == 'video') :  ?>  selected="selected" <? endif; ?> >video</option>
-      </select></div>
+      <div style="display:none;">
+        <label>Type</label>
+        <select name="media_type">
+          <option value="picture" <? if($pic['media_description'] == 'picture') :  ?>  selected="selected" <? endif; ?>  >picture</option>
+          <option value="video" <? if($pic['media_description'] == 'video') :  ?>  selected="selected" <? endif; ?> >video</option>
+        </select>
+      </div>
       <? if($pic['media_type'] == 'video') :  ?>
       <b>Embed code:</b>
       <textarea name="embed_code" cols="" style="width: 200px;" rows="2"><?php print $pic['embed_code'] ?></textarea>
       <b>Original link:</b>
       <textarea name="original_link" cols="" style="width: 200px;" rows="2"><?php print $pic['original_link'] ?></textarea>
       <? endif; ?>
-      
-        <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
-  <input name="save"  class="mw_form_button" type="button" onclick="save_media_item<? print $rand ;?>()" value="Save" />
-    <input name="close"    type="button" onclick="save_media_close<? print $rand ;?>()" value="Close" /> 
-    <input name="Delete"    type="button" onclick="contentMediaDeletePicture<? print $rand ?>(<?php print $pic['id'] ?>)" value="Delete" />
+      <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
+      <input name="save"  class="mw_form_button" type="button" onclick="save_media_item<? print $rand ;?>()" value="Save" />
+      <input name="close"    type="button" onclick="save_media_close<? print $rand ;?>()" value="Close" />
+      <input name="Delete"    type="button" onclick="contentMediaDeletePicture<? print $rand ?>(<?php print $pic['id'] ?>)" value="Delete" />
     </div>
   </div>
-
 </form>

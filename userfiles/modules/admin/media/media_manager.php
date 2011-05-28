@@ -22,12 +22,12 @@ $rand = rand();
   
    
   $media_type = $params['type'];
- 
+ if($id  == false and $for == false){
  if($params['module_id']){
 	 $collection = $params['module_id'];
 	 $queue_id = false;
  }
- 
+ }
  
  
  //p($params);

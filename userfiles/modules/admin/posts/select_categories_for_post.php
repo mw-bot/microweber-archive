@@ -28,6 +28,8 @@ $(document).ready(function(){
          });
          return false;
     });
+	 set_categories();
+ hide_pages_without_categories();
 });
 
 $(window).load(function(){
@@ -129,9 +131,12 @@ function set_categories(){
   url: '<? print site_url('api/content/get_page'); ?>',
   data: ({id : content_parent }),
   success: function(resp2) {
+	   if(resp2 != undefined){
 	 // alert(resp2);
+	 if(resp2.url != undefined){
 	    $("#content_url_page").html(resp2.url);
-	   
+	 }
+	   }
   },
   dataType: 'json'
 });
