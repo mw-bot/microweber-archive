@@ -535,7 +535,7 @@ $skip = false;
 		$headers .= "From: {$_REQUEST['email']}" . "\r\n" . #    "Reply-To: webmaster@example.com" . "\r\n" .
 
 
-		"Reply-To: {$_REQUEST['email']}" . "\r\n" . 'X-Mailer: FireCMS (www.ooyes.net) - PHP/' . phpversion ();
+		"Reply-To: {$_REQUEST['email']}" . "\r\n" . 'X-Mailer: Microweber (Microweber.com) - PHP/' . phpversion ();
 
 		foreach ( $_POST as $k => $v ) {
 
@@ -576,31 +576,31 @@ $skip = false;
 		//$sendto = $the_city ['email'];
 
 
-		if ($_REQUEST ['cptch'] == '4') {
-
-			$send_me_the_email = true;
-
-		} else {
-
-			$send_me_the_email = false;
-
-		}
-
-		if ($only_valiudation == true) {
-
-			if ($_REQUEST ['cptch'] != '4') {
-
-				exit ( 'no' );
-
-			}
-
-			if ($_REQUEST ['cptch'] == '4') {
-
-				exit ( 'yes' );
-
-			}
-
-		}
+//		if ($_REQUEST ['cptch'] == '4') {
+//
+//			$send_me_the_email = true;
+//
+//		} else {
+//
+//			$send_me_the_email = false;
+//
+//		}
+//
+//		if ($only_valiudation == true) {
+//
+//			if ($_REQUEST ['cptch'] != '4') {
+//
+//				exit ( 'no' );
+//
+//			}
+//
+//			if ($_REQUEST ['cptch'] == '4') {
+//
+//				exit ( 'yes' );
+//
+//			}
+//
+//		}
 
 		if ($_POST) {
 

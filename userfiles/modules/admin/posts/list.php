@@ -58,5 +58,17 @@ $posts = get_posts($params);
 </div>
 <? endif; ?>
 <? else: ?>
-Nothing found
+<? $curent_cat = url_param('category');
+	if($curent_cat  !=  false){
+	$curent_cat  = get_category($curent_cat );
+	 $add_post_link = site_url('admin/action:post_edit/id:0').'/add_to_category:'.$curent_cat['id'];
+	} else {
+	 $add_post_link = site_url('admin/action:post_edit/id:0');	
+		
+	}
+	?>
+<div class="mw_admin_no_posts"> <strong>No posts found.</strong> <br />
+  <br />
+  <br />
+  <a href="<? print $add_post_link ?>" class="sbm">Add new post</a> </div>
 <? endif; ?>

@@ -1,4 +1,5 @@
 <? //p($params); ?>
+<? if($params['quick_edit'] and $params['module_id']) :   ?>
 <div class="mw_iframe_sub_header" >
   <table width="95%" border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -8,6 +9,7 @@
     </tr>
   </table>
 </div>
+<? endif; ?>
 <?  //p($params); ?>
 <?   //   p($config); ?>
 <?
@@ -81,7 +83,7 @@ $rand = rand();
 <?
  
 
-//p($params);
+ //p($params);
 
 if(intval($params['page_id'])  > 0){
 	$for = 'content'; 
@@ -110,7 +112,7 @@ if($for == false){
 	$for = $params['for'];
 }
 
-if($id == false){
+if($params['for_id']!= false){
 	
 	$id = $params['for_id'];
 }
@@ -138,7 +140,6 @@ if($id == false){
 
 
 ?>
-
  
 
 <input type="hidden" name="queue_id" value="<? print $rand ?>" />

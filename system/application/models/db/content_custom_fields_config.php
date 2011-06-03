@@ -43,7 +43,7 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('page_id', 'int(11) default NULL' );
 	
 	
-	$fields_to_add [] = array ('p_id', 'int(11) default NULL' );
+	$fields_to_add [] = array ('post_id', 'int(11) default NULL' );
 	
 	$fields_to_add [] = array ('name', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('param_group', 'varchar(1500) default NULL' );

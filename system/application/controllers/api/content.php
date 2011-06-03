@@ -143,7 +143,7 @@ class Content extends Controller {
 		$custom_field_table2 = $cms_db_tables ['table_custom_fields_config'];
 		foreach ( $_POST ['cf_id'] as $key => $value ) {
 			$q1 = "UPDATE {$custom_field_table1}  SET field_order={$key}  WHERE id={$value}";
-		 	//p($q1);
+			//p($q1);
 			$q1 = CI::model ( 'core' )->dbQ ( $q1 );
 			
 			$q1 = "UPDATE {$custom_field_table2}  SET field_order={$key}  WHERE id={$value}";
@@ -164,7 +164,50 @@ class Content extends Controller {
 		if ($id == false) {
 			exit ( 'Error: not logged in as admin.' );
 		}
+		$fs = strval ( trim ( $_POST ['field_scope'] ) );
+		if ($fs != '' and $_POST ['post_id']) {
+			if ($fs == 'page') {
+				//unset($_POST ['post_id']);
+			}
+		
+		}
+		
+		if (trim ( $_POST ['param'] ) == '') {
+			
+			$string = $_POST ['name'];
+			$string = string_cyr2lat ( $string );
+			
+			$string = preg_replace ( '/[^a-z0-9_ ]/i', '', $string );
+			if (trim ( $string ) == '') {
+				//$string = $_POST ['type'] . rand ();
+			} else {
+				
+				//neat code :)  
+				$strtolower = function_exists ( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+				$string = $strtolower ( $string );
+				
+				$_POST ['param'] = $string;
+			
+			}
+		
+		}
+		if ($_POST ['param'] == '') {
+			$string = string_cyr2lat ( $_POST ['name'] );
+			$_POST ['param'] = $_POST ['name'];
+		}
+		//p($_POST);
+		//	if ($_POST ['param'] != '') {
+		//p($_POST);
+		
+
 		$s = CI::model ( 'core' )->saveCustomFieldConfig ( $_POST );
+		//}
+		
+
+		CI::model ( 'core' )->cleanCacheGroup ( 'custom_fields' );
+		//	p($_POST);
+		
+
 		exit ( $s );
 	}
 	
@@ -177,6 +220,20 @@ class Content extends Controller {
 		if ($id == false) {
 			exit ( 'Error: not logged in as admin.' );
 		}
+		global $cms_db_tables;
+		$custom_field_table1 = $cms_db_tables ['table_custom_fields'];
+		$custom_field_table2 = $cms_db_tables ['table_custom_fields_config'];
+		
+		if ($_POST ['post_id'] != false and $_POST ['param'] != false) 
+
+		{
+			$p_id = intval ( $_POST ['post_id'] );
+			$p_id1 = ($_POST ['param']);
+			$q1 = "DELETE from {$custom_field_table2}  WHERE (post_id={$p_id} or page_id={$p_id} ) and param='$p_id1'";
+			//p($q1);
+			$q1 = CI::model ( 'core' )->dbQ ( $q1 );
+		}
+		
 		$s = CI::model ( 'core' )->deleteDataById ( 'table_custom_fields_config', $_POST ['id'], $delete_cache_group = false );
 		CI::model ( 'core' )->cleanCacheGroup ( 'custom_fields' );
 		exit ( $s );
@@ -467,6 +524,8 @@ class Content extends Controller {
 					
 					//p($i);
 					if (! empty ( $i )) {
+						
+						$position = 0;
 						foreach ( $i as $ik => $iv ) {
 							$data_to_save = array ();
 							$data_to_save ['id'] = $ik;
@@ -474,11 +533,15 @@ class Content extends Controller {
 								$iv = $_POST ['menu_id'];
 							}
 							$iv = intval ( $iv );
+							$data_to_save ['position'] = $position;
 							$data_to_save ['item_parent'] = $iv;
 							$data_to_save ['item_type'] = 'menu_item';
 							$data_to_save = CI::model ( 'content' )->saveMenuItem ( $data_to_save );
 							
-						//p ( $data_to_save );
+							//
+							$position ++;
+							
+							p ( $data_to_save );
 						}
 					}
 					
@@ -696,8 +759,9 @@ class Content extends Controller {
 			$custom_field_to_delete ['custom_field_name'] = $field;
 			$custom_field_to_delete ['to_table'] = 'table_content';
 			$custom_field_to_delete ['to_table_id'] = $content_id;
-			p ( $custom_field_to_delete );
+			//p ( $custom_field_to_delete );
 			$id = CI::model ( 'core' )->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
+			$saved = CI::model ( 'core' )->deleteCustomFieldById ( $id );
 			
 			//$saved = CI::model ( 'core' )->deleteCustomFieldById ( $id );
 			print ($id) ;
@@ -955,7 +1019,7 @@ class Content extends Controller {
 							$html_to_save = str_replace ( 'MICROWEBER', 'microweber', $html_to_save );
 							
 							if ($is_no_save != true) {
-								$pattern = "/mw_last_hover=\"[0-9]*\"/"; 
+								$pattern = "/mw_last_hover=\"[0-9]*\"/";
 								$pattern = "/mw_last_hover=\"[0-9]*\"/i";
 								
 								$html_to_save = preg_replace ( $pattern, "", $html_to_save );
@@ -1061,10 +1125,12 @@ class Content extends Controller {
 							foreach ( $html->find ( 'div[mw_params_encoded="edit_tag"]' ) as $checkbox ) {
 								//var_Dump($checkbox);
 								$re1 = $checkbox->module_id;
+								$style = $checkbox->style;
 								$re2 = $checkbox->mw_params_module;
 								$tag1 = "<microweber ";
 								$tag1 = $tag1 . "module=\"{$re2}\" ";
 								$tag1 = $tag1 . "module_id=\"{$re1}\" ";
+								$tag1 = $tag1 . "style=\"{$style}\" ";
 								$tag1 .= " />";
 								
 								$checkbox->outertext = $tag1;

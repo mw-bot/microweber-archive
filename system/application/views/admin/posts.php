@@ -36,7 +36,7 @@ function content_list($kw, $category_id){
 
   success: function(resp) {
  
-   $('#content_list').html(resp);
+   $('#posts_list_content').html(resp);
    
 	
 	//$('#results_holder_title').html("Search results for: "+ $kw);
@@ -60,27 +60,27 @@ $(document).ready(function() {
 						   
 						   
 
-  $(".content_search").onStopWriting(function(){
+  $("#content_search").onStopWriting(function(){
        content_list(this.value);
   });
-   $(".content_search_btn").click(function(){
+   $("#content_search_btn").click(function(){
        content_list($("#content_search").val());
   });
   
   $(".choose_cats").click(function(){
         mw.modal.init({
-          html:$("#cat_lis_holder"),
+          html:$(".cat_lis_holder"),
           width:600,
           height:530,
           id:'categories_popup',
           oninit:function(){
-           // $("#cat_lis li input").uncheck();
-            $("#cat_lis li span").removeClass("active");
+           // $(".cat_lis li input").uncheck();
+            $(".cat_lis li span").removeClass("active");
           }
         })
   });
 
-  $("#cat_lis li span").click(function(){
+  $(".cat_lis li span").click(function(){
      var input = $(this).find("input:first");
      if(input.is(":checked")){
       // input.uncheck();
@@ -93,10 +93,10 @@ $(document).ready(function() {
 
   });
 
-  $("#cat_lis_apply").click(function(){
+  $(".cat_lis_apply").click(function(){
     var ul = document.createElement('ul');
     ul.className = "cat_lis";
-    $("#cat_lis li input:checked").each(function(){
+    $(".cat_lis li input:checked").each(function(){
         var id = $(this).val();
         var clone = $(this).parent().clone(true);
         var li = document.createElement('li');
@@ -126,6 +126,11 @@ movement_selector = function(elem, id){
 }
 
 </script>
+<?
+
+	  $pages_with_cats =  CI::model ( 'content' )->contentGetPagesWithCategories() ;
+	 // p( $pages_with_cats);
+?>
 
 <div class="box radius">
   <div class="box_header radius_t"  style="margin-bottom:0px !important;">
@@ -135,7 +140,7 @@ movement_selector = function(elem, id){
         <td><div class="right">
             <input type="text" default="Search content"  class="content_search_wide" id="content_search"  />
             <a href="#" id="content_search_btn" class="btn3 hovered">Search</a> </div></td>
-        <td><a href="<? print site_url('admin/action:post_edit/id:0') ?>" id="content_search_btn" class="sbm right">Add new post</a></td>
+        <td><a href="<? print site_url('admin/action:post_edit/id:0') ?>"  class="sbm right">Add new post</a></td>
       </tr>
     </table>
     <? if(intval($form_values['id']) != 0): ?>
@@ -149,9 +154,13 @@ movement_selector = function(elem, id){
       <li><a href="<? print site_url('admin/action:categories') ?>" class="categories_btn">Categories</a></li>
     </ul>
   </div>-->
-  <div id="cat_lis_holder" style="display: none">
-    <div id="cat_lis">
+  <div class="cat_lis_holder" style="display: none">
+    <div class="cat_lis">
       <?
+	  
+	  
+	  
+
 
  $tree_params = array(); 
 
@@ -175,36 +184,62 @@ category_tree( $tree_params ) ; ?>
       </table>
     </div>
     <div class="posts_list_bar"><a href="<? print site_url('admin/action:categories') ?>" class="blue">Edit categories</a></div>
-    <div class="cat_tree">
+    <? foreach($pages_with_cats as $pages_with_cat): ?>
+    <div class="cat_tree"> <a href="<? print site_url('admin/action:posts') .'/category:'.$pages_with_cat['content_subtype_value'] ?>" class="main_page"><? print $pages_with_cat['content_title'] ?></a>
       <?
 
  $tree_params = array();
 
 // $tree_params['link'] = '<a href="javascript:content_list(\'\',{id});">{taxonomy_value}</a>';
 $url123 = site_url('admin/action:posts') .'/category:{id}';
+
+
+ 
+
+ $tree_params['content_parent'] =$pages_with_cat['content_subtype_value'];;
  $tree_params['link'] ="<a href='{$url123}'>{taxonomy_value}</a>";
 
 
 category_tree( $tree_params ) ; ?>
     </div>
+    <? endforeach; ?>
   </div>
   <div id="content_list">
     <div class="posts_list_bar_info">
       <table width="80%" border="0" align="center">
         <tr>
           <td></td>
-          <td><!--From here you can add posts in diferent categories. The posts are the dynamic content of your website. Such as blog posts, products, news entries, etc.--></td>
+          <td align="right"><br />
+            <!--From here you can add posts in diferent categories. The posts are the dynamic content of your website. Such as blog posts, products, news entries, etc.--></td>
         </tr>
       </table>
     </div>
-    <div class="posts_list_bar"> Content
+    <div class="posts_list_bar">
+      <? $curent_cat = url_param('category');
+	
+	$curent_cat  = get_category($curent_cat );
+	//p($curent_cat);
+	
+	?>
+      <? $curent_cat = url_param('category');
+	if($curent_cat  !=  false){
+	$curent_cat  = get_category($curent_cat );
+	 $add_post_link = site_url('admin/action:post_edit/id:0').'/add_to_category:'.$curent_cat['id'];
+	} else {
+	 $add_post_link = site_url('admin/action:post_edit/id:0');	
+		
+	}
+	?>
+      <a class="xbtn" href="<? print $add_post_link ; ?>"> <span class="btn_plus">&nbsp;</span> New post <? if($curent_cat['taxonomy_value']): ?>in <strong><? print character_limiter($curent_cat['taxonomy_value'], 15) ?></strong> <?  endif ?> </a> <a class="xbtn" href="javascript:void(0)"> <span class="folder_edit">&nbsp;</span> Edit category </a> <a class="xbtn" href="javascript:void(0)"> <span class="folder_add">&nbsp;</span> Add sub-category </a>
       <div class="post_info">
         <!--   <div class="post_views post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/comment.png" border="0" /></div>-->
-        <div class="post_comments post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/comment.png" border="0" /></div>
-        <div class="post_author post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/pen.png" border="0" /></div>
+        <div class="post_comments post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/comment.png" title="Comments" border="0" /></div>
+        <div class="post_author post_info_inner"><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/admin/pen.png" title="Author" border="0" /></div>
       </div>
     </div>
+     <div id="posts_list_content">
     <mw module="admin/posts/list"  />
+     </div>
   </div>
 </div>
 <div style="display:none;">

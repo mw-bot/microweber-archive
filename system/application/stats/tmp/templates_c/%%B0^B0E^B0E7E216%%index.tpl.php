@@ -19,4 +19,4 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate',
 $this->_smarty_include(array('smarty_include_tpl_file' => "VisitsSummary/templates/sparklines.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
- ?>
+ ?>

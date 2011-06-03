@@ -66,14 +66,14 @@ function clean_word($html_to_save) {
 			$html_to_save = str_replace ( 'class="MsoNormal"', '', $html_to_save );
 		}
 		
-		$tags = extract_tags ( $html_to_save, 'style', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
-		
-		$matches = $tags;
-		if (! empty ( $matches )) {
-			foreach ( $matches as $m ) {
-				$html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
-			}
-		}
+//		$tags = extract_tags ( $html_to_save, 'style', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+//		
+//		$matches = $tags;
+//		if (! empty ( $matches )) {
+//			foreach ( $matches as $m ) {
+//				$html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
+//			}
+//		}
 	
 	}
 	$html_to_save = str_replace ( 'class="exec"', '', $html_to_save );
@@ -272,35 +272,37 @@ function get_custom_fields($content_id) {
 	return get_custom_fields_for_content ( $content_id );
 }
 
-function get_custom_fields_config_for_content($content_id) {
+function get_custom_fields_config_for_content($content_id, $page_id) {
 	$cf_cfg = array ();
+	if (intval ( $content_id ) == 0) {
+		return false;
+	}
 	
-	 
 	$cf_from_id ['to_table_id'] = $content_id;
 	
-	
-	
-	 
-	$cf_cfg1 = get_custom_fields_for_content($content_id);
-	
+	$cf_cfg1 = get_custom_fields_for_content ( $content_id );
+	//p($cf_cfg1);
 	$to_return = array ();
 	if (! empty ( $cf_cfg1 )) {
 		
 		//$cf_cfg = ($cf_cfg1);
 		//$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
 		foreach ( $cf_cfg1 as $value ) {
-			$to_return [] = $value;
+			//	$to_return [] = $value;
 		}
 	
 	}
 	
-	
+	//if (! empty ( $cf_cfg1 )) {
 	$cf_cfg1 = array ();
-	$cf_cfg1 ['post_id'] = $cf_from_id ['to_table_id'];
+	$cf_cfg1 ['post_id'] = $content_id;
 	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
 	//    p( $cf_cfg1);
-	$cf_cfg1 = CI::model ( 'core' )->getCustomFieldsConfig ( $cf_cfg1 );
 	
+
+	$cf_cfg1 = CI::model ( 'core' )->getCustomFieldsConfig ( $cf_cfg1 );
+	//p($cf_cfg1);
+	//p($cf_cfg1);
 	//$to_return = array ();
 	if (! empty ( $cf_cfg1 )) {
 		
@@ -310,29 +312,68 @@ function get_custom_fields_config_for_content($content_id) {
 			$to_return [] = $value;
 		}
 	
+	} else {
+	
 	}
 	
+	//}
+	
+
 	$cf_cfg1 = array ();
-	$page_for_post = get_page_for_post ( $cf_from_id ['to_table_id'] );
-	$cf_cfg1 ['page_id'] = $page_for_post ['id'];
+	
+	if ($page_id == false) {
+		$page_for_post = get_page_for_post ( $content_id );
+		
+		$cf_cfg1 ['page_id'] = $page_for_post ['id'];
+	} else {
+		$cf_cfg1 ['page_id'] = $page_id;
+	
+	}
 	//$cf_cfg1 ['param'] = $cf_from_id ['custom_field_name'];
 	//    p( $cf_cfg1);
 	$cf_cfg1 = CI::model ( 'core' )->getCustomFieldsConfig ( $cf_cfg1 );
+	
+	//	p ( $to_return );
+	// p ( $cf_cfg1 );
+	
+
 	if (! empty ( $cf_cfg1 )) {
 		
 		$cf_cfg = ($cf_cfg1);
-	//	$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
-	//	$to_return [] = $cf_cfg1;
+		//	$cf_cfg ['default'] = $cf_from_id ['custom_field_value'];
+		//	$to_return [] = $cf_cfg1;
 		foreach ( $cf_cfg1 as $value ) {
 			
+			//	p($value );
+			
+
 			$f = false;
 			foreach ( $to_return as $d ) {
-				if ($d ["name"] == $value ["name"]) {
+				if ($d ["name"] != '') {
+					if ($d ["name"] == $value ["name"]) {
+						$f = true;
+					
+					}
+				}
+				
+				if ($d ["custom_field_name"] != '') {
+					if ($d ["custom_field_name"] == $value ["param"]) {
+						$f = true;
+					
+					}
+				}
+				if ($d ["param"] == $value ["param"]) {
 					$f = true;
 				
 				}
+				if ($d ["custom_field_name"] != '') {
+				if ($d ["custom_field_name"] == $value ["custom_field_name"]) {
+					$f = true;
 				
-			if ($d ["custom_field_name"] == $value ["param"]) {
+				}
+				}
+				
+				if ($d ["custom_field_name"] == $value ["param"]) {
 					$f = true;
 				
 				}
@@ -340,6 +381,7 @@ function get_custom_fields_config_for_content($content_id) {
 				if ($d ["id"] == $value ["id"]) {
 					//$f = true;
 				
+
 				}
 			
 			}
@@ -359,6 +401,7 @@ function get_custom_fields_config_for_content($content_id) {
 
 
 function get_custom_fields_for_content($content_id) {
+	//p($content_id);
 	$more = false;
 	$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $content_id, true );
 	return $more;

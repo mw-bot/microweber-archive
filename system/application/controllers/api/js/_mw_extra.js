@@ -863,4 +863,181 @@ $.fn.insertAtCaret = function (myValue) {
 	
 	
 	    
+	// VALIDATE
+
+
+	//Change log: added .require-equal(must add an attribute: equalto="some_word")
+
+	//check empty
+	function require(the_form){
+	    the_form.find(".required").each(function(){
+	          if($(this).attr("type")!="checkbox"){
+	              if($(this).val()=="" ||  $(this).val()==$(this).attr("default")){
+	                $(this).parent().addClass("error");
+	              }
+	              else{
+	                $(this).parent().removeClass("error");
+	              }
+	          }
+	          else{
+	            if($(this).attr("checked")==""){
+	              $(this).parent().addClass("error");
+	            }
+	          }
+	    });
+	}
+
+	//check email
+	function checkMail(the_form){
+	      the_form.find(".required-email").each(function(){
+	          var thismail = $(this);
+	          var thismailval = $(this).val();
+	          var regexmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+
+	          if (regexmail.test(thismailval)){
+	              thismail.parent().removeClass("error");
+	          }
+	          else{
+	             thismail.parent().addClass("error");
+	          }
+	    })
+	}
+
+	function checkNumber(the_form){
+	      the_form.find(".required-number").each(function(){
+	          var thisnumber = $(this);
+	          var thismailval = $(this).val();
+	          var regexmail = /^[0-9]+$/;
+
+	          if (regexmail.test(thismailval)){
+	              thisnumber.parent().removeClass("error");
+	          }
+	          else{
+	             thisnumber.parent().addClass("error");
+	          }
+	    })
+	}
+	function checkEqual(the_form){
+	      the_form.find(".required-equal").each(function(){
+	          var equalto = $(this).attr("equalto");
+	          val1 = $(this).parents("form").find("[equalto='" + equalto + "']").eq(0).val();
+	          val2 = $(this).parents("form").find("[equalto='" + equalto + "']").eq(1).val();
+	          if(val1!=val2 || val1=='' || val2==''){
+	              $(this).parents("form").find("[equalto='" + equalto + "']").parent().addClass("error");
+	          }
+	          else{
+	              $(this).parents("form").find("[equalto='" + equalto + "']").parent().removeClass("error");
+	          }
+	      });
+	}
+	(function($) {
+		$.fn.validate = function(callback) {
+	        $(this).each(function(){
+	            $(this).submit(function(){
+	                  oform = $(this);
+	                  var valid=true;
+	                  require(oform);
+	                  checkMail(oform);
+	                  checkNumber(oform);
+	                  checkEqual(oform);
+
+	                  //Final check
+	                  if(oform.find(".error").length>0){
+	                      oform.addClass("error");
+	                      valid=false;
+	                  }
+	                  else{
+	                      oform.removeClass("error");
+	                      valid=true;
+	                  }
+	                  oform.addClass("submitet");
+
+	                  if(valid==true && callback!=undefined && typeof callback == 'function'){
+	                      callback.call(this);
+	                      return false;
+	                  }
+	                  else{
+	                     return valid;
+	                  }
+
+	            });
+	            $(this).find(".required").bind("keyup blur change mouseup", function(){
+	                if($(this).parents("form").hasClass("submitet")){
+	                  if($(this).val()=="" || $(this).val()==$(this).attr("default")){
+	                    $(this).parent().addClass("error");
+	                  }
+	                  else{
+	                    $(this).parent().removeClass("error");
+	                  }
+	                }
+	            });
+	            $(this).find(".required-equal").bind("keyup blur change mouseup", function(){
+	              if($(this).parents("form").hasClass("submitet")){
+	                  var equalto = $(this).attr("equalto");
+	                  val1 = $(this).parents("form").find("[equalto='" + equalto + "']").eq(0).val();
+	                  val2 = $(this).parents("form").find("[equalto='" + equalto + "']").eq(1).val();
+	                  if(val1!=val2 || val1=='' || val2==''){
+	                      $(this).parents("form").find("[equalto='" + equalto + "']").parent().addClass("error");
+	                  }
+	                  else{
+	                      $(this).parents("form").find("[equalto='" + equalto + "']").parent().removeClass("error");
+	                  }
+	              }
+	            });
+
+	            $(this).find(".required-email").bind("keyup blur", function(){
+	                if($(this).parents("form").hasClass("submitet")){
+	                  var thismail = $(this);
+	                  var thismailval = $(this).val();
+	                  var regexmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+	                  if (regexmail.test(thismailval)){
+	                      thismail.parent().removeClass("error");
+	                  }
+	                  else{
+	                     thismail.parent().addClass("error");
+	                  }
+	                }
+	            });
+
+	            $(this).find(".required-number").bind("keyup blur", function(){
+	                if($(this).parents("form").hasClass("submitet")){
+	                  var thisnumber = $(this);
+	                  var thisnumberval = $(this).val();
+	                  var regexmail = /^[0-9]+$/;
+	                  if (regexmail.test(thisnumberval)){
+	                      thisnumber.parent().removeClass("error");
+	                  }
+	                  else{
+	                     thisnumber.parent().addClass("error");
+	                  }
+	                }
+	            });
+	        });
+	    };
+	})(jQuery);
+
+	(function($) {
+		$.fn.isValid = function(){
+		  var valid=true;
+		  $(this).each(function(){
+	        oform = $(this);
+	        require(oform);
+	        checkMail(oform);
+	        checkNumber(oform);
+	        checkEqual(oform);
+	        if(oform.find(".error").length>0){
+	            oform.addClass("error");
+	            valid=false;
+	        }
+	        else{
+	            oform.removeClass("error");
+	            valid=true;
+	        }
+	        oform.addClass("submitet");
+		  });
+	      return valid;
+	    };
+	})(jQuery);
+
+
 	

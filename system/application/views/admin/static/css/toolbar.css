@@ -200,6 +200,7 @@ outline-width:0px;*/
 .toobar_container_right {
 	height:45px;
 	color:#717880;
+	width:590px;
 	float:right;
 	margin-right:15px;
 }
@@ -207,6 +208,7 @@ outline-width:0px;*/
 	height:45px;
 	color:#FFF;
 	float:left;
+	width:600px;
 }
 #mw_toolbar {
 	background-image:url(../img/toolbar/bg2.jpg);

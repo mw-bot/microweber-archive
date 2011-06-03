@@ -1529,15 +1529,41 @@ class Core_model extends Model {
 		if (intval ( $data_to_save ['post_id'] ) != 0) {
 			if (($data_to_save ['param'])) {
 				
-					$q = " delete from  $table_custom_field where
+				$q = " delete from  $table_custom_field where
 								 post_id = '{$data_to_save ['post_id']}'
 								 and param='{$data_to_save ['param']}'
 								   ";
 				
-				 //p($q);
+	//		p($q);
+			
+
+			$q = $this->dbQ ( $q );
+			
+
+			}
+		}
+		
+		if (intval ( $data_to_save ['post_id'] ) != 0) {
+			if (($data_to_save ['id'])) {
+				$data_to_save ['id'] = intval ( $data_to_save ['id'] );
+				$q = " select * from  $table_custom_field where
+								 id = '{$data_to_save ['id']}'	   ";
 				
-				$q = $this->dbQ ( $q );
+				//p($q);
 				
+
+				$q = $this->dbQuery ( $q );
+				if (empty ( $q [0] )) {
+					
+					$q = " INSERT INTO  $table_custom_field set
+								 id = '{$data_to_save ['id']}'	   ";
+					
+					//p($q);
+					
+
+					$q = $this->dbQ ( $q );
+				}
+			
 			}
 		}
 		
@@ -1555,8 +1581,7 @@ class Core_model extends Model {
 		$cache_group = 'custom_fields';
 		$table_custom_field = $cms_db_tables ['table_custom_fields_config'];
 		
-		$orderby = array('field_order', 'asc');
-		
+		$orderby = array ('field_order', 'asc' );
 		
 		$get = $this->getDbData ( $table_custom_field, $get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		
@@ -1634,8 +1659,6 @@ class Core_model extends Model {
 								 and to_table_id={$id}
 								 order by field_order asc  ";
 				
-				 
-				
 				$cache_id = __FUNCTION__ . '_' . md5 ( $q );
 				
 				$cache_id = md5 ( $cache_id );
@@ -1698,7 +1721,7 @@ class Core_model extends Model {
 		}
 		
 		$result = $the_data_with_custom_field__stuff;
-		$result = (array_change_key_case($result,CASE_LOWER));
+		$result = (array_change_key_case ( $result, CASE_LOWER ));
 		return $result;
 	
 	}
@@ -5357,7 +5380,7 @@ $w
 		
 		}
 		
-		$this->load->library ( 'image_lib' );
+	//	$this->load->library ( 'image_lib' );
 		
 		require_once (LIBSPATH . 'thumb/ThumbLib.inc.php');
 		
@@ -5534,7 +5557,7 @@ $w
 
 									try {
 										$thumb = PhpThumbFactory::create ( $file_path );
-										
+										//var_dump($size, $size_height);
 										$thumb->resize ( $size, $size_height );
 										
 										$thumb->save ( $new_filename );

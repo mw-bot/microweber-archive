@@ -259,111 +259,7 @@ $('#mw_sidebar_module_edit_holder').live('mouseenter',function() {
 });
 
 
- 
-
-//$('.edit').live('click',function() {
-//$("img:not(a>img)")
-//$('.edit *:not(.mw_mod_wrap)').attr('contentEditable', '');	
-//$('.edit *:not(.mw_mod_wrap)').live('hover',function() {
-	//$(this).focus();
-//	$(this).attr('contentEditable', true);	
-	
-//});
-
-//$('.edit *:not(.mw_mod_wrap)').live('mouseenter',function(event) {
-//	//$(this).attr('contentEditable', true);	
-//	//is1 = $(this).attr('contentEditable');	
-//	//if(is1  == false){
-//		//$(this).attr('contentEditable', true);	
-//		
-//	//}
-//})
-
-
-
-//$('.edit .module').die("mousedown");
-//$('.edit .module').live('mousedown', function(event) {
-//
-//
-//	       mod_id112= $(this).attr('module_id');    
-//	     mod_name= $(this).attr('mw_params_module');    
-//	      
-//	    if(mod_id112 == undefined   ){
-//	    	    mod_id112= $(this).parents('.module').attr('module_id');    
-//			     mod_name= $(this).parents('.module').attr('mw_params_module');    
-//				 // alert(mod_id112);
-//	    }
-//
-//	  //    if(mod_name != 'content/text'){
-//	    //$(this).disableSelection();
-//	   //   } 
-//	    //  alert(mod_id112);
-//		if(mod_id112 != undefined  ){
-//	   load_edit_module_by_module_id(mod_id112);
-//		}
-////		 return false;  
-//		//event.preventDefault();
-//		init_edits()
-//		// return false;	
-//	  
-//	});
-
-
-
-//$('.edit .module').die("hover");
-
- 
-
-
-//
-//$('.module *', '.edit' ).live('mouseup', function(event) {
-//	//$(".module > a").attr('href');
-//// mw.outline.remove('.module');
-//if(window.saving ==false){
-//// return false;	
-//}
-//	//event.preventDefault();
-//
-////if(window.mw_drag_started == false){
-//	//window.mw_sortables_created = false;
-//	
-//	if (window.console != undefined) {
-//		console.log('module hover making init_edits()');
-//	}
-//	//window.mw_editables_created = false;
-//	mw_remove_editables();
-//	 	init_edits()
-//	 	
-// 	event.preventDefault(); // this prevents the original href of the link from being opened
-// 	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-//		// 
-//		// 
-//	 return false;
-//
-//
-////	       mod_id112= $(this).attr('module_id');    
-////	     mod_name= $(this).attr('mw_params_module');    
-////	      
-////	    if(mod_id112 == undefined   ){
-////	    	    mod_id112= $(this).parents('.module').attr('module_id');    
-////			     mod_name= $(this).parents('.module').attr('mw_params_module');    
-////				 // alert(mod_id112);
-////	    }
-////
-////	  //    if(mod_name != 'content/text'){
-////	    //$(this).disableSelection();
-////	   //   } 
-////	    //  alert(mod_id112);
-////		if(mod_id112 != undefined  ){
-////	   load_edit_module_by_module_id(mod_id112);
-////		}
-////		 return false;  
-////		//event.preventDefault();
-////
-////		// return false;	
-//	  
-//	});
-
+   
 
 
 
@@ -371,21 +267,21 @@ $('#mw_sidebar_module_edit_holder').live('mouseenter',function() {
 
 window.mw_making_sortables = false;
 
-$('.edit a').live('click',function(e) {
+$('.edit a', '.mw').live('click',function(e) {
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
     e.preventDefault();
 	 }
     //do other stuff when a click happens
 });
 
-$('.edit .module a').live('click',function(e) {
+$('.edit .module a', '.edit').live('click',function(e) {
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {	
     e.preventDefault();
 	 }
     //do other stuff when a click happens
 });
 
- $('.mw .module *, .mw .module').live('click',function(e) {
+ $('.module *' , '.edit').live('click',function(e) {
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
 		 
 		 
@@ -412,11 +308,7 @@ $('.edit .module a').live('click',function(e) {
 		  $('.mw_non_sortable').removeClass('mw_non_sortable');
 		  load_edit_module_by_module_id($clicked_on_module) 
 		  
-			//event.preventDefault(); // this prevents the original href of the link from being opened
-		 	//event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-				// 
-				// 
-			// return false;
+ 
 		  
 		  window.mw_sortables_created = false;
 		  init_edits()
@@ -437,7 +329,7 @@ $('.edit .module a').live('click',function(e) {
     //do other stuff when a click happens
 });
 
-$(".mw .module").live("mouseup mousedown click mouseenter", function(event) {
+$(".module", '.edit').live("mouseup mousedown click", function(event) {
 	 
 	
 	
@@ -542,7 +434,7 @@ $(".mw .module").live("mouseup mousedown click mouseenter", function(event) {
 
 //$('a:not("a[href^=mailto]").live('click',function(){ });
 
-$(".edit *").live("click mouseup mousedown", function(event) {
+$(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 	
 
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
@@ -1225,8 +1117,7 @@ function init_edits(){
 		
 		
 	 
-	 
-	// $( ".edit .module > *" ).disableSelection();
+ 
 	 
 	 
 	 var sort_opts = {
@@ -1764,44 +1655,11 @@ function toggleBoldRed() {
 	document.execCommand("bold", false, null);
 	
 	
-//	
-//    boldRedApplier.toggleSelection();
-//    event.preventDefault(); // this prevents the original href of the link from being opened
-// 	 event.stopPropigation(); // this prevents the click from triggering click events up the DOM from this element
+ 
       	
 }
 
-//window.onload = function() {
-//    rangy.init();
-//
-//    // Enable buttons
-//    var cssClassApplierModule = rangy.modules.CssClassApplier;
-//    if (rangy.supported && cssClassApplierModule && cssClassApplierModule.supported) {
-//        boldRedApplier = rangy.createCssClassApplier("boldRed", true);
-//        italicYellowBgApplier = rangy.createCssClassApplier("italicYellowBg", true, ["span", "a", "b"]);
-//
-//        var toggleBoldRedButton = gEBI("toggleBoldRedButton");
-//        toggleBoldRedButton.disabled = false;
-//        toggleBoldRedButton.onmousedown = function() {
-//            toggleBoldRed();
-//           event.preventDefault(); // this prevents the original href of the link from being opened
-//  	 event.stopPropigation(); // this prevents the click from triggering click events up the DOM from this element
-//       	
-//            return false;
-//        };
-//
-//        var toggleItalicYellowBgButton = gEBI("toggleItalicYellowBgButton");
-//        toggleItalicYellowBgButton.disabled = false;
-//        toggleItalicYellowBgButton.onmousedown = function() {
-//            event.preventDefault(); // this prevents the original href of the link from being opened
-//         	 event.stopPropigation(); // this prevents the click from triggering click events up the DOM from this element
-//              	
-//            toggleItalicYellowBg();
-//            return false;
-//        };
-//    }
-//};
-
+ 
 
 var editing;
 var c;
@@ -2224,10 +2082,16 @@ function load_edit_module_by_module_id($the_module_id) {
 	  // alert(id);
 	   if(id != undefined){
 	// alert(id);
-		   
-		//   $(".mw_outline").remove();
-		   
-		   
+		   window.mw_last_hover++;
+	
+			 $("#style_mw_id").val( id);
+			 $("#mw_css_editor_element_id").val(id);
+			 $("#style_mw_tag").val( 'module');
+			  
+	 
+			 
+			 
+			
 	 
 		//	mw.outline.init("div[module_id='"+$the_module_id+"']", '#DCCC01');
 		 
@@ -2512,12 +2376,12 @@ function call_edit_module_ajax(id, module_name_original) {
 				
 					      async:true,
 				
-					  success: function(resp) {
+					  success: function(resp) { 
 				
 					   $('#mw_edit_module_settings_'+id).prepend(resp);
-				
+					   $('#mw_edit_module_settings_'+id).append('<a class="mw_edit_module_style_btn" href=\'javascript:mw_html_tag_editor(\"'+1+'\")\'>Style module</a>');
 					 
-				
+
 					  }
 					    });
 					   
@@ -2718,9 +2582,19 @@ function update_module_element($new_value) {
 	  
 }
 
-mw.saveALL = function(){
- //	$( ".edit .module" ).children().remove();
+
+function mw_saveALL($no_async) {
 	
+ 
+	mw.saveALL($no_async);
+	  
+}
+
+
+
+mw.saveALL = function($no_async){
+ //	$( ".edit .module" ).children().remove();
+	window.no_async = true;
 	nic_save_all(function(){
 		
 		init_edits();

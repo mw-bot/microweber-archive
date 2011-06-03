@@ -1,765 +1,9 @@
-<script type="text/javascript">
-
-
-function mw_html_tag_delete(){
-	
-	
-	var r=confirm("Are you sure?");
-if (r==true)
-  {
-
-
-	$element = $('#mw_css_editor_element_id').val();
-	
-	//alert($element);
-	
-
-	$element_obj = $('*[mw_tag_edit="'+$element+'"]');
-	$element_obj.fadeOut()
-	$element_obj.remove()
-
-  }
-else
-  {
- 
-  }
-}
-
-function mw_html_tag_editor($mw_tag_edit_value){
-	//tag_($jquery_this.get(0).tagName);
-	
-	
-	
-	
-//	if($mw_tag_edit_value != undefined){
-//		$mw_tag_edit_value11 = $('#mw_css_editor_element_id').val();
-//		if($mw_tag_edit_value == $mw_tag_edit_value11){
-//			//alert(1);
-//			return false;
-//		}
-//		
-//	}
-	
-	
-//	alert(123);
-	
-	mw_sidebar_nav('#mw_sidebar_css_editor_holder');
-	if($mw_tag_edit_value == undefined){
-		
-		$mw_tag_edit_value = $('#mw_css_editor_element_id').val();
-		$('#mw_css_editor_element_id').val($mw_tag_edit_value);
-		
-		
-	} else {
-		$('#mw_css_editor_element_id').val($mw_tag_edit_value);
-	}
-	
-	
-	
-	
-	
-	
-	
-	mw_html_tag_editor_show_styles_for_tag();
-	 $('*[mw_tag_edit="'+$mw_tag_edit_value+'"]', '.edit').each(function(index) {
-			//$(this).hide('aaa'); 	
-			
-		//	$(this).hide('aaa'); 
-											 
-	 });
-	 
-	  $('#mw_html_css_editor .css_property').die('change')
-	 $('#mw_html_css_editor .css_property').live('change',function(){
-	  mw_html_tag_editor_apply_styles()
-	});
-	 
-	 	 
-	 
-	 $( ".mw_slider_generated" ).slider( "destroy" );
-	 $( ".mw_slider_generated" ).remove();
-$( "#mw_html_css_editor .mw_slider" ).each(function() {
-		var $input = $(this);
-		var $slider = $('<div class="mw_slider_generated" for="' + $input.attr('name') + '"></div>');
-		//var step = $input.attr('step');
-
-		//$input.after($slider).hide();
-		$input.after($slider);
-		
-		var $inputv = $(this).val();
-		if($inputv == undefined || $inputv == ''){
-			
-		$min = 1;
-		$max = 250;
-		 $value1 = 0;
-		
-		
-		} else {
-		
-		$min = 1;
-		$max = 250 + parseInt($inputv);
-		$value1 =  parseInt($inputv);
-		
-		}
-
-		$slider.slider({
-			//min: $input.attr('min'),
-			//max: $input.attr('max'),
-
-			
-			min: $min,
-			//max:100,
-			max:  $max,
-			value: $value1,
-			step: 1,
-			change: function(e, ui) {
-				//alert(ui.value);
-				//alert($(this).attr('for'));
-				 $('*[name="'+$input.attr('name')+'"]').val(ui.value);
-				 $('*[name="'+$input.attr('name')+'"]').change();
-				//alert($(this).val());
-				//$(this).val(ui.value);
-			}
-		});
-	});
-		
-	 
-	 
-	   
-//	  
-//	   $('#mw_html_css_editor .mw_color_picker').ColorPicker({
-//	onSubmit: function(hsb, hex, rgb, el) {
-//		$(el).val(''+hex);
-//		$(el).ColorPickerHide();
-//		mw_html_tag_editor_apply_styles()
-//	},
-//	onBeforeShow: function () {
-//		$v1vv= this.value;
-//		  $v1vv = $v1vv.replace("#", "");
-//		
-//		$(this).ColorPickerSetColor($v1vv);
-//	},
-//	
-//	
-//	
-//	//color: $(this).val().replace("#", ""),
-//	onShow: function (colpkr) {
-//		$(colpkr).fadeIn(500);
-//		return false;
-//	},
-//	onHide: function (colpkr) {
-//		$(colpkr).fadeOut(500);
-//		return false;
-//	},
-//	onChange: function (hsb, hex, rgb) {
-//		$(this).css('backgroundColor', '#' + hex);
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//})
-//.bind('keyup', function(){
-//	$(this).ColorPickerSetColor(''+this.value);
-//});
-	 
-	 
-	 
- 
-	 
-	 
-	 
-	 
-//	 $('.mw_color').colorpicker({
-//                size: 20,
-//                label: 'Color: ',
-//                hide: false
-//            });
-	 
-	 
-
-	 
-	 
-	 var availableTags_fonts = [
-			"Arial",
-			"Verdana, Geneva, sans-serif",
-			"Tahoma",
-			
-			"Helvetica",
-			 
-			"Times"
-		];
-		$( ".mw_ac_fonts" ).autocomplete({
-			minLength: 0,
-			close: function(event, ui) {
-				mw_html_tag_editor_apply_styles()
-				},
-			source: availableTags_fonts
-		});
-		
-		
- 
-		  
-		   $('.mw_ac_fonts').live('click',function(){ 
-												  
-       $(this).autocomplete("search", "")
-	    //$(this).trigger('keydown.autocomplete');
-    });
-		   
-		   
- 
-	 
-		   
-		    
-		  
-		  
-	 
-	 
-	  /*$( "#mw_html_css_editor .mw_slider" ).slider( "destroy" );
-	 $( "#mw_html_css_editor .mw_slider" ).slider({
-			
-			range: "max",
-			min: 1,
-			max: 1000,
-			slide: function( event, ui ) {
-				//$( "#amount" ).val( "$" + ui.value );
-				mw_html_tag_editor_apply_styles()
-			}
-		});*/
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-}
-
-function mw_html_tag_editor_show_styles_for_tag(){
-	$element = $('#mw_css_editor_element_id').val();
-	
-	//alert($element);
-	
-	$tag_name = $('*[mw_tag_edit="'+$element+'"]:first' ,'.edit').get(0).nodeName;
-	$element_obj = $('*[mw_tag_edit="'+$element+'"]:first' ,'.edit');
-	//$styles = $('*[mw_tag_edit="'+$element+'"]').css2();
-	//$('#module_info').html('');
-	var attr = ['font-family','font-size','font-weight','font-style','color',
-	        'text-transform','text-decoration','letter-spacing','word-spacing',
-	        'line-height','text-align','vertical-align','direction','background-color',
-	        'background-image','background-repeat','background-position',
-	        'background-attachment','opacity','width','height','top','right','bottom',
-	        'left','margin-top','margin-right','margin-bottom','margin-left',
-	        'padding-top','padding-right','padding-bottom','padding-left',
-	        'border-top-width','border-right-width','border-bottom-width',
-	        'border-left-width','border-top-color','border-right-color',
-	        'border-bottom-color','border-left-color','border-top-style',
-	        'border-right-style','border-bottom-style','border-left-style','position',
-	        'display','visibility','z-index','overflow-x','overflow-y','white-space',
-	        'clip','float','clear','cursor','list-style-image','list-style-position',
-	        'list-style-type','marker-offset'];
-	
-	
-	
-	
-	 
-	 
-	 var len=attr.length;
-for(var i=0; i<len; i++) {
-	var value1 = attr[i];
-	$('input[name="'+value1+'"]', '#mw_html_css_editor').val('');
-	 $('select[name="'+value1+'"] option', '#mw_html_css_editor').removeAttr('selected');
-	 
-	 
-	 
-	 
-	  $check_is_color = value1.indexOf("color") ;
-								  if($check_is_color != -1){
-									//   $dim = '#' ;
-									
-									$('input[name="'+value1+'"]', '#mw_html_css_editor').css('background-color','' );
-									
-								  }
-	 
-	 
-	 
-	 
-	 
-}
-
-
-
-	
-	
-	
-	var styles={};
-	    $element_obj.each(function(index)
-    {
-				   var styletag=$element_obj.attr('style');
-				   
-				   
-				   
-				//   alert(styletag);
-					  if (window.console != undefined) {
-							console.log('element styles ' +styletag  );	
-							
-						}
-				   
-				   
-				   if(styletag != undefined && styletag != ''){
-					   
-							  styletag =   styletag.replace("http:", "http_");
-							   styletag =   styletag.replace("https:", "https_");
-							   
-							   
-						   
-						   var stylestemp=styletag.split(';');
-						   var styles={};
-						   var c='';
-						   for (var x in stylestemp) {
-									 c=stylestemp[x].split(':');
-									 styles[$.trim(c[0])]=$.trim(c[1]);
-									 
-									 
-									 
-									 $old_val = $.trim(c[1]);
-									  $old_key =$.trim(c[0]);
-									  
-									 if($old_key != undefined && $old_key != NaN && $old_key != ''&& $old_key != '_mw_dirty'){ 
-											   if (window.console != undefined) {
-												//	console.log('element get style ' +$old_key + $old_val  );	
-													
-												}
-									  
-									   $old_key = $old_key.toLowerCase();
-							 
-								   
-								   if($old_val != undefined && $old_val != NaN && $old_val != ''){
-									   
-									   
-									   
-									   
-									   
-								  //  $old_val_split =  $old_val.split(" ");
-								  $dim = false;
-								  $dim_before = false;
-								  
-								  
-									
-							   $check_px = $old_val.indexOf("px") ;
-								  if($check_px > 0){
-									 $dim = 'px;' 
-								  }
-								  
-								  $check_px = $old_val.indexOf("PX") ;
-								  if($check_px > 0){
-									 $dim = 'px;' 
-								  }
-								  
-								  $check_px = $old_val.indexOf("%") ;
-								  if($check_px > 0){
-									 $dim = '%;' 
-								  }
-								  
-									$check_px = $old_val.indexOf("em") ;
-								  if($check_px > 0){
-									 $dim = 'em;' 
-								  }
-								  
-								  $check_px = $old_val.indexOf("pt") ;
-								  if($check_px > 0){
-									 $dim = 'pt;' 
-								  }
-								  
-								  
-								  
-								  
-								  
-								  $check_rgb = $old_val.indexOf("rgb") ;
-								  
-							 
-								   if($check_rgb != -1){
-								 
-									 $check_rgb_val = $old_val.replace("rgb(", "");
-									  $check_rgb_val = $check_rgb_val.replace(")", "");
-									
-									
-									//alert( $check_rgb_val);
-									 if (window.console != undefined) {
-									 console.log('rgb '+$check_rgb_val );
-									 }
-									
-									check_rgb_val1 =	$check_rgb_val.split() + ","
-								//	 $old_val = '#'+RGBtoHex(check_rgb_val1[0],check_rgb_val1[1],check_rgb_val1[2]);
-									// $dim = '#' 
-							//
-								  }
-								  
-								    $check_is_bg = $old_key.indexOf("background-image") ;
-								  if($check_is_bg != -1){
-									//   $dim = '#' ;
-									
-									 
-								   $old_val =   $old_val.replace( "http_","http:");
-							   $old_val =   $old_val.replace( "https_","https:");
-								  
-								  
-									  $old_val = "url('"+ $old_val +"')";
-									
-								  }
-								  
-								  
-								   $check_is_color = $old_key.indexOf("color") ;
-								  if($check_is_color != -1){
-									//   $dim = '#' ;
-									
-									$('input[name="'+$old_key+'"]', '#mw_html_css_editor').css('background-color',$old_val );
-									
-								  }
-								  
-								 
-							
-								  
-								 $('select[name="'+$old_key+'"] option[value=""]', '#mw_html_css_editor').removeAttr('selected');
-								  
-								  
-								  
-								  
-								  
-								  
-								  if($dim != false){
-									  $vvvvv = parseInt($old_val);
-									  $('input[name="'+$old_key+'"]', '#mw_html_css_editor').val($vvvvv);
-									  
-								   $('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('dimensions',$dim);
-									} else {
-										$vvvvv = ($old_val);
-									  $('input[name="'+$old_key+'"]', '#mw_html_css_editor').val($vvvvv);
-									   $('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('dimensions','');
-								  // $('input[name="'+attr[i]+'"]').attr('dimensions',$dim);
-									}
-							 if($dim != false){
-								 
-								 
-								 
-							 }
-							
-							$('input[name="'+$old_key+'"]', '#mw_html_css_editor').attr('value_from_document',$vvvvv);
-							
-							$('select[name="'+$old_key+'"] option[value="'+$vvvvv+'"]', '#mw_html_css_editor').attr('selected', 'selected');
-							
-							
-							
-							
-								   }
-						   
-						   }
-						   } //if old key
-			   } else {
-				   $('input.css_property', '#mw_html_css_editor').val('');
-	 $('option.css_property', '#mw_html_css_editor select').removeAttr('selected');
-	 $('option:first', '#mw_html_css_editor select.css_property').attr('selected', 'selected');
-				   
-				   
-			   }
-     //  alert(styles.width);
-    });
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	 
- 
-	
-	
-	
-	$tag_name = $tag_name.toLowerCase();
-	$c = '.mw_edit_tag_'+$tag_name;
-	
-	//alert();
-	
-	//$('.mw_edit_tag_table tr', '#mw_html_css_editor').hide();
-	//$($c).show();
-	//$('.mw_edit_tag_table *').hasClass($c).html('asdsadasd');
-	
- 
-	
-	
-	
-	//alert($tag_name);
-	
-	
-	 
-	
-}
-
-
-
-function mw_html_tag_remove_styles(){
-	$element = $('#mw_css_editor_element_id').val();
-		  $('*[mw_tag_edit="'+$element+'"]').removeAttr("style");
-		   $('*[mw_tag_edit="'+$element+'"] *').removeAttr("style");
-	  $('*[mw_tag_edit="'+$element+'"]').children().removeAttr("style");
-	  	//$('*[mw_tag_edit="'+$element+'"]').parent().removeAttr("style");
-}
-
-
-function mw_html_tag_editor_apply_styles(){
-	$element = $('#mw_css_editor_element_id').val();
-	var $inputs = $('#mw_html_css_editor .css_property');
-    // not sure if you wanted this, but I thought I'd add it.
-    // get an associative array of just the values.
-    var values = {};
-	 var cssObj = {
-     
-    }
-	
-	var cssstr = '';
-	
-	
-    $inputs.each(function() {
-       // values[this.name] = $(this).val();
-	   //$css_attr = $(this).attr('css_attr');
-	  
-					  
-					  if ( $(this).is(':visible')){
-							 $css_attr = this.name;
-								   $dims = $(this).attr('dimensions');
-								   if( $dims != undefined &&  $dims != ''){
-									 //alert( $dims);   
-									 $vvv =  $(this).val();
-									 
-									 $val1234 = $(this).val();
-									if($val1234 != undefined && $val1234 != ''){
-										
-										 $vvv = $vvv + $dims;
-									$vvv = $vvv.replace(";", "");
-									 //alert( $vvv);
-									// $('*[mw_tag_edit="'+$element+'"]').css($css_attr,  $vvv );
-									cssstr= cssstr+ ' "'+$css_attr+'":"'+$vvv+ '",';
-									 if($css_attr == 'font-size'){
-										// $('*[mw_tag_edit="'+$element+'"]').css('line-height',  $vvv );
-										cssstr= cssstr+ ' '+'"line-height"'+':"'+$vvv+ '",';
-									 }
-									}
-									 
-									 
-									 
-									
-									 
-									 
-									 
-									 
-								   } else {
-									//	$('*[mw_tag_edit="'+$element+'"]').css($css_attr, $(this).val());
-									$val1234 = $(this).val();
-									if($val1234 != undefined && $val1234 != ''){
-										
-									$val1234 =	$.trim($val1234)
-										if($val1234 != ''){
-									
-									cssstr= cssstr+ '"'+$css_attr+'":"'+$val1234+ '",';
-										}
-									}
-									
-									
-									
-								   }
-								  // cssObj.$css_attr = $(this).val();
-								   //alert( $css_attr);
-								  
-					  
-					   
-				}
-	  
-    });
-
-
-
-	 
-									
-							 //cssstr = cssstr.replace(/(^,)|(,$)/g, "")
-		
-				//cssstr= ''+cssstr+  ' "border" : "1px"';	
-				//var cssstr=cssstr.split(',').join(',');
-			//	var cssstr = cssstr.substring(0, cssstr.length - 1);
-				
-				
-			 
-//var strLen = cssstr.length;
-//cssstr = cssstr.slice(0,strLen-1);
- 
-
-
-
-
-
-				  if (window.console != undefined) {
-									 console.log('apply css '+cssstr );
-									 }
-									 
-									 
-				var cssstr = eval("({" + cssstr + " ' _mw_dirty':'1' })");
-				
-				
-				
-				// $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').css('');
-				// $('*[mw_tag_edit="'+$element+'"]').children('.rangyTemp').removeClass('rangyTemp');
-				
-				
-				
-				 //$('*[mw_tag_edit="'+$element+'"]').css(cssstr);
-	  $('*[mw_tag_edit="'+$element+'"]').css(cssstr);
-	 // $('*[mw_tag_edit="'+$element+'"]').children().css(cssstr);
-	  
-	//$spans =  $('*[mw_tag_edit="'+$element+'"]').parent().find('span');
-//	
-//	$spans.each(function() {
-//						  
-//			 has =   $(this).attr('mw_tag_edit');
-//			 
-//			 if(has != undefined || has != ''){
-//				 
-//				 st =   $(this).attr('style');
-//				 
-//				  if(st == undefined || st == ''){
-//				    if (window.console != undefined) {
-//									 console.log('has spans with style '+has + st );
-//									 
-//									 }	
-//									 
-//			//						 var el = this;
-////            var range = rangy.createRange();
-////            range.collapseToPoint(el, 0);
-////            range.normalizeBoundaries();
-//
-// 
-//			
-//			
-//									// $(this).replaceWith(function() {
-//									 // return $(this).contents();
-//									//});
-//									 
-//									 
-//									// $(this).parent().replaceWith( $(this).contents() ); 
-//									// $(this).unwrap();
-//
-//									 
-//				  }
-//				 
-//			 }
-//			 
-//			 
-//
-//									 
-//									 
-//						  
-//	 });
- 
-
-	  
- //$('*[mw_tag_edit="'+$element+'"]').children().has('span[mw_tag_edit]').css('border','5px solid #ccc');
-
-	// console.log($('*[mw_tag_edit="'+$element+'"]').children('span[mw_tag_edit]'));  
-	
-	
-	
-	/* var cssObj = {
-      'background-color' : '#ddd',
-      'font-weight' : '',
-      'color' : 'rgb(0,40,244)'
-    }*/
-    // $('*[mw_tag_edit="'+$element+'"]').css(cssObj);
-	
-}
-</script>
+<? include('toolbar_tag_editor_js.php') ; ?>
 <? $text_block_classes = "mw_edit_tag_p mw_edit_tag_h1 mw_edit_tag_h2 mw_edit_tag_h3 mw_edit_tag_h4 mw_edit_tag_h5 mw_edit_tag_h6 mw_edit_tag_span  mw_edit_tag_ul  mw_edit_tag_li  mw_edit_tag_div mw_edit_tag_strong mw_edit_tag_code";  ?>
 
 <div class="mw_iframe_header">
   <div class="mw_iframe_header_title"> <img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/1306242104_design.png" align="left" height="25"  class="mw_iframe_header_icon" />Style element</div>
   <a href="javascript:mw_html_tag_delete()" class="mw_nav_button_delete">&nbsp</a> <a href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')" class="mw_nav_button_blue_small"> <span> Back </span> </a> </div>
-  
-  
-  
-  
-  
-
-  
-  
-<script>
- 
- 
- 
- 
-  $(document).ready(function() {
-							 
-							 
-							 
-		$("#mw_html_css_editor").accordion({
-			autoHeight: false,
-			clearStyle: true,
-				 
-				animated: false,
-				icons: { header: "ui-icon-triangle-1-w",
-			headerSelected: "ui-icon-triangle-1-s" },
-				navigation: true
-										   
-									   
-		})
-		
-		 
-		
-		$("#mw_html_css_editor").live("mouseenter", function(event) {
-		//	$element = $('#mw_css_editor_element_id').val();
-		//	$(".mw_outline").remove();
-		//	mw.outline.init('*[mw_tag_edit="'+$element+'"]', '#DCCC01');		   
-	 
-			
-			
-			
-		})
-		
-		
-		   
-		
-		
-		$(".ui-accordion-header", "#mw_html_css_editor" ).click(function(){
-          $(this).blur();
-        });
-		
-		
-		$( ".mColorPickerTrigger" ).remove();
-	 $('.mw_color').mColorPicker({
-               imageFolder: '<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/color_picker/images/'
-           });
-	 
-		
-		
-			 
-  });
-  </script>
 <style>
 
 /*.ui-accordion-header.css_editor_tab_text .ui-icon {
@@ -777,316 +21,288 @@ function mw_html_tag_editor_apply_styles(){
 
 </style>
 <div class="mw_admin_box_padding">
-
-
-
   <div class="mw_iframe_sub_header" >
-  <table width="95%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <td>Edit the styles of the selected element
-        <!--<a target="_blank" href="http://microweber.com">(see how)</a>--></td>
-      <td><a target="_blank" href="<? print $config['help_link']; ?>"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></a></td>
-    </tr>
-     <tr>
-      <td align="right"><a  href="javascript:mw_html_tag_remove_styles()"><img  border="0" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/clear_style.png"  /></a></td>
-      <td></td>
-    </tr>
-  </table>
- 
-  
-
-</div>
-
-
-
-
-
-
-
-
-<div id="mw_html_css_editor">
-  <h3 class="css_editor_tab_text"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/text.png"  style="float:left; padding-right:5px;"/>Text properties</a></h3>
-  <div>
-  
-  
-  
-  <div class="<? print $text_block_classes ?>">
-  
-  font-family
-  
-  
-  <input   name="font-family" class="mw_ac_fonts css_property"  type="text" />
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    <table width="95%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td>Edit the styles of the selected element
+          <!--<a target="_blank" href="http://microweber.com">(see how)</a>--></td>
+        <td><a target="_blank" href="<? print $config['help_link']; ?>"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/help.png" hspace="5" /></a></td>
+      </tr>
+      <tr>
+        <td align="right"><a  href="javascript:mw_html_tag_remove_styles()"><img  border="0" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/clear_style.png"  /></a></td>
+        <td></td>
+      </tr>
+    </table>
   </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-
-  
-  
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
-      <tr class="<? print $text_block_classes ?>">
-        <td> 
-          <!--'font-family','font-size','font-weight','font-style','color',
-	        'text-transform','text-decoration','letter-spacing','word-spacing',
-	        'line-height','text-align'--></td>
-        <td>
-          <!-- <select name="font-family"   class="css_property" type="text">
-          <option value="">Default</option>
-          <option value="Arial">Arial</option>
-          <option value="Verdana, Geneva, sans-serif">Verdana, Geneva, sans-serif</option>
-            <option value="Times">Times</option>
+  <div id="image_editor_holder"> <span class="mw_sidebar_module_box_title">Image settings</span>
+    <div class="mw_admin_rounded_box">
+      <div class="mw_admin_box_padding">
+        <table width="100%" border="0" cellspacing="4" cellpadding="0">
+          <tr>
+            <td colspan="2"><img id="image_editor_holder_src" width="100" /></td>
+          </tr>
+          <tr>
+            <td colspan="2"><form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
+                <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
+                <input type="file" name="file" onchange="mw_do_the_image_upload();">
+              </form></td>
+          </tr>
+          <tr>
+            <td><label>Thumbnail size</label></td>
+            <td><input id="mw_img_size_set" class="mw_img_size mw_tag_editor_input"  type="text" /></td>
+          </tr>
+          <tr>
+            <td><label>Image link</label></td>
+            <td><input name="mw_edit_image_link" id="mw_edit_image_link" class="mw_tag_editor_input"  /></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="mw_html_css_editor">
+    <h3 class="css_editor_tab_text"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/text.png"  class="css_editor_accordeon_icon" />Text properties</a></h3>
+    <div class="css_editor_tab_text_inside">
+      <div class="<? print $text_block_classes ?>">
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr valign="middle">
+            <td><input  name="font-family" class="mw_ac_fonts css_property mw_tag_editor_input mw_tag_editor_input_select_font"  type="text" /></td>
+            <td><select name="font-size" dimensions="px" class="mw_ac_sizes css_property mw_tag_editor_input mw_tag_editor_input_select_font_size" type="text">
+                <option value="">Size</option>
+                <? for ($i = 1; $i <= 100 ; $i++) : ?>
+                <option value="<? print $i ?>"><? print $i ?> px</option>
+                <? endfor; ?>
+              </select></td>
+          </tr>
+        </table>
+        <br />
+        <table border="0" cellpadding="5" cellspacing="5" id="mw_toolbar_text_edit_sidebar">
+          <tr>
+            <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-weight', 'bold', 'normal')"  class="mw_tag_editor_font_style_btns"  css_name="font-weight" css_value_active="bold"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/bold.png"  /></a></td>
+            <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-style', 'italic', 'normal')"  class="mw_tag_editor_font_style_btns"  css_name="font-style" css_value_active="italic"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/italic.png"  /></a></td>
+            <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-decoration', 'underline', 'none')"  class="mw_tag_editor_font_style_btns"  css_name="font-decoration" css_value_active="underline"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/underline.png"  /></a></td>
+            <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/seperator.png"  /></td>
+            <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'left', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="left"   > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_left.png"  /> </a> <a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'right', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="right"   > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_right.png"  /> </a> <a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'center', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="center"   > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_center.png"  /> </a> <a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'justify', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="justify"  > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_justify.png"  /> </a></td>
+            <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/seperator.png"  /></td>
+            <td><input  class="mw_color css_property color mw_tag_editor_input_font_color"  name="color"   type="color"  data-hex="true" style="height:20px;width:20px;"   /></td>
+          </tr>
+        </table>
+      </div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table"  style="display:none">
+        <tr class="<? print $text_block_classes ?>">
+          <td> font-weight </td>
+          <td><select name="font-weight"   class="css_property" type="text">
+              <option value="">Default</option>
+              <option value="normal">normal</option>
+              <option value="bold">bold</option>
+              <option value="bolder">bolder</option>
+              <option value="lighter">lighter</option>
+            </select></td>
+        </tr>
+        <tr class="<? print $text_block_classes ?>">
+          <td>font-style</td>
+          <td><select name="font-style"   class="css_property" type="text">
+              <option value="">Default</option>
+              <option value="normal">normal</option>
+              <option value="italic">italic</option>
+              <option value="oblique">oblique</option>
+            </select></td>
+        </tr>
+        <tr class="<? print $text_block_classes ?>">
+          <td>text-transform</td>
+          <td><select name="text-transform"   class="css_property" type="text">
+              <option value="">Default</option>
+              <option value="none">none</option>
+              <option value="capitalize">capitalize</option>
+              <option value="capitalize">capitalize</option>
+              <option value="lowercase">lowercase</option>
+            </select></td>
+        </tr>
+        <tr class="<? print $text_block_classes ?>">
+          <td>text-decoration</td>
+          <td><select name="text-decoration"   class="css_property" type="text">
+              <option value="">Default</option>
+              <option value="none">none</option>
+              <option value="underline">underline</option>
+              <option value="overline">overline</option>
+              <option value="line-through">line-through</option>
+              <option value="blink">blink</option>
+            </select></td>
+        </tr>
+        <tr class="<? print $text_block_classes ?>">
+          <td>text-align</td>
+          <td><select name="text-align"   class="css_property" type="text">
+              <option value="">Default</option>
+              <option value="left">left</option>
+              <option value="right">right</option>
+              <option value="center">center</option>
+              <option value="justify">justify</option>
+            </select></td>
+        </tr>
+        <tr class="<? print $text_block_classes ?>">
+          <td>letter-spacing</td>
+          <td><select name="letter-spacing" dimensions="px" class="mw_ac_sizes css_property" type="text">
+              <option value="">Default</option>
+              <? for ($i = 1; $i <= 100 ; $i++) : ?>
+              <option value="<? print $i ?>"><? print $i ?></option>
+              <? endfor; ?>
+            </select></td>
+        </tr>
+        <tr class="<? print $text_block_classes ?>">
+          <td>word-spacing</td>
+          <td><select name="word-spacing" dimensions="px" class="mw_ac_sizes css_property" type="text">
+              <option value="">Default</option>
+              <? for ($i = 1; $i <= 100 ; $i++) : ?>
+              <option value="<? print $i ?>"><? print $i ?></option>
+              <? endfor; ?>
+            </select></td>
+        </tr>
+      </table>
+    </div>
+    <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align.png"  class="css_editor_accordeon_icon" />Align and size</a></h3>
+    <div class="css_editor_tab_size_inside">
+      <div class="mw_tag_editor_item_holder">
+        <div class="mw_tag_editor_label_wide">Align</div>
+        <select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="float">
+          <option value="">None</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
         </select>
-      --></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td> font-size </td>
-        <td><!--<input   name="font-size" dimensions="px" class="mw_ac_sizes" type="text" />-->
-          <select name="font-size" dimensions="px" class="mw_ac_sizes css_property" type="text">
-            <option value="">Default</option>
-            <? for ($i = 1; $i <= 100 ; $i++) : ?>
-            <option value="<? print $i ?>"><? print $i ?></option>
-            <? endfor; ?>
-          </select></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td>color</td>
-        <td><input  class="mw_color css_property color"  name="color"   type="color"  data-hex="true" style="height:20px;width:20px;"   /></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td> font-weight </td>
-        <td><select name="font-weight"   class="css_property" type="text">
-            <option value="">Default</option>
-            <option value="normal">normal</option>
-            <option value="bold">bold</option>
-            <option value="bolder">bolder</option>
-            <option value="lighter">lighter</option>
-          </select></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td>font-style</td>
-        <td><select name="font-style"   class="css_property" type="text">
-          <option value="">Default</option>
-            <option value="normal">normal</option>
-            <option value="italic">italic</option>
-            <option value="oblique">oblique</option>
-          </select></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td>text-transform</td>
-        <td><select name="text-transform"   class="css_property" type="text">
-            <option value="">Default</option>
-            <option value="none">none</option>
-            <option value="capitalize">capitalize</option>
-            <option value="capitalize">capitalize</option>
-            <option value="lowercase">lowercase</option>
-          </select></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td>text-decoration</td>
-        <td><select name="text-decoration"   class="css_property" type="text">
-            <option value="">Default</option>
-            <option value="none">none</option>
-            <option value="underline">underline</option>
-            <option value="overline">overline</option>
-            <option value="line-through">line-through</option>
-            <option value="blink">blink</option>
-          </select></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td>text-align</td>
-        <td><select name="text-align"   class="css_property" type="text">
-            <option value="">Default</option>
-            <option value="left">center</option>
-            <option value="right">center</option>
-            <option value="center">center</option>
-            <option value="justify">justify</option>
-          </select></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td>letter-spacing</td>
-        <td><select name="letter-spacing" dimensions="px" class="mw_ac_sizes css_property" type="text">
-            <option value="">Default</option>
-            <? for ($i = 1; $i <= 100 ; $i++) : ?>
-            <option value="<? print $i ?>"><? print $i ?></option>
-            <? endfor; ?>
-          </select></td>
-      </tr>
-      <tr class="<? print $text_block_classes ?>">
-        <td>word-spacing</td>
-        <td><select name="word-spacing" dimensions="px" class="mw_ac_sizes css_property" type="text">
-            <option value="">Default</option>
-            <? for ($i = 1; $i <= 100 ; $i++) : ?>
-            <option value="<? print $i ?>"><? print $i ?></option>
-            <? endfor; ?>
-          </select></td>
-      </tr>
-    </table>
-  </div>
-  <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align.png"  style="float:left; padding-right:5px;"/>Align and size</a></h3>
-  <div>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
-      <tr class="mw_edit_tag_img">
-        <td>Float</td>
-        <td><select class="css_property" name="float">
-            <option value="none">None</option>
-            <option value="left">Left</option>
-            <option value="right">Right</option>
-          </select></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>Display</td>
-        <td><select class="css_property" name="display">
-            <option value="">Default</option>
-            <option value="block">block</option>
-            <option value="inline">inline</option>
-            <option value="inline-block">inline-block</option>
-            <option value="list-item">list-item</option>
-            <option value="inline-table">inline-table</option>
-            <option value="table">table</option>
-            <option value="run-in">run-in</option>
-            <option value="inherit">inherit</option>
-            <option value="none">none</option>
-          </select></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>Width</td>
-        <td><input name="width" class="mw_slider css_property" type="text" /></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>Height</td>
-        <td><input name="height" class="mw_slider css_property" type="text" /></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>Padding</td>
-        <td><input name="padding" class="mw_slider css_property" dimensions="px" type="text" /></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>Margin</td>
-        <td><input name="margin" class="mw_slider css_property" dimensions="px" type="text" /></td>
-      </tr>
-    </table>
-  </div>
-  <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/border.png"  style="float:left; padding-right:5px;"/>Border</a></h3>
-  <div>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
-      <tr class="mw_edit_tag_img">
-        <td>Border style</td>
-        <td><select class="css_property" name="border-style">
-            <option value="none">None</option>
-            <option value="solid">solid</option>
-            <option value="dotted">dotted</option>
-            <option value="dashed">dashed</option>
-            <option value="double">double</option>
-            <option value="groove">groove</option>
-            <option value="ridge">ridge</option>
-            <option value="inset">inset</option>
-            <option value="outset">outset</option>
-            <option value="inherit">inherit</option>
-          </select></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>border-width</td>
-        <td><input name="border-width"  dimensions="px" class="mw_slider css_property" type="text" /></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>border-color</td>
-        <td><input  class="mw_color css_property"  name="border-color"   type="color"  data-hex="true" style="height:20px;width:20px;"   /></td>
-      </tr>
-    </table>
-  </div>
-  <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  style="float:left; padding-right:5px;"/>Background</a></h3>
-  <div>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table">
-      <tr class="mw_edit_tag_img">
-        <td>background-color</td>
-        <td><input  class="mw_color css_property"  name="background-color"   type="color"  data-hex="true" style="height:20px;width:20px;"   /></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>background-image</td>
-        <td><input  class="css_property"  name="background-image"     /></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>background-repeat</td>
-        <td><select class="css_property" name="background-repeat">
-            <option value="">Default</option>
-            <option value="no-repeat">no-repeat</option>
-            <option value="repeat-x">repeat-x</option>
-            <option value="repeat-y">repeat-y</option>
-            <option value="inherit">inherit</option>
-          </select></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>background-attachment</td>
-        <td><select class="css_property" name="background-attachment">
-            <option value="">Default</option>
-            <option value="scroll">scroll</option>
-            <option value="fixed">fixed</option>
-            <option value="inherit">inherit</option>
-          </select></td>
-      </tr>
-      <tr class="mw_edit_tag_img">
-        <td>background-position</td>
-        <td><select class="css_property" name="background-position">
-            <option value="">Default</option>
-            <option value="left top">left top</option>
-            <option value="left center">left center</option>
-            <option value="left bottom">left bottom</option>
-            <option value="right top">right top</option>
-            <option value="right center">right center</option>
-            <option value="right bottom">right bottom</option>
-            <option value="center top">center top</option>
-            <option value="center center">center center</option>
-            <option value="center bottom">center bottom</option>
-          </select></td>
-      </tr>
-    </table>
-    <input name="mw_css_editor_element_id" id="mw_css_editor_element_id" value="" type="text" />
-  </div>
+      </div>
+      <div class="mw_tag_editor_item_holder">
+        <table border="0" cellspacing="5" cellpadding="0" >
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Width</div></td>
+            <td><input name="width" class="mw_slider css_property" type="text" /></td>
+            <td><div id="mw_width_val"></div></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Height</div></td>
+            <td><input name="height" class="mw_slider css_property" type="text" /></td>
+            <td><div id="mw_height_val"></div></td>
+          </tr>
+        </table>
+      </div>
+      <div class="mw_tag_editor_item_holder">
+        <table border="0" cellspacing="0" cellpadding="0" >
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Padding</div></td>
+            <td><input name="padding" class="mw_slider css_property" dimensions="px" type="text" /></td>
+            <td><div id="mw_padding_val"></div></td>
+            <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/padding.png" height="30"  /></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Margin</div></td>
+            <td><input name="margin" class="mw_slider css_property" dimensions="px" type="text" /></td>
+            <td><div id="mw_margin_val"></div></td>
+            <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/margin.png" height="30"  /></td>
+          </tr>
+        </table>
+      </div>
+      <!--   <select class="css_property" name="display">
+              <option value="">Default</option>
+              <option value="block">block</option>
+              <option value="inline">inline</option>
+              <option value="inline-block">inline-block</option>
+              <option value="list-item">list-item</option>
+              <option value="inline-table">inline-table</option>
+              <option value="table">table</option>
+              <option value="run-in">run-in</option>
+              <option value="inherit">inherit</option>
+              <option value="none">none</option>
+            </select>-->
+    </div>
+    <h3 class="css_editor_tab_border"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/border.png"  class="css_editor_accordeon_icon" />Border</a></h3>
+    <div  class="css_editor_tab_border_inside">
+      <div class="mw_tag_editor_item_holder">
+        <table border="0" cellspacing="5" cellpadding="0" >
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Border style</div></td>
+            <td><select class="css_property mw_tag_editor_input" name="border-style">
+                <option value="">Default</option>
+                <option value="none">None</option>
+                <option value="solid">Solid</option>
+                <option value="dotted">Dotted</option>
+                <option value="dashed">Dashed</option>
+                <option value="double">Double</option>
+                <option value="groove">Groove</option>
+                <option value="ridge">Ridge</option>
+                <option value="inset">Inset</option>
+                <option value="outset">Outset</option>
+                <option value="inherit">Inherit</option>
+              </select></td>
+            <td></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Border width</div></td>
+            <td><input name="border-width"  dimensions="px" class="mw_slider css_property" type="text" /></td>
+            <td><div id="mw_border-width_val"></div></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Border color</div></td>
+            <td><div class="mw_tag_editor_input">
+                <input  class="mw_color css_property"  name="border-color"    type="color"  data-hex="true"   />
+              </div></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <h3 class="css_editor_tab_background"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Background</a></h3>
+    <div class="css_editor_tab_background_inside">
+      <div class="mw_tag_editor_item_holder">
+        <table border="0" cellspacing="5" cellpadding="0" >
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Background color</div></td>
+            <td><div class="mw_tag_editor_input">
+                <input  class="mw_color css_property"  name="background-color"    type="color"  data-hex="true"    />
+              </div></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="mw_tag_editor_item_holder">
+        <table border="0" cellspacing="5" cellpadding="0" >
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Background image</div></td>
+            <td><input  class="css_property mw_tag_editor_input mw_tag_editor_input_wide"  name="background-image"     /></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">background repeat</div></td>
+            <td><select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="background-repeat">
+                <option value="">Default</option>
+                <option value="no-repeat">no-repeat</option>
+                <option value="repeat-x">repeat-x</option>
+                <option value="repeat-y">repeat-y</option>
+                <option value="inherit">inherit</option>
+              </select></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">background-attachment</div></td>
+            <td><select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="background-attachment">
+                <option value="">Default</option>
+                <option value="scroll">scroll</option>
+                <option value="fixed">fixed</option>
+                <option value="inherit">inherit</option>
+              </select></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">background-position</div></td>
+            <td><select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="background-position">
+                <option value="">Default</option>
+                <option value="left top">left top</option>
+                <option value="left center">left center</option>
+                <option value="left bottom">left bottom</option>
+                <option value="right top">right top</option>
+                <option value="right center">right center</option>
+                <option value="right bottom">right bottom</option>
+                <option value="center top">center top</option>
+                <option value="center center">center center</option>
+                <option value="center bottom">center bottom</option>
+              </select></td>
+          </tr>
+        </table>
+      </div>
+      <input name="mw_css_editor_element_id" id="mw_css_editor_element_id" value="" type="text" />
+    </div>
   </div>
 </div>

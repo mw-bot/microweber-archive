@@ -1,4 +1,3 @@
-
 <? 
 //p($params);
 ?>
@@ -6,7 +5,6 @@
 $rand = rand();
     
 ?>
- 
 <?
   $id = $params['for_id'];
   $for = $params['for'];
@@ -177,7 +175,7 @@ function load_media_edit_module<? print $rand ?>($media_id){
       
   success: function(resp) {
      // alert(resp);
-   $('#edit_media_cloned_form').html(resp);
+   $('#edit_media_cloned_form<? print $rand ?>').html(resp);
  
    // alert('Load was performed.');
   }
@@ -236,7 +234,6 @@ $(document).ready(function() {
 <br />
 <br />
 <br />
-
 <div class="gallery_module_sortable_holder <? print $qe_class ?>">
   <ul class="gallery_module_sortable_pics<? print $rand ?> <? print $qe_class ?> gallery_module_sortable_pics">
     <?php $i = 1; if(!empty($media1)): ?>
@@ -244,80 +241,22 @@ $(document).ready(function() {
     <?php $thumb = $this->core_model->mediaGetThumbnailForMediaId($pic['id']);
  
 ?>
-    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module<? print $rand ?>('<?php print $pic['id'] ?>')"> 
-    
-    <center><img class="handle" src="<?php print $thumb;  ?>" /></center>
-    
-    
-    
-    <!-- <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>-->
+    <li id="picture_id_<?php print $pic['id'] ?>" onclick="load_media_edit_module<? print $rand ?>('<?php print $pic['id'] ?>')">
+      <center>
+        <img class="handle" src="<?php print $thumb;  ?>" />
+      </center>
+      <!-- <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>-->
       <!--<a href="javascript:;" onClick="contentMediaEditPicture<? print $rand ?>('<?php print $pic['id'] ?>')">edit</a> <a href="javascript:;" class="right" onClick="contentMediaDeletePicture<? print $rand ?>('<?php print $pic['id'] ?>')">delete</a>-->
       <div class="mw_modal" id="pic_edit_form_<?php print $pic['id'] ?>" style="display:none;">
-        <?
-   /* <form action=""   class="picsAjaxSaveForm" id="picsAjaxSaveForm<?php print $pic['id'] ?>" method="post" enctype="multipart/form-data">
-      <input name="id" type="hidden" value="<?php print $pic['id'] ?>" />
-      <table cellspacing="1" cellpadding="1" width="100%" class="pic_details_table" id="media_edit_table_<?php print $pic['id'] ?>" >
-        <!-- <tr>
-                  <td><h4>Filename: <?php print character_limiter( $pic['filename'], 10) ?></h4>
-                    </td>
-                </tr>-->
-        <tr>
-          <td>
-           
-          
-          <strong>Title:</strong></td>
-          <td><input name="media_name" type="text" style="width: 200px;" value="<?php print $pic['media_name'] ?>" /></td>
-        </tr>
-        <tr>
-          <td><b>Description:</b></td>
-          <td><textarea name="media_description" cols="" style="width: 200px;" rows="2"><?php print $pic['media_description'] ?></textarea></td>
-        </tr>
         
-        
-        
-        
-        <tr>
-                <td><b>Type:</b></td>
-                  <td>
-                   <select name="media_type">
-  <option value="picture" <? if($pic['media_description'] == 'picture') :  ?>  selected="selected" <? endif; ?>  >picture</option>
- <option value="video" <? if($pic['media_description'] == 'video') :  ?>  selected="selected" <? endif; ?> >video</option>
- </select>
-</td>
-                </tr>
-                <? if($pic['media_type'] == 'video') :  ?>   
-                  <tr>
-                <td><b>Embed code:</b></td>
-                  <td>
-         <textarea name="embed_code" cols="" style="width: 200px;" rows="2"><?php print $pic['embed_code'] ?></textarea>           
-</td>
-                </tr>
-                
-                  <tr>
-                <td><b>Original link:</b></td>
-                  <td>
-         <textarea name="original_link" cols="" style="width: 200px;" rows="2"><?php print $pic['original_link'] ?></textarea>           
-</td>
-                </tr>
-                <? endif; ?>
-        
-              
-      </table>
-      <div class="changes-are-saved" id="pic_saved_txt_<?php print $vid['id'] ?>" style="display:none"> Changes are saved... </div>
-      <input name="save" style="float: left;margin-left:249px; " type="button" onclick="save_media_item('picsAjaxSaveForm<?php print $pic['id'] ?>')" value="save" />
-    </form>*/
-	
-	
-	?>
       </div>
     </li>
     <?php $i++; endforeach; ?>
   </ul>
   <?php endif; ?>
-  
   <br />
   <br />
   <br />
-  <div id="edit_media_cloned_form"> </div>
+  <div id="edit_media_cloned_form<? print $rand ?>"> </div>
 </div>
 <?php endif; ?>

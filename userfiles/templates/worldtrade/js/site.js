@@ -30,8 +30,9 @@ $(window).resize( function(){
 })
 
 function set_min_height(){
-	if($('#content > .all_width'))
-		$('#middle').css({'min-height': $(window).height() - ($('#header').height() + $('#footer').height() + $('#content > .all_width').height())});
-	else
-		$('#middle').css({'min-height': $(window).height() - ($('#header').height() + $('#footer').height())});
+	if($('#content > .all_width')){
+		//$('#middle').css({'min-height': $(window).height() - ($('#header').height() + $('#footer').height() + $('#content > .all_width').height())});
+	}else{
+		//$('#middle').css({'min-height': $(window).height() - ($('#header').height() + $('#footer').height())});
+	}
 }

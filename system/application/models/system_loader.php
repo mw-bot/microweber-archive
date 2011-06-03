@@ -434,7 +434,7 @@ function css_browser_selector($ua = null) {
 
 }
 function normalize_path($path, $slash_it = true) {
-	
+	//var_dump($path);
 	// DIRECTORY_SEPARATOR is a system variable
 	// which contains the right slash for the current 
 	// system (windows = \ or linux = /)
@@ -452,7 +452,7 @@ function normalize_path($path, $slash_it = true) {
 	if ($slash_it == false) {
 		$path = rtrim ( $path, DIRECTORY_SEPARATOR );
 	}
-	if (strval ( $path ) == '') {
+	if (strval (trim( $path )) == '' or strval (trim( $path )) == '/') {
 		$path = $path_original;
 	}
 	return $path;

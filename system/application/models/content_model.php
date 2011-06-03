@@ -1326,6 +1326,29 @@ class content_model extends Model {
 	
 	}
 	
+	function contentGetPagesWithCategories() {
+		global $cms_db_tables;
+		
+		$table = $cms_db_tables ['table_content'];
+		$q = " select *  from $table where 
+		content_subtype_value IS NOT NULL 
+		and 
+		content_subtype_value <> '' 
+		and 
+		content_type='page'
+		and 
+		content_subtype='dynamic'
+		";
+		
+		//$taxonomies = CI::model('core')->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content' );
+		
+
+		$pages = CI::model ( 'core' )->dbQuery ( $q, $cache_id = md5 ( $q ), $cache_group = 'content/global' );
+		
+		return $pages;
+	
+	}
+	
 	function contentGetPages($is_active = false) {
 		
 		$data = array ();
@@ -1486,67 +1509,83 @@ class content_model extends Model {
 		
 		$content = $this->contentGetByIdAndCache ( $id );
 		//p($content);
+		$the_url = false;
 		
-
-		$cats = CI::model ( 'taxonomy' )->getCategoriesForContent ( $id );
-		//p ( $cats );
-		//	
-		
-
-		if (! empty ( $cats )) {
+		if (intval ( $content ['content_parent'] ) != 0) {
 			
-			$url = false;
-			
-			$master = CI::model ( 'taxonomy' )->getMasterCategories ();
-			
-			foreach ( $cats as $c ) {
+			$the_url = $this->getContentURLById ( $content ['content_parent'] );
+			if (trim ( $the_url ) != '') {
 				
-				if ($url == false) {
+				$the_url = $the_url . '/' . $content ['content_url'];
+				
+				$the_url = reduce_double_slashes ( $the_url );
+			} else {
+				$the_url = false;
+			}
+		
+		}
+		
+		if ($the_url == false) {
+			
+			$cats = CI::model ( 'taxonomy' )->getCategoriesForContent ( $id );
+			//p ( $cats );
+			//	
+			
+
+			if (! empty ( $cats )) {
+				
+				$url = false;
+				
+				$master = CI::model ( 'taxonomy' )->getMasterCategories ();
+				
+				foreach ( $cats as $c ) {
 					
-					foreach ( $master as $m ) {
+					if ($url == false) {
 						
-						if ($m ['id'] == $c ['id']) {
+						foreach ( $master as $m ) {
 							
-							$url = CI::model ( 'taxonomy' )->getUrlForIdAndCache ( $m ['id'] ); // . '/' . $content ['content_url'];
+							if ($m ['id'] == $c ['id']) {
+								
+								$url = CI::model ( 'taxonomy' )->getUrlForIdAndCache ( $m ['id'] ); // . '/' . $content ['content_url'];
+								
+
+								$url1 = $url . '/' . $content ['content_url'];
+								//p($url1);
 							
 
-							$url1 = $url . '/' . $content ['content_url'];
-							//p($url1);
+							}
 						
-
 						}
 					
 					}
 				
 				}
-			
-			}
-			
-			$the_url = $url1;
-		
-		} else {
-			
-			if (intval ( $content ['content_parent'] ) == 0) {
 				
-				//$the_url = site_url ( 'admin/content/posts_edit/id:' ) . $content ['id'];
-				
-
-				$the_url = $the_url . '/' . $content ['content_url'];
-				
-				$the_url = reduce_double_slashes ( site_url ( $the_url ) );
+				$the_url = $url1;
 			
 			} else {
 				
-				$the_url = $this->getContentURLById ( $content ['content_parent'] );
+				if (intval ( $content ['content_parent'] ) == 0) {
+					
+					//$the_url = site_url ( 'admin/content/posts_edit/id:' ) . $content ['id'];
+					
+
+					$the_url = $the_url . '/' . $content ['content_url'];
+					
+					$the_url = reduce_double_slashes ( site_url ( $the_url ) );
 				
-				$the_url = $the_url . '/' . $content ['content_url'];
+				} else {
+					
+					$the_url = $this->getContentURLById ( $content ['content_parent'] );
+					
+					$the_url = $the_url . '/' . $content ['content_url'];
+					
+					$the_url = reduce_double_slashes ( $the_url );
 				
-				$the_url = reduce_double_slashes ( $the_url );
+				}
 			
 			}
-		
-		}
-		
+			
 		//var_dump($cats);
 		
 
@@ -1569,8 +1608,8 @@ class content_model extends Model {
         */
 		
 		//cache
+		}
 		
-
 		$cache = CI::model ( 'core' )->cacheWriteAndEncode ( $the_url, $function_cache_id, $cache_group );
 		
 		return $the_url;
@@ -6455,14 +6494,15 @@ $my_limit_q
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 		
 		}
+		$function_cache_id = $function_cache_id . PAGE_ID . POST_ID;
 		
 		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
 		
-		$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+		//$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
 		
 		if (($cache_content) != false) {
 			//p($cache_content);
-			return $cache_content;
+			//return $cache_content;
 		
 		}
 		
@@ -6496,14 +6536,22 @@ $my_limit_q
 		foreach ( $data as $item ) {
 			$full_item = $this->getMenuItems ( false, $item ['id'] );
 			$full_item = $full_item [0];
-			//p($full_item);
+			//	p($full_item);
 			
 
+			$active_class = '';
+			if ($full_item ['content_id'] == PAGE_ID) {
+				$active_class = ' active';
+			}
+			if ($full_item ['content_id'] == POST_ID) {
+				$active_class = ' active';
+			}
+			
 			if ($full_item ['item_title'] == '') {
 				$full_item ['item_title'] = $full_item ['id'];
 			}
 			
-			$to_print .= '<li class="menu_element" id="menu_item_' . $item ['id'] . '"><a href="' . $full_item ['the_url'] . '">' . $full_item ['item_title'] . '</a></li>';
+			$to_print .= '<li class="menu_element ' . $active_class . '" id="menu_item_' . $item ['id'] . '"><a href="' . $full_item ['the_url'] . '">' . $full_item ['item_title'] . '</a></li>';
 			
 			if (in_array ( $item ['id'], $passed_ids ) == false) {
 				
@@ -6532,7 +6580,7 @@ $my_limit_q
 		
 		//print "[[ $time ]]seconds\n";
 		$to_print .= '</ul>';
-		CI::model ( 'core' )->cacheWriteAndEncode ( $to_print, $function_cache_id, 'menus' );
+		//CI::model ( 'core' )->cacheWriteAndEncode ( $to_print, $function_cache_id, 'menus' );
 		return $to_print;
 	}
 	function getMenuItemById($id) {
@@ -7696,7 +7744,7 @@ $my_limit_q
 		$q = CI::model ( 'core' )->dbQuery ( $sql );
 		
 		$result = $q;
-	 
+		
 		if (! empty ( $result )) {
 			
 			//$output = "<ul>";

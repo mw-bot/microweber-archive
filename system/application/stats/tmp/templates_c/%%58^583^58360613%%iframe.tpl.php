@@ -28,4 +28,4 @@ unset($_smarty_tpl_vars);
 </div>
 
 </body>
-</html>
+</html>

@@ -22,7 +22,26 @@ description: Home site layout
 
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
-<? $products = get_posts();
+<? 
+
+
+
+ 
+				   $shop_page = array();
+				   $shop_page['content_layout_name'] = 'shop';
+				  
+				  $shop_page=get_pages($shop_page);
+				  $shop_page = $shop_page[0];
+				//  var_dump($shop_page);
+	$products  = array();			 
+if(intval($shop_page['content_subtype_value']) != 0){
+$products ['selected_categories'] = array($shop_page['content_subtype_value']);
+}
+
+$products ['items_per_page'] = 20;
+
+
+$products = get_posts($products);
  
 	 
 	 ?>
@@ -36,15 +55,15 @@ description: Home site layout
 	  $i = 0;
 	  
 	  foreach($products["posts"] as $product): ?>
-        <? if($i < 3): ?>
+        <? if($i < 5): ?>
         <? $media =   get_media($product['id'], $for = 'post');  ; ?>
         <? // p($media ); ?>
         <? if(!empty($media["pictures"])): ?>
         <a href="<? print post_link($product['id']);?>"><img src="<? print $media["pictures"][0] ["urls"]['original'] ?>" alt="<? print addslashes($product['content_title']);?>" border="0" width="620" /></a>
-        <? $i++; ?>
         <? unset($products["posts"][$i]); ?>
         <? endif; ?>
         <? endif; ?>
+        <? $i++; ?>
         <? endforeach ; ?>
         <!--  <img src="<? print TEMPLATE_URL ?>images/other/home-slide/img2.jpg" alt="" />
       
@@ -63,12 +82,14 @@ description: Home site layout
     <div class="rounded_box small_preview">
       <ul class="content">
         <?   $i = 0;  foreach($products["posts"] as $product): ?>
+        <? if($i < 6): ?>
         <? $media =   get_media($product['id'], $for = 'post');  ; ?>
         <? if(!empty($media["pictures"])): ?>
-        <li class="rounded_box left"><a href="<? print post_link($product['id']);?>"> <img border="0" src="<? print get_media_thumbnail( $media["pictures"][0]['id'] , 120)  ?>" alt="<? print addslashes($product['content_title']);?>" /></a> </li>
-        <? $i++; ?>
+        <li class="rounded_box left"><a href="<? print post_link($product['id']);?>"> <img width="90" border="0" src="<? print get_media_thumbnail( $media["pictures"][0]['id'] , 120)  ?>" alt="<? print addslashes($product['content_title']);?>" /></a> </li>
         <? unset($products["posts"][$i]); ?>
         <? endif; ?>
+        <? endif; ?>
+        <? $i++; ?>
         <? endforeach ; ?>
         <!--   <li class="rounded_box left"> <img src="<? print TEMPLATE_URL ?>images/other/small_preview/small_preview_05.jpg" alt="" /> </li>
         <li class="rounded_box left"> <img src="<? print TEMPLATE_URL ?>images/other/small_preview/small_preview_07.jpg" alt="" /> </li>
@@ -81,35 +102,45 @@ description: Home site layout
       <div class="clener h10"></div>
     </div>
     <img src="<? print TEMPLATE_URL ?>images/img1.jpg" alt="" />
-    <h1 class="pink_color font_size_18 home_products_list_title">Bikini Style</h1>
+    <h1 class="pink_color font_size_18 home_products_list_title">Нови модели</h1>
     <ul class="home_products_list slide_box">
+     
+     
+     
+      <?   $i = 0;  foreach($products["posts"] as $product): ?>
+      <? if($i < 8): ?>
+      <? $media =   get_media($product['id'], $for = 'post');  ; ?>
+     
       <li>
-        <div class="left"> <img src="<? print TEMPLATE_URL ?>images/other/home-list-products/Home_03.jpg" alt="" /> </div>
+        <div class="left"><a href="<? print post_link($item['id']);?>"><img src="<? print get_media_thumbnail( $media["pictures"][0]['id'] , 150)  ?>" border="0" width="136" alt="<? print addslashes($product['content_title']);?>" /></a> </div>
         <div class="clener"></div>
-        <h3>Bikini Model 38</h3>
-        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br />
-          <span class="pink_color font_size_18"><span class="font_size_14">Цена:</span> 38.00</span> </p>
+        <h3><? print $product['content_title'] ?></h3>
+        
+      
+        
+        <p><? print character_limiter($product['content_description'], 100); ?>
+        
+        
+         <table border="0" class="full_price_total" cellspacing="0" cellpadding="0"  onclick="location.href='<? print post_link($item['id']);?>'" style="cursor:pointer">
+      <tr>
+        <td>Цена:</td>
+        <td><microweber module="content/custom_fields" no_wrap="true" content_id="<? print $product['id'] ?>" only_type="price" only_value="1"  module_id="custom_field_price_product<? print $product['id'] ?>" /></td>
+        <td>&nbsp;<?php print option_get('shop_currency_sign') ; ?></td>
+      </tr>
+    </table>
+        </p>
+         
       </li>
-      <li>
-        <div class="left"> <img src="<? print TEMPLATE_URL ?>images/other/home-list-products/Home_07.jpg" alt="" /> </div>
-        <div class="clener"></div>
-        <h3>Bikini Model 38</h3>
-        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br />
-          <span class="pink_color font_size_18"><span class="font_size_14">Цена:</span> 38.00</span> </p>
-      </li>
-      <li>
-        <div class="left"> <img src="<? print TEMPLATE_URL ?>images/other/home-list-products/Home_09.jpg" alt="" /> </div>
-        <div class="clener"></div>
-        <h3>Bikini Model 38</h3>
-        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br />
-          <span class="pink_color font_size_18"><span class="font_size_14">Цена:</span> 38.00</span> </p>
-      </li>
-      <li>
-        <div class="left"> <img src="<? print TEMPLATE_URL ?>images/other/home-list-products/home-list-products_05.jpg" alt="" /> </div>
-        <div class="clener"></div>
-        <h3>Bikini Model 38</h3>
-        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br />
-          <span class="pink_color font_size_18"><span class="font_size_14">Цена:</span> 38.00</span> </p>
+      
+      <? endif; ?>
+      
+      <? $i++; ?>
+      <? endforeach ; ?>
+      
+      
+      
+      
+  
       </li>
     </ul>
   </div>

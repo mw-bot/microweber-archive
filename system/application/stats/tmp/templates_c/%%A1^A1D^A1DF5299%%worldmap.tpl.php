@@ -102,4 +102,4 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate',
 	});
 '; ?>
 
-</script>
+</script>

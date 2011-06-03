@@ -36,4 +36,4 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate',
 	</tr>
 	</tbody>	
 	</table>
-</div>
+</div>

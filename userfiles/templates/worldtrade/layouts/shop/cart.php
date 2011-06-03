@@ -8,11 +8,13 @@ $(document).ready(function(){
 });
 </script>
 
-<div id="checkout">
-  <? $is_empty = get_items_qty() ; ?>
-  <? if($is_empty != 0): ?>
-  <h2 class="title"><img src="<? print TEMPLATE_URL ?>img/cartlogo.jpg" style="margin-top: -6px;" align="right" alt="" />Finish your order</h2>
-  <div id="cart"> <img src="<? print TEMPLATE_URL ?>img/hc.jpg" style="position: relative;top: 5px;" alt="" />&nbsp;&nbsp;You have <? print get_items_qty() ; ?> item in your cart
+<h1 class="title_product pink_color font_size_18">Преглед на поръчка</h1>
+<br/>
+<? $is_empty = get_items_qty() ; ?>
+<? if($is_empty != 0): ?>
+<div class="rounded_box">
+  <div class="news_small_box">
+    <!-- &nbsp;&nbsp;You have <? print get_items_qty() ; ?> item in your cart-->
     <mw module="cart/items" />
     <? 
 				   $shop_page = array();
@@ -22,17 +24,26 @@ $(document).ready(function(){
 				  $shop_page = $shop_page[0];
 				//  var_dump($shop_page);
 				  ?>
-    <div id="finish"> <a href="<? print page_link($shop_page['id']); ?>"><img src="<? print TEMPLATE_URL ?>img/cshopping.jpg" align="left" /></a> <a href="<? print page_link($shop_page['id']); ?>/view:checkout"><img src="<? print TEMPLATE_URL ?>img/pvia.jpg" align="right" style="margin:16px 0 0 0; " /></a> <strong>OR</strong> </div>
+    <div class="clener"></div>
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+      <tr>
+        <td><a class="pink_color" href="<? print page_link($shop_page['id']); ?>">Пазарувай още</a></td>
+        <td><a class="rounded pink_btn" href="<? print page_link($shop_page['id']); ?>/view:checkout"> <span class="in1"> <span class="in2 min_w_120">Завършване на поръчка</span> </span></a></td>
+      </tr>
+    </table>
+    <div class="clener"></div>
   </div>
-  <!-- /#cart -->
-  <? else : ?>
-
-  <? include "sidebar.php" ?>
-  
-  
-  <h1><a href="<? print page_link($shop_page['id']); ?>">Your cart is empty. Click here to go to the products page.</a></h1>
-  
-  
-  
-  <? endif ?>
+  <div class="lt"></div>
+  <div class="rt"></div>
+  <div class="lb"></div>
+  <div class="rb"></div>
 </div>
+<br />
+<br />
+<!-- /#cart -->
+<? else : ?>
+<? include "sidebar.php" ?>
+<h1><a href="<? print page_link($shop_page['id']); ?>">Your cart is empty. Click here to go to the products page.</a></h1>
+<? endif ?>
+<div class="clener"></div>
+ 

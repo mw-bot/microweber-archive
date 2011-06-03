@@ -556,3 +556,12 @@ i, span {
 .right_col.right {
 	position:relative;
 }
+
+
+
+.view_cart_table td{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #FCC;	
+	
+}

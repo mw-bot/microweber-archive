@@ -2,7 +2,7 @@
 
 //p( $params); 
 
-
+$orig_params = $params;
 
 
 $cf_cfg = array ();
@@ -82,22 +82,86 @@ $cf_cfg = array ();
 									
 								}
 									
+									
+									
+								//p($cf_cfg);	
+									
+									
 			$this->template ['data'] = $cf_cfg;
 			$this->template ['params'] = $params;
 			$this->load->vars ( $this->template );
 			$dir =  dirname(__FILE__).'/views/custom_fields/';
 			$dir = normalize_path($dir);
 			 $is_file = $dir.$cf_cfg['type'].'.php';
-			 if(is_file($is_file)){
+			 if(is_file($is_file) and trim($orig_params['only_value']) == ''){
 				 $is_file1 = $this->load->file ( $is_file, true );
 				 print $is_file1;
 			 } else {
 				 
 				 ?>
+<?
 
-<span><? print $cf_cfg['help'] ?>: 
+
+
+
+
+
+
+
+									
+									
+									
+ 
+
+if($params['value'] != '' and $params['value'] != 'undefined') : ?>
+
+
+<? if($cf_cfg['param'] != '' and $cf_cfg['param'] != 'undefined') : ?>
+
+<? if(trim($orig_params['only_value']) == ''): ?>
+
+<span><? print $cf_cfg['help'] ?>:
 <input name="custom_field_<? print $cf_cfg['param'] ?>" value="<? print  $params['value']   ?>" type="hidden">
 </span> <? print  $params['value']   ?>
+<? else: ?>
+
+
+<? if($cf_cfg['type'] == 'price') : ?>
+<? 
+$check_val = $params['value'];
+
+$check_val  = explode('_', $check_val );
+
+
+if($check_val[0]){
+$price = 	$check_val[0];
+	
+}
+ 
+
+if($check_val[1]){
+	if(CI::model( 'core' )->userId() > 0){
+		$price = 	$check_val[1];
+	}
+} ?>
+<? print  $price    ?>
+
+<? else: ?>
+
+
+
+
+
+<? print  $params['value']   ?>
+
+<? endif; ?>
+
+
+<? endif; ?>
+
+<? endif; ?>
+
+<? endif; ?>
 <?
 			 }
 		//	$content_filename = $CI->load->file ( $try_file1, true );

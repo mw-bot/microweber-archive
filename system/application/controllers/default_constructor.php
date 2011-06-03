@@ -500,13 +500,15 @@ if (strtolower ( $the_active_site_template ) == 'default') {
 }
 
 
-
-
+	$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+ 
 
 
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 $the_active_site_template_dir = normalize_path ( $the_active_site_template_dir, true );
+
+//p($the_active_site_template_dir );
 
 //if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 	

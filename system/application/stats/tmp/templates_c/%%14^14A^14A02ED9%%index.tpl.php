@@ -62,4 +62,4 @@ unset($_smarty_tpl_vars);
 		&nbsp; <a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog')"><?php echo ((is_array($_tmp='Live_LinkVisitorLog')) ? $this->_run_mod_handler('translate', true, $_tmp) : smarty_modifier_translate($_tmp)); ?>
 </a>
 	<?php endif; ?>
-</div>
+</div>

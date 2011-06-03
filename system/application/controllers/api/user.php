@@ -41,6 +41,16 @@ class User extends Controller {
 	
 	}
 	
+	function delete_user() {
+		
+		$is_adm = is_admin ();
+		
+		if ($is_adm == true) {
+			$id = intval ( $_POST ['id'] );
+			CI::model ( 'users' )->userDeleteById ( $id );
+		}
+	
+	}
 	function loginas() {
 		
 		$id = url_param ( 'id' );

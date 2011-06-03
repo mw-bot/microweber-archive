@@ -951,7 +951,7 @@
 .ui-accordion .ui-accordion-header a {
 	display: block;
 	font-size: 14px;
-	padding: 10px .5em .5em .7em;
+	/*padding: 10px .5em .5em .7em;*/
 }
 .ui-accordion-icons .ui-accordion-header a {
 	padding-left: 15px;
@@ -971,9 +971,9 @@
 	overflow: auto;
 	display: none;
 	zoom: 1;
-	padding-top: 1em;
+	padding-top: 20px;
 	padding-right: 10px;
-	padding-bottom: 1em;
+	padding-bottom: 20px;
 	padding-left: 10px;
 }
 .ui-accordion .ui-accordion-content-active {

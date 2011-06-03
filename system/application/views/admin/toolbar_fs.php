@@ -346,7 +346,7 @@ $(".js_generated").remove();
  
 
  nic_save_all = function(callback, only_preview){
-
+$(".mw_non_sortable").removeClass('mw_non_sortable');
  var master = {}
   // $(".mw_edited").each(function(j){
 								   $(".edit").each(function(j){

@@ -3,8 +3,18 @@
 	$params['id'] =url_param('id');
 }
 
+
+ if($params['add_to_parent'] != false){
+
+	$parent = explode(',',$params['add_to_parent']);
+	$force_parent = $parent[0];
+	 
+}
+
+
+ 
 $rand = rand();
-//p($params);
+ //p($parent);
 ?>
 <? 
 
@@ -49,7 +59,10 @@ $cat = get_category(intval($params['id']));
  $the_page =  CI::model('content')->contentsGetTheFirstBlogSectionForCategory($cat['id']);
 //p($the_page);
 
-
+if($force_parent != false){
+	
+	$cat['parent_id'] =$force_parent;
+}
 
 
 ?>
@@ -110,7 +123,11 @@ $f = '#'+$form;
 				
 				
 				
-	mw.reload_module('admin/posts/select_categories_for_post');
+	mw.reload_module('admin/content/category_selector');
+	
+	 if(typeof set_categories == 'function'){
+			 set_categories()
+				}	
 	
 	
 		
@@ -148,6 +165,10 @@ $("#toggle_change_par_c").toggle();
 }
 
 </script>
+
+
+ 
+
 
 <div id="save_category_resp" style="display:none"><h2>Category is saved.</h2></div>
 <? if($cat['parent_id'] == false): ?>
