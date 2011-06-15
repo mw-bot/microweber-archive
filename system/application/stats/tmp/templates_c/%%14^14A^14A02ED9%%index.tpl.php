@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-05-12 23:07:11
+<?php /* Smarty version 2.6.26, created on 2011-06-13 10:19:52
          compiled from C:%5Cxampp%5Cxampp%5Chtdocs%5CMicroweber2%5Csystem%5Capplication%5Cstats%5Cplugins%5CLive/templates/index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate', 'C:\\xampp\\xampp\\htdocs\\Microweber2\\system\\application\\stats\\plugins\\Live/templates/index.tpl', 44, false),)), $this); ?>
@@ -62,4 +62,4 @@ unset($_smarty_tpl_vars);
 		&nbsp; <a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog')"><?php echo ((is_array($_tmp='Live_LinkVisitorLog')) ? $this->_run_mod_handler('translate', true, $_tmp) : smarty_modifier_translate($_tmp)); ?>
 </a>
 	<?php endif; ?>
-</div>
+</div>

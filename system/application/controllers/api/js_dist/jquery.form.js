@@ -45,6 +45,10 @@
  */
 $.fn.ajaxSubmit = function(options) {
 	// fast fail if nothing selected (http://dev.jquery.com/ticket/2752)
+	if(this == undefined){
+		return false;
+	}
+	
 	if (!this.length) {
 		log('ajaxSubmit: skipping submit process - no element selected');
 		return this;

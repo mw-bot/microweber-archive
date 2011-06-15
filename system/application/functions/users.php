@@ -111,9 +111,15 @@ function user_id() {
 
 if (! function_exists ( 'is_admin' )) {
 	function is_admin() {
-		if (defined ( 'USER_IS_ADMIN' )) {
-			//print USER_ID;
-			return USER_IS_ADMIN;
+		
+		
+		 static $is = 0;
+  
+		
+		
+		if ($is != 0 or defined ( 'USER_IS_ADMIN' )) {
+			 // var_dump( $is);
+			return $is;
 		} else {
 			$usr = user_id ();
 			$usr = get_user ( $usr );
@@ -123,7 +129,10 @@ if (! function_exists ( 'is_admin' )) {
 			} else {
 				define ( "USER_IS_ADMIN", false );
 			}
-			
+			$is = USER_IS_ADMIN;
+			// var_dump( $is);
+			 // var_dump( $is);
+			 //var_dump( USER_IS_ADMIN.USER_IS_ADMIN.USER_IS_ADMIN);
 			return USER_IS_ADMIN;
 		
 		}

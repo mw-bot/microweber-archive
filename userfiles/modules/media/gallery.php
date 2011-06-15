@@ -110,7 +110,10 @@ $media = $media1;
                 $skins_url =dirToURL(dirname(__FILE__).'/skins/').'/';
                 ?>
             <?  if(is_file($skin_file)): ?>
-            <?  include($skin_file); ?>
+            <? 
+			
+		 
+			include($skin_file); ?>
             <?php endif; ?>
             <?php endif; ?>
             <?php endif; ?>

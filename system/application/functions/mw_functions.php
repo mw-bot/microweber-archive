@@ -1574,7 +1574,7 @@ function get_mediaby_id($id) {
  */
 function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $collection = false) {
 	$content_id = intval ( $id );
-	if ($content_id == 0 and $queue_id == false) {
+	if ($content_id == 0 and $queue_id == false and $collection == false) {
 		return false;
 	}
 	
@@ -1587,9 +1587,11 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 	}
 	
 	global $CI;
-	
+	if($collection == false){
 	$to_table = CI::model ( 'core' )->guessDbTable ( $for );
-	//var_dump($to_table, $content_id);
+	//
+	}
+	//var_dump($id, $for, $media_type, $queue_id, $collection);
 	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
 	return $media;
 	// p($media);

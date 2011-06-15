@@ -165,7 +165,7 @@ $url_to_module_static = $url_to_module. '/static/icons/' ; ?>
 <div id="save_page_done" style="display:none"><br />
   <br />
   <br />
-  <table width="100%" border="0" cellspacing="5" cellpadding="5" align="center">
+  <table width="90%" border="0" cellspacing="5" cellpadding="5" align="center">
     <tr>
       <td colspan="2"><h1>Your post is saved</h1>
         <br />

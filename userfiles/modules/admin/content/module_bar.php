@@ -132,13 +132,14 @@ $modules = CI::model('template')->getModules($modules_options );
         <? if($module_group2 == $module_group)  : ?>
         <tr valign="middle">
           <td><? if($module_group2 == $module_group)  : ?>
+          <? $module2['module'] = str_replace('\\','/',$module2['module']); ?>
             <div class="module_draggable mw_no_module_mask">
               <div class="js_mod_remove">
                 <? if($module2['icon']): ?>
                 <div class="mw_sidebar_module_icon"> <img src="<? print $module2['icon'] ?>" height="24" style="float:left" /> </div>
                 <? endif; ?>
                 <div class="mw_sidebar_module_insert"></div>
-                <? print $module2['name'] ?>
+                <? print $module2['name'] ?><? //print $module2['module'] ?>
                 <textarea id="md5_module_<? print md5($module2['module']) ?>" style="display: none"><? print $module2['module'] ?></textarea>
               </div>
               <tag_to_remove_add_module_string module="<? print $module2['module'] ?>" mw_params_module="<? print $module2['module'] ?>" class="mw_put_module_ids" />

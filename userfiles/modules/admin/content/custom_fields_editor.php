@@ -12,7 +12,7 @@ $cf_cfg ['page_id'] = $page_data['id'];
 		
 		
 		
-		if(intval($params['post_id']) > 0){
+		if(($params['post_id']) > 0){
 			
 			$cf_cfg ['post_id'] = $params['post_id'];
 			
@@ -53,7 +53,7 @@ if(empty($data )){
 			$data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
 			$new_for_post = true;
 		}		
-	}
+	} 
 }
 
 //p($data);
@@ -72,6 +72,8 @@ function save_cf($form_id){
    mw.reload_module('admin/content/custom_fields');
    
    mw.reload_module('content/custom_fields');
+    mw.reload_module('forms/mail_form');
+   
    
    
   } 
@@ -245,6 +247,7 @@ function cf_type_set($type, $form_selector){
 	data1.cf_id =cf_id;
 	
 	$('.mw_cf_values_edit_by_type').load('<? print site_url('api/module') ?>',data1);
+	$('.mw_cf_values_edit_by_type').show();
 	 
 	 
 	 
@@ -266,8 +269,8 @@ function cf_type_set($type, $form_selector){
 ?>
 
 <form class="cf_form" action="" method="post" id="cf_form_<? print $item['id'] ?>">
-<? if(intval($params['post_id'])> 0 ): ?>
- <? if(intval($item['post_id'])> 0 ): ?>
+<? if(($params['post_id'])> 0 ): ?>
+ <? if(($item['post_id'])> 0 ): ?>
  <input name="id" type="hidden" class="cf_form_<? print $item['id'] ?>" value="<? print intval($item['id']) ?>" />
  
  <? else : ?>
@@ -284,30 +287,30 @@ function cf_type_set($type, $form_selector){
   
   
   <input name="field_order" type="hidden" class="cf_form_<? print $item['id'] ?>" value="<? print $item['field_order'] ?>" />
-  <? if(intval($params['post_id'])> 0 ): ?>
+  <? if(($params['post_id'])): ?>
   <input name="post_id" type="hidden" class="cf_form_<? print $item['id'] ?>"  value="<? print $params['post_id'] ?>" />
   <?  else:  ?>
   <input name="page_id" type="hidden" class="cf_form_<? print $item['id'] ?>"  value="<? print $params['page_id'] ?>" />
   <? endif;  ?>
 
   <h3>Editing custom field <strong><? print $item['name'] ?></strong></h3>
+  
+             <input name="param" type="hidden" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param'] ?>"  />
+
+  
   <table border="0" class="custom_fields_table_edit_cf">
     <tr>
-      <td><span class="darkblue">Name:</span></td>
-      <td><div class="formitem"><span class="formfield">
+      <td><span class="darkblue">Name:</span>
+      <div class="formitem"><span class="formfield">
           <input name="name" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['name'] ?>"  />
-          </span> </div></td>
-      <td></td>
+          </span> </div>
+      
+      </td>
+      
     </tr>
     
     
-      <tr >
-      <td><small class="gray">param:</small></td>
-      <td> 
-           <input style="border:none; font-size:10px; height:12px;" name="param" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param'] ?>"  />
-         </td>
-      <td></td>
-    </tr>
+      
     
     
     
@@ -315,25 +318,34 @@ function cf_type_set($type, $form_selector){
     
     
     <tr>
-      <td><span class="darkblue">Type:</span></td>
-      <td><div class="formitem cf_form_type_selector">
+      <td><span class="darkblue">Type:</span>
+      <div class="formitem cf_form_type_selector">
           <input name="type" type="hidden" class="cf_form_<? print $item['id'] ?>"  value="<? print $item['type'] ?>" />
           <ul class="cf_form_select_type cf_form_type_selector" >
-            <li> <a class="btn_big cf_type_select_text" href="javascript:cf_type_set('text', '#cf_form_<? print $item['id'] ?>')" ><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/silk/accessories-text-editor.png" height="16"  />Text</a> </li>
+         
             <li> <a class="btn_big cf_type_select_dropdown" href="javascript:cf_type_set('dropdown', '#cf_form_<? print $item['id'] ?>')" ><img height="16"  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/dropdown.png" />Dropdown</a> </li>
             <li> <a class="btn_big cf_type_select_checkbox" href="javascript:cf_type_set('checkbox', '#cf_form_<? print $item['id'] ?>')" ><img height="16" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/checkbox.png" />Checkbox</a> </li>
+            
+                 <li> <a class="btn_big cf_type_select_comment" href="javascript:cf_type_set('textarea', '#cf_form_<? print $item['id'] ?>')" ><img height="16"  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/silk/accessories-text-editor.png" />Text area</a> </li>
+            
+            
+            
             <li> <a class="btn_big cf_type_select_images" href="javascript:cf_type_set('images', '#cf_form_<? print $item['id'] ?>')" ><img height="16" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/image.png" />Images</a> </li>
-            <li> <a class="btn_big cf_type_select_comment" href="javascript:cf_type_set('comment', '#cf_form_<? print $item['id'] ?>')" ><img height="16"  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/silk/comment.png" />User comment</a> </li>
+       
             <li> <a class="btn_big cf_type_select_link" href="javascript:cf_type_set('link', '#cf_form_<? print $item['id'] ?>')" ><img height="16" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/link.png" />Link</a> </li>
                         <li> <a class="btn_big cf_type_select_price" href="javascript:cf_type_set('price', '#cf_form_<? print $item['id'] ?>')" ><img height="16" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/silk/money_add.png" />Price</a> </li>
-
+   <li> <a class="btn_big cf_type_select_text" href="javascript:cf_type_set('text', '#cf_form_<? print $item['id'] ?>')" ><img src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/silk/accessories-text-editor.png" height="16"  />Simple text</a> </li>
           </ul>
-        </div></td>
-      <td><a  href="javascript:cf_type_set_show_all_types('#cf_form_<? print $item['id'] ?>')" ><img height="28" class="cf_form_type_selector_arrow" width="28" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/arr_down.png" /></a></td>
+        </div>
+      <a  href="javascript:cf_type_set_show_all_types('#cf_form_<? print $item['id'] ?>')" ><img height="28" class="cf_form_type_selector_arrow" width="28" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/arr_down.png" /></a>
+      </td>
+       
+      
     </tr>
     <tr>
-      <td><span class="darkblue">Values:</span></td>
-      <td><div class="formitem"> <span class="formfield">
+      <td><span class="darkblue">Values:</span>
+      
+      <div class="formitem"> <span class="formfield">
           <div class="mw_cf_values_edit_by_type">
             <microweber module="admin/content/custom_fields/<? print $item['type'] ?>"  cf_id="<? print $item['id'] ?>" param_default="<? print $item['param_default'] ?>" param_values="<? print $item['param_values'] ?>" />
           </div>
@@ -342,44 +354,42 @@ function cf_type_set($type, $form_selector){
           
           <input name="param_default" class="cf_form_<? print $item['id'] ?>" type="text" value="<? print $item['param_default'] ?>"  />
           -->
-          </span> </div></td>
-      <td></td>
+          </span> </div>
+      </td>
+      
     </tr>
     <tr style="display:none">
-      <td><span class="darkblue">Group:</span></td>
-      <td><div class="formitem"> <span class="formfield">
+      <td><span class="darkblue">Group:</span><div class="formitem"> <span class="formfield">
           <input name="param_group" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param_group'] ?>"  />
           </span> </div></td>
-      <td></td>
+     
     </tr>
     <tr>
-      <td><span class="darkblue">Help:</span></td>
-      <td><div class="formitem"> <span class="formfield">
+      <td><span class="darkblue">Help:</span><div class="formitem"> <span class="formfield">
           <input name="help" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['help'] ?>"  />
           </span> </div></td>
-      <td></td>
+       
     </tr>
     </tr>
     
     <tr>
-      <td><input class="btn" name="save"  value="Save" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" /></td>
-      <td><? if(($item['id']) != false) :  ?>
+      <td><input class="btn" name="save"  value="Save" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" /><? if(($item['id']) != false) :  ?>
       
       
       
         <a class="xbtn"  href="javascript:delete_cf('cf_form_<? print $item['id'] ?>')" >Delete</a>
-        
+        <a class="xbtn"  href="javascript:close_cf('<? print $item['id'] ?>')" >Close</a>
         
         
         
         <? endif; ?></td>
-      <td><a class="xbtn"  href="javascript:close_cf('<? print $item['id'] ?>')" >Close</a></td>
+     
     </tr>
   </table>
-  <? if(intval($params['post_id'])== 0 ): ?>
+  <? if(($params['post_id'])== false ): ?>
   <span class="darkblue"> Apply to:</span>
   <? endif; ?>
-  <? if(intval($params['post_id'])== 0 ): ?>
+  <? if(($params['post_id'])== false ): ?>
   <select name="content_type" class="cf_form_<? print $item['id'] ?>">
     <option <? if(($item['content_type']) == 'page') :  ?>  selected="selected" <? endif; ?> value="page">Use only on pages</option>
     <option  <? if(($item['content_type']) == 'post') :  ?>  selected="selected" <? endif; ?> value="post">Use in all posts in <? print strip_tags(page_title($params['page_id'])); ?> page</option>

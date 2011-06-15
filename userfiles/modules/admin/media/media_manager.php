@@ -6,12 +6,17 @@ $rand = rand();
     
 ?>
 <?
+ if($params['module_id'] == false){
   $id = $params['for_id'];
   $for = $params['for'];
   
    if(strval($params['for_what']) != ''){
 	 $for = $params['for_what'];
 	 
+ }
+ } else {
+	// $id = $params['for_id']= $params['module_id'];
+ // $for =  $params['for_what'] = 'module';
  }
   
   
@@ -25,15 +30,16 @@ $rand = rand();
 	 $collection = $params['module_id'];
 	 $queue_id = false;
  }
+ 
  }
  
  
  //p($params);
-  
+ // var_dump($collection);
   ?>
-<?  $media1 = get_media($id, $for, $media_type,  $queue_id, $collection);
+<?  $media1 = get_media($id, $for = 'post', $media_type,  $queue_id, $collection);
  
- //p($media1);
+// p($media1);
  
 
    
@@ -96,7 +102,7 @@ if ( $(".gallery_module_sortable_pics<? print $rand ?>").exists() ){
 	$.post("<?php print site_url('admin/media/reorderMedia') ?>", order,
 
 	function(data){
-
+ mw.reload_module('media/gallery');
 	});
 
 	}
@@ -176,7 +182,7 @@ function load_media_edit_module<? print $rand ?>($media_id){
   success: function(resp) {
      // alert(resp);
    $('#edit_media_cloned_form<? print $rand ?>').html(resp);
- 
+ mw.reload_module('media/gallery');
    // alert('Load was performed.');
   }
     });
@@ -200,6 +206,7 @@ Please upload some media in the gallery.
 <script type="text/javascript"> 
 // When the document is ready set up our sortable with it's inherant function(s) 
 $(document).ready(function() { 
+						    mw.reload_module('media/gallery');
   $(".gallery_module_sortable_pics<? print $rand ?>").sortable({ 
     handle : '.handle', 
     update : function () { 
@@ -231,10 +238,15 @@ $(document).ready(function() {
 }); 
 </script>
 <? if($params['quick_edit']) { $qe_class = 'qiuck_edit' ;} else { $qe_class = false ;}  ?>
+
+ 
+
+
 <br />
 <br />
+
 <br />
-<div class="gallery_module_sortable_holder <? print $qe_class ?>">
+<div class="gallery_module_sortable_holder <? print $qe_class ?>"  >
   <ul class="gallery_module_sortable_pics<? print $rand ?> <? print $qe_class ?> gallery_module_sortable_pics">
     <?php $i = 1; if(!empty($media1)): ?>
     <?php foreach($media1 as $pic): ?>

@@ -1,10 +1,5 @@
 <?php
 
-
-
-
-
-
 $table_name = false;
 $table_name = TABLE_PREFIX . "content_custom_fields_config";
 $query = CI::db ()->query ( "show tables like '$table_name'" );
@@ -40,10 +35,10 @@ if ($query [0] == $table_name) {
 	*/
 	
 	$fields_to_add = array ();
-	$fields_to_add [] = array ('page_id', 'int(11) default NULL' );
+	$fields_to_add [] = array ('page_id', 'varchar(1500) default NULL' );
 	
-	
-	$fields_to_add [] = array ('post_id', 'int(11) default NULL' );
+	$fields_to_add [] = array ('post_id', 'varchar(1500) default NULL' );
+	$fields_to_add [] = array ('module_id', 'varchar(1500) default NULL' );
 	
 	$fields_to_add [] = array ('name', 'varchar(1500) default NULL' );
 	$fields_to_add [] = array ('param_group', 'varchar(1500) default NULL' );
@@ -53,7 +48,6 @@ if ($query [0] == $table_name) {
 	$fields_to_add [] = array ('to_table', 'varchar(1500) default NULL' );
 	
 	$fields_to_add [] = array ('content_type', 'varchar(1500) default NULL' );
-	
 	
 	$fields_to_add [] = array ('type', 'TEXT default NULL' );
 	$fields_to_add [] = array ('param', 'TEXT default NULL' );

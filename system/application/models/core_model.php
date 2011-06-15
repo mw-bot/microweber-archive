@@ -6318,7 +6318,7 @@ $w
 		
 		}
 		
-		if (intval ( $id ) == 0) {
+		if (intval ( $id ) == 0 and $collection == false) {
 			
 			if ($to_table_id != false) {
 				

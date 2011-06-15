@@ -1,8 +1,8 @@
 <?
 
+  $data_for_table = array();  
 
-
-//p($params);
+ $rand_id = md5(serialize($params));
 
 $temp = $params['base64'];
 if($temp){
@@ -37,7 +37,6 @@ if($params['post_id'] == false){
 
 
 
-
 if(($params['post_id'] != false)){
 		$page_data = get_page_for_post($params['post_id']);
 		//$params['page_id'] = $page_data['id'];
@@ -46,15 +45,30 @@ if(($params['post_id'] != false)){
 			
 			$cf_post_config = array();
 				$cf_post_config['post_id'] = $params['post_id'];
+				$cf_post_config_par = $cf_post_config;
 				//$cf_post_config =  CI::model('core')->getCustomFieldsConfig($cf_post_config);
 				$cf_post_config =get_custom_fields_config_for_content($params['post_id'], $params['page_id']);
+				if(empty($cf_post_config)){
+					$cf_post_config =  CI::model('core')->getCustomFieldsConfig($cf_post_config_par);
+				}
 
 	// p($cf_post_config );
 		
 		}
 
- 
-if(($params['page_id'])) :  ?>
+ if(($params['for_module_id'] != false)){
+$cf_post_config = array();
+				$cf_post_config['post_id'] = $params['for_module_id'];
+			//	p($cf_post_config);
+			  $cf_post_config =  CI::model('core')->getCustomFieldsConfig($cf_post_config);
+			// $data_for_table['module'] = $cf_post_config;
+			 
+			// p($cf_post_config);
+			 		$params['post_id'] = $params['for_module_id'];
+}
+
+
+if(($params['page_id']) or $params['post_id']) :  ?>
 <?
 
  
@@ -62,7 +76,15 @@ if(($params['page_id'])) :  ?>
 
 
 ?>
-<? $page_data = get_page($params['page_id']);  ?>
+<?
+if(intval($params['page_id']) > 0){
+$page_data = get_page($params['page_id']); 
+} else {
+	
+$page_data = false;
+}
+
+?>
 <? 
 
 
@@ -71,7 +93,7 @@ $cf_cfg = array ();
 		
 $cf_cfg ['page_id'] = $page_data['id'];
 								 
-		} 
+		
 
 
 
@@ -104,6 +126,7 @@ if(empty($data)){
 	
 	
 }
+} 
  //p($cf_cfg);
  // p($page_data);
 
@@ -199,7 +222,7 @@ if($base64_val_for_insert != false){
 //p( $cf_post_conf);
 ?>
 <script type="text/javascript">
-function edit_cf_config($id, $post_id){
+function edit_cf_config<? print $rand_id ?>($id, $post_id){
 	data1 = {}
 	data1.module = 'admin/content/custom_fields_editor';
 	data1.id =$id;
@@ -207,23 +230,31 @@ function edit_cf_config($id, $post_id){
 	data1.page_id = '<? print $params['page_id'] ?>';
 	 
 	
-	<? if(intval($params['post_id']) > 0): ?>
+	<? if(($params['post_id'])): ?>
 	data1.post_id = '<? print $params['post_id'] ?>';
 	<? endif;  ?>
+	
+	
+	
 		data1.for_post = $post_id;
+		
+		<? if(($params['for_module_id'])): ?>
+		data1.for_post = '<? print $params['for_module_id'] ?>';
+	data1.post_id = '<? print $params['for_module_id'] ?>';
+	<? endif;  ?>
 
 	
-//	$('#edit_cf_config_resp').load('<? print site_url('api/module') ?>',data1);
+//	$('#edit_cf_config<? print $rand_id ?>_resp').load('<? print site_url('api/module') ?>',data1);
 	
-	$('.cf_edit_resp').html('');
+	$('.cf_edit_resp<? print $rand_id ?>').html('');
 	
 	
 	
 	
 	$('#cf_edit_btn_id_'+$id).fadeOut();
 	
-	$('#cf_edit_resp_id_'+$id).load('<? print site_url('api/module') ?>',data1);
-	$('#cf_edit_resp_id_'+$id).show();
+	$('#cf_edit_resp<? print $rand_id ?>_id_'+$id).load('<? print site_url('api/module') ?>',data1);
+	$('#cf_edit_resp<? print $rand_id ?>_id_'+$id).show();
 }
 
 
@@ -271,24 +302,22 @@ $(document).ready(function() {
 
 });
 </script>
-<? //p($cf_post); ?>
+<?  //p($cf_post); ?>
 <?  //  p($params); ?>
-<? if($params['element_id']) : ?>
+<? if(1) : ?>
 
 <span class="mw_sidebar_module_box_title">Edit custom fields</span>
-<div class="mw_admin_rounded_box">
-  <div class="mw_admin_box_padding">
+ 
     <? else: ?>
     <h2>Custom fields</h2>
     <? endif; ?>
-    <a class="btn" href="javascript:edit_cf_config('new')">Add new custom field</a> <br />
+    <a class="btn" href="javascript:edit_cf_config<? print $rand_id ?>('new')">Add new custom field</a> <br />
     <br />
-    <div id="cf_edit_resp_id_new"></div>
-    <? $data_for_table = array(); ?>
+<div id="cf_edit_resp<? print $rand_id ?>_id_new"></div>
     <? foreach($data as $cf): ?>
     <?
    
-   if((intval($cf['post_id']) > 0)  and (intval($cf['page_id']) == 0)){
+   if((($cf['post_id']) )  and (intval($cf['page_id']) == 0)){
 $data_for_table['local'][] = $cf;
 
    } else {
@@ -303,7 +332,7 @@ $data_for_table['local'][] = $cf;
     <? foreach($data as $cf): ?>
     <?
    
-   if((intval($cf['post_id']) == 0)  and (intval($cf['page_id']) != 0)){
+   if((($cf['post_id']) == false)  and (intval($cf['page_id']) != 0)){
 
 
 
@@ -442,26 +471,40 @@ $i = 0;
 ?>
     <? foreach($data_for_table as $k => $data): ?>
     <? if( is_array($data) and !empty($data) and !empty($data[0])): ?>
-    <table width="100%" border="0" class="custom_fields_table cf_order_table<?  print $params['element_id'] ; ?>"      cellpadding="0" cellspacing="0">
-       <tr style="display:none">
-        <th width="200">Name</th>
-        <th width="200">Value</th>
-        <th width="200">Group</th>
+    <table width="80%" border="0" class="custom_fields_table cf_order_table<?  print $params['element_id'] ; ?>"      cellpadding="0" cellspacing="0">
+      <tr style="display:none">
+        <th width="150">Name</th>
+         
+        
         <th> </th>
       </tr>
       <? foreach($data as $cf): ?>
       <? if($cf['name'] != ''): ?>
       <tr class="cf_item_sotable" id="cf_id_<? print $cf['id'] ?>" >
         <td><?  // p($cf); ?>
-          <strong class="blue"><? print $cf['name'] ?></strong>
+          <strong class="blue"><? print $cf['name'] ?></strong> | <? if($params['post_id']): ?>
+          <? if(($item['post_id'])): ?>
+          <a class="xbtn"  id="cf_edit_btn_id_<? print $cf['id'] ?>" href="javascript:edit_cf_config<? print $rand_id ?>('<? print $cf['id']; ?>', '<? print $params['post_id'] ?>')">Edit</a>
+          <? else : ?>
+          <a class="xbtn"  id="cf_edit_btn_id_<? print $cf['id'] ?>" href="javascript:edit_cf_config<? print $rand_id ?>('<? print $cf['id']; ?>', '<? print $params['post_id'] ?>')">Edit</a>
+          <? endif; ?>
+          <? else : ?>
+          <a class="xbtn"  id="cf_edit_btn_id_<? print $cf['id'] ?>" href="javascript:edit_cf_config<? print $rand_id ?>('<? print $cf['id']; ?>', '')">Edit</a>
+          <? endif; ?>
           <? if(trim($cf['help']) != ''): ?>
           <br />
           <? print $cf['help'] ?>
           <? endif; ?>
-          <br />
+          
+       
           <!--    <span class="gray" title="group"><? print $cf['param_group'] ?></span> <br />-->
-          <span class="gray" title="content type"><? print $cf['content_type'] ?></span></td>
-        <td ><? 
+          <!--<span class="gray" title="content type"><? print $cf['content_type'] ?></span>-->
+ 
+ <microweber module="content/custom_field"  name="custom_field_<? print $cf['name'] ?>" cf_id="<? print $cf['id'] ?>" >
+        
+		
+		
+		<? 
 	
 	
 	//p($data);
@@ -488,26 +531,20 @@ $i = 0;
           <? endif; ?>*/
 	
 	?>
-          <microweber module="content/custom_field"  name="custom_field_<? print $cf['name'] ?>" cf_id="<? print $cf['id'] ?>" ></td>
-        <td><span class="gray" title="group"><? print $cf['param_group'] ?></span></td>
-        <td><? if($params['post_id']): ?>
-          <? if(intval($item['post_id'])): ?>
-          <a class="xbtn"  id="cf_edit_btn_id_<? print $cf['id'] ?>" href="javascript:edit_cf_config('<? print $cf['id']; ?>', '<? print $params['post_id'] ?>')">Edit</a>
-          <? else : ?>
-          <a class="xbtn"  id="cf_edit_btn_id_<? print $cf['id'] ?>" href="javascript:edit_cf_config('<? print $cf['id']; ?>', '<? print $params['post_id'] ?>')">Edit</a>
-          <? endif; ?>
-          <? else : ?>
-          <a class="xbtn"  id="cf_edit_btn_id_<? print $cf['id'] ?>" href="javascript:edit_cf_config('<? print $cf['id']; ?>', '')">Edit</a>
-          <? endif; ?>
-          <div id="cf_edit_resp_id_<? print $cf['id'] ?>"  class="cf_edit_resp"></div></td>
+         </td>
+       
+         
       </tr>
+      <tr >
+        <td colspan="3"><div id="cf_edit_resp<? print $rand_id ?>_id_<? print $cf['id'] ?>"  class="cf_edit_resp<? print $rand_id ?>"></div></td>
+      </tr>
+       
       <? endif; ?>
       <? endforeach; ?>
     </table>
     <? endif; ?>
     <? endforeach; ?>
     <? if($params['element_id']) : ?>
-  </div>
-</div>
+ 
 <? endif; ?>
 <? endif; ?>

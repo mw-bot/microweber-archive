@@ -10,7 +10,7 @@
   </table>
 </div>
 <? endif; ?>
-<?  //p($params); ?>
+<? //  p($params); ?>
 <?   //   p($config); ?>
 <?
 $rand = rand();
@@ -390,7 +390,11 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
 			 
 			   $(".drag_files_here_more<? print $rand ?>").show();
    call_media_manager<? print $rand ?>();
-   mw.reload_module('media/gallery');
+   
+   
+ 
+   
+   setTimeout("mw.reload_module('media/gallery')",1000)
 			 
 			 
        //   var obj = eval("(" + info.response + ")");
@@ -420,13 +424,66 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
 // ******************************** END UPLOADER *******************************
 
 </script>
-<? if($params['quick_edit'] and $params['module_id']) :   ?>
+<? if($params['element_id'] and $params['module_id']) :   ?>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+ 
+  $(function() {
+  vg = $('#mw_gallery_skin_setting_<? print $rand ?>').val();
+  if( vg != ''){
+	  gallery_setting_ShowHide<? print $rand ?>(vg)
+  }
+  
+  
+  
+  mw_forms.make_fields()
+
+    });
+   
+	
+	
+ 
+ 
+ 
+ 
+function gallery_setting_ShowHide<? print $rand ?>(id) {
+	
+	id = 'gallery_skin_setting<? print $rand ?>_'+id;
+	 $('.gallery_skin_setting<? print $rand ?>').hide();
+//	 alert(id);
+ $("#"+id).show();
+ 
+ 
+}
+
+function gallery_rld<? print $rand ?>(id) {
+	
+mw.reload_module('media/gallery');
+ 
+ 
+}
+</script>
+
+
+
+
+
 <span class="mw_sidebar_module_box_title">Gallery settings</span>
 <div class="mw_admin_rounded_box">
   <div class="mw_admin_box_padding">
     <table width="100%" border="0" cellspacing="4" cellpadding="0">
       <tr>
-        <td colspan="2"><label>Title</label>
+        <td colspan="2"><label>Title</label> <!--<input type="button" value="asdasdasd" onclick="gallery_rld<? print $rand ?>();" />-->
           <input name="media_name" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('media_name', $params['module_id']) ?>" />
           <!--           <input  value="<?php print option_get('media_name', $params['module_id']) ?>" />
                  --></td>
@@ -436,22 +493,180 @@ $(".drag_files<? print $rand ?>").pluploadQueue({
           <textarea name="media_description" cols=""  class="mw_option_field" refresh_modules="media/gallery"   option_group="<? print $params['module_id'] ?>" rows="2"><?php print option_get('media_description', $params['module_id']) ?></textarea></td>
       </tr>
       <tr>
-        <td><label>Skin</label></td>
-        <td><select name="skin" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
+ 
+        <td colspan="2">
+        <label>Skin</label>
+        <select name="skin" id="mw_gallery_skin_setting_<? print $rand ?>" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  onchange="gallery_setting_ShowHide<? print $rand ?>(this.value);" onfocus="gallery_setting_ShowHide<? print $rand ?>(this.value);">
             <option value="'" <? if( trim(option_get('skin', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >None</option>
             <option value="1" <? if( option_get('skin', $params['module_id']) == '1') : ?>  selected="selected" <? endif; ?> >1</option>
             <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >2</option>
-            <option value="2" <? if( option_get('skin', $params['module_id']) == '2') : ?>  selected="selected" <? endif; ?> >3</option>
-          </select></td>
+            <option value="3" <? if( option_get('skin', $params['module_id']) == '3') : ?>  selected="selected" <? endif; ?> >Galleria</option>
+          </select>
+          
+          
+          
+          
+          
+      
+          
+          
+          
+          
+          
+          
+          
+          
+          </td>
       </tr>
       <tr>
-        <td><label>Thumbnail size</label></td>
-        <td><select name="tn_size" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
+        
+        <td colspan="2">
+        
+        
+        
+         
+
+          <div id="gallery_skin_setting<? print $rand ?>_1" class="gallery_skin_setting<? print $rand ?>">
+           <label>Thumbnail size</label>
+        <select name="tn_size" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery" >
             <option value="60" <? if( trim(option_get('tn_size', $params['module_id'])) == '60') : ?>  selected="selected" <? endif; ?> >60px</option>
             <option value="90" <? if( option_get('tn_size', $params['module_id']) == '90') : ?>  selected="selected" <? endif; ?> >90px</option>
             <option value="120" <? if( option_get('tn_size', $params['module_id']) == '120') : ?>  selected="selected" <? endif; ?> >120px</option>
             <option value="250" <? if( option_get('tn_size', $params['module_id']) == '250') : ?>  selected="selected" <? endif; ?> >250px</option>
-          </select></td>
+          </select>
+          
+          </div>
+          
+          
+          
+          
+                  <div id="gallery_skin_setting<? print $rand ?>_3" class="gallery_skin_setting<? print $rand ?>">
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                   <label>Gallery width</label>
+                   
+        <select name="galeria_skin_width" id="mw_gallery_skin_setting_<? print $rand ?>" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery">
+            <option value="500" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >500</option>
+              <option value="700" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >700</option>
+                  <option value="900" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >900</option>
+                  <option value="1200" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >1200</option>
+                  
+          </select>
+                  
+                  
+                  
+                  
+                   
+                   <label>Gallery height</label>
+                   
+        <select name="galeria_skin_height" id="mw_gallery_skin_setting_<? print $rand ?>" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery">
+            <option value="500" <? if( trim(option_get('galeria_skin_height', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >500</option>
+              <option value="700" <? if( trim(option_get('galeria_skin_height', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >700</option>
+                  <option value="900" <? if( trim(option_get('galeria_skin_height', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >900</option>
+                  <option value="1200" <? if( trim(option_get('galeria_skin_height', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >1200</option>
+                  
+          </select>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+   <!--       
+           
+             <input name="galeria_skin_width" class="mw_option_field mw_option_slider" input_min="200" input_max="1200" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('galeria_skin_width', $params['module_id']) ?>" />
+             
+             <br />
+<label>Gallery width</label>
+           
+             <input name="galeria_skin_height" class="mw_option_field mw_option_slider" input_min="200" input_max="1200" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('galeria_skin_height', $params['module_id']) ?>" />
+           
+        -->
+          
+          </div>
+          
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+       </td>
       </tr>
       <tr>
         <td></td>

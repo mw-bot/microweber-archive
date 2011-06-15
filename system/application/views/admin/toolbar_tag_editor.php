@@ -173,12 +173,10 @@
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Width</div></td>
             <td><input name="width" class="mw_slider css_property" type="text" /></td>
-            <td><div id="mw_width_val"></div></td>
           </tr>
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Height</div></td>
             <td><input name="height" class="mw_slider css_property" type="text" /></td>
-            <td><div id="mw_height_val"></div></td>
           </tr>
         </table>
       </div>
@@ -187,13 +185,11 @@
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Padding</div></td>
             <td><input name="padding" class="mw_slider css_property" dimensions="px" type="text" /></td>
-            <td><div id="mw_padding_val"></div></td>
             <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/padding.png" height="30"  /></td>
           </tr>
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Margin</div></td>
             <td><input name="margin" class="mw_slider css_property" dimensions="px" type="text" /></td>
-            <td><div id="mw_margin_val"></div></td>
             <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/margin.png" height="30"  /></td>
           </tr>
         </table>
@@ -230,19 +226,22 @@
                 <option value="outset">Outset</option>
                 <option value="inherit">Inherit</option>
               </select></td>
-            <td></td>
           </tr>
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Border width</div></td>
             <td><input name="border-width"  dimensions="px" class="mw_slider css_property" type="text" /></td>
-            <td><div id="mw_border-width_val"></div></td>
           </tr>
           <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">Border radius</div></td>
+            <td><input name="border-radius" class="mw_slider css_property" dimensions="px" type="text" /></td>
+          </tr>
+        </table>
+      </div>
+      <div class="mw_tag_editor_item_holder">
+        <table border="0" cellspacing="5" cellpadding="0" >
+          <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Border color</div></td>
-            <td><div class="mw_tag_editor_input">
-                <input  class="mw_color css_property"  name="border-color"    type="color"  data-hex="true"   />
-              </div></td>
-            <td></td>
+            <td><input  class="mw_color css_property"  name="border-color"    type="color"  data-hex="true"   /></td>
           </tr>
         </table>
       </div>
@@ -253,10 +252,7 @@
         <table border="0" cellspacing="5" cellpadding="0" >
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Background color</div></td>
-            <td><div class="mw_tag_editor_input">
-                <input  class="mw_color css_property"  name="background-color"    type="color"  data-hex="true"    />
-              </div></td>
-            <td></td>
+            <td><input  class="mw_color css_property"  name="background-color"    type="color"  data-hex="true"    /></td>
           </tr>
         </table>
       </div>
@@ -267,7 +263,7 @@
             <td><input  class="css_property mw_tag_editor_input mw_tag_editor_input_wide"  name="background-image"     /></td>
           </tr>
           <tr valign="middle">
-            <td><div class="mw_tag_editor_label_wide">background repeat</div></td>
+            <td><div class="mw_tag_editor_label_wide">Background repeat</div></td>
             <td><select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="background-repeat">
                 <option value="">Default</option>
                 <option value="no-repeat">no-repeat</option>
@@ -277,7 +273,7 @@
               </select></td>
           </tr>
           <tr valign="middle">
-            <td><div class="mw_tag_editor_label_wide">background-attachment</div></td>
+            <td><div class="mw_tag_editor_label_wide">Background attachment</div></td>
             <td><select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="background-attachment">
                 <option value="">Default</option>
                 <option value="scroll">scroll</option>
@@ -286,7 +282,7 @@
               </select></td>
           </tr>
           <tr valign="middle">
-            <td><div class="mw_tag_editor_label_wide">background-position</div></td>
+            <td><div class="mw_tag_editor_label_wide">Background position</div></td>
             <td><select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="background-position">
                 <option value="">Default</option>
                 <option value="left top">left top</option>
@@ -304,5 +300,65 @@
       </div>
       <input name="mw_css_editor_element_id" id="mw_css_editor_element_id" value="" type="text" />
     </div>
+    <h3 class="css_editor_tab_effects"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Shadow</a></h3>
+    <div class="css_editor_tab_effects_inside">
+      <div class="mw_tag_editor_item_holder">
+        <table border="0" cellspacing="5" cellpadding="0" >
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">box-shadow-horizontal</div></td>
+            <td><div class="mw_tag_editor_input">
+                <input  class="mw_slider css_property css_fx"  name="box-shadow-horizontal"  dimensions="px"  type="text"      />
+              </div></td>
+            <td></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">box-shadow-vertical</div></td>
+            <td><div class="mw_tag_editor_input">
+                <input  class="mw_slider css_property css_fx"  name="box-shadow-vertical" dimensions="px"   type="text"      />
+              </div></td>
+            <td></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">box-shadow-blur</div></td>
+            <td><div class="mw_tag_editor_input">
+                <input  class="mw_slider css_property css_fx"  name="box-shadow-blur" dimensions="px"   type="text"      />
+              </div></td>
+            <td></td>
+          </tr>
+          <tr valign="middle">
+            <td><div class="mw_tag_editor_label_wide">box-shadow-color</div></td>
+            <td><div class="mw_tag_editor_input">
+                <input  class="css_property css_fx"  name="box-shadow-spread"  dimensions="px"  type="hidden"      />
+                <input  class="css_property css_fx mw_color"  name="box-shadow-color"    type="color"  data-hex="true"      />
+              </div></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  
   </div>
 </div>
+<div style="display:none">  <h3 class="css_editor_tab_rotate"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Rotate</a></h3>
+    <div class="css_editor_tab_effects_inside">
+      <div class="mw_tag_editor_item_holder">
+        <textarea id="transforms_cssOut"></textarea>
+        <div id="transforms-box" style="display:none"></div>
+        <label for="scale-input">Scale :</label>
+        <input name="scale-input" id="scale-input" onchange="setTransform()" class="mw_slider" size="3" value="1" type="text">
+        <label for="rotate-input">Rotate :</label>
+        <input name="rotate-input" id="rotate-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+        <span class="size_class">deg</span>
+        <label for="tran1-input">Translate X:</label>
+        <input name="tran1-input" id="tran1-input" onchange="setTransform()" class="textbox" size="3" value="0" type="text">
+        <span class="size_class">px</span>
+        <label for="tran2-input">Translate Y:</label>
+        <input name="tran2-input" id="tran2-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+        <span class="size_class">px</span>
+        <label for="skew1-input">Skew1 X:</label>
+        <input name="skew1-input" id="skew1-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+        <span class="size_class">deg</span>
+        <label for="skew2-input">Skew Y:</label>
+        <input name="skew2-input" id="skew2-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+        <span class="size_class">deg</span> </div>
+    </div></div>

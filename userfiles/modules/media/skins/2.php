@@ -113,7 +113,7 @@ function gallery<? print $params['module_id'] ?>() {
 	 $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
 //p($thumb);
 ?>
-<a href="#"   <? if($i == 1) : ?>  class="show" <?php endif; ?>> <img src="<? print  $orig; ?>" alt="<?php print addslashes($pic['media_name']); ?>" width="580" height="360" title=""   rel="<?php print addslashes($pic['media_description']); ?>"/> </a>
+<a href="#"   <? if($i == 1) : ?>  class="show" <?php endif; ?>><center><img src="<? print  $orig; ?>" alt="<?php print addslashes($pic['media_name']); ?>"  height="360" title=""   rel="<?php print addslashes($pic['media_description']); ?>"/></center></a>
 
 
  

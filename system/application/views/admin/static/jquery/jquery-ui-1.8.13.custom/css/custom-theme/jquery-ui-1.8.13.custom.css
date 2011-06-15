@@ -1207,11 +1207,12 @@ padding: 0;
 .ui-slider {
 	position: relative;
 	text-align: left;
+	float:left;
 }
 .ui-slider .ui-slider-handle {
 	position: absolute;
 	z-index: 2;
-	width: 1.2em;
+	width: 0.8em;
 	height: 1.2em;
 	cursor: default;
 }

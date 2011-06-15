@@ -87,6 +87,9 @@ mw.reload_module = function($module_name) {
  								function() {
 
 									var mw_params_module = $(this).attr(	"mw_params_module");
+									var mw_params_module_id = $(this).attr(	"module_id");
+									
+									mw_params_module = mw_params_module.replace(/\\/g,"/"); 
 									
 								//$all_attr = 	 $.getAttributes('#foo'), true );
 									$all_attr =  $(this).getAttributes();
@@ -98,18 +101,20 @@ mw.reload_module = function($module_name) {
 									}
 
 						 
+									if (window.console != undefined) {
+							 		//	console.log('Reload module   ' + mw_params_module  +mw_params_module_id + '  ' + $module_name);	
+							 		}
 									
-									
-									if (mw_params_module == $module_name) {
+									if (mw_params_module == $module_name || mw_params_module_id == $module_name) {
 										var mw_params_encoded = $(this).attr(	"mw_params_encoded");
 										var elem = $(this)
 										
-										
+		
 								 
 										 url1= '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded;
 										 elem.load(url1,$all_attr,function() {
 											 window.mw_sortables_created = false;
-										 });
+										 }); 
 										 
 										 
 										 

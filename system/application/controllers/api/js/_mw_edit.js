@@ -117,24 +117,72 @@ function mw_insert_module_at_cursor($module, $full_tag){
 
 window.mw_editables_created = false;
 function mw_make_editables(){
-	   window.mw_sortables_created = false;
-	  
-
- if(window.mw_editables_created == false){
-  $('.edit').attr('contentEditable', true);	
-  
-
-
-//document.execCommand("styleWithCSS",false,false);
+				 
+				
+	
  
-  myNicEditor = window.myNicEditor;
-  $('.module', '.edit').attr('contentEditable', false);	
-  //$('.module *', '.edit').attr('contentEditable', false);	
- 
-  window.mw_editables_created = true
- }
+	
+				 if(window.mw_drag_started == false && window.mw_handle_hover != true ){
+				
+				window.mw_sortables_created = false;
+				   
+				   
+				   $(".edit", '.mw').each(function(fld){
+					   
+					   
+					   
+				    h=    $(this).html();
+				    //h=h.replace(/<strong([^>]*)>/gi,'<span style="font-weight:bold;"$1>');
+				 //   h=h.replace(/<\/strong>/gi,'</span$1>');
+				    
+				    h = h.replace(/<(\/?)strong>|<strong( [^>]+)>/gi, '<$1span style="font-weight:bold;"$2>');
+				    h = h.replace(/<(\/?)b>|<b( [^>]+)>/gi, '<$1span style="font-weight:bold;"$2>');
+			        //h = h.replace(/<(\/?)em>|<em( [^>]+)>/gi, '<$1i$2>');
+				    
+				 //   h=h.replace(/<b([^>]*)>/gi,'<span style="font-weight:bold;" $1>');
+				//    h=h.replace(/<\/b>/gi,'</span$1>');
+				    
+			//	    $(this).addClass('mw_layout');
+				    $(this).html(h);
+				    
+				    
+				  //  this.normalize ();
+			
+				    
+				      });
+			
+				   
+				   
+				   
+				   
+					/**/
+			
+				   
+				   $('.Apple-style-span' ).removeClass('Apple-style-span');
+				   $('.Apple-converted-space' ).removeClass('Apple-converted-space');
+				   
+				   $('.mw_mod_drag_handle', '.module').hide();
+				   $('.mw_mod_drag_handle', '.edit').hide();
+				 
+			 if(window.mw_editables_created == false){
+			  
+			//	 $(".mw_layout").sortable('destroy');
+			
+				 $('.edit').attr('contentEditable', true);	
+			  
+			
+			 document.execCommand("styleWithCSS",false,false);
+			 
+			  myNicEditor = window.myNicEditor;
+			  $('.module', '.edit').attr('contentEditable', false);	
+			  //$('.module *', '.edit').attr('contentEditable', false);	
+			 
+			  window.mw_editables_created = true
+			 }
 
-
+	 }
+				 
+				 
 }
  window.mw_sortables_created = false;
  window.mw_drag_started = false;
@@ -149,113 +197,19 @@ function mw_remove_editables(){
 }
 
  
-//$('.edit .module').live('hover',function() {
-////	mw_make_editables()
-//	//$('.edit .module').attr('contentEditable', false);
-//	//$('.edit .module *').attr('contentEditable', false);
-//	
-//	
-//	
-//	
-////	mw_remove_editables()
-//	//mw_remove_inner_sortables()
-// init_edits()
-//});
-//$('.edit div.module').live('click',function() {
-//	
-//
-//});
-
-//$('.edit .module').live('mouseleave',function() {
- 
-	
- 
-//	$('.mw_module_overlay').remove();
-//	$(this).children('.mw_show').show();
- 
-//});
-
-
-//$('.edit .module *:not(.mw_mod_wrap)').live('click',function(event) {
-//$('.module').not($("#admin_sidebar .module *")).die("click");
-//$('.module, .module *').live('click',function(event) {
-//$('.module').not($("#admin_sidebar .module")).live('click',function(event) {
-//
-//
-//// 
-//	
-//	
-//	
-//	
-//	
-//$is_sidebar =	$(this).parents('#admin_sidebar').size();
-//$is_toolbarr =	$(this).parents('#mw_toolbar').size();
-//
-//
-////	alert($is_sidebar);
-//	
-//	if($is_sidebar ==0 && $is_toolbarr ==0){
-//	if(  $(this).hasClass('.module')){
-//	alert("hasClass('.module') ??? ");	
-//	}
-//	
-//	//alert($is_sidebar + $is_toolbarr);
-//	//  $(this).attr('contentEditable', true);	
-//
-//	//$(this).focus();
-//	//restoreCaretPos();
-//	//setCaretPos(startNodeIndex, endNodeIndex, start, end)
-//
-//    mod_id112= $(this).attr('module_id');    
-//  mod_name= $(this).attr('mw_params_module');    
-//   
-// if(mod_id112 == undefined   ){
-// 	    mod_id112= $(this).parents('.module').attr('module_id');    
-//		     mod_name= $(this).parents('.module').attr('mw_params_module');    
-//			 // alert(mod_id112);
-// }
-//
-////    if(mod_name != 'content/text'){
-// //$(this).disableSelection();
-////   } 
-//// alert(mod_id112);
-//	if(mod_id112 != undefined  ){
-//load_edit_module_by_module_id(mod_id112);
-//	}
-//	// return false;  
-//	 
-//	 
-//	
-//	init_edits()
-//	//items: '*:not(.mw_mod_wrap)',
-//	 event.preventDefault(); // this prevents the original href of the link from being opened
-//	// event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-//	return false;
-//	//init_edits()
-//	
-//	
-//	
-//	
-//	
-//	}
-//	
-//	
-//	
-//});
-//$('.module, .module *', '#admin_sidebar').die("click");
-
+  
 
 $('#mw_sidebar_modules_holder').die("mouseenter");
 $('#mw_sidebar_modules_holder').live('mouseenter',function() {
  
-	  window.mw_sortables_created = false;
-	init_edits()
+ window.mw_sortables_created = false;
+init_edits()
 });
 $('#mw_sidebar_module_edit_holder').die("mouseenter");
 $('#mw_sidebar_module_edit_holder').live('mouseenter',function() {
  
-	  window.mw_sortables_created = false;
-	init_edits()
+	 // window.mw_sortables_created = false;
+	//init_edits()
 });
 
 
@@ -328,8 +282,276 @@ $('.edit .module a', '.edit').live('click',function(e) {
 	 }
     //do other stuff when a click happens
 });
+ 
+ 
+ $(".mw_mod_drag_handle", '.edit').live("mouseenter", function(event) {
+	 if( window.mw_drag_started == false){
+	  mw_remove_editables();
+		$( this).disableSelection();
+	 	init_edits()
+	 }
+ });
+ 
+ 
+ 
+ 
 
-$(".module", '.edit').live("mouseup mousedown click", function(event) {
+ $(".ui-resizable-handle", '.edit').live("mousedown mouseenter mouseup mouseleave", function(event) {
+ 	 
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
+ 	
+ 	if ( event.type == "mouseup" ) {
+ 		window.mw_drag_started = true;
+ 		event.preventDefault(); // this prevents the original href of the link from being opened
+		event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+	 
+	return;
+ 		  
+	 
+ 
+ 		  
+ 	 
+ 		  
+ 	  }  else if ( event.type == "mousedown" ) {
+ 	//	 $(this).attr('contentEditable', false);	
+			 
+ 		 mw_remove_editables()
+ 		// init_edits()
+ 		// setTimeout("set_drag_started_false()",100);
+		//	window.mw_sortables_created = false;
+
+ 	//	remove_sortables()
+ 		 
+			 //	event.preventDefault(); // this prevents the original href of the link from being opened
+ 		 //	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+ 				// 
+ 				// 
+ 		 
+ 			// return false;
+ 		  
+ 	  }  else if ( event.type == "click" ) {
+ 		 
+ 		  
+ 	
+ 		  
+ 		  
+  
+ 		  
+ 		  
+ 		  
+ 	  }  else if ( event.type == "mouseleave" ) {
+ 		 
+   
+ 		 setTimeout("set_drag_started_false()",1500);
+ 		  
+ 	  }
+ 	  else if ( event.type == "mouseenter" ) {
+ 		  
+ 		  window.mw_drag_started = true;
+  
+ 		// $(this).attr('contentEditable', false);	
+ 		  
+ 	  }
+ 	  
+ 	  
+ 	  else {
+ 	    // do something on mouseout
+ 		//  window.mw_making_sortables = false;
+ 	  }
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	 }
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	});
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ $(".mw_mod_drag_handle", '.edit').live("mousedown mouseup", function(event) {
+ 	 
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
+ 	
+ 	if ( event.type == "mouseup" ) {
+
+ 		event.preventDefault(); // this prevents the original href of the link from being opened
+		event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+	 
+	return;
+ 		  
+	 
+ 
+ 		  
+ 	 
+ 		  
+ 	  }  else if ( event.type == "mousedown" ) {
+ 		  
+ 		 window.mw_last_hover++;
+		  $(this).parent().attr("mw_tag_edit",window.mw_last_hover );
+			 
+			 mw_html_tag_editor(window.mw_last_hover)
+			 
+			 
+ 		 mw_remove_editables()
+		 
+			 
+			window.mw_sortables_created = false;
+			 init_edits();
+				event.preventDefault(); // this prevents the original href of the link from being opened
+				event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+			 
+			return;
+ 		 	//	event.preventDefault(); // this prevents the original href of the link from being opened
+ 		 //	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+ 				// 
+ 				// 
+ 			// return false;
+ 		  
+ 	  }  else if ( event.type == "click" ) {
+ 		 
+ 		  
+ 	
+ 		  
+ 		  
+ 		 event.preventDefault(); // this prevents the original href of the link from being opened
+			event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+		 
+		return;
+ 		  
+ 		  
+ 		  
+ 	  }  else if ( event.type == "mouseleave" ) {
+ 		 
+ 		  	setTimeout("set_drag_started_false()",300);
+ 
+ 		  
+ 	  }
+ 	  else if ( event.type == "mouseenter" ) {
+ 		  
+ 		 window.mw_drag_started = true;
+  
+ 	 
+ 	  }
+ 	  
+ 	  
+ 	  else {
+ 	    // do something on mouseout
+ 		//  window.mw_making_sortables = false;
+ 	  }
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	 }
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	});
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+// 
+// 
+// $(".mw_layout_item", '.edit').live("mouseenter mouseleave mouseup mousedown click", function(event) {
+//	
+//	 if(window.mw_drag_started == false){
+//	 if ( event.type == "click" ) {
+//		 
+//		  if( window.mw_drag_started == false){
+//		   
+//		   setTimeout("$( this ).children('.mw_mod_drag_handle').hide();",1000);
+//		  }
+//	 }
+//	 
+//	 if ( event.type == "mouseenter" ) {
+//		  
+//			if( window.mw_drag_started == false){
+//				
+//			if( $( this ).children('.mw_mod_drag_handle').length || $( this ).parents('.mw_mod_drag_handle').length){  
+//				 
+//			} else {
+//				$( this ).prepend('<span class="mw_mod_drag_handle">Element</span>');
+//			}
+//			
+//		   $( this ).children('.mw_mod_drag_handle').show();
+//	 
+//		   
+//	 
+//			}
+//	 }
+//	 
+//	 }
+//	 
+//	 
+//	 
+// });
+ 
+ 
+$(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", function(event) {
 	 
 	
 	
@@ -359,11 +581,11 @@ $(".module", '.edit').live("mouseup mousedown click", function(event) {
 		  if (window.console != undefined) {
 				console.log('mousedown on module ' );	
 			}
-		  
+		  $( this ).children('.mw_mod_drag_handle').show();
 		  $('.edit .mw_non_sortable').removeClass('mw_non_sortable');
 		 // window.mw_making_sortables = true;
 			$( this).children().disableSelection();
-		//  mw_remove_editables();
+		  mw_remove_editables();
 			
 		 	init_edits()
 		 	
@@ -396,20 +618,89 @@ $(".module", '.edit').live("mouseup mousedown click", function(event) {
 		  
 		  
 		  
-	  } else if ( event.type == "mouseenter" ) {
+	  }  else if ( event.type == "mouseleave" ) {
+		  if (window.console != undefined) {
+				console.log('mouseleave on module ' );	
+			}
+		  if( window.mw_drag_started == false){
+			  
+			  
+		   
+		   
+		  
+		  }
+		  
+	//	  $( this ).disableSelection();
+		//	$( this ).children().disableSelection();
+		//	$(this).attr('contentEditable', false);
+		//	$( this ).children().attr('contentEditable', false);
+		  
+		//	$( '.mw_non_sortable' ).removeClass('mw_non_sortable');
+			//$( this ).children().removeClass('mw_non_sortable');
+
+		//  init_edits()
+		  
+	  }
+	  else if ( event.type == "mouseenter" ) {
+		  
+			if( window.mw_drag_started == false){
+				
+				 // window.mw_sortables_created = false;
+				//  init_edits()
+				
 		  if (window.console != undefined) {
 				console.log('mouseenter on module ' );	
 			}
 		  
-	//	  $( this ).disableSelection();
-		//	$( this ).children().disableSelection();
-			$(this).attr('contentEditable', false);
-			$( this ).children().attr('contentEditable', false);
 		  
-			$( '.mw_non_sortable' ).removeClass('mw_non_sortable');
-			//$( this ).children().removeClass('mw_non_sortable');
+			$module_title = 	$(this).attr('module_title');
+		//  $( this ).children('.mw_mod_drag_handle').show();
+	  	  $('.mw_mod_drag_handle','.module').hide();
+			if( $( this ).children('.mw_mod_drag_handle').length || $( this ).parents('.mw_mod_drag_handle').length){  
+				 
+			} else {
+				$( this ).prepend('<span class="mw_mod_drag_handle">'+$module_title+'</span>');
+			}
+			
+		   $( this ).children('.mw_mod_drag_handle').show();
+			position1223 = $(this).position();
+			  
+			  $( this ).children('.mw_mod_drag_handle:first').css({top:position1223.top,left:position1223.left+2});
+		   
+		   //init_edits()
+			}
+			
+			
+			
+			
+			
+
+//			$(this).resizable( "destroy" )
+//			
+//				$(this).resizable({
+//				handles: 'n, s, e, w',
+//				cancel: ':input,option',
+//				start: function(event, ui) {
+//				
+//				window.mw_drag_started = true;
+//			 
+//				 
+//				
+//			},resize: function(event, ui) {
+//				window.mw_drag_started = true;
+//			
+//			},
+//			stop: function() {
+//				//	window.mw_drag_started = false;
+//				  	setTimeout("set_drag_started_false()",1000);
+//				} ,
+//				  
+//				helper: "ui-resizable-helper"
+//			});
+//			
+			
  
-		  init_edits()
+  
 		  
 	  }
 	  
@@ -431,10 +722,14 @@ $(".module", '.edit').live("mouseup mousedown click", function(event) {
 	
 	});
 
-
+// $('.edit[contenteditable=true]')
 //$('a:not("a[href^=mailto]").live('click',function(){ });
-
-$(".edit *", '.mw').live("click mouseup mousedown", function(event) {
+//
+$(".edit *:not(.mw_mod_drag_handle)", '.mw').live("click mouseup mousedown", function(event) {
+	
+	 if(window.mw_drag_started == false && window.mw_handle_hover != true){
+	
+	
 	
 
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
@@ -444,13 +739,13 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 //		    cssApplier.toggleSelection();
 	 rangy.init();
 	 
-	var sel = rangy.getSelection();
+	//var sel = rangy.getSelection();
 	//var sel1 = rangy.getRange();
 
 		//  rangy.refresh(true);
 	//sel.normalizeBoundaries();
 	
-	var el = this;
+	//var el = this;
 //	var range = rangy.createRange();
 	//range.selectNodeContents(el);
 //	range.normalizeBoundaries();
@@ -458,7 +753,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 //	sel.undoToSelection()
 	//sel.undoToSelection(sel)
 
-	sel.removeAllRanges();
+	//sel.removeAllRanges();
 		  
 	  }  else if ( event.type == "click" ) {
 
@@ -466,13 +761,45 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 		  
 		  
 		  
+		 
+		  
+
+		  
+		  
 	  }  else if ( event.type == "mouseup" ) {
+		  var rightArrowParents = [],
+	        elm,
+	        entry;
+$nom = 0;
+	    for (elm = this; elm; elm = elm.parentNode) {
+	       if($nom < 5){
+		    	entry = elm.tagName.toLowerCase();
+		        cl = elm.className.toLowerCase();
+		        if (entry === "html") {
+		            break;
+		        }
+		        if (cl === "edit") {
+		            break;
+		        }
+		        if (elm.className) {
+		            entry += "." + elm.className.replace(/ /g, '.');
+		        }
+		        rightArrowParents.push(entry);
+	        $nom ++;
+	       }
+	    }
+	    rightArrowParents.reverse();
+
+
+		    $( '#mw_dom_element_path' ).html(rightArrowParents.join(">"));
 		  
-		  
-			if($(this).hasClass('module')) {
+			if($(this).hasClass('module') || $(this).parents().hasClass('module')) {
 				mw_remove_editables()
 				$( this ).removeClass('mw_non_sortable');
 				$( this ).children().removeClass('mw_non_sortable');
+				
+			
+				 
 				window.mw_sortables_created = false;
 				 init_edits();
 					event.preventDefault(); // this prevents the original href of the link from being opened
@@ -482,21 +809,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 			}
 			
 
-			if($(this).parents().hasClass('module')) {
-				$( this ).removeClass('mw_non_sortable');
-				$( this ).children().removeClass('mw_non_sortable');
-				mw_remove_editables()
-				 if (window.console != undefined) {
-						console.log('click inside module ');	
-					}
-				 window.mw_sortables_created = false;
-				 init_edits();
-					event.preventDefault(); // this prevents the original href of the link from being opened
-					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-				 
-				return;
-			}
-
+			 
 		  
 		  
 			var randomCssClass = "rangyTemp_" + (+new Date());
@@ -504,10 +817,10 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 		  
 		  
 		  
+			
 		  
 		  
-		  
-		  
+			  $( ".edit .module > *" ).disableSelection()
 		  
 
 			 if(window.mw_making_sortables == false){
@@ -534,7 +847,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 			 
 			 //$is_in_module=	$(this).parents('.module').size();
 			 
-			 $is_ce_edit=	$(this).parent('.edit').attr('contentEditable');
+			 $is_ce_edit=	$(this).parents('.edit').attr('contentEditable');
 			 
 			 $is_in_module = 0;
 			
@@ -550,15 +863,18 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 					//addClass(event.target, 'mw_non_sortable');
 					
 					//$('.edit .module *').removeClass('mw_non_sortable');
-					$(this).addClass('mw_non_sortable');
+					//$(this).addClass('mw_non_sortable');
 				//	$('.edit').addClass('mw_non_sortable');
 					
 					
 					if(window.mw_sortables_created == true){
 					
-					remove_sortables();
+				//	remove_sortables();
 					}
-				    
+					
+					$( '.col' ).resizable('destroy');
+			 
+			//		 $( '.ui-resizable-handle' ).hide();
 
 					
 //				     var range = rangy.getSelection();
@@ -574,7 +890,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 //				     }
 //				    
 					
-					
+					 setTimeout("$('.mw_mod_drag_handle').fadeOut();",500);
 					
 					
 					if(event.target.nodeName != undefined){
@@ -590,8 +906,9 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 				//	 $(this).parent().attr('mw_tag_edit', window.mw_last_hover);	
 					 
 			//
-			 
-					 
+//					 $('.edit img').addClass('mw_mod_drag_handle');	
+//					 $( '.mw_non_sortable' ).removeClass('mw_non_sortable');
+//					 $( '.module > img' , '.edit').removeClass('mw_mod_drag_handle');
 					 
 					 
 					  rangy.init();
@@ -604,12 +921,13 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 					 $("#mw_css_editor_element_id").val( window.mw_last_hover);
 					 $("#style_mw_tag").val( event.target.nodeName);
 					 
-					 
+			//		 $( this ).parent().attr( "mw_tag_edit",window.mw_last_hover );
 					 
 					 
 				    	// var randomCssClass = "rangyTemp";
 						   
 						   classApplier.applyToSelection();
+						//   classApplier.toggleSelection();
 					 
 					//	   classApplier.toggleSelection();
 					   
@@ -634,10 +952,11 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 							   $sel123.attr( "mw_tag_edit",window.mw_last_hover );
 							    
 							   // rangy.refresh(true);
-							    var sel = rangy.getSelection();
-							    sel.refresh(true);
+							//    var sel = rangy.getSelection();
+							  //  sel.refresh(true);
 							   
-							    
+							   var sel = rangy.getSelection();
+							     sel.refresh(true);
 							    
 							    $("#style_mw_id").val( window.mw_last_hover);
 								 $("#mw_css_editor_element_id").val( window.mw_last_hover);
@@ -655,8 +974,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 					    // classApplier.toggleSelection();
 					   
 		
-					     var sel = rangy.getSelection();
-						    sel.refresh(true);
+					     
 					
 					
 				
@@ -675,7 +993,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 					
 					
 					
-					
+					 
 					
 					
 					
@@ -707,7 +1025,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 						}
 				 
 				 
-				//	 remove_sortables()
+			 	 remove_sortables()
 				 	 mw_make_editables()
 				 	window.mw_editables_created = true;
 		 	// window.mw_sortables_created = false;
@@ -804,7 +1122,7 @@ $(".edit *", '.mw').live("click mouseup mousedown", function(event) {
 	  
 	  
 	  
-	  
+}
 	  
 	  
 	});
@@ -925,6 +1243,8 @@ function mw_resize_admin_sidebar(){
 	 var h3 = $('#admin_sidebar').height();
 	// var h4 = $('#admin_sidebar').height(); 
 	 $('.mw_edit_module_settings_iframe').height(h1-(145));	
+	 $('#module_bar_resp').height(h1-(145));	
+ 
 	 
 	 
 	 var viewportwidth;
@@ -955,7 +1275,7 @@ function mw_resize_admin_sidebar(){
 	       viewportwidth = document.getElementsByTagName('body')[0].clientWidth,
 	       viewportheight = document.getElementsByTagName('body')[0].clientHeight
 	 }
-	 
+	
 	 
 	 
 	 
@@ -1015,7 +1335,15 @@ $(function(){
     	mw_resize_admin_sidebar()
     });
 });
+function set_drag_started_false(){
+	window.mw_drag_started = false;
 
+}
+
+function set_handle_hover_false(){
+	window.mw_handle_hover = false;
+
+}
 function mw_make_draggables(){
 	
  
@@ -1037,6 +1365,8 @@ function remove_sortables(){
 	try
 	  {
 		$('.edit').sortable('destroy');
+		$('.mw_layout').sortable('destroy');
+		
 	  }
 	catch(err)
 	  {
@@ -1064,6 +1394,13 @@ function init_edits(){
 	if( window.mw_sortables_created == false && window.mw_drag_started == false){
 		$('.module *', '.edit' ).addClass('mw_mod_wrap');
 		
+	
+		
+
+		
+		
+	//	$('.mw_mod_drag_handle' ).remove();
+	
 		
 		if( window.mw_editables_on_page == undefined){
 			window.mw_editables_on_page  = $( ".edit" );
@@ -1078,7 +1415,7 @@ function init_edits(){
 		//$('.edit .module' ).attr('contentEditable', false);
 		//$('".edit .module *' ).attr('contentEditable', false);
 
-//		$( ".module" ,'.edit' ).disableSelection();
+ 
 		bind_module_edit_iframe_click()
 		
 		
@@ -1122,7 +1459,7 @@ function init_edits(){
 	 
 	 var sort_opts = {
 				forcePlaceholderSize: true,
-				forceHelperSize : true ,
+			//	forceHelperSize : true ,
 				//tolerance: 'pointer',
 				tolerance: 'intersect',
 			//	iframeFix: true,
@@ -1161,11 +1498,12 @@ function init_edits(){
 				items: '*:not(.mw_mod_wrap)',
 				//items: '*:not(:has(.module))',
 				//revert: true,
+				handle : '.mw_mod_drag_handle',
 				
 				//zIndex: 5000,
 			//	 grid: [5, 5],
 		 	//opacity: 0.6,
-		   	distance: 5,
+		   	distance: 1,
 				
 							update: function(event, ui) {
 		    		$( ".edit .mw_non_sortable" ).removeClass('mw_non_sortable');
@@ -1173,7 +1511,9 @@ function init_edits(){
 		    		
 		    		
 		    		
-							 		window.mw_drag_started = false;
+							 		//window.mw_drag_started = false;
+		    		setTimeout("set_drag_started_false()",1500);
+							 		
 							            if(this.id == 'sortable-delete') {
 							                // Remove the ele ment dropped on #sortable-delete
 							                $('#'+ui.item.attr('id')).remove();
@@ -1188,10 +1528,9 @@ function init_edits(){
 							     	// init_edits()
 										
 							            //init_edits();
-							       window.mw_drag_started = false;
-							     //   $('#'+ui.item[0].id).addClass("ui-state-highlight");
-							        $( ".edit .module > *" ).disableSelection()
-							       //  window.mw_sortables_created = false;
+						//	       window.mw_drag_started = false;
+							   
+							  
 							        nic_save_all(mw_load_history_module, true);
 							    	bind_module_edit_iframe_click()
 							        } ,
@@ -1203,9 +1542,13 @@ function init_edits(){
 							       	mw_remove_editables();
 							        window.mw_drag_started = true;
 							        
-							  //      $(".edit").disableSelection()
-							    //    ui.item.show().addClass('original-placeholder');
-
+							    	$('.container *', '.edit' ).not('.module').removeClass('mw_mod_wrap'); 
+							    //	$('.module', '.edit' ).removeClass('mw_mod_wrap'); 
+							    	 
+							  	  if (window.console != undefined) {
+										console.log('mw_drag_started ' );	
+									}
+							     
 							        },
 							        
 							        
@@ -1224,6 +1567,7 @@ function init_edits(){
 							            }
 					
 							        	$(".edit").enableSelection()
+							        	$('.container', '.edit' ).children().removeClass('mw_mod_wrap');
 							        	if (ui.item.hasClass("mw_mod_wrap_main")) {
 							        	ui.item.css('zoom', '');
 							        	ui.item.css('filter', '');
@@ -1232,8 +1576,8 @@ function init_edits(){
 							        	}
 				 
 							        //	mw_make_editables();
-							        	
-		        	
+							        	 //  window.mw_drag_started = false;
+							        		setTimeout("set_drag_started_false()",500);
 							        	},
 		        
 			 
@@ -1243,13 +1587,13 @@ function init_edits(){
 				receive: function(event, ui) {
 				//copyHelper= null;
 				
-							window.mw_drag_started = false;
-					 
-							$( ".edit .module_draggable" ).css("display","");
-			
-							$( ".edit .module_draggable" ).removeClass('module_draggable');
-							$( ".edit .mw_put_module_ids" ).removeClass('mw_put_module_ids');
-							$( ".edit .mw_no_module_mask" ).removeClass('mw_no_module_mask');
+						//	window.mw_drag_started = false;
+							        	  	setTimeout("set_drag_started_false()",500);
+//							$( ".edit .module_draggable" ).css("display","");
+//			
+//							$( ".edit .module_draggable" ).removeClass('module_draggable');
+//							$( ".edit .mw_put_module_ids" ).removeClass('mw_put_module_ids');
+//							$( ".edit .mw_no_module_mask" ).removeClass('mw_no_module_mask');
 					//		$( ".edit .mw_mod_wrap" ).removeClass('mw_mod_wrap');
 							//$( ".edit .mw_mod_wrap" ).remove();
 							
@@ -1264,10 +1608,10 @@ function init_edits(){
 							
 							$( ".edit .js_mod_remove" ).remove();
 							
-							mw.saveALL();
-							 window.mw_sortables_created = false;
+							//mw.saveALL();
+							// window.mw_sortables_created = false;
 							// mw_make_editables()
-							init_edits()
+						//	init_edits()
 							bind_module_edit_iframe_click()
 							
 			}
@@ -1279,9 +1623,20 @@ function init_edits(){
 	 window.mw_editables_on_page.sortable('destroy');
 	
 	$('.module', '.edit' ).children().addClass('mw_mod_wrap');
+//	$('.container', '.edit' ).children().addClass('mw_mod_wrap');
+	$('.container', '.edit' ).children().addClass('mw_mod_wrap');
+	
+	
+	
+	
 	$('.module *', '.edit' ).addClass('mw_mod_wrap');
 	//$('.edit .module').addClass('mw_mod_wrap');
 	$('.module', '.edit' ).addClass('mw_mod_wrap_main');
+	 
+	
+
+	
+	
 	
 //	$( ".edit" ).selectable();
 	$edit_fields = window.mw_editables_on_page;
@@ -1305,14 +1660,33 @@ tempArray=new Array();
 		$( '#'+$edit_field_id+'').sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
  
 	} 
+ 
+	
+	sort_opts2 = sort_opts;
+	
+	//sort_opts2.items =   '>*';
+	sort_opts2.start =  function(event, ui) { 
+       	mw_remove_editables();
+        window.mw_drag_started = true;
+        
+        
+       // $(".container").addClass('mw_mod_wrap');
+        $(".container_handle").removeClass('mw_mod_wrap');
+    //	$(".container *").addClass('mw_mod_wrap');
+     
+        }; 
+	
+	$(".container").sortable('destroy');
+	$(".container").sortable(sort_opts2).sortable( "option", "connectWith", ".edit" );
+ 
+	
+ 
+	//$( '.mw_layout').sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
+	//$('div.mw_layout').addClass('mw_mod_drag_handle');
+
 	
 	
-	$( "#draggable" ).draggable({
-		connectToSortable: "#sortable",
-		helper: "clone",
-		revert: "invalid"
-	});
-	$( "ul, li" ).disableSelection();
+ 
 	//tempArray_string = tempArray.join(', ') 
 //	alert(tempArray_string);
  //	$( tempArray_string ).sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
@@ -1419,7 +1793,54 @@ tempArray=new Array();
 	
 	
  }
-
+function returnHex(num) {
+    // Hex can store 16 different values in 1 character
+    if (num == null) return "00";
+    num = num.length < 2 ? "0" + num : num
+    return num.toString(16);
+}
+function rgbConvert(str) {
+	
+	$see  = str.indexOf("rgb") ;
+	if($see != -1){
+		str1 = str
+	   str = str.replace('rgb', '')
+	    str = str.replace('(', '')
+	      str = str.replace(')', '')
+	       str = str.split(",");
+	   
+		 var red = returnHex(str[0]);
+	     var green = returnHex(str[1]);
+	     var blue = returnHex(str[2]);
+	     var hex = "#" + red + green + blue;
+//	   str[0] = parseInt(str[0], 10).toString(16).toLowerCase();
+//	   str[1] = parseInt(str[1], 10).toString(16).toLowerCase();
+//	   str[2] = parseInt(str[2], 10).toString(16).toLowerCase();
+//	   str[0] = (str[0].length == 1) ? '0' + str[0] : str[0];
+//	   str[1] = (str[1].length == 1) ? '0' + str[1] : str[1];
+//	   str[2] = (str[2].length == 1) ? '0' + str[2] : str[2];
+	   
+	   
+	 
+	   
+	   
+	   
+	   
+	   
+	   str2 =  '#' + str.join("");
+	   if (window.console != undefined) {
+			 
+			  console.log('rgbConvert '+str1 +' to '+str2);
+			 }
+			 
+	   
+	   return (str2);
+	} else {
+		  return str
+	}
+	   
+	   
+	}
 function bind_module_edit_iframe_click(){
 	
 	//$(".module, .edit .module *", '.edit').die("mouseup");
@@ -1536,11 +1957,223 @@ function bind_module_edit_iframe_click(){
 	
 	
 }
+ $(".container_handle", '.edit').live("mouseenter mouseleave", function(event) {
+	// $( '.container' ).removeClass('mw_mod_wrap');
+	// $( '.container' ).children().removeClass('mw_mod_wrap');
+	//  $(".container_handle").removeClass('mw_mod_wrap');
+	 if ( event.type == "mouseenter" ) {
+	// window.mw_drag_started = true;
+		 window.mw_handle_hover = true;
+	 
+	 }
+	 
+	 if ( event.type == "mouseleave" ) {
+			setTimeout("set_handle_hover_false()",500);
+		 }
+		
+ });
+ $(".ui-resizable-handle", '.container').live("mouseenter mouseleave", function(event) {
+		// $( '.container' ).removeClass('mw_mod_wrap');
+		// $( '.container' ).children().removeClass('mw_mod_wrap');
+		//  $(".container_handle").removeClass('mw_mod_wrap');
+		 if ( event.type == "mouseenter" ) {
+		// window.mw_drag_started = true;
+			 window.mw_handle_hover = true;
+		 
+		 }
+		 
+		 if ( event.type == "mouseleave" ) {
+				setTimeout("set_handle_hover_false()",500);
+			 }
+			
+	 });
+ 
+//
+// $(".ui-resizable-helper", '.edit').live("mouseenter mouseleave", function(event) {
+//	// $( '.container' ).removeClass('mw_mod_wrap');
+//	// $( '.container' ).children().removeClass('mw_mod_wrap');
+//	//  $(".container_handle").removeClass('mw_mod_wrap');
+//	 if ( event.type == "mouseenter" ) {
+//	// window.mw_drag_started = true;
+//		 window.mw_handle_hover = true;
+//	 
+//	 }
+//	 
+//	 if ( event.type == "mouseleave" ) {
+//			setTimeout("set_handle_hover_false()",500);
+//		 }
+//		
+// });
+ 
+ 
+ 
+$(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", function(event) {
+	
+	
+	 
+	
+	
+	 
+	 if ( event.type == "mouseenter" ) {
+		  
+			if( window.mw_drag_started == false){
+				
+				 // window.mw_sortables_created = false;
+				//  init_edits()
+				
+		  if (window.console != undefined) {
+				console.log('mouseenter on container ' );	
+			} 
+		  
+		  
+		 
+		//  $( this ).children('.mw_mod_drag_handle').show();
+	  	  //$('.mw_mod_drag_handle','.module').hide();
+			if( $( this ).children('.container_handle').length || $( this ).parents('.container_handle').length){  
+				 
+			} else {
+				$( this ).prepend('<span class="mw_mod_drag_handle container_handle">box</span>');
+
+			}
+			//offse111t = $(this).offset();
+			position123 = $(this).position();
+			
+		 
+//			 $( this ).removeClass('mw_mod_wrap');
+//			 $( this ).children('.container').removeClass('mw_mod_wrap');
+//			 $( this ).children('.container').removeClass('mw_mod_wrap');
+//			 $('.container_handle').removeClass('mw_mod_wrap');
+//			 $('.container').removeClass('mw_mod_wrap');
+			  
+		 
+			 window.mw_last_hover++;
+			  $( this ).children('.mw_mod_drag_handle').css(position123);
+			  
+			  $( this ).children('.container_handle').html('box');
+			  
+			  $( this ).find('.col').attr('also_resize', window.mw_last_hover);
+			  
+			  
+			
+		   $( this ).children('.mw_mod_drag_handle').show();
+		   
+		   
+
+		   $( '.col' , $(this)  ).css("text-decoration", "underline")
+
+		   
+			$( '.col' , $(this)  ).resizable({
+				 handles: 'e, w',
+				 start: function(event, ui) {
+				 window.mw_handle_hover = true;
+			},
+			 stop: function(event, ui) {
+				 
+		        $(this).css("height", 'auto');
+		        $(this).css("position", '');
+		        $(this).css("top", '');
+		        $(this).css("left", '');
+		   
+
+				setTimeout("set_handle_hover_false()",1500);
+			} 
+			//	 alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
+			 
+			});
+	
+			
+				
+		    
+		   
+		   //init_edits()
+			} 
+
+		  
+	  }
+	 if ( event.type == "mouseleave" ) {
+		   $('.container_handle').hide();
+		   $( '.col', $(this) ).resizable('destroy');
+	//	  $( this ).children('.mw_mod_drag_handle:first').hide();
+
+	 }
+	 
+	 
+});
+
+$(".col", '.row').live("mouseenter mouseleave mouseup mousedown click", function(event) {
+	 
+	 if ( event.type == "mouseenter" ) {
+		  
+			if( window.mw_drag_started == false){
+				
+				 // window.mw_sortables_created = false;
+				//  init_edits()
+				
+		  if (window.console != undefined) {
+				console.log('mouseenter on col ' );	
+			}
+		  
+		  
+			$module_title = 	$(this).attr('module_title');
+		//  $( this ).children('.mw_mod_drag_handle').show();
+	  	  //$('.mw_mod_drag_handle','.module').hide();
+			if( $( this ).children('.col_handle').length || $( this ).parents('.col_handle').length){  
+				 
+			} else {
+				$( this ).prepend('<span class="mw_mod_drag_handle col_handle">col</span>');
+			}
+			
+		   $( this ).children('.col_handle').show();
+		   
+			//var offset = $(this).offset();
+			position1223 = $(this).position();
+			  
+			  $( this ).children('.col_handle').css({top:position1223.top,left:position1223.left+5});
+		
+		   
+		//	  $( this ).removeClass('ui-resizable-resizing');
+			
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+		   //init_edits()
+			} 
+
+		  
+	  }
+	 if ( event.type == "mouseleave" ) {
+		   $('.col_handle').hide();
+	//	  $( this ).children('.mw_mod_drag_handle:first').hide();
+
+	 }
+	 
+	 
+});
+
+function mw_set_grid(){
+	
+    
+    
+
+	
+	
+}
+
 var copyHelper= null;
 function mw_sidebar_make_sortables(){
 	var copyHelper= null;
 	
-	$(".sortable_modules").sortable('destroy');
+  $(".sortable_modules").sortable('destroy');
 	
 	$(".sortable_modules").sortable({
 	//connectWith: '.edit',
@@ -1560,12 +2193,163 @@ function mw_sidebar_make_sortables(){
 	helper: function(e,li) {
 	copyHelper= li.clone().insertAfter(li);
 	return li.clone();
+	},	start: function() {
+	//	$(".container").addClass('mw_mod_wrap');
+	//	$(".container *").addClass('mw_mod_wrap');
+
+		window.mw_drag_started = true;
+	},
+	receive: function() {
+		setTimeout("set_drag_started_false()",500);
+		
 	},
 	//placeholder: "ui-state-highlight",
 	stop: function() {
-	copyHelper && copyHelper.remove();
+		window.mw_sortables_created = false;
+		mw.saveALL();
+		//window.mw_drag_started = false;
+	  	//setTimeout("set_drag_started_false()",500);
+		copyHelper
+//	copyHelper && copyHelper.remove();
 	}
-	}).sortable( "option", "connectWith", ".edit" ).disableSelection();
+	}).sortable( "option", "connectWith", ".edit, .mw_layout, .mw_layout_item" ).disableSelection();
+//	$(".sortable_modules","#mw_sidebar_design_holder").sortable('option,"cancel",".mw_mod_wrap, .col, .container"');
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	
+//	
+//	
+// 
+//	$(".mw_layout").sortable('destroy');
+//	//$(".module").addClass('mw_layout_item');
+//	
+//	 
+//	
+//	$(".mw_layout").sortable({
+//		forcePlaceholderSize: false,
+//		//	forceHelperSize : true ,
+//			//tolerance: 'pointer',
+//			tolerance: 'intersect',
+//		//	iframeFix: true,
+//		   //cancel: '.module > * :not(:has(.module)) ',
+//		    cancel: '.mw_non_sortable',
+//		//	placeholder: "to_here_drop",
+//			//placeholderElement: 'div',
+//	
+//			items: '.mw_layout_item, .module',
+//			//items: '*:not(:has(.module))',
+//			//revert: true,
+//			handle : '.mw_mod_drag_handle',
+//			
+//			//zIndex: 5000,
+//		//	 grid: [5, 5],
+//	 	//opacity: 0.6,
+//	   	distance: 1 ,
+//	   	
+//	//placeholder: "ui-state-highlight",
+//	stop: function() {
+//	//	window.mw_drag_started = false;
+//	  	setTimeout("set_drag_started_false()",500);
+//	},	start: function() {
+//		window.mw_drag_started = true;
+//	}
+//	}).sortable( "option", "connectWith", ".mw_layout" );
+//	
+//	
+//	
+//	
+	
+	 
+	
+	
+	
+	
+	
+	
+	
+	$(".row").sortable('destroy');
+	$(".row").sortable({
+		forcePlaceholderSize: true,
+			//forceHelperSize : true ,
+			//tolerance: 'pointer',
+			tolerance: 'intersect',
+		//	iframeFix: true,
+		   //cancel: '.module > * :not(:has(.module)) ',
+		//    cancel: '.container',
+		//	placeholder: "to_here_drop",
+			placeholderElement: 'div',
+			containment: 'parent',
+			items: '.col',
+			//items: '*:not(:has(.module))',
+			//revert: true,
+			handle : '.col_handle',
+			 //  cancel: '.mw_non_sortable',
+				placeholder: "to_here_drop",
+				placeholderElement: 'div',
+			
+			//zIndex: 5000,
+		//	 grid: [5, 5],
+	 	//opacity: 0.6,
+	   	distance: 1 ,
+	   	
+	//placeholder: "ui-state-highlight",
+	stop: function() {
+		mw_set_grid()
+	//	window.mw_drag_started = false;
+	  	setTimeout("set_drag_started_false()",500);
+	},	start: function() {
+		window.mw_drag_started = true;
+	}
+	});
+	
+ 
+
+	
+//	$( ".mw_layout_item, .mw_layout" , '.edit').resizable( "destroy" )
+//	
+//	$( ".mw_layout_item, .mw_layout" , '.edit').resizable({
+//		handles: 'n, s, e, w',
+//		start: function(event, ui) {
+//		
+//		window.mw_drag_started = true;
+//	//	 remove_sortables()
+//		mw_remove_editables();
+//		 
+//		 
+//		
+//	},resize: function(event, ui) {
+//		window.mw_drag_started = true;
+//	
+//	},
+//	stop: function() {
+//		//	window.mw_drag_started = false;
+//		  	setTimeout("set_drag_started_false()",1000);
+//		} ,
+//		  
+//		helper: "ui-resizable-helper"
+//	});
+//	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 function mw_remove_inner_sortables(){
 	
@@ -1896,11 +2680,32 @@ $(document).ready(function() {
 	//myNicEditor.setPanel('mw_editbar');
 	
 	
-	 $('.edit[contenteditable=true]').keydown(function(e) {
+	 $('.edit[contenteditable=true] *').keydown(function(e) {
 		    // trap the return key being pressed
 		    if (e.keyCode == 13) {
+		    	
+		    	
+		    	
+		    	if (document.all) {
+		    		var oRng = this.contentWindow.document.selection.createRange( );
+		    		oRng.pasteHTML('<br /><br />');
+		    		oRng.collapse(false);
+		    		oRng.select();
+		    		} else {
+		    		document.getElementById(rteName).contentWindow.document.execCommand('insertHTML', false, '<br /><br />');
+		    		}
+		    	
+		    	
+		    	
+		   
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
 		      // insert 2 br tags (if only one br tag is inserted the cursor won't go to the second line)
-		      document.execCommand('insertHTML', false, '<br><br>');
+		 //    document.execCommand('insertHTML', false, '<br /><br />');
 		      // prevent the default behaviour of return key pressed
 		      return false;
 		    }
@@ -2379,7 +3184,12 @@ function call_edit_module_ajax(id, module_name_original) {
 					  success: function(resp) { 
 				
 					   $('#mw_edit_module_settings_'+id).prepend(resp);
-					   $('#mw_edit_module_settings_'+id).append('<a class="mw_edit_module_style_btn" href=\'javascript:mw_html_tag_editor(\"'+1+'\")\'>Style module</a>');
+					   
+					  
+					   
+					   
+					  // $('#mw_edit_module_settings_'+id).append('<a class="mw_edit_module_style_btn" href=\'javascript:mw_html_tag_editor(\"'+1+'\")\'>Style module</a>');
+ 
 					 
 
 					  }
@@ -2436,7 +3246,13 @@ function call_edit_module_ajax(id, module_name_original) {
 				//		    }); 
 					   
 					   
-					   
+						  var linkzzz = document.createElement('a');
+						   linkzzz.setAttribute('href', 'javascript:mw_html_tag_editor("'+id+'")');
+						   linkzzz.setAttribute('class', 'mw_edit_module_style_btn');
+						   linkzzz.innerHTML = "Click here to style module box";
+						  
+						   $a = gEBI('mw_edit_module_settings_'+id);
+						   $a.appendChild(linkzzz);
 					 
 					 
 					   $('#mw_edit_module_settings_'+id ).show();

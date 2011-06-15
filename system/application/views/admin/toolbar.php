@@ -403,13 +403,14 @@ master[objX] = obj;
 		
 
 
-
+master_prev = master;
+master_prev['mw_preview_only'] = 1;
 
    	$.ajax({
 		  type: 'POST',
-		  url: "<?php print site_url('api/content/save_field/peview:true');  ?>",
+		  url: "<?php print site_url('api/content/save_field');  ?>",
 		  data: master,
-		  datatype: "jsonp",
+		  datatype: "html",
           async:$async_save,
 		  beforeSend :  function() {
 			
@@ -418,53 +419,140 @@ master[objX] = obj;
 		 
 		  },
 		  success: function(data) {
-			  			  
-			  if(only_preview  == undefined){
-			  	$.ajax({
-		  type: 'POST',
-		  url: "<?php print site_url('api/content/save_field');  ?>",
-		  data: master,
-		  datatype: "json",
-          async:$async_save,
-		  beforeSend :  function() {
-			  	  window.mw_sortables_created = false;
- 
-		  },
-		  success: function(data2) {
+			  
+			  
+			  
+			  
 			  
 			  window.saving =false;
-  $( "#ContentSave" ).fadeIn();
- //   $( ".module_draggable" ).draggable( "option", "disabled", false );
-   window.mw_sortables_created = false;
-	  window.mw_drag_started = false;
-	  mw_make_editables()
- 
-		remove_sortables()
- 
-  init_edits()
-  mw_load_history_module()
-  
-  
-  if(window.parent.mw != undefined){
-	  
-	  window.parent.mw.reload_module('admin/posts/edit');
-	window.parent.mw.reload_module('admin/pages/edit');
-  }
-  
-  	 
-	
-	
-	
-		  
-		   
-
-		  }
-		})
+				  $( "#ContentSave" ).fadeIn();
+				 //   $( ".module_draggable" ).draggable( "option", "disabled", false );
+				   window.mw_sortables_created = false;
+					  window.mw_drag_started = false;
+					  mw_make_editables()
+				 
+						remove_sortables()
+				 
+				  init_edits()
+				  mw_load_history_module()
+				  
+				  
+				  if(window.parent.mw != undefined){
+					  
+					  window.parent.mw.reload_module('admin/posts/edit');
+					window.parent.mw.reload_module('admin/pages/edit');
+				  }
+				  
+					 
+							  
+				//						  
+//							  if(only_preview  == undefined){
+//								$.ajax({
+//						  type: 'POST',
+//						  url: "<?php print site_url('api/content/save_field');  ?>",
+//						  data: master,
+//						  datatype: "json",
+//						  async:$async_save,
+//						  beforeSend :  function() {
+//								  window.mw_sortables_created = false;
+//				 
+//						  },
+//						  success: function(data2) {
+//							  
+//							  
+//					
+//					
+//					
+//						  
+//						   
+//				
+//						  }
+//						})
+//							  
+//							  
+//							  
+//							  
+//							 } 
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							  
+							//  mw.modal.alert("Content Saved");
+					//		$(".to_here_drop").removeClass("to_here_drop");
+				//  if(typeof window.parent.mw_edit_init == 'function'){
+				//     window.parent.mw_edit_init(window.location.href);
+				//  }
+				 //  $("#"+data[0].page_element_id).html(data[0].page_element_content);
+				  //$(this).html(data);
+				   //$('#module_temp_holder').hide();
+				 
+				 
+				 if(only_preview  == undefined || only_preview  == false){
+				 $.each(data, function(i, item) {
+										$("#"+data[i].page_element_id).html(data[i].page_element_content);
+								//		alert(item.page_element_id+item.page_element_content);
+					//$("#"+data[i].page_element_id).html(data[i].page_element_content);
+					 
+				});
+				  
+				  
+				  //mw_make_draggables();
+				 init_edits()
+				 
+				 }
+				 
+				 callback.call(this);
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				//  $(".mw_edited").removeClass('mw_edited');
+				 // $( ".module_draggable" ).draggable( "option", "disabled", false );
+				 
+				  
+				  // mw.modal.close();
+				  
+				
+						  
 			  
 			  
 			  
 			  
-			 } 
 			  
 			  
 			  
@@ -479,68 +567,7 @@ master[objX] = obj;
 			  
 			  
 			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			//  mw.modal.alert("Content Saved");
-	//		$(".to_here_drop").removeClass("to_here_drop");
-  if(typeof window.parent.mw_edit_init == 'function'){
-     window.parent.mw_edit_init(window.location.href);
-  }
- //  $("#"+data[0].page_element_id).html(data[0].page_element_content);
-  //$(this).html(data);
-   //$('#module_temp_holder').hide();
- 
- 
- if(only_preview  == undefined || only_preview  == false){
- $.each(data, function(i, item) {
-						$("#"+data[i].page_element_id).html(data[i].page_element_content);
-				//		alert(item.page_element_id+item.page_element_content);
-	//$("#"+data[i].page_element_id).html(data[i].page_element_content);
-     
-});
-  
-  
-  //mw_make_draggables();
- init_edits()
- 
- }
- 
- callback.call(this);
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-//  $(".mw_edited").removeClass('mw_edited');
- // $( ".module_draggable" ).draggable( "option", "disabled", false );
- 
-  
-  // mw.modal.close();
-  
-
-		  }
+			  }
 		})
 	
 		}
@@ -818,6 +845,18 @@ function mw_live_edit_on_off_switch($no_cookie){
 
 function mw_sidebar_nav($selector){
 	
+	if($selector == '#mw_sidebar_modules_holder'){
+	window.mw_sortables_created = false;
+	init_edits()
+	}
+	
+	if($selector == '#mw_sidebar_design_holder'){
+	window.mw_sortables_created = false;
+	init_edits()
+	}
+	
+	
+
 	
 	
 	
@@ -900,6 +939,15 @@ function mw_sidebar_nav($selector){
 </div>
 <div class="mw_bottom_nav"> <a href="#" class="mw_bottom_btn" onclick='mw.saveALL()' id="ContentSave">Save</a>
   <div id="history_module_resp"></div>
+    <div id="mw_sidebar_html_element_holder">
+    
+    <input  id="style_mw_id" disabled="disabled"  value=""   type="hidden"  />
+    <input  id="style_mw_tag" onclick="mw_html_tag_editor()"  type="hidden"  value=""  />
+  </div>
+</div>
+
+<div class="mw_bottom_nav_dom_path"> 
+ <div id="mw_dom_element_path"></div>
 </div>
 <div id="admin_sidebar">
 <div>
@@ -962,8 +1010,5 @@ function mw_sidebar_nav($selector){
     <?  include "toolbar_design_editor.php" ?>
   </div>
   <div id="mw_sidebar_add_holder"> mw_sidebar_add_holder </div>
-  <div id="mw_sidebar_html_element_holder">
-    <input  id="style_mw_id" disabled="disabled"  value="" style="display:none;" />
-    <input  id="style_mw_tag" onclick="mw_html_tag_editor()" value=""  />
-  </div>
+
 </div>

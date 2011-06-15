@@ -447,7 +447,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		
 		}
 		
-		$stats_js = CI::model ( 'stats' )->get_js_code();
+		$stats_js = CI::model ( 'stats' )->get_js_code ();
 		;
 		
 		$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout );
@@ -472,6 +472,20 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			
 			}
 		
+		}
+		$r = (RESOURCES_DIR . 'load.php');
+		$r = normalize_path ( $r, false );
+		//$res =$this->load->file ( , true );
+		if (is_file ( $r )) {
+			$res = $this->load->file ( $r, true );
+			if ($res != false) {
+ 
+					$layout = str_replace ( '</ head>', '</head>', $layout ); //some developers put spaces
+				 
+					
+					
+				$layout = str_replace ( '</head>', $res . '</head>', $layout );
+			}
 		}
 		
 		if ($stats_js != false) {

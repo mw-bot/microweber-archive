@@ -347,9 +347,11 @@ define ( 'TEMPLATEFILES_DIRNAME', 'templates' );
 define ( 'TEMPLATEFILES', USERFILES . TEMPLATEFILES_DIRNAME . '/' );
 
 define ( 'MEDIAFILES', USERFILES . 'media' . '/' );
-define ( 'HISTORY_DIR', USERFILES . 'history' . '/' );
+
 
 define ( 'ELEMENTS_DIR', USERFILES . 'elements' . '/' );
+
+
 
 define ( 'PLUGINS_DIRNAME', USERFILES . 'plugins' . '/' );
 
@@ -411,6 +413,8 @@ if (is_dir ( $cache_main_dir ) == false) {
 
 define ( 'CACHEDIR', $cache_main_dir );
 
+define ( 'HISTORY_DIR', CACHEDIR . 'history' . '/' );
+
 define ( 'CACHE_FILES_EXTENSION', '.php' );
 
 define ( 'CACHE_CONTENT_PREPEND', '<?php exit(); ?>' );
@@ -446,13 +450,17 @@ $media_url = $media_url . '/' . USERFILES_DIRNAME . '/media/';
 
 define ( 'MEDIA_URL', $media_url );
 
-$media_url = $media_url . '/' . USERFILES_DIRNAME . '/elements/';
+$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/elements/';
 
-define ( 'ELEMENTS_URL', $media_url );
+define ( 'ELEMENTS_URL', $media_url ); 
 
+$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/resources/';
+ 
+define ( 'RESOURCES_URL', $media_url );
+define ( 'RESOURCES_DIR', USERFILES . 'resources' . '/' );
 ////var_dump( ADMIN_STATIC_FILES_URL);  
 
-
+    
 /*
 
 

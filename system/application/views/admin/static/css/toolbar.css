@@ -78,51 +78,7 @@
 	color: white;
 	background: #0078f0;
 }
-.mw_outline_top {
-	height: 2px;
-}
-.mw_outline_right {
-	width:2px;
-}
-.mw_outline_bottom {
-	height:2px;
-}
-.mw_outline_left {
-	width:2px;
-}
-.mw_outline {
-	overflow: hidden;
-	position: absolute;
-	z-index: 99;
-	opacity:.6;
-	filter:alpha(opacity=60);
-}
 
- 
-
-.mw_bottom_nav {
-	display: inline-block;
-	padding:12px 22px;
-	position: fixed;
-	bottom: 20px;
-	left: 20px;
-	background: #1F4663;
-	font-size: 14px;
-	color: white;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	z-index: 1000;
-}
-
-
-.mw_bottom_btn{
-	color:#FFF;
-}
-.mw_bottom_btn:hover {
-	 
-	color: #CCC;
-}
 .module_edit_bar {
 	position: absolute;
 	width: 100%;
@@ -132,16 +88,29 @@
 	left: 0px;
 	display: none;
 }
-.module:hover {
+.edit .module:hover {
 	/*position: relative;
 	zoom:1;
 	zoom:1;*/
  
-/*outline-style:solid;
+ outline-style:solid;
 outline-width:1px;
-outline-color:#FC0;*/
+outline-color:#FC0; 
 }
-.module:focus, .module:active, .module:click {
+
+.edit .mw_layout:hover, .ui-resizable-helper, .ui-resizable:hover {
+	/*position: relative;
+	zoom:1;
+	zoom:1;*/
+ 
+ outline-style:dashed;
+outline-width:1px;
+outline-color:#bdbdbd; 
+}
+
+
+
+.edit .module:focus, .edit .module:active, .edit .module:click {
 	/*position: relative;
 	zoom:1;
 	zoom:1;*/
@@ -150,7 +119,7 @@ outline-style:none;
 outline-width:0px;*/
 
 }
-.module:after {
+.edit .module:after {
 	/*content: ".";
 	display: block;
 	clear: both;
@@ -383,7 +352,7 @@ box-shadow:1px 0px -4px #747474;
 .mw_sidebar_module_box_title {
 	font-size:14px;
 	font-family: Verdana, Geneva, sans-serif;
-	color: #333;
+	color: #333 !important;
 	clear:both;
 	margin-left:5px;
 	text-transform: capitalize;

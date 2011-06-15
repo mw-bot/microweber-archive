@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-05-12 23:07:11
+<?php /* Smarty version 2.6.26, created on 2011-06-13 10:19:52
          compiled from C:%5Cxampp%5Cxampp%5Chtdocs%5CMicroweber2%5Csystem%5Capplication%5Cstats%5Cplugins%5CLive/templates/lastVisits.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate', 'C:\\xampp\\xampp\\htdocs\\Microweber2\\system\\application\\stats\\plugins\\Live/templates/lastVisits.tpl', 7, false),array('modifier', 'escape', 'C:\\xampp\\xampp\\htdocs\\Microweber2\\system\\application\\stats\\plugins\\Live/templates/lastVisits.tpl', 21, false),)), $this); ?>
@@ -106,4 +106,4 @@ _actions" class="settings">
 			<?php endforeach; endif; unset($_from); ?>
 		</div>
 	</div>
-<?php endforeach; endif; unset($_from); ?>
+<?php endforeach; endif; unset($_from); ?>

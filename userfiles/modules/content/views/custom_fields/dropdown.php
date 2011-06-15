@@ -20,9 +20,7 @@ if( $vals != false){
 <? //p($vals); ?>
 <? //p($data); ?>
 
-<label class="custom_field_label custom_field_label_<?  print $data['param'];  ?>"> <span>
-  <?  print $data['name'];  ?>
-  </span>
+ 
   <select  <?  if( $data['help']) : ?> title="<?  print addslashes($data['help']);  ?>"   <? endif; ?> name="custom_field_<?  print $data['param'];  ?>" class="custom_field_<?  print $data['param'];  ?>">
     <? if(!empty($vals)) :?>
     <? foreach($vals as $val): ?>
@@ -30,5 +28,5 @@ if( $vals != false){
     <? endforeach; ?>
     <? endif; ?>
   </select>
-</label>
+ 
 <?  endif; ?>
