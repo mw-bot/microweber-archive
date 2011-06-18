@@ -600,12 +600,22 @@ $.fn.insertAtCaret = function (myValue) {
 	                var el = $(this), start = $(this).data("resizable-alsoresize-reverse"), style = {}, css = c && c.length ? c : ['width', 'height', 'top', 'left'];
 
 	                $.each(css || ['width', 'height', 'top', 'left'], function(i, prop) {
-	                    var sum = (start[prop]||0) - (delta[prop]||0); // subtracting instead of adding
-	                    if (sum && sum >= 0)
-	                    	sum = sum - 15;
-	                    if(prop =='height' ){
-	                    	sum ='auto';
-	                    }
+	                  
+	                	try
+	                	  {
+	                		var sum = (start[prop]||0) - (delta[prop]||0); // subtracting instead of adding
+		                    if (sum && sum >= 0)
+		                    	sum = sum - 15;
+		                    if(prop =='height' ){
+		                    	sum ='auto';
+		                    }
+	                	  }
+	                	catch(err)
+	                	  {
+	                	  //Handle errors here
+	                	  }
+	                	
+	                
 	                    
 	                  
 	                    

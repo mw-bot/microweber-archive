@@ -123,7 +123,7 @@ function mw_make_editables(){
  
 	
 				 if(window.mw_drag_started == false && window.mw_handle_hover != true ){
-				
+					
 				window.mw_sortables_created = false;
 				   
 				   
@@ -161,8 +161,7 @@ function mw_make_editables(){
 				   $('.Apple-style-span' ).removeClass('Apple-style-span');
 				   $('.Apple-converted-space' ).removeClass('Apple-converted-space');
 				   
-				   $('.mw_mod_drag_handle', '.module').hide();
-				   $('.mw_mod_drag_handle', '.edit').hide();
+	 
 				 
 			 if(window.mw_editables_created == false){
 			  
@@ -171,7 +170,7 @@ function mw_make_editables(){
 				 $('.edit').attr('contentEditable', true);	
 			  
 			
-			 document.execCommand("styleWithCSS",false,false);
+		//	 document.execCommand("styleWithCSS",false,false);
 			 
 			  myNicEditor = window.myNicEditor;
 			  $('.module', '.edit').attr('contentEditable', false);	
@@ -191,6 +190,7 @@ function mw_remove_editables(){
  * try { $('.edit').removeAttr('contentEditable'); } catch (e) {
  * $('.edit').attr('contentEditable', false); }
  */
+	 window.mw_editing_started  = false;
 	window.mw_editables_created = false;
 	$('.edit').attr('contentEditable', false);
 //	$('.edit *').attr('contentEditable', false);
@@ -285,6 +285,7 @@ $('.edit .module a', '.edit').live('click',function(e) {
  
  
  $(".mw_mod_drag_handle", '.edit').live("mouseenter", function(event) {
+	 window.mw_editing_started  = false;
 	 if( window.mw_drag_started == false){
 	  mw_remove_editables();
 		$( this).disableSelection();
@@ -348,7 +349,7 @@ $('.edit .module a', '.edit').live('click',function(e) {
  	  }  else if ( event.type == "mouseleave" ) {
  		 
    
- 		 setTimeout("set_drag_started_false()",1500);
+ 		 //setTimeout("set_drag_started_false()",1500);
  		  
  	  }
  	  else if ( event.type == "mouseenter" ) {
@@ -407,9 +408,9 @@ $('.edit .module a', '.edit').live('click',function(e) {
  	
  	if ( event.type == "mouseup" ) {
 
- 		event.preventDefault(); // this prevents the original href of the link from being opened
-		event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-	 
+ 		//event.preventDefault(); // this prevents the original href of the link from being opened
+	//	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+ 		 window.mw_drag_started = false;
 	return;
  		  
 	 
@@ -428,12 +429,12 @@ $('.edit .module a', '.edit').live('click',function(e) {
  		 mw_remove_editables()
 		 
 			 
-			window.mw_sortables_created = false;
-			 init_edits();
-				event.preventDefault(); // this prevents the original href of the link from being opened
-				event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+			//window.mw_sortables_created = false;
+		//	 init_edits();
+				//event.preventDefault(); // this prevents the original href of the link from being opened
+			//	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 			 
-			return;
+			//return;
  		 	//	event.preventDefault(); // this prevents the original href of the link from being opened
  		 //	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
  				// 
@@ -446,16 +447,16 @@ $('.edit .module a', '.edit').live('click',function(e) {
  	
  		  
  		  
- 		 event.preventDefault(); // this prevents the original href of the link from being opened
-			event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+ 		 //event.preventDefault(); // this prevents the original href of the link from being opened
+		//	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 		 
-		return;
+	//	return;
  		  
  		  
  		  
  	  }  else if ( event.type == "mouseleave" ) {
  		 
- 		  	setTimeout("set_drag_started_false()",300);
+ 		 // 	setTimeout("set_drag_started_false()",300);
  
  		  
  	  }
@@ -655,7 +656,7 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 		  
 			$module_title = 	$(this).attr('module_title');
 		//  $( this ).children('.mw_mod_drag_handle').show();
-	  	  $('.mw_mod_drag_handle','.module').hide();
+	  	// 
 			if( $( this ).children('.mw_mod_drag_handle').length || $( this ).parents('.mw_mod_drag_handle').length){  
 				 
 			} else {
@@ -663,10 +664,13 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 			}
 			
 		   $( this ).children('.mw_mod_drag_handle').show();
-			position1223 = $(this).position();
+			
+		   
+		   if( window.mw_editing_started == false){
+		   position1223 = $(this).position();
 			  
 			  $( this ).children('.mw_mod_drag_handle:first').css({top:position1223.top,left:position1223.left+2});
-		   
+		   }
 		   //init_edits()
 			}
 			
@@ -725,9 +729,36 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 // $('.edit[contenteditable=true]')
 //$('a:not("a[href^=mailto]").live('click',function(){ });
 //
+function set_mw_editing_started_false(){
+	 window.mw_editing_started  = false;
+	 
+	
+}
+$(".edit *:not(.mw_mod_drag_handle)", '.mw').live("click", function(event) {
+	if( window.mw_editing_started == false){
+	 window.mw_editing_started  = true;
+	
+	 
+ 	 mw_make_editables()
+ 	   
+	} else {
+	//	setTimeout("set_mw_editing_started_false()",500);	
+		
+	}
+});
+
+
+
+window.mw_editing_started  = false;
 $(".edit *:not(.mw_mod_drag_handle)", '.mw').live("click mouseup mousedown", function(event) {
 	
-	 if(window.mw_drag_started == false && window.mw_handle_hover != true){
+	
+	
+	
+ 
+	
+	
+	 if( window.mw_editing_started == true){
 	
 	
 	
@@ -735,9 +766,9 @@ $(".edit *:not(.mw_mod_drag_handle)", '.mw').live("click mouseup mousedown", fun
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
 	
 	  if ( event.type == "mousedown" ) {
- 
+		  $(this).enableSelection();
 //		    cssApplier.toggleSelection();
-	 rangy.init();
+//	 rangy.init();
 	 
 	//var sel = rangy.getSelection();
 	//var sel1 = rangy.getRange();
@@ -759,7 +790,7 @@ $(".edit *:not(.mw_mod_drag_handle)", '.mw').live("click mouseup mousedown", fun
 
 		  
 		  
-		  
+		   
 		  
 		 
 		  
@@ -800,8 +831,8 @@ $nom = 0;
 				
 			
 				 
-				window.mw_sortables_created = false;
-				 init_edits();
+			//	window.mw_sortables_created = false;
+				// init_edits();
 					event.preventDefault(); // this prevents the original href of the link from being opened
 					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 				 
@@ -845,10 +876,11 @@ $nom = 0;
 //			 is_editable = event.target.getAttribute('contentEditable');
 			
 			 
-			 //$is_in_module=	$(this).parents('.module').size();
+	//		$is_in_module=	$(this).parents('.module').size();
 			 
-			 $is_ce_edit=	$(this).parents('.edit').attr('contentEditable');
-			 
+		//	 $is_ce_edit=	$('.edit:first').attr('contentEditable');
+			 $is_ce_edit=$(this).parents('.edit').attr('contentEditable');
+			// alert($is_ce_edit);
 			 $is_in_module = 0;
 			
 			 
@@ -867,12 +899,18 @@ $nom = 0;
 				//	$('.edit').addClass('mw_non_sortable');
 					
 					
+					 if (window.console != undefined) {
+							console.log('mw_drag_started_state  * click ' + window.mw_drag_started );	
+						}
+					
+					 
+					
 					if(window.mw_sortables_created == true){
 					
 				//	remove_sortables();
 					}
 					
-					$( '.col' ).resizable('destroy');
+				//	$( '.col' ).resizable('destroy');
 			 
 			//		 $( '.ui-resizable-handle' ).hide();
 
@@ -890,7 +928,7 @@ $nom = 0;
 //				     }
 //				    
 					
-					 setTimeout("$('.mw_mod_drag_handle').fadeOut();",500);
+				//	 setTimeout("$('.mw_mod_drag_handle').fadeOut();",500);
 					
 					
 					if(event.target.nodeName != undefined){
@@ -899,8 +937,8 @@ $nom = 0;
 					$("#mw_sidebar_styler").html("clicked: " + event.target.nodeName).show();
 					 window.mw_last_hover++;
 					 event.target.setAttribute('mw_tag_edit', window.mw_last_hover);	
-					 
-					 
+					 mw_html_tag_editor(window.mw_last_hover)
+					// $('.mw_mod_drag_handle').remove();
 					 
 				//	 $(this).children().attr('mw_tag_edit', window.mw_last_hover);	
 				//	 $(this).parent().attr('mw_tag_edit', window.mw_last_hover);	
@@ -909,70 +947,72 @@ $nom = 0;
 //					 $('.edit img').addClass('mw_mod_drag_handle');	
 //					 $( '.mw_non_sortable' ).removeClass('mw_non_sortable');
 //					 $( '.module > img' , '.edit').removeClass('mw_mod_drag_handle');
-					 
-					 
-					  rangy.init();
-					  
-					  
-					   
-					  var classApplier = rangy.createCssClassApplier(randomCssClass, true);
-				
-					 $("#style_mw_id").val( window.mw_last_hover);
-					 $("#mw_css_editor_element_id").val( window.mw_last_hover);
-					 $("#style_mw_tag").val( event.target.nodeName);
-					 
-			//		 $( this ).parent().attr( "mw_tag_edit",window.mw_last_hover );
-					 
-					 
-				    	// var randomCssClass = "rangyTemp";
-						   
-						   classApplier.applyToSelection();
-						//   classApplier.toggleSelection();
-					 
-					//	   classApplier.toggleSelection();
-					   
-					   var range = rangy.getSelection();
-	 
-					     range= range.rangeCount ? range.getRangeAt(0) : null;
-					     if (range != null && range != '') {
-					    	 window.mw_last_hover++
-							  
-							  // classApplier.toggleSelection();
-							   
-							   $sel123 =   $("." + randomCssClass);
-							   
-//							   var el = $("." + randomCssClass);
-//							   var range = rangy.createRange();
-//							   range.selectNodeContents(el);
+//					 
+//					 
+//					  rangy.init();
+//					  
+//					  
+//					   
+//					  var classApplier = rangy.createCssClassApplier(randomCssClass, true);
+//				
+//					 $("#style_mw_id").val( window.mw_last_hover);
+//					 $("#mw_css_editor_element_id").val( window.mw_last_hover);
+//					 $("#style_mw_tag").val( event.target.nodeName);
+//					 
+//			//		 $( this ).parent().attr( "mw_tag_edit",window.mw_last_hover );
+//					 if (window.console != undefined) {
+//				 			console.log('fdsfsdfsdf ' );	
+//				 		}
+//					 
+//				    	// var randomCssClass = "rangyTemp";
+//						   
+//						   classApplier.applyToSelection();
+//						//   classApplier.toggleSelection();
+//					 
+//					//	   classApplier.toggleSelection();
+//					   
+//					   var range = rangy.getSelection();
+//	 
+//					     range= range.rangeCount ? range.getRangeAt(0) : null;
+//					     if (range != null && range != '') {
+//					    	 window.mw_last_hover++
+//							  
+//							  // classApplier.toggleSelection();
+//							   
+//							   $sel123 =   $("." + randomCssClass);
+//							   
+////							   var el = $("." + randomCssClass);
+////							   var range = rangy.createRange();
+////							   range.selectNodeContents(el);
+////							   var sel = rangy.getSelection();
+////							   sel.setSingleRange(range);
+//							    //classApplier.applyToSelection();
+//							  
+//							    // Now use jQuery to add the CSS colour and remove the class
+//							   $sel123.attr( "mw_tag_edit",window.mw_last_hover );
+//							    
+//							   // rangy.refresh(true);
+//							//    var sel = rangy.getSelection();
+//							  //  sel.refresh(true);
+//							   
 //							   var sel = rangy.getSelection();
-//							   sel.setSingleRange(range);
-							    //classApplier.applyToSelection();
-							  
-							    // Now use jQuery to add the CSS colour and remove the class
-							   $sel123.attr( "mw_tag_edit",window.mw_last_hover );
-							    
-							   // rangy.refresh(true);
-							//    var sel = rangy.getSelection();
-							  //  sel.refresh(true);
-							   
-							   var sel = rangy.getSelection();
-							     sel.refresh(true);
-							    
-							    $("#style_mw_id").val( window.mw_last_hover);
-								 $("#mw_css_editor_element_id").val( window.mw_last_hover);
-								 $("#style_mw_tag").val( event.target.nodeName);
-						    
-								 $sel123.removeClass( randomCssClass );
-								 
-								 mw_html_tag_editor(window.mw_last_hover)
-						    
-					     } else {
-					    	
-					    	// undoToRange
-					    	 mw_html_tag_editor(window.mw_last_hover)
-					     }
-					    // classApplier.toggleSelection();
-					   
+//							     sel.refresh(true);
+//							    
+//							    $("#style_mw_id").val( window.mw_last_hover);
+//								 $("#mw_css_editor_element_id").val( window.mw_last_hover);
+//								 $("#style_mw_tag").val( event.target.nodeName);
+//						    
+//								// $sel123.removeClass( randomCssClass );
+//								 
+//								 mw_html_tag_editor(window.mw_last_hover)
+//						    
+//					     } else {
+//					    	
+//					    	// undoToRange
+//					    	 mw_html_tag_editor(window.mw_last_hover)
+//					     }
+//					    // classApplier.toggleSelection();
+//					   
 		
 					     
 					
@@ -994,27 +1034,27 @@ $nom = 0;
 					
 					
 					 
+			//		alert($is_ce_edit);
 					
 					
-					
-				 if(window.mw_editables_created == false){
-					if( $is_ce_edit != 'true'){
+				// if(window.mw_editables_created == false){
+					if( $is_ce_edit == undefined || $is_ce_edit != 'true' || $is_ce_edit == false ){
 				 
-				 
-				
-				 
+						window.mw_editing_started = true;
+					 	window.mw_editables_created = false;
+ 
 				 is_editable =  $is_ce_edit;
 			
 			 // $(this).sortable('destroy');
-			 	 if(is_editable == undefined || is_editable != 'true'){
+			 //	 if(is_editable == undefined || is_editable != 'true'){
 			 		 
 			 		// event.target.setAttribute('contentEditable', true);	
 			 		 
-			 		 
+				
 			 		if (window.console != undefined) {
-			 		//	console.log('Making CE   ' + event.target.nodeName);	
+			 			console.log('Making CE   ' + event.target.nodeName);	
 			 		}
-			 		 
+			 		 //
 //				 $("#mw_sidebar_styler").html("clicked: " + event.target.nodeName).show();
 					 if (window.console != undefined) {
 				 			console.log('is_editable ' + is_editable);	
@@ -1029,10 +1069,10 @@ $nom = 0;
 				 	 mw_make_editables()
 				 	window.mw_editables_created = true;
 		 	// window.mw_sortables_created = false;
-		 	// event.target.setAttribute('contentEditable', true);	
+ 
 		 //	 $(this).parents('.edit').attr('contentEditable', true);
-			 	 }
-			 	 }
+			 	// }
+			 //	 }
 		 	 
 		 	 
 		 	 
@@ -1043,14 +1083,22 @@ $nom = 0;
 				 
 				 
 				 
+		    	 if ( $.browser.msie ) {
+		    		 $(this).parents('.container').attr('contentEditable', true);
+		    		 } else {
+		    		//	 alert(mw1);
+				     
+				    	 
+				    	 
+		    		 }
 				 
 				 
 				 	
-		//	event.preventDefault(); // this prevents the original href of the link from being opened
-					event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+//		 event.preventDefault(); // this prevents the original href of the link from being opened
+				//	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 					 
 					
-		//	return false;
+	// return false;
 				 
 				 
 				 
@@ -1336,6 +1384,11 @@ $(function(){
     });
 });
 function set_drag_started_false(){
+	
+	
+	if (window.console != undefined) {
+			console.log('mw_drag_started set to false   ');	
+		}
 	window.mw_drag_started = false;
 
 }
@@ -1364,6 +1417,7 @@ function remove_sortables(){
 	
 	try
 	  {
+		   $( '.col' ).resizable('destroy');
 		$('.edit').sortable('destroy');
 		$('.mw_layout').sortable('destroy');
 		
@@ -1396,7 +1450,7 @@ function init_edits(){
 		
 	
 		
-
+		mw_set_handles()
 		
 		
 	//	$('.mw_mod_drag_handle' ).remove();
@@ -1406,7 +1460,10 @@ function init_edits(){
 			window.mw_editables_on_page  = $( ".edit" );
 		}
 		
-		 
+		if (window.console != undefined) {
+ 			console.log('init_edits   ');	
+ 		}
+	
 		
 		mw_sidebar_make_sortables();
 		
@@ -1458,34 +1515,47 @@ function init_edits(){
 	 
 	 
 	 var sort_opts = {
-				forcePlaceholderSize: true,
-			//	forceHelperSize : true ,
-				//tolerance: 'pointer',
-				tolerance: 'intersect',
+			//	forcePlaceholderSize: true,
+			 forcePlaceholderSize: true,
+				forceHelperSize : true ,
+				tolerance: 'pointer',
+				//tolerance: 'intersect',
 			//	iframeFix: true,
 			   //cancel: '.module > * :not(:has(.module)) ',
 			    cancel: '.mw_non_sortable',
-				placeholder: "to_here_drop",
-				placeholderElement: 'div',
+			 	placeholder: "to_here_drop",
+			 	placeholderElement: 'div',
 			//	placeholderElement: '.edit *',
 				create:function(event, ui){
 							      
-		 if( $(ui.item).has('.close').length == 0 ) {
-				$(ui.item).prepend('<a href="#" class="close" onclick="$(this).parent().remove();">x</a>');
-			}   
+//		 if( $(ui.item).has('.close').length == 0 ) {
+//		..		$(ui.item).prepend('<a href="#" class="close" onclick="$(this).parent().remove();">x</a>');
+//			}   
 							         
 	 		},
 	 		over: function(e, ui) {
+	 			
+	 			
+	 			
+				
+	 			
+	 			
+	 			
+	 			
+	 			
+	 			
+	 			
+	 			//  window.mw_drag_started = true;
            //     $(this).addClass('to_here_drop'); //Adding a class that will add a border
            //     ui.placeholder.css($.data(ui.sender[0], 'ui-sortable').placeholderElement.offset()); //So I have to relocate the placeholder by two pixels
         },
 		     beforeStop: function (event, ui) {
-						    	 if( ui.offset !== undefined )
-						    	  ui.helper.css('margin-top', 0);
+//						    	 if( ui.offset !== undefined )
+//						    	  ui.helper.css('margin-top', 0);
+//						    	 
+        	  window.mw_drag_started = true;
 						    	 
-						    	 
-						    	 
-						    	 $( ".edit .mw_non_sortable" ).removeClass('mw_non_sortable');
+						   // 	 $( ".edit .mw_non_sortable" ).removeClass('mw_non_sortable');
 						    	 
 						    	 
 						    	 
@@ -1506,13 +1576,13 @@ function init_edits(){
 		   	distance: 1,
 				
 							update: function(event, ui) {
-		    		$( ".edit .mw_non_sortable" ).removeClass('mw_non_sortable');
+		    	//	$( ".edit .mw_non_sortable" ).removeClass('mw_non_sortable');
 		    		
 		    		
 		    		
 		    		
 							 		//window.mw_drag_started = false;
-		    		setTimeout("set_drag_started_false()",1500);
+		    //		setTimeout("set_drag_started_false()",1500);
 							 		
 							            if(this.id == 'sortable-delete') {
 							                // Remove the ele ment dropped on #sortable-delete
@@ -1530,16 +1600,18 @@ function init_edits(){
 							            //init_edits();
 						//	       window.mw_drag_started = false;
 							   
-							  
-							        nic_save_all(mw_load_history_module, true);
-							    	bind_module_edit_iframe_click()
+							     	//	 window.mw_sortables_created = false;
+										// init_edits();
+							        	//	setTimeout("set_drag_started_false()",1500);
+							     //   nic_save_all(mw_load_history_module, true);
+							    //	bind_module_edit_iframe_click()
 							        } ,
 							       
 							        
 							        
 							        
 							        start : function(event, ui) { 
-							       	mw_remove_editables();
+							      // 	mw_remove_editables();
 							        window.mw_drag_started = true;
 							        
 							    	$('.container *', '.edit' ).not('.module').removeClass('mw_mod_wrap'); 
@@ -1566,7 +1638,7 @@ function init_edits(){
 							            ui.item.html("<b>HI mw_mod_wrap bug in mw_edit.js see there.... ??? maybe threre is setting of - 	items: '*:not(.mw_mod_wrap)' -, in the init_edits</b>");
 							            }
 					
-							        	$(".edit").enableSelection()
+							     //   	$(".edit").enableSelection()
 							        	$('.container', '.edit' ).children().removeClass('mw_mod_wrap');
 							        	if (ui.item.hasClass("mw_mod_wrap_main")) {
 							        	ui.item.css('zoom', '');
@@ -1574,10 +1646,15 @@ function init_edits(){
 							        	ui.item.css('margin-top', '');
 							        	ui.item.css('opacity', ''); 
 							        	}
-				 
+							    	//	setTimeout("set_drag_started_false()",1500);
 							        //	mw_make_editables();
-							        	 //  window.mw_drag_started = false;
-							        		setTimeout("set_drag_started_false()",500);
+							        	   window.mw_drag_started = false;
+							    		 mw_set_handles()
+							    		 
+							    		 
+							    		 window.mw_sortables_created = false;
+		 init_edits();
+							    		 
 							        	},
 		        
 			 
@@ -1603,11 +1680,12 @@ function init_edits(){
 						//	$( ".edit .module" ).empty();
 							
 							$( ".edit *" ).attr('sizcache', '');
-							$( ".edit *" ).attr('sizset', '');
+							$( ".edit *" ).attr('sizset', ''); 
 							
 							
 							$( ".edit .js_mod_remove" ).remove();
-							
+							// window.mw_sortables_created = false;
+						//	 init_edits();
 							//mw.saveALL();
 							// window.mw_sortables_created = false;
 							// mw_make_editables()
@@ -1626,7 +1704,7 @@ function init_edits(){
 //	$('.container', '.edit' ).children().addClass('mw_mod_wrap');
 	$('.container', '.edit' ).children().addClass('mw_mod_wrap');
 	
-	
+	//$('.mw_mod_drag_handle' ).removeClass('mw_mod_wrap');
 	
 	
 	$('.module *', '.edit' ).addClass('mw_mod_wrap');
@@ -1657,27 +1735,32 @@ tempArray=new Array();
 		}
 	//	$selects1 = $selects1 +  ', #'+$edit_field_id 
 		tempArray[ed]='#'+$edit_field_id;
-		$( '#'+$edit_field_id+'').sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
+		$( '#'+$edit_field_id+'').sortable(sort_opts).sortable( "option", "connectWith", ".col" );
+		$( '#'+$edit_field_id+'').prepend('<div class="mw_dropable_generated"> </div>');
+		$( '#'+$edit_field_id+'').append('<div class="mw_dropable_generated"> </div>');
  
 	} 
+	$( '.container .row').append('<div class="mw_dropable_generated"></div>');
+	//$( '.edit').append('<div class="mw_dropable_generated"> </div>');
+
  
 	
-	sort_opts2 = sort_opts;
-	
-	//sort_opts2.items =   '>*';
-	sort_opts2.start =  function(event, ui) { 
-       	mw_remove_editables();
-        window.mw_drag_started = true;
-        
-        
-       // $(".container").addClass('mw_mod_wrap');
-        $(".container_handle").removeClass('mw_mod_wrap');
-    //	$(".container *").addClass('mw_mod_wrap');
-     
-        }; 
-	
-	$(".container").sortable('destroy');
-	$(".container").sortable(sort_opts2).sortable( "option", "connectWith", ".edit" );
+//	sort_opts2 = sort_opts;
+//	
+//	//sort_opts2.items =   '>*';
+//	sort_opts2.start =  function(event, ui) { 
+//       	mw_remove_editables();
+//        window.mw_drag_started = true;
+//        
+//        
+//       // $(".container").addClass('mw_mod_wrap');
+//        $(".container_handle").removeClass('mw_mod_wrap');
+//    //	$(".container *").addClass('mw_mod_wrap');
+//     
+//        }; 
+//	
+	//$(".container").sortable('destroy');
+	//$(".container").sortable(sort_opts2).sortable( "option", "connectWith", ".col" );
  
 	
  
@@ -1841,149 +1924,100 @@ function rgbConvert(str) {
 	   
 	   
 	}
-function bind_module_edit_iframe_click(){
+
+function mw_set_handles(){
+	//if( window.mw_editing_started == false){
+	$(".container_handle", '.edit').each(function() {
+		 position123 = $(this).parents('.container:first').position();
+		  $( this ).css(position123);
+	 });
 	
-	//$(".module, .edit .module *", '.edit').die("mouseup");
-	//$('.module, .edit .module *', '.edit').live('mouseup', function(event) {
+	$(".col_handle", '.col').each(function() {
+		 position123 = $(this).parent().position();
+		 if(position123 != undefined){
+			 if(position123.top != undefined){
+				 
+				 
+				  if (window.console != undefined) {
+						//console.log('col position ' +position123.top + position123.left );	
+					}
+				  
+				 
+				 
+		  $( this ).css({top:position123.top,left:position123.left});
+			 }
+		 }
+	 });
 	
 	
-	//$(".module").not($("#admin_sidebar .module")).die("mouseup");
-//	$(".module").not($("#admin_sidebar .module")).live('mouseup', function(event) {
+ 
 	
-	
-	
-//	$('.edit .module *').die("click");
-//	$('.edit .module *').live('click', function(event) {
-//		
-//		  mod_id112= $(this).attr('module_id');    
-//		     mod_name= $(this).attr('mw_params_module');    
-//		      
-//		    if(mod_id112 == undefined   ){
-//		    	    mod_id112= $(this).parents('.module').attr('module_id');    
-//				     mod_name= $(this).parents('.module').attr('mw_params_module');    
-//					 // alert(mod_id112);
-//		    }
-//
-//		  //    if(mod_name != 'content/text'){
-//		    //$(this).disableSelection();
-//		   //   } 
-//		    //  alert(mod_id112);
-//			if(mod_id112 != undefined  ){
-//		   load_edit_module_by_module_id(mod_id112);
-//			}
-//			 return false;  
-//		
-//		
-//		event.stopPropagation();
-//		 event.preventDefault(); // this prevents the original href of the link from being opened
-//		 return false;	
-//	});
-	
-//	$('.edit .module *').die("click");
-//	$('.edit .module *').live('click', function(event) {
-//		//$(".module > a").attr('href');
-//	// mw.outline.remove('.module');
-//	if(window.saving ==false){
-//	// return false;	
 //	}
-//		//event.preventDefault();
-//	
-//	//if(window.mw_drag_started == false){
-//		//window.mw_sortables_created = false;
-//		
-//		if (window.console != undefined) {
-//			console.log('module mouse up making init_edits()');
-//		}
-//		
-//		
-//		
-//		 	init_edits()
-//	//}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	//alert(31231);
-//	
-//	
-//	
-//	
-//	
-//	
-//
-//		       mod_id112= $(this).attr('module_id');    
-//		     mod_name= $(this).attr('mw_params_module');    
-//		      
-//		    if(mod_id112 == undefined   ){
-//		    	    mod_id112= $(this).parents('.module').attr('module_id');    
-//				     mod_name= $(this).parents('.module').attr('mw_params_module');    
-//					 // alert(mod_id112);
-//		    }
-//
-//		  //    if(mod_name != 'content/text'){
-//		    //$(this).disableSelection();
-//		   //   } 
-//		    //  alert(mod_id112);
-//			if(mod_id112 != undefined  ){
-//		   load_edit_module_by_module_id(mod_id112);
-//			}
-//			 return false;  
-//			//event.preventDefault();
-//
-//			// return false;	
-//		  
-//		});
+	
 	
 	
 	 
 	
+}
+
+function bind_module_edit_iframe_click(){
+	 
 	
 	
 }
- $(".container_handle", '.edit').live("mouseenter mouseleave", function(event) {
-	// $( '.container' ).removeClass('mw_mod_wrap');
-	// $( '.container' ).children().removeClass('mw_mod_wrap');
+ $(".container_handle", '.edit').live("mouseenter mouseleave click mousedown", function(event) {
+	 $( '.container' ).removeClass('mw_mod_wrap');
+	
 	//  $(".container_handle").removeClass('mw_mod_wrap');
 	 if ( event.type == "mouseenter" ) {
 	// window.mw_drag_started = true;
+		// $( '.mw_mod_wrap' ).removeClass('mw_mod_wrap');
 		 window.mw_handle_hover = true;
-	 
+		 window.mw_drag_started = true;
+		 window.mw_handle_hover = true;
 	 }
-	 
+
 	 if ( event.type == "mouseleave" ) {
 			setTimeout("set_handle_hover_false()",500);
 		 }
+	 
+	 if ( event.type == "mousedown" ) {
+		 window.mw_handle_hover = true;
+		 window.mw_drag_started = true;
+		 window.mw_handle_hover = true;
+		 //mw_remove_editables();
+	//	 mw_set_handles()
+		 }
+	 
+	 
+	
+	 
 		
  });
- $(".ui-resizable-handle", '.container').live("mouseenter mouseleave", function(event) {
+ $(".ui-resizable-handle", '.container').live("mouseenter mouseleave click", function(event) {
 		// $( '.container' ).removeClass('mw_mod_wrap');
 		// $( '.container' ).children().removeClass('mw_mod_wrap');
 		//  $(".container_handle").removeClass('mw_mod_wrap');
 		 if ( event.type == "mouseenter" ) {
 		// window.mw_drag_started = true;
+			 window.mw_drag_started = true;
 			 window.mw_handle_hover = true;
-		 
+		  
 		 }
 		 
+		//	position123 = $(this).parent().position();
+			
+			 
+ 
+			//  $( this ).children('.mw_mod_drag_handle').css(position123);
 		 if ( event.type == "mouseleave" ) {
-				setTimeout("set_handle_hover_false()",500);
+		//	 window.mw_drag_started = false;
+			//	setTimeout("set_handle_hover_false()",500);
+			 }
+		 
+		 if ( event.type == "click" ) {
+			 window.mw_drag_started = false;
+			 mw_remove_editables();
 			 }
 			
 	 });
@@ -2015,17 +2049,17 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 	
 	 
 	 if ( event.type == "mouseenter" ) {
-		  
+		 $(this).parents('.container' ).removeClass('mw_mod_wrap');
 			if( window.mw_drag_started == false){
 				
 				 // window.mw_sortables_created = false;
 				//  init_edits()
-				
+				 
 		  if (window.console != undefined) {
 				console.log('mouseenter on container ' );	
 			} 
 		  
-		  
+		  $(this).disableSelection();
 		 
 		//  $( this ).children('.mw_mod_drag_handle').show();
 	  	  //$('.mw_mod_drag_handle','.module').hide();
@@ -2035,6 +2069,7 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 				$( this ).prepend('<span class="mw_mod_drag_handle container_handle">box</span>');
 
 			}
+			mw_set_handles()
 			//offse111t = $(this).offset();
 			position123 = $(this).position();
 			
@@ -2047,11 +2082,11 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 			  
 		 
 			 window.mw_last_hover++;
-			  $( this ).children('.mw_mod_drag_handle').css(position123);
+			  $( this ).children('.mw_mod_drag_handle').not('.col_handle').css(position123);
 			  
 			  $( this ).children('.container_handle').html('box');
 			  
-			  $( this ).find('.col').attr('also_resize', window.mw_last_hover);
+		//	  $( this ).find('.col').attr('also_resize', window.mw_last_hover);
 			  
 			  
 			
@@ -2059,14 +2094,22 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 		   
 		   
 
-		   $( '.col' , $(this)  ).css("text-decoration", "underline")
+		 //  $( '.col' , $(this)  ).css("text-decoration", "underline")
 
 		   
 			$( '.col' , $(this)  ).resizable({
-				 handles: 'e, w',
+				 handles: 's, e',
+				 autoHide: true ,
 				 start: function(event, ui) {
 				 window.mw_handle_hover = true;
+				// $(this).next(".col").css('background-color', 'red');
+				 $(this).next(".col").attr('also_resize', window.mw_last_hover);
+				 
+				 $(this).css("height", 'auto');
+				 
+				 
 			},
+			alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
 			 stop: function(event, ui) {
 				 
 		        $(this).css("height", 'auto');
@@ -2077,7 +2120,7 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 
 				setTimeout("set_handle_hover_false()",1500);
 			} 
-			//	 alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
+				 
 			 
 			});
 	
@@ -2091,11 +2134,18 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 		  
 	  }
 	 if ( event.type == "mouseleave" ) {
-		   $('.container_handle').hide();
+		 if( window.mw_drag_started == false){
+ 
 		   $( '.col', $(this) ).resizable('destroy');
-	//	  $( this ).children('.mw_mod_drag_handle:first').hide();
-
+		 }
+	 
 	 }
+	 
+	 if ( event.type == "click" ) {
+		 setTimeout("set_drag_started_false()",500);
+	 }
+	 
+	
 	 
 	 
 });
@@ -2116,7 +2166,7 @@ $(".col", '.row').live("mouseenter mouseleave mouseup mousedown click", function
 		  
 			$module_title = 	$(this).attr('module_title');
 		//  $( this ).children('.mw_mod_drag_handle').show();
-	  	  //$('.mw_mod_drag_handle','.module').hide();
+	   
 			if( $( this ).children('.col_handle').length || $( this ).parents('.col_handle').length){  
 				 
 			} else {
@@ -2124,12 +2174,12 @@ $(".col", '.row').live("mouseenter mouseleave mouseup mousedown click", function
 			}
 			
 		   $( this ).children('.col_handle').show();
-		   
+		   if( window.mw_editing_started == false){
 			//var offset = $(this).offset();
-			position1223 = $(this).position();
-			  
-			  $( this ).children('.col_handle').css({top:position1223.top,left:position1223.left+5});
-		
+			//position1223 = $(this).position();
+			mw_set_handles()
+			//  $( this ).children('.col_handle').css({top:position1223.top,left:position1223.left+35});
+		   }
 		   
 		//	  $( this ).removeClass('ui-resizable-resizing');
 			
@@ -2152,9 +2202,8 @@ $(".col", '.row').live("mouseenter mouseleave mouseup mousedown click", function
 		  
 	  }
 	 if ( event.type == "mouseleave" ) {
-		   $('.col_handle').hide();
-	//	  $( this ).children('.mw_mod_drag_handle:first').hide();
-
+		 
+ 
 	 }
 	 
 	 
@@ -2276,31 +2325,31 @@ function mw_sidebar_make_sortables(){
 	
 	
 	
-	
+//	
 	
 	$(".row").sortable('destroy');
 	$(".row").sortable({
-		forcePlaceholderSize: true,
-			//forceHelperSize : true ,
-			//tolerance: 'pointer',
-			tolerance: 'intersect',
+		  forcePlaceholderSize: true,
+			forceHelperSize : true ,
+			tolerance: 'pointer',
+			//tolerance: 'intersect',
 		//	iframeFix: true,
 		   //cancel: '.module > * :not(:has(.module)) ',
 		//    cancel: '.container',
 		//	placeholder: "to_here_drop",
-			placeholderElement: 'div',
-			containment: 'parent',
+		//	placeholderElement: 'div',
+		//	containment: '.container',
 			items: '.col',
 			//items: '*:not(:has(.module))',
 			//revert: true,
 			handle : '.col_handle',
-			 //  cancel: '.mw_non_sortable',
-				placeholder: "to_here_drop",
-				placeholderElement: 'div',
+		//	  cancel: '* :not(.col_handle) ',
+		 placeholder: "to_here_drop",
+				 placeholderElement: 'div',
 			
-			//zIndex: 5000,
+			zIndex: 6000,
 		//	 grid: [5, 5],
-	 	//opacity: 0.6,
+	 	 opacity: 0.6,
 	   	distance: 1 ,
 	   	
 	//placeholder: "ui-state-highlight",
@@ -2311,8 +2360,9 @@ function mw_sidebar_make_sortables(){
 	},	start: function() {
 		window.mw_drag_started = true;
 	}
-	});
-	
+	}).sortable()
+	 //"option", "connectWith", ".row" 
+
  
 
 	
@@ -2875,9 +2925,7 @@ function load_edit_module_by_module_id($the_module_id) {
 		 if (edit !=undefined ) {
 			 
 			
-			// .. $("#mw_edit_module_iframe").show();
-			// $("#module_bar_resp").hide();
-			 
+ 
 		 	 page_id = $("#mw_edit_page_id").val();
 			 post_id = $("#mw_edit_post_id").val();
 			 category_id = $("#mw_edit_category_id").val();

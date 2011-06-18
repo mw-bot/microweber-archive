@@ -8,8 +8,11 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
 /* ==================================================================================================================== */
 
 .container {
-padding-left: 20px;
-padding-right: 20px;
+padding-left: 0px;
+padding-right: 0px;
+display:block;
+width:100%;
+clear:both;
 }
 
 .row {
@@ -17,9 +20,16 @@ width: 100%;
 max-width: 1140px;
 min-width: 455px;
 margin: 0 auto;
-overflow: hidden;
+padding: 5px;
+ 
+/*overflow: hidden;*/
 }
-
+.col {
+	float: left;
+min-height: 1px;
+min-width: 10px;
+padding:5px;
+}
 .onecol, .twocol, .threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol, .ninecol, .tencol, .elevencol {
 margin-right: 3.8%;
 float: left;
