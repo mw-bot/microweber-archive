@@ -100,12 +100,14 @@ function content_subtype_show_info(){
 		  
 		  
 		  $.getJSON('<? print site_url('api/content/get_taxonomy');?>/id:' + content_subtype_value_val, function(data) {
-  $('.category_name_holder').html(data.taxonomy_value);
-   $('.category_edit_link_holder').attr('href', '<? print ADMIN_URL ?>/action:posts/category_id:'+content_subtype_value_val);
+		 if(data != null){
+							if(data.taxonomy_value != undefined || data.taxonomy_value != null ){																					 
+						  $('.category_name_holder').html(data.taxonomy_value);
+						   $('.category_edit_link_holder').attr('href', '<? print ADMIN_URL ?>/action:posts/category_id:'+content_subtype_value_val);
+						  
+							}
   
-  
-  
-   
+		 }
  
 		});
 		  

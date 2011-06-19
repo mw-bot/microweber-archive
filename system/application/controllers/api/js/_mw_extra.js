@@ -607,7 +607,7 @@ $.fn.insertAtCaret = function (myValue) {
 		                    if (sum && sum >= 0)
 		                    	sum = sum - 15;
 		                    if(prop =='height' ){
-		                    	sum ='auto';
+		                    	//sum ='auto';
 		                    }
 	                	  }
 	                	catch(err)
@@ -963,4 +963,15 @@ $.fn.insertAtCaret = function (myValue) {
 	})(jQuery);
 
 
-	
+	function findElPos(obj) {
+	    var curleft = curtop = 0;
+	    if (obj.offsetParent) {
+	        curleft = obj.offsetLeft
+	        curtop = obj.offsetTop
+	        while (obj = obj.offsetParent) {
+	            curleft += obj.offsetLeft
+	            curtop += obj.offsetTop
+	        }
+	    }
+	    return [curleft,curtop];
+	}

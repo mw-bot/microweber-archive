@@ -88,8 +88,10 @@ $media = $media1;
 
             
             <?php if(empty($media1)  ): ?>
-            Gallery is empty
-            <?php else : ?>
+            <div>
+            <img src="  <? print $config['url_to_module'] ?>img/default.png" title="Gallery is empty" align="left" />  
+            </div>
+<?php else : ?>
             <? if(trim($skin) =='' or $skin == '1'): ?>
             <?php $i = 1; if(!empty($media1)): ?>
             <?php foreach($media1 as $pic): ?>

@@ -755,15 +755,15 @@ $(document).ready(function(){
          attr: 'title' // Use the ALT attribute of the area map for the content
       }, 
 	   position: {
-         my: 'top left',
+         my: 'left middle',
          target: 'mouse',
          viewport: $(window), // Keep it on-screen at all times if possible
          adjust: {
-            x: 5,  y: 5
-         }
+            x: 10,  y:10
+         } 
       },
       hide: {
-         fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
+         //fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
       },
       style: {
          classes: 'ui-tooltip-tipsy ui-tooltip-shadow'
@@ -779,7 +779,7 @@ $(document).ready(function(){
 				$('.mw_live_edit_on_off').removeClass('mw_live_edit_on_off_state_off');
 				$('.mw_live_edit_on_off').attr({src:"<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_on.png"});
 				//mw_live_edit_on_off_switch(true);
-				 $('#admin_sidebar').show('slide', { direction: 'right' }, 300)
+				 //$('#admin_sidebar').show('slide', { direction: 'right' }, 300)
 
 			   }
 			   
@@ -788,7 +788,7 @@ $(document).ready(function(){
 				$('.mw_live_edit_on_off').addClass('mw_live_edit_on_off_state_off');
 				$('.mw_live_edit_on_off').attr({src:"<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_off.png"});
 				//mw_live_edit_on_off_switch(true);
-				 $('#admin_sidebar').hide('slide', { direction: 'right' }, 300)
+				 //$('#admin_sidebar').hide('slide', { direction: 'right' }, 300)
 				   }
 			//   alert(mw_live_edit_state);
 			   
@@ -858,7 +858,7 @@ function mw_sidebar_nav($selector){
 	
 
 	
-	
+	$('.mw_toolbar_nav_links').removeClass('active');
 	
 	$('#mw_sidebar_modules_holder').hide();
 	$('#mw_sidebar_module_edit_holder').hide();
@@ -869,8 +869,10 @@ function mw_sidebar_nav($selector){
 	 
 	
 	
-	
+	$('#admin_sidebar').show();
+	//$('#admin_sidebar').show('slide', { direction: 'right' }, 200)
 	$($selector).show();
+	$($selector+'_link').addClass('active');
 	
 	
 	
@@ -881,7 +883,11 @@ function mw_sidebar_nav($selector){
 
 </script>
     </div>
-    <div id="mw_toolbar_nav"> <a class="mw_toolbar_nav_icons active"  title="Modules" rel="modules"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules.png"  style="float:left" /> </span> </a> <a   class="mw_toolbar_nav_icons" title="Design" rel="design"  href="javascript:mw_sidebar_nav('#mw_sidebar_design_holder')"> <span> <img     src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_design.png"   style="float:left" /> </span> </a> <a  class="mw_toolbar_nav_icons"  title="Add new content"  rel="add"    href="javascript:mw_sidebar_nav('#mw_sidebar_add_holder')"> <span> <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_add.png" style="float:left" /> </span> </a> </div>
+    <div id="mw_toolbar_nav"> 
+    <a class="mw_toolbar_nav_icons mw_toolbar_nav_links"  title="Add modules" rel="modules" id="mw_sidebar_modules_holder_link"  href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')"> <span> <img    src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_modules.png"  style="float:left" /> </span> </a> 
+    <a   class="mw_toolbar_nav_icons mw_toolbar_nav_links" title="Add layout" rel="design"  href="javascript:mw_sidebar_nav('#mw_sidebar_design_holder')" id="mw_sidebar_design_holder_link"> <span> <img     src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_design.png"   style="float:left" /> </span> </a>
+     <a  class="mw_toolbar_nav_icons mw_toolbar_nav_links"  title="Style content"  rel="add"    href="javascript:mw_sidebar_nav('#mw_sidebar_css_editor_holder')" id="mw_sidebar_css_editor_holder_link"> <span> <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/toolbar/btn_add.png" style="float:left" /> </span> </a> 
+     </div>
     <!--    <a href="adasd" class="mw_toolbar_nav_go_to_admin"> <span> Style element    </span> 
     
 
@@ -949,7 +955,7 @@ function mw_sidebar_nav($selector){
 <div class="mw_bottom_nav_dom_path"> 
  <div id="mw_dom_element_path"></div>
 </div>
-<div id="admin_sidebar">
+<div id="admin_sidebar" style="display:none">
 <div>
  
   <div id="mw_sidebar_module_edit_holder"> </div>

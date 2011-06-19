@@ -8,9 +8,9 @@ salt = "b8dd8fd74d7614d4cbe1dd5fc509c992"
 
 [database]
 host = "127.0.0.1"
-username = "worldtra_new"
-password = wt123z123z
-dbname = "worldtra_new"
+username = "root"
+password = 123456
+dbname = "cms_wt"
 tables_prefix = "piwik_"
 adapter = "PDO_MYSQL"
 port = 3306

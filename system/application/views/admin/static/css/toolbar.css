@@ -1,3 +1,4 @@
+@charset "iso-8859-1";
 .drop_active {
 	background: #6600FF !important;
 	outline: 4px solid #3466B8
@@ -398,7 +399,7 @@ box-shadow:1px 0px -4px #747474;
 	border-bottom-color: #bbbbbb;
 	border-left-color: #bbbbbb;
 }
-.mw_sidebar_module_group_table .module_draggable {
+#module_bar_resp .mw_sidebar_module_group_table .module_draggable {
 	height:32px;
 	padding-top:11px;
 	border-top-width: 0px;

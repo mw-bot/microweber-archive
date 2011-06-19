@@ -895,22 +895,21 @@ class Content extends Controller {
 		if ($id == false) {
 			exit ( 'Error: not logged in as admin.' );
 		}
-	//	
+		//	
 		if ($_POST) {
 			
 			if ($_POST ['mw_preview_only']) {
 				$is_no_save = true;
-				
+			
 			}
-				$is_no_save = false;
+			$is_no_save = false;
 			$the_field_data_all = $_POST;
 			unset ( $the_field_data_all ['mw_preview_only'] );
 		} else {
 			exit ( 'Error: no POST?' );
 		}
-			
-		//$is_no_save = url_param ( 'peview', true );
 		
+		//$is_no_save = url_param ( 'peview', true );
 		
 
 		$ref_page = $_SERVER ['HTTP_REFERER'];
@@ -928,6 +927,7 @@ class Content extends Controller {
 		require_once (LIBSPATH . "simplehtmldom/simple_html_dom.php");
 		//	require_once (LIBSPATH . "htmlfixer.php");
 		
+
 		$json_print = array ();
 		foreach ( $the_field_data_all as $the_field_data ) {
 			
@@ -1016,7 +1016,7 @@ class Content extends Controller {
 						$content_id = $page_id;
 					}
 				}
-			
+				
 				if ($category_id == false and $page_id == false and $post_id == false and $save_global == false) {
 					print ('Error: plase specify integer value for at least one of those attributes - page, post or category') ;
 				} else {
@@ -1052,11 +1052,26 @@ class Content extends Controller {
 							$html_to_save = str_replace ( '</P>', '</p>', $html_to_save );
 							$html_to_save = str_replace ( 'ui-droppable-disabled', '', $html_to_save );
 							$html_to_save = str_replace ( 'ui-state-disabled', '', $html_to_save );
+														$html_to_save = str_replace ( 'ui-sortable', '', $html_to_save );
+							$html_to_save = str_replace ( 'ui-resizable', '', $html_to_save );
+							
+							
+								$html_to_save = str_replace ( 'module_draggable', '', $html_to_save );
+							
+							
+									$html_to_save = str_replace ( 'mw_no_module_mask', '', $html_to_save );
+							
+							
+							
 							$html_to_save = str_ireplace ( '<span >', '<span>', $html_to_save );
 							$html_to_save = str_replace ( '<SPAN >', '<span>', $html_to_save );
 							
 							$html_to_save = str_replace ( '<div><div><div><div>', '', $html_to_save );
 							$html_to_save = str_replace ( '</div></div></div></div>', '', $html_to_save );
+							
+							$html_to_save = str_replace ( '<div class="mw_dropable_generated"></div>', '', $html_to_save );
+							$html_to_save = str_replace ( '<div   class="mw_dropable_generated"></div>', '', $html_to_save );
+							$html_to_save = str_replace ( '<div class="mw_dropable_generated container"></div>', '', $html_to_save );
 							
 							//	$mw123 = 'microweber module_id="module_'.rand().rand().rand().rand().'" ';
 							
@@ -1130,7 +1145,7 @@ class Content extends Controller {
 							$html_to_save = $content;
 							//if (strstr ( $content, 'mw_params_encoded' ) == true) {
 							$content = str_replace ( '<span >', '<span>', $content );
-					
+							
 							//$tags2 = html2a($content);
 							$tags1 = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true );
 							//p($tags1); 
@@ -1186,7 +1201,7 @@ class Content extends Controller {
 							unset ( $html );
 							//p($content);
 							
-									
+
 							$matches = $tags1;
 							if (! empty ( $matches )) {
 								//
@@ -1468,7 +1483,7 @@ class Content extends Controller {
 							//p($html_to_save);
 							//	p($content,1);
 							$html_to_save = clean_word ( $html_to_save );
-								
+							
 							//$a = new HtmlFixer ();
 							//$a->debug = true;
 							//$html_to_save =  $a->getFixedHtml ( $html_to_save );
@@ -1524,10 +1539,11 @@ class Content extends Controller {
 									//	p ( $html_to_save ,1);
 									}
 									//print ($html_to_save) ;
-									
-	
-									//$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
-							
+								
+
+								//$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
+								
+
 								} else if ($category_id) {
 									print (__FILE__ . __LINE__ . ' category is not implemented not rady yet') ;
 								
@@ -1559,7 +1575,7 @@ class Content extends Controller {
 									//	CI::model ( 'core' )->saveHistory ( $history_to_save );
 								}
 								//$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
-								//	$json_print[] = array ($the_field_data ['attributes'] ['id'] => $html_to_save );
+							//	$json_print[] = array ($the_field_data ['attributes'] ['id'] => $html_to_save );
 							
 
 							//	print ($html_to_save) ;
@@ -1598,13 +1614,13 @@ class Content extends Controller {
 			}
 		}
 		*/
-				
-
+		
 		header ( 'Cache-Control: no-cache, must-revalidate' );
 		header ( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header ( 'Content-type: application/json' );
 		
 		//
+		
 
 		$json_print = json_encode ( $json_print );
 		

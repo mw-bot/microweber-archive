@@ -34,32 +34,33 @@
       </tr>
     </table>
   </div>
-  <div id="image_editor_holder"> <span class="mw_sidebar_module_box_title">Image settings</span>
-    <div class="mw_admin_rounded_box">
-      <div class="mw_admin_box_padding">
-        <table width="100%" border="0" cellspacing="4" cellpadding="0">
-          <tr>
-            <td colspan="2"><img id="image_editor_holder_src" width="100" /></td>
-          </tr>
-          <tr>
-            <td colspan="2"><form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
-                <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
-                <input type="file" name="file" onchange="mw_do_the_image_upload();">
-              </form></td>
-          </tr>
-          <tr>
-            <td><label>Thumbnail size</label></td>
-            <td><input id="mw_img_size_set" class="mw_img_size mw_tag_editor_input"  type="text" /></td>
-          </tr>
-          <tr>
-            <td><label>Image link</label></td>
-            <td><input name="mw_edit_image_link" id="mw_edit_image_link" class="mw_tag_editor_input"  /></td>
-          </tr>
-        </table>
-      </div>
+  <div id="image_editor_holder" class="mw_editor_accordeon"> <h3 class="css_editor_tab_text"> <a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/icons/121-landscape.png"  class="css_editor_accordeon_icon" />Image settings</a>
+    </h3>
+    <div class="css_editor_tab_text_inside">
+       
+          <table width="100%" border="0" cellspacing="4" cellpadding="0">
+            <tr>
+              <td colspan="2"><img id="image_editor_holder_src" width="100" /></td>
+            </tr>
+            <tr>
+              <td colspan="2"><form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
+                  <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
+                  <input type="file" name="file" onchange="mw_do_the_image_upload();">
+                </form></td>
+            </tr>
+            <tr>
+              <td><label>Thumbnail size</label></td>
+              <td><input id="mw_img_size_set" class="mw_img_size mw_tag_editor_input"  type="text" /></td>
+            </tr>
+            <tr>
+              <td><label>Image link</label></td>
+              <td><input name="mw_edit_image_link" id="mw_edit_image_link" class="mw_tag_editor_input"  /></td>
+            </tr>
+          </table>
+        
     </div>
   </div>
-  <div id="mw_html_css_editor">
+  <div id="mw_html_css_editor" class="mw_editor_accordeon">
     <h3 class="css_editor_tab_text"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/text.png"  class="css_editor_accordeon_icon" />Text properties</a></h3>
     <div class="css_editor_tab_text_inside">
       <div class="<? print $text_block_classes ?>">
@@ -336,29 +337,30 @@
         </table>
       </div>
     </div>
-  
   </div>
 </div>
-<div style="display:none">  <h3 class="css_editor_tab_rotate"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Rotate</a></h3>
-    <div class="css_editor_tab_effects_inside">
-      <div class="mw_tag_editor_item_holder">
-        <textarea id="transforms_cssOut"></textarea>
-        <div id="transforms-box" style="display:none"></div>
-        <label for="scale-input">Scale :</label>
-        <input name="scale-input" id="scale-input" onchange="setTransform()" class="mw_slider" size="3" value="1" type="text">
-        <label for="rotate-input">Rotate :</label>
-        <input name="rotate-input" id="rotate-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
-        <span class="size_class">deg</span>
-        <label for="tran1-input">Translate X:</label>
-        <input name="tran1-input" id="tran1-input" onchange="setTransform()" class="textbox" size="3" value="0" type="text">
-        <span class="size_class">px</span>
-        <label for="tran2-input">Translate Y:</label>
-        <input name="tran2-input" id="tran2-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
-        <span class="size_class">px</span>
-        <label for="skew1-input">Skew1 X:</label>
-        <input name="skew1-input" id="skew1-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
-        <span class="size_class">deg</span>
-        <label for="skew2-input">Skew Y:</label>
-        <input name="skew2-input" id="skew2-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
-        <span class="size_class">deg</span> </div>
-    </div></div>
+<div style="display:none">
+  <h3 class="css_editor_tab_rotate"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Rotate</a></h3>
+  <div class="css_editor_tab_effects_inside">
+    <div class="mw_tag_editor_item_holder">
+      <textarea id="transforms_cssOut"></textarea>
+      <div id="transforms-box" style="display:none"></div>
+      <label for="scale-input">Scale :</label>
+      <input name="scale-input" id="scale-input" onchange="setTransform()" class="mw_slider" size="3" value="1" type="text">
+      <label for="rotate-input">Rotate :</label>
+      <input name="rotate-input" id="rotate-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+      <span class="size_class">deg</span>
+      <label for="tran1-input">Translate X:</label>
+      <input name="tran1-input" id="tran1-input" onchange="setTransform()" class="textbox" size="3" value="0" type="text">
+      <span class="size_class">px</span>
+      <label for="tran2-input">Translate Y:</label>
+      <input name="tran2-input" id="tran2-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+      <span class="size_class">px</span>
+      <label for="skew1-input">Skew1 X:</label>
+      <input name="skew1-input" id="skew1-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+      <span class="size_class">deg</span>
+      <label for="skew2-input">Skew Y:</label>
+      <input name="skew2-input" id="skew2-input" onchange="setTransform()" class="mw_slider" size="3" value="0" type="text">
+      <span class="size_class">deg</span> </div>
+  </div>
+</div>

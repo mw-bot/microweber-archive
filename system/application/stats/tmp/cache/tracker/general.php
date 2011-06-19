@@ -2,7 +2,7 @@
 
 $content   = array (
   'isBrowserTriggerArchivingEnabled' => true,
-  'lastTrackerCronRun' => 1307529252,
+  'lastTrackerCronRun' => 1308641878,
 );
 
 $cache_complete   = true;

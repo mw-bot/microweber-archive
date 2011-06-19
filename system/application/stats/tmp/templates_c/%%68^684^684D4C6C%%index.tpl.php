@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-06-13 10:19:53
+<?php /* Smarty version 2.6.26, created on 2011-06-20 15:11:31
          compiled from C:%5Cxampp%5Cxampp%5Chtdocs%5CMicroweber2%5Csystem%5Capplication%5Cstats%5Cplugins%5CVisitsSummary/templates/index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'translate', 'C:\\xampp\\xampp\\htdocs\\Microweber2\\system\\application\\stats\\plugins\\VisitsSummary/templates/index.tpl', 4, false),)), $this); ?>

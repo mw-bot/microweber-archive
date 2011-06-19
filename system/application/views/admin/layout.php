@@ -14,7 +14,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 <body>
 <div id="container" class="mw_admin" align="center">
   <div id="liquid" align="left">
-    <div id="header"> <a href="<?php print site_url('admin')  ?>" target="_blank" id="logo" title="Microweber">MicroWeber</a>
+    <div id="header"> <a href="<?php print site_url('admin')  ?>"   id="logo" title="Microweber">Microweber</a>
       <div id="nav"> <a href="<? print ADMIN_URL ?>/action:pages" <? if((url_param('action') == 'pages') or (url_param('action') == 'page_edit')): ?> class="active" <? endif; ?>>Pages</a> <a href="<? print ADMIN_URL ?>/action:posts" <? if((url_param('action') == 'posts') or (url_param('action') == 'post_edit')): ?> class="active" <? endif; ?>>Posts</a> <a href="<? print ADMIN_URL ?>/action:shop" <? if((url_param('action') == 'shop') or (url_param('action') == 'orders')): ?> class="active" <? endif; ?>>Online Shop</a>
         <? /*
         <a href="<? print ADMIN_URL ?>/action:categories" <? if((url_param('action') == 'categories') or (url_param('action') == 'category_edit')): ?> class="active" <? endif; ?>>Categories</a>

@@ -193,6 +193,7 @@ function mw_remove_editables(){
 	 window.mw_editing_started  = false;
 	window.mw_editables_created = false;
 	$('.edit').attr('contentEditable', false);
+	$('.container').attr('contentEditable', false);
 //	$('.edit *').attr('contentEditable', false);
 }
 
@@ -667,9 +668,9 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 			
 		   
 		   if( window.mw_editing_started == false){
-		   position1223 = $(this).position();
+		 //  position1223 = $(this).position();
 			  
-			  $( this ).children('.mw_mod_drag_handle:first').css({top:position1223.top,left:position1223.left+2});
+		//	  $( this ).children('.mw_mod_drag_handle:first').css({top:position1223.top,left:position1223.left+2});
 		   }
 		   //init_edits()
 			}
@@ -736,10 +737,10 @@ function set_mw_editing_started_false(){
 }
 $(".edit *:not(.mw_mod_drag_handle)", '.mw').live("click", function(event) {
 	if( window.mw_editing_started == false){
-	 window.mw_editing_started  = true;
-	
+	 //window.mw_editing_started  = true;
+	 setTimeout(" window.mw_editing_started  = true; mw_make_editables()",500);	
 	 
- 	 mw_make_editables()
+ 	 
  	   
 	} else {
 	//	setTimeout("set_mw_editing_started_false()",500);	
@@ -758,7 +759,7 @@ $(".edit *:not(.mw_mod_drag_handle)", '.mw').live("click mouseup mousedown", fun
  
 	
 	
-	 if( window.mw_editing_started == true){
+	 if( window.mw_editing_started == true &&  window.mw_drag_started == false){
 	
 	
 	
@@ -857,29 +858,9 @@ $nom = 0;
 			 if(window.mw_making_sortables == false){
 			 
 			 
-			 
-//			$('.to_here_click').removeClass('to_here_click')
-			//$('.module *', '.edit' ).addClass('mw_mod_wrap');
-			//$('.module', '.edit' ).addClass('mw_mod_wrap');
-		
-			 
-			
-			
-			
-
-			// event.target.setAttribute('mw_id', window.mw_last_hover);	
-			 
-			
-			
-			 
-			 
-//			 is_editable = event.target.getAttribute('contentEditable');
-			
-			 
-	//		$is_in_module=	$(this).parents('.module').size();
-			 
-		//	 $is_ce_edit=	$('.edit:first').attr('contentEditable');
-			 $is_ce_edit=$(this).parents('.edit').attr('contentEditable');
+ 
+ 
+			 $is_ce_edit=$(this).parents('.edit:first').attr('contentEditable');
 			// alert($is_ce_edit);
 			 $is_in_module = 0;
 			
@@ -1017,7 +998,7 @@ $nom = 0;
 					     
 					
 					
-				
+				 mw_html_tag_editor(window.mw_last_hover)
 					
 					 if (window.console != undefined) {
 							console.log('click on ' + event.target.nodeName );	
@@ -1038,7 +1019,7 @@ $nom = 0;
 					
 					
 				// if(window.mw_editables_created == false){
-					if( $is_ce_edit == undefined || $is_ce_edit != 'true' || $is_ce_edit == false ){
+					if( $is_ce_edit == undefined || ( $is_ce_edit != 'true' || $is_ce_edit == false) ){
 				 
 						window.mw_editing_started = true;
 					 	window.mw_editables_created = false;
@@ -1080,22 +1061,28 @@ $nom = 0;
 			// mw_html_tag_editor(window.mw_last_hover)
 					}
  //		 $(this).focus();
-				 
-				 
-				 
-		    	 if ( $.browser.msie ) {
-		    		 $(this).parents('.container').attr('contentEditable', true);
-		    		 } else {
-		    		//	 alert(mw1);
-				     
-				    	 
-				    	 
-		    		 }
+					 $is_cep_edit=$(this).parents('.edit').attr('contentEditable');
+					if( $is_ce_edit == undefined || ( $is_ce_edit != 'true' || $is_ce_edit == false) ){
+					
+									 
+						 $(this).parents('.edit').attr('contentEditable', true);
+					 
+			    	 if ( $.browser.msie ) {
+			    	 
+
+			    		 } else {
+			    		//	 alert(mw1);
+					     
+					    	 
+					    	 
+			    		 }
+					}
+
 				 
 				 
 				 	
 //		 event.preventDefault(); // this prevents the original href of the link from being opened
-				//	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+				event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
 					 
 					
 	// return false;
@@ -1446,8 +1433,7 @@ function init_edits(){
 	
 //	window.mw_sortables_created = false;
 	if( window.mw_sortables_created == false && window.mw_drag_started == false){
-		$('.module *', '.edit' ).addClass('mw_mod_wrap');
-		
+ 
 	
 		
 		mw_set_handles()
@@ -1614,7 +1600,12 @@ function init_edits(){
 							      // 	mw_remove_editables();
 							        window.mw_drag_started = true;
 							        
-							    	$('.container *', '.edit' ).not('.module').removeClass('mw_mod_wrap'); 
+							       // alert(1);
+							   	$( '.edit').append('<div class="mw_dropable_generated"></div>');
+							   	$( '.edit').prepend('<div class="mw_dropable_generated"></div>');
+							        
+						//	    	$('.container *', '.edit' ).not('.module').removeClass('mw_mod_wrap'); 
+							  //  	$('.container', '.edit' ).not('.module').removeClass('mw_mod_wrap'); 
 							    //	$('.module', '.edit' ).removeClass('mw_mod_wrap'); 
 							    	 
 							  	  if (window.console != undefined) {
@@ -1639,7 +1630,7 @@ function init_edits(){
 							            }
 					
 							     //   	$(".edit").enableSelection()
-							        	$('.container', '.edit' ).children().removeClass('mw_mod_wrap');
+							      //  	$('.container', '.edit' ).children().removeClass('mw_mod_wrap');
 							        	if (ui.item.hasClass("mw_mod_wrap_main")) {
 							        	ui.item.css('zoom', '');
 							        	ui.item.css('filter', '');
@@ -1700,18 +1691,13 @@ function init_edits(){
 	
 	 window.mw_editables_on_page.sortable('destroy');
 	
-	$('.module', '.edit' ).children().addClass('mw_mod_wrap');
-//	$('.container', '.edit' ).children().addClass('mw_mod_wrap');
-	$('.container', '.edit' ).children().addClass('mw_mod_wrap');
+ 
 	
-	//$('.mw_mod_drag_handle' ).removeClass('mw_mod_wrap');
-	
-	
-	$('.module *', '.edit' ).addClass('mw_mod_wrap');
-	//$('.edit .module').addClass('mw_mod_wrap');
-	$('.module', '.edit' ).addClass('mw_mod_wrap_main');
-	 
-	
+//	$('.module *:not:(.mw_mod_drag_handle)', '.edit' ).addClass('mw_mod_wrap');
+ //	$('.module', '.edit' ).addClass('mw_mod_wrap_main');
+ //	$('.mw_mod_drag_handle', '.module' ).removeClass('mw_mod_wrap_main');
+ 
+ 	
 
 	
 	
@@ -1734,137 +1720,152 @@ tempArray=new Array();
 		console.log($edit_field_id);
 		}
 	//	$selects1 = $selects1 +  ', #'+$edit_field_id 
-		tempArray[ed]='#'+$edit_field_id;
-		$( '#'+$edit_field_id+'').sortable(sort_opts).sortable( "option", "connectWith", ".col" );
-		$( '#'+$edit_field_id+'').prepend('<div class="mw_dropable_generated"> </div>');
-		$( '#'+$edit_field_id+'').append('<div class="mw_dropable_generated"> </div>');
+		//tempArray[ed]='#'+$edit_field_id;
+	//	$( '#'+$edit_field_id+'').sortable(sort_opts).sortable( "option", "connectWith", ".col" );
+		//$( '#'+$edit_field_id+'').prepend('<div class="mw_dropable_generated"></div>');
+	////	$( '#'+$edit_field_id+'').append('<div class="mw_dropable_generated"></div>');
  
 	} 
-	$( '.container .row').append('<div class="mw_dropable_generated"></div>');
-	//$( '.edit').append('<div class="mw_dropable_generated"> </div>');
-
- 
-	
-//	sort_opts2 = sort_opts;
-//	
-//	//sort_opts2.items =   '>*';
-//	sort_opts2.start =  function(event, ui) { 
-//       	mw_remove_editables();
-//        window.mw_drag_started = true;
-//        
-//        
-//       // $(".container").addClass('mw_mod_wrap');
-//        $(".container_handle").removeClass('mw_mod_wrap');
-//    //	$(".container *").addClass('mw_mod_wrap');
-//     
-//        }; 
-//	
-	//$(".container").sortable('destroy');
-	//$(".container").sortable(sort_opts2).sortable( "option", "connectWith", ".col" );
- 
-	
- 
-	//$( '.mw_layout').sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
-	//$('div.mw_layout').addClass('mw_mod_drag_handle');
-
 	
 	
- 
-	//tempArray_string = tempArray.join(', ') 
-//	alert(tempArray_string);
- //	$( tempArray_string ).sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
-	//$( ".edit" ).sortable(sort_opts).sortable( "option", "connectWith", ".edit" );
-	
-
-	
-	
-	sort_opts_sidebar = sort_opts;
-//	sort_opts_sidebar.items = "*"
-	//$( ".sortable_modules" ).sortable(sort_opts_sidebar);
-	$('.edit .module .mw_module_overlay').removeClass('mw_mod_wrap');
-	
-	
-	
-//	$( ".module > *" , '.edit' ).disableSelection()
-	//$( ".edit .module > *" ).disableSelection()
-	//$('.edit .module *').addClass('mw_mod_wrap');
-	
-	
-//	$('.edit .module').css('opacity','0.5').css('z-index','90000');
-	
-	
- //$('.edit .module > *').addClass('mw_mod_wrap');
-
-//	$( ".edit .module" ).sortable( "option", "handle",  '.module' );
-	//$( ".edit .module" ).sortable( "option", "items",  '.module' );
-	//$( ".edit" ).sortable( "option", "cancel", '.mw_mod_wrap');
-	
-	
-//	$( ".edit .module" ).sortable('destroy');
-//	$( ".edit .module > *" ).sortable('destroy');
-	sort_opts2 = sort_opts;
- 
-	sort_opts2.items = '.module';
-	sort_opts2.containment = '.module'; 
-	sort_opts2.handle = '.mw_mod_wrap_main';
-	//sort_opts2.connectWith = ".edit"
- 	sort_opts2.cancel = '.mw_mod_wrap';
-
- 	$( ".mw_mod_wrap_main", '.edit' ).sortable('destroy');
-		$( ".mw_mod_wrap_main", '.edit' ).sortable(sort_opts2).sortable( "option", "connectWith", ".edit" );;	
-	//	$( ".mw_mod_wrap", '.module' ).disableSelection();
-		$( ".mw_mod_wrap", '.module' ).sortable('destroy');
-	//	$( ".edit .module" ).children().sortable( "disable" );
-	//$( ".edit .module" ).children().sortable( "destroy" );
-	
+	$(".edit").sortable('destroy');
+	$(".container").sortable('destroy');
+	$(".col").sortable('destroy');
+	$(".edit").sortable({
+		  forcePlaceholderSize: false,
+			forceHelperSize : true ,
+			tolerance: 'pointer',
+		//	   helper:'clone',
+		//	containment: '.container:not(.row)',  
+			//tolerance: 'intersect',
+		// 	iframeFix: true,
+		   //cancel: '.module > * :not(:has(.module)) ',
+	    //cancel: '.mw_mod_wrap',
+		//	placeholder: "to_here_drop",
+		//	placeholderElement: 'div',
+		//	containment: '.edit',
+	  //  items : 'div',
+	 	items: '.edit *, .container,.module:not(.mw_mod_wrap),.col,.col > .module, p, br',
+	 	//items: '.container,.module,.col *.module, p, br',
+	//	items: '*:not(.mw_mod_wrap)', 
+			//revert: true,
+			handle : '.mw_mod_drag_handle',
+			//cancel: '.row',
+			  cancel: '.mw_mod_wrap',
+		 placeholder: "to_here_drop",
+		 placeholderElement: 'div',
+			
+			zIndex: 6000,
+		//	 grid: [5, 5],
+	 	 opacity: 0.6,
+	   	distance: 1 ,
+	   	
+	//placeholder: "ui-state-highlight",
+	stop: function() {
+		mw_set_grid()
 		
-	//	$('.edit .module *').hasAncestor('.module').css('opacity','0.5').css('z-index','-10');
-		//$('.edit .module *').css('opacity','0.5').css('z-index','-10');
+		
+		$('.mw_dropable_generated').filter(function (index) { 
+			    return $(this).children().length < 1; 
+			}).remove();
+		
+	  	setTimeout("set_drag_started_false()",500);
+		
+		
+	},	start: function() {
+	
+		$( '.edit').append('<div class="mw_dropable_generated container"></div>');
+	   	$( '.edit').prepend('<div class="mw_dropable_generated container"></div>');
+	   	$( '.container').before('<div class="mw_dropable_generated container"></div>');
+	   	$( '.container').after('<div class="mw_dropable_generated container"></div>');
+	   	
+  
+	   	
+		window.mw_drag_started = true;
+	},receive: function(event, ui) {
+		//copyHelper= null;
+		
+		//	window.mw_drag_started = false;
+			        	  	setTimeout("set_drag_started_false()",500);
+//			$( ".edit .module_draggable" ).css("display","");
+//
+//			$( ".edit .module_draggable" ).removeClass('module_draggable');
+//			$( ".edit .mw_put_module_ids" ).removeClass('mw_put_module_ids');
+//			$( ".edit .mw_no_module_mask" ).removeClass('mw_no_module_mask');
+	//		$( ".edit .mw_mod_wrap" ).removeClass('mw_mod_wrap');
+			//$( ".edit .mw_mod_wrap" ).remove();
+			
+			 
+			$( ".edit .mw_show" ).show();
+			$( ".edit .mw_show" ).removeClass('mw_show');
+		//	$( ".edit .module" ).empty();
+			
+			$( ".edit *" ).attr('sizcache', '');
+			$( ".edit *" ).attr('sizset', ''); 
+			
+		
+			$( ".edit .js_mod_remove" ).remove();
+			// window.mw_sortables_created = false;
+		//	 init_edits();
+			mw.saveALL();
+			// window.mw_sortables_created = false;
+			// mw_make_editables()
+		//	init_edits()
+			bind_module_edit_iframe_click()
+			
+}
+	}).sortable("option", "connectWith", ".edit *" )
+	 //"option", "connectWith", ".row" //"option", "connectWith", ".edit *" 
+	
+	
+	$(".row").sortable('destroy');
+	$(".row").sortable({
+		  forcePlaceholderSize: true,
+ 	forceHelperSize : true ,
+		tolerance: 'pointer',
+	//	  helper:'clone',
+		//tolerance: 'intersect',
+		//	iframeFix: true,
+		   //cancel: '.module > * :not(:has(.module)) ',
+	    cancel: '.module',
+	//	placeholder: "to_here_drop",
+		//	placeholderElement: 'div',
+	//	containment: 'parent',
+	//	containment: '.row:not(.col)',  
+		//  axis: 'x',
+
+	 
+			items: '.col',
+		//items: '*:not(:has(.module))',
+		//revert: true,
+		handle : '.col_handle',
+		  cancel: '.module, .container, .mw_mod_wrap',
+	 placeholder: "to_here_drop",
+			 placeholderElement: 'div',
+//			
+	zIndex: 6000,
+//		//	 grid: [5, 5],
+ 	 opacity: 0.6,
+   	distance: 1 ,
+//	   	
+//	//placeholder: "ui-state-highlight",
+stop: function() {
+		mw_set_grid()
+	//	window.mw_drag_started = false;
+	  	setTimeout("set_drag_started_false()",500);
+	},	start: function() {
+		window.mw_drag_started = true; 
+	}
+	}).sortable("option", "connectWith", ".row")
 	
 
-		//$('.edit .module a').attr('href', '#');
-	//	$('.edit .module a').attr('onclick', '');
+ 	$("div.module", '.edit').find('.module').addClass('mw_mod_wrap');
+	$("div.module", '.edit').find('.module').find('.mw_mod_drag_handle').addClass('mw_mod_drag_handle_inner');
+ 
 		$('.edit .module').attr('contentEditable', false);
 		$('.edit .module *').attr('contentEditable', false);
 		
-	//$('.edit div.module').addClass('mw_mod_wrap');
-	
-//	$( ".edit" ).sortable( "option", "items", '*:not(.module)' );
-//	$( ".edit .module >*" ).sortable( "option", "disabled", true);
-//	$( ".edit" ).sortable( "option", "cancel", '.mw_mod_wrap');
-//	$( ".edit .module *" ).sortable( "disable" )
-	//$( ".mw_mod_wrap" ).sortable( "destroy" )
-	//$( ".edit .module" ).sortable( "option", "handle",  '.module' );
-	//$( ".edit .module > *" ).sortable( "option", "handle",  'div.module' );
-//	$( ".edit .module > *" ).sortable( "option", "containment", 'parent' );
-	//$( ".edit .module > *" ).sortable( "option", "handle",  '.module' );
-	
-	//var handle = $( ".edit .module" ).sortable( "option", "handle" );
-	
-//	$( "#admin_sidebar" ).prepend(handle);
-	
-	//$( ".edit .module > *" ).sortable('destroy');
-	//$( ".edit .module > *" ).sortable( "option", "disabled", true );
-	//$( ".edit .module > *" ).disableSelection();
-	
- 
-	
-	
- 
-//	$( ".edit .module > *" ).sortable( "option", "helper",  '.mw_mod_wrap' );
-	
-	//$( ".edit .module *" ).sortable( "option", "disabled", true );
-	//$( ".edit .module > " ).sortable( "option", "handle",  '.module' );
-	//$( ".edit .module > *" ).sortable('destroy');
-//	$( ".edit .module *" ).sortable( "option", "handle",  '.module' );
-	//$( ".sortable_modules" ).sortable( "option", "items", '.module_draggable' );
-	//$( ".sortable_modules" ).sortable( "option", "helper", 'clone' );
-//	$( ".sortable_modules" ).sortable( "option", "handle", '.mw_sidebar_module_insert' );
-    
-	
-	
- 
-//	mw_remove_inner_sortables()
+ 	 
 	
 	}
 	
@@ -1927,27 +1928,31 @@ function rgbConvert(str) {
 
 function mw_set_handles(){
 	//if( window.mw_editing_started == false){
-	$(".container_handle", '.edit').each(function() {
-		 position123 = $(this).parents('.container:first').position();
-		  $( this ).css(position123);
-	 });
-	
-	$(".col_handle", '.col').each(function() {
-		 position123 = $(this).parent().position();
-		 if(position123 != undefined){
-			 if(position123.top != undefined){
-				 
-				 
-				  if (window.console != undefined) {
-						//console.log('col position ' +position123.top + position123.left );	
-					}
-				  
-				 
-				 
-		  $( this ).css({top:position123.top,left:position123.left});
-			 }
-		 }
-	 });
+//	$(".container_handle", '.edit').each(function() {
+//		// position123 = $(this).parents('.container:first').position();
+//		//  $( this ).css(position123);
+//	 });
+//	
+//	$(".col").each(function() {
+//		// position123 = $(this).parentsUntil('.col:first');
+//		 position123 =  findElPos(this)
+//		// alert(position123);
+//		 if(position123 != undefined){
+//			 
+//		//	 position1234 = position123.split(',');
+//			 if(position123[0] != undefined){
+//				 
+//				 
+//				  if (window.console != undefined) {
+//						//console.log('col position ' +position123.top + position123.left );	
+//					}
+//				  
+//				 
+//				  
+//		//  $(this).children('.col_handle').css({top:position123[0],left:position123[1]+20});
+//			 }
+//		 }
+//	 });
 	
 	
  
@@ -1995,9 +2000,7 @@ function bind_module_edit_iframe_click(){
 		
  });
  $(".ui-resizable-handle", '.container').live("mouseenter mouseleave click", function(event) {
-		// $( '.container' ).removeClass('mw_mod_wrap');
-		// $( '.container' ).children().removeClass('mw_mod_wrap');
-		//  $(".container_handle").removeClass('mw_mod_wrap');
+  
 		 if ( event.type == "mouseenter" ) {
 		// window.mw_drag_started = true;
 			 window.mw_drag_started = true;
@@ -2038,7 +2041,38 @@ function bind_module_edit_iframe_click(){
 //		 }
 //		
 // });
+ $("img", '.edit').live("mouseenter mouseleave mouseup mousedown click blur", function(event) {
+	 if ( event.type == "mouseenter" ) {
+		
+/*		  $(this).resizable('destroy');
+			 $(this).resizable({
+				 handles: 's, e',
+				 autoHide: false ,
+				 start: function(event, ui) {
+				// window.mw_handle_hover = true;
  
+				 
+			},
+			//alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
+			 stop: function(event, ui) { 
+				 
+		     
+
+			//	setTimeout("set_handle_hover_false()",1500);
+			} 
+				 
+			 
+			});
+		 */
+	 }
+	 if ( event.type == "blur" ) {
+		
+	 }
+	 
+	 
+	
+	 
+ })
  
  
 $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", function(event) {
@@ -2049,11 +2083,11 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 	
 	 
 	 if ( event.type == "mouseenter" ) {
-		 $(this).parents('.container' ).removeClass('mw_mod_wrap');
+ 
+
 			if( window.mw_drag_started == false){
 				
-				 // window.mw_sortables_created = false;
-				//  init_edits()
+ 
 				 
 		  if (window.console != undefined) {
 				console.log('mouseenter on container ' );	
@@ -2061,28 +2095,21 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 		  
 		  $(this).disableSelection();
 		 
-		//  $( this ).children('.mw_mod_drag_handle').show();
-	  	  //$('.mw_mod_drag_handle','.module').hide();
+ 
 			if( $( this ).children('.container_handle').length || $( this ).parents('.container_handle').length){  
 				 
 			} else {
 				$( this ).prepend('<span class="mw_mod_drag_handle container_handle">box</span>');
 
 			}
-			mw_set_handles()
-			//offse111t = $(this).offset();
-			position123 = $(this).position();
 			
-		 
-//			 $( this ).removeClass('mw_mod_wrap');
-//			 $( this ).children('.container').removeClass('mw_mod_wrap');
-//			 $( this ).children('.container').removeClass('mw_mod_wrap');
-//			 $('.container_handle').removeClass('mw_mod_wrap');
-//			 $('.container').removeClass('mw_mod_wrap');
-			  
-		 
+ 	
+			
+			
+			mw_set_handles()
+ 
 			 window.mw_last_hover++;
-			  $( this ).children('.mw_mod_drag_handle').not('.col_handle').css(position123);
+			 //$( this ).children('.mw_mod_drag_handle').not('.col_handle').css(position123);
 			  
 			  $( this ).children('.container_handle').html('box');
 			  
@@ -2096,23 +2123,23 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 
 		 //  $( '.col' , $(this)  ).css("text-decoration", "underline")
 
-		   
+		   $( '.col', $(this) ).resizable('destroy');
 			$( '.col' , $(this)  ).resizable({
 				 handles: 's, e',
-				 autoHide: true ,
+		//		 autoHide: true ,
 				 start: function(event, ui) {
 				 window.mw_handle_hover = true;
 				// $(this).next(".col").css('background-color', 'red');
 				 $(this).next(".col").attr('also_resize', window.mw_last_hover);
 				 
-				 $(this).css("height", 'auto');
+				 $(this).not('img').css("height", 'auto');
 				 
 				 
 			},
-			alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
+			//alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
 			 stop: function(event, ui) {
 				 
-		        $(this).css("height", 'auto');
+		        $(this).not('img').css("height", 'auto');
 		        $(this).css("position", '');
 		        $(this).css("top", '');
 		        $(this).css("left", '');
@@ -2136,7 +2163,9 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 	 if ( event.type == "mouseleave" ) {
 		 if( window.mw_drag_started == false){
  
-		   $( '.col', $(this) ).resizable('destroy');
+	
+		   $(this).disableSelection();
+			 
 		 }
 	 
 	 }
@@ -2150,7 +2179,7 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 	 
 });
 
-$(".col", '.row').live("mouseenter mouseleave mouseup mousedown click", function(event) {
+$(".col").live("mouseenter mouseleave mouseup mousedown click", function(event) {
 	 
 	 if ( event.type == "mouseenter" ) {
 		  
@@ -2170,14 +2199,14 @@ $(".col", '.row').live("mouseenter mouseleave mouseup mousedown click", function
 			if( $( this ).children('.col_handle').length || $( this ).parents('.col_handle').length){  
 				 
 			} else {
-				$( this ).prepend('<span class="mw_mod_drag_handle col_handle">col</span>');
+				$( this ).prepend('<span class="mw_mod_drag_handle col_handle">column</span>');
 			}
 			
 		   $( this ).children('.col_handle').show();
 		   if( window.mw_editing_started == false){
 			//var offset = $(this).offset();
 			//position1223 = $(this).position();
-			mw_set_handles()
+		//	mw_set_handles()
 			//  $( this ).children('.col_handle').css({top:position1223.top,left:position1223.left+35});
 		   }
 		   
@@ -2243,9 +2272,15 @@ function mw_sidebar_make_sortables(){
 	copyHelper= li.clone().insertAfter(li);
 	return li.clone();
 	},	start: function() {
-	//	$(".container").addClass('mw_mod_wrap');
-	//	$(".container *").addClass('mw_mod_wrap');
-
+ 
+ 		$( '.edit').append('<div class="mw_dropable_generated"></div>');
+ 	  	$( '.edit').prepend('<div class="mw_dropable_generated"></div>');
+// 
+	 	
+	 	$('<div class="mw_dropable_generated"></div>').insertAfter('.container');
+		$('<div class="mw_dropable_generated"></div>').insertBefore('.container');
+	 	
+	 
 		window.mw_drag_started = true;
 	},
 	receive: function() {
@@ -2261,7 +2296,7 @@ function mw_sidebar_make_sortables(){
 		copyHelper
 //	copyHelper && copyHelper.remove();
 	}
-	}).sortable( "option", "connectWith", ".edit, .mw_layout, .mw_layout_item" ).disableSelection();
+	}).sortable( "option", "connectWith", ".edit" ).disableSelection();
 //	$(".sortable_modules","#mw_sidebar_design_holder").sortable('option,"cancel",".mw_mod_wrap, .col, .container"');
 	
 	
@@ -2326,42 +2361,9 @@ function mw_sidebar_make_sortables(){
 	
 	
 //	
+//	
 	
-	$(".row").sortable('destroy');
-	$(".row").sortable({
-		  forcePlaceholderSize: true,
-			forceHelperSize : true ,
-			tolerance: 'pointer',
-			//tolerance: 'intersect',
-		//	iframeFix: true,
-		   //cancel: '.module > * :not(:has(.module)) ',
-		//    cancel: '.container',
-		//	placeholder: "to_here_drop",
-		//	placeholderElement: 'div',
-		//	containment: '.container',
-			items: '.col',
-			//items: '*:not(:has(.module))',
-			//revert: true,
-			handle : '.col_handle',
-		//	  cancel: '* :not(.col_handle) ',
-		 placeholder: "to_here_drop",
-				 placeholderElement: 'div',
-			
-			zIndex: 6000,
-		//	 grid: [5, 5],
-	 	 opacity: 0.6,
-	   	distance: 1 ,
-	   	
-	//placeholder: "ui-state-highlight",
-	stop: function() {
-		mw_set_grid()
-	//	window.mw_drag_started = false;
-	  	setTimeout("set_drag_started_false()",500);
-	},	start: function() {
-		window.mw_drag_started = true;
-	}
-	}).sortable()
-	 //"option", "connectWith", ".row" 
+///	 //"option", "connectWith", ".row" 
 
  
 
@@ -2730,7 +2732,8 @@ $(document).ready(function() {
 	//myNicEditor.setPanel('mw_editbar');
 	
 	
-	 $('.edit[contenteditable=true] *').keydown(function(e) {
+	 $('.edit[contenteditable=true]').keydown(function(e) {
+		 if( window.mw_editing_started == true &&  window.mw_drag_started == false){
 		    // trap the return key being pressed
 		    if (e.keyCode == 13) {
 		    	
@@ -2759,6 +2762,7 @@ $(document).ready(function() {
 		      // prevent the default behaviour of return key pressed
 		      return false;
 		    }
+		 }
 		  });
 
 	
@@ -3458,9 +3462,10 @@ function mw_saveALL($no_async) {
 
 mw.saveALL = function($no_async){
  //	$( ".edit .module" ).children().remove();
+	$( ".edit .mw_mod_drag_handle" ).remove();
 	window.no_async = true;
 	nic_save_all(function(){
-		
+	
 		init_edits();
 	
 		  try {

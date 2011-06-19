@@ -80,7 +80,7 @@ mw.reload_module = function($module_name) {
 			
 			
 			
-			if ($module_name != undefined) {
+			if ($module_name != undefined) { 
 			//	$("div.module").each(
 				//$("div.module[mw_params_module='"+$module_name+"']").each(
 				$("div.module").each(

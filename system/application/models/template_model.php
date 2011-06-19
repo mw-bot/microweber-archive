@@ -989,9 +989,25 @@ $modules = CI::model('template')->getModules($modules_options );
 p($modules );
 
 	 */
+	function getDesignElementsDirs($options = false) {
+		
+		$dir_name = normalize_path ( ELEMENTS_DIR );
+		$a1 = array ();
+		$dirs = array_filter ( glob ( $dir_name . '*' ), 'is_dir' );
+		foreach ( $dirs as $dir ) {
+			$a1 [] = basename ( $dir );
+		
+		}
+		
+		return $a1;
+	}
 	function getDesignElements($options = false) {
 		//p($options);
-		$dir_name = normalize_path ( ELEMENTS_DIR );
+		if (! $options ['dir_name']) {
+			$dir_name = normalize_path ( ELEMENTS_DIR );
+		} else {
+			$dir_name = normalize_path ( ELEMENTS_DIR . '/' . $options ['dir_name'] );
+		}
 		$dir = rglob ( '*_config.php', 0, $dir_name );
 		
 		if (! empty ( $dir )) {
@@ -1587,11 +1603,11 @@ p($modules );
 									if ($options ['no_cache'] == true) {
 										$cache_this = false;
 									}
-								if ($config ['no_cache'] == true) {
+									if ($config ['no_cache'] == true) {
 										$cache_this = false;
 									}
 									$mod_title = '';
-								if ($config ['name'] == true) {
+									if ($config ['name'] == true) {
 										$mod_title = $config ['name'];
 									}
 									
@@ -1709,7 +1725,7 @@ p($modules );
 									} else {
 										$mod_id_tag = '';
 									}
-								if ($mod_title != '') {
+									if ($mod_title != '') {
 										$mod_id_tag = ' module_title="' . $mod_title . '" ';
 									}
 									
@@ -1718,7 +1734,7 @@ p($modules );
 									
 									$more_attrs = '';
 									$more_attrs = " class='module' ";
-									 //
+									//
 									if (strval ( $module_file ) != '') {
 										
 										if ($options ['do_not_wrap'] == true) {
@@ -1794,8 +1810,8 @@ p($modules );
 			$html = str_get_html ( $layout );
 			
 			foreach ( $html->find ( 'editable' ) as $m ) {
-
-			$attr = array ();
+				
+				$attr = array ();
 				
 				$attr ['rel'] = $m->rel;
 				$attr ['field'] = $m->field;
@@ -1881,7 +1897,6 @@ p($modules );
 				//	$field_content = html_entity_decode ( $field_content );
 				$field_content = htmlspecialchars_decode ( $field_content );
 				
-					
 				//												$check_divs = strstr ( '<div', $field_content );
 				//												if ($check_divs == false) {
 				//													$field_content = '<div>' . $field_content . '</div>';
@@ -1940,191 +1955,153 @@ p($modules );
 				if (strstr ( $layout, '<editable' ) == true and $error == false) {
 					$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout, $options );
 				}
-				
-				
+			
 			}
-	 
-				
+		
 		}
-	 	
 		
+		//			$relations = array ();
+		//			$tags = CI::model ( 'core' )->extractTags ( $layout, 'editable', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+		//			$matches = $tags;
+		//			if (! empty ( $matches )) {
+		//				foreach ( $matches as $m ) {
+		//					if ($m ['tag_name'] == 'editable') {
+		//						$attr = $m ['attributes'];
+		//						$get_global = false;
+		//						if ($editmode == true) {
+		//						
+		//						}
+		//						
+		//						if ($attr ['rel'] == 'global') {
+		//							$attr ['global'] = true;
+		//							$get_global = true;
+		//						}
+		//						
+		//						if ($attr ['rel'] == 'page') {
+		//							$attr ['page'] = PAGE_ID;
+		//						}
+		//						
+		//						if ($attr ['rel'] == 'post') {
+		//							$attr ['post'] = POST_ID;
+		//							if ($attr ['post'] == false) {
+		//								$attr ['post'] = PAGE_ID;
+		//								//$attr ['page'] = PAGE_ID;
+		//							}
+		//						}
+		//						if ($attr ['rel'] == 'category') {
+		//							$attr ['category'] = CATEGORY_ID;
+		//						}
+		//						
+		//						if ($attr ['rel'] == 'module') {
+		//							$relate_to_module = true;
+		//						} else {
+		//							$relate_to_module = false;
+		//						}
+		//						
+		//						if ($relate_to_module == false) {
+		//							if ($attr ['page']) {
+		//								$data = get_page ( $attr ['page'] );
+		//							} else if ($attr ['post']) {
+		//								$data = get_post ( $attr ['post'] );
+		//								if ($data == false) {
+		//									$data = get_page ( $attr ['post'] );
+		//								}
+		//								//p ( $data );
+		//							//p ( $attr );
+		//							} else if ($attr ['category']) {
+		//								$data = get_category ( $attr ['category'] );
+		//							} else if ($attr ['global']) {
+		//								$get_global = true;
+		//							}
+		//						}
+		//						
+		//						$cf = false;
+		//						$field_content = false;
+		//						
+		//						if ($get_global == true) {
+		//							
+		//							$field_content = CI::model ( 'core' )->optionsGetByKey ( $attr ['field'], $return_full = false, $orderby = false );
+		//						
+		//						} else {
+		//							if (strstr ( $attr ['field'], 'custom_field_' ) == true) {
+		//								$cf = str_replace ( 'custom_field_', '', $attr ['field'] );
+		//								$field_content = $data ['custom_fields'] [$cf];
+		//							
+		//							} else {
+		//								$field_content = $data [$attr ['field']];
+		//							
+		//							}
+		//						}
+		//						
+		//						//p($m ['full_tag']);
+		//						
+		//
+		//						if (trim ( $field_content ) == '') {
+		//							
+		//							$field_content = $m ['contents'];
+		//						} else {
+		//							//$quote_style = ENT_COMPAT [, string $charset = 'UTF-8' ]]
+		//							$field_content = htmlspecialchars_decode ( $field_content );
+		//							
+		//						//$field_content = html_entity_decode ( $field_content, $quote_style = ENT_COMPAT, $charset = 'UTF-8' );
+		//						}
+		//						//	$field_content = html_entity_decode ( $field_content );
+		//						$field_content = htmlspecialchars_decode ( $field_content );
+		//						
+		//						$attrs_to_append = false;
+		//						$field_content = CI::model ( 'template' )->parseMicrwoberTags ( $field_content, $options = false );
+		//						
+		//						$field_content = str_replace_count ( "</div>\n</div>", "</div>" . $field_content . '</div>', $field_content, 1 );
+		//						
+		//						//												$check_divs = strstr ( '<div', $field_content );
+		//						//												if ($check_divs == false) {
+		//						//													$field_content = '<div>' . $field_content . '</div>';
+		//						//												}
+		//						
+		//
+		//						//print htmlspecialchars ( $field_content );
+		//						if ($editmode == true) {
+		//							
+		//							foreach ( $attr as $at_key => $at_value ) {
+		//								$attrs_to_append .= "$at_key='$at_value' ";
+		//							}
+		//							//p($attrs_to_append);
+		//							$layout = CI::model ( 'core' )->replace_in_long_text ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, $use_normal_replace = true );
+		//							
+		//						//$layout = str_replace_count ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, 1 );
+		//						} else {
+		//							//$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
+		//							//	$layout = str_replace_count ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, 1 );
+		//							$layout = CI::model ( 'core' )->replace_in_long_text ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, $use_normal_replace = true );
+		//						
+		//						}
+		//						
+		//						$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
+		//						//	$layout = str_replace_count ( $m ['full_tag'], "aaaaaaaa", $layout, 1 );
+		//						//$layout = str_replace_count ( 'editable', "aaaaaaaa", $layout, 1 );
+		//						//p($layout);
+		//						//$layout = str_replace ( '<mw', '<microweber', $layout );
+		//						
+		//
+		//						//$layout = CI::model ( 'core' )->replace_in_long_text ( '<mw', '<microweber', $layout, $use_normal_replace = true );
+		//						
+		// 
+		//						if (strstr ( $layout, '<microweber' ) == true and $error == false) {
+		//							$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout, $options );
+		//						}
+		//						if (strstr ( $layout, '<editable' ) == true and $error == false) {
+		//							$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout, $options );
+		//						}
+		//					
+		//					}
+		//				
+		//				}
+		//			
+		//			}
+		//		
+		//		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-						 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 
-//			$relations = array ();
-//			$tags = CI::model ( 'core' )->extractTags ( $layout, 'editable', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
-//			$matches = $tags;
-//			if (! empty ( $matches )) {
-//				foreach ( $matches as $m ) {
-//					if ($m ['tag_name'] == 'editable') {
-//						$attr = $m ['attributes'];
-//						$get_global = false;
-//						if ($editmode == true) {
-//						
-//						}
-//						
-//						if ($attr ['rel'] == 'global') {
-//							$attr ['global'] = true;
-//							$get_global = true;
-//						}
-//						
-//						if ($attr ['rel'] == 'page') {
-//							$attr ['page'] = PAGE_ID;
-//						}
-//						
-//						if ($attr ['rel'] == 'post') {
-//							$attr ['post'] = POST_ID;
-//							if ($attr ['post'] == false) {
-//								$attr ['post'] = PAGE_ID;
-//								//$attr ['page'] = PAGE_ID;
-//							}
-//						}
-//						if ($attr ['rel'] == 'category') {
-//							$attr ['category'] = CATEGORY_ID;
-//						}
-//						
-//						if ($attr ['rel'] == 'module') {
-//							$relate_to_module = true;
-//						} else {
-//							$relate_to_module = false;
-//						}
-//						
-//						if ($relate_to_module == false) {
-//							if ($attr ['page']) {
-//								$data = get_page ( $attr ['page'] );
-//							} else if ($attr ['post']) {
-//								$data = get_post ( $attr ['post'] );
-//								if ($data == false) {
-//									$data = get_page ( $attr ['post'] );
-//								}
-//								//p ( $data );
-//							//p ( $attr );
-//							} else if ($attr ['category']) {
-//								$data = get_category ( $attr ['category'] );
-//							} else if ($attr ['global']) {
-//								$get_global = true;
-//							}
-//						}
-//						
-//						$cf = false;
-//						$field_content = false;
-//						
-//						if ($get_global == true) {
-//							
-//							$field_content = CI::model ( 'core' )->optionsGetByKey ( $attr ['field'], $return_full = false, $orderby = false );
-//						
-//						} else {
-//							if (strstr ( $attr ['field'], 'custom_field_' ) == true) {
-//								$cf = str_replace ( 'custom_field_', '', $attr ['field'] );
-//								$field_content = $data ['custom_fields'] [$cf];
-//							
-//							} else {
-//								$field_content = $data [$attr ['field']];
-//							
-//							}
-//						}
-//						
-//						//p($m ['full_tag']);
-//						
-//
-//						if (trim ( $field_content ) == '') {
-//							
-//							$field_content = $m ['contents'];
-//						} else {
-//							//$quote_style = ENT_COMPAT [, string $charset = 'UTF-8' ]]
-//							$field_content = htmlspecialchars_decode ( $field_content );
-//							
-//						//$field_content = html_entity_decode ( $field_content, $quote_style = ENT_COMPAT, $charset = 'UTF-8' );
-//						}
-//						//	$field_content = html_entity_decode ( $field_content );
-//						$field_content = htmlspecialchars_decode ( $field_content );
-//						
-//						$attrs_to_append = false;
-//						$field_content = CI::model ( 'template' )->parseMicrwoberTags ( $field_content, $options = false );
-//						
-//						$field_content = str_replace_count ( "</div>\n</div>", "</div>" . $field_content . '</div>', $field_content, 1 );
-//						
-//						//												$check_divs = strstr ( '<div', $field_content );
-//						//												if ($check_divs == false) {
-//						//													$field_content = '<div>' . $field_content . '</div>';
-//						//												}
-//						
-//
-//						//print htmlspecialchars ( $field_content );
-//						if ($editmode == true) {
-//							
-//							foreach ( $attr as $at_key => $at_value ) {
-//								$attrs_to_append .= "$at_key='$at_value' ";
-//							}
-//							//p($attrs_to_append);
-//							$layout = CI::model ( 'core' )->replace_in_long_text ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, $use_normal_replace = true );
-//							
-//						//$layout = str_replace_count ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, 1 );
-//						} else {
-//							//$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
-//							//	$layout = str_replace_count ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, 1 );
-//							$layout = CI::model ( 'core' )->replace_in_long_text ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, $use_normal_replace = true );
-//						
-//						}
-//						
-//						$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
-//						//	$layout = str_replace_count ( $m ['full_tag'], "aaaaaaaa", $layout, 1 );
-//						//$layout = str_replace_count ( 'editable', "aaaaaaaa", $layout, 1 );
-//						//p($layout);
-//						//$layout = str_replace ( '<mw', '<microweber', $layout );
-//						
-//
-//						//$layout = CI::model ( 'core' )->replace_in_long_text ( '<mw', '<microweber', $layout, $use_normal_replace = true );
-//						
-// 
-//						if (strstr ( $layout, '<microweber' ) == true and $error == false) {
-//							$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout, $options );
-//						}
-//						if (strstr ( $layout, '<editable' ) == true and $error == false) {
-//							$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout, $options );
-//						}
-//					
-//					}
-//				
-//				}
-//			
-//			}
-//		
-//		}
-		
 		//{SITE_URL}
 		$site_url = site_url ();
 		
