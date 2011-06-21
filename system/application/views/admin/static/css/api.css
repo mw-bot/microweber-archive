@@ -413,6 +413,7 @@ a.mw_nav_button_delete {
 }
 .mw_admin_box_padding {
 	padding:11px;
+	overflow:hidden;
 }
 input.css_property {
 	width:50px;
@@ -563,7 +564,7 @@ input.css_property {
 .cf_values_reorder li b {
 	font-size: 10px;
 	color: #CCC;
-	height:35px;
+	height:20px;
 	width:16px;
 	display:inline-block;
 	float:right;
@@ -581,7 +582,7 @@ input.css_property {
 	color: #CCC;
 	padding-right: 3px;
 	padding-left: 3px;
-	height:35px;
+	height:25px;
 	width:16px;
 	display:inline-block;
 	float:left;
@@ -759,6 +760,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', end
 	padding-right: 5px;
 	padding-top:9px;
 }
+#admin_sidebar .css_editor_accordeon_text {
+	line-height:39px;
+}
 #admin_sidebar .mw_tag_editor_input {
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
@@ -849,7 +853,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', end
 .mw_tag_editor_font_style_btns {
 	height:24px;
 	width:24px;
-	padding:5px;
+	padding:3px;
 }
 .mw_tag_editor_font_style_btns.active {
 	background-color:#ffffff;
@@ -934,6 +938,19 @@ span.mw_mod_drag_handle {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	opacity: .2;
+	filter: alpha(opacity=20);
+	-moz-opacity: .2;
+}
+span.resize_handle {
+	position:absolute;
+	background: #CCC;
+	color: #FFF;
+	display:none;
+	cursor:move;
+	z-index: 10000;
+	width:20px;
+	padding:20px;
 	opacity: .5;
 	filter: alpha(opacity=50);
 	-moz-opacity: .5;
@@ -949,7 +966,6 @@ span.col_handle {
 	background: green;
 	width:20px;
 }
-
 span.mw_mod_drag_handle_inner {
 	background: #999;
 	width:20px;
@@ -957,15 +973,13 @@ span.mw_mod_drag_handle_inner {
 .mw_dropable_generated {
 	background-color:#F0F;
 }
-
 .mw_sidebar_layouts_lists_to_drop {
- display:block;	
- 
- margin:5px;
- list-style: none outside none;
- border: none;
+	display:block;
+	margin:5px;
+	list-style: none outside none;
+	border: none;
 }
-.mw_sidebar_layouts_lists_to_drop li{
+.mw_sidebar_layouts_lists_to_drop li {
 	float:left;
 	width:65px;
 	height:40px;
@@ -973,8 +987,10 @@ span.mw_mod_drag_handle_inner {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #EFECEC;
-	}
-
-.mw_sidebar_layouts_lists_to_drop li:last{
-	 border: none;
 }
+ .mw_sidebar_layouts_lists_to_drop li:last {
+ border: none;
+}
+
+
+ 

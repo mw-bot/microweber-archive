@@ -252,12 +252,12 @@ outline-width:0px;*/
 #admin_sidebar {
 	position: fixed;
 	top: 45px;
-	width: 290px;
+	width: 300px;
 	z-index:50000;
 	right:0px;
 	height:10px;
 	background-color:#e1e4e9;
-	overflow:hidden;
+	
 	border-bottom-width: thin;
 	border-bottom-style: solid;
 	border-bottom-color: #666;	
@@ -271,7 +271,7 @@ outline-width:0px;*/
 -webkit-box-shadow:1px 0px -4px #747474;
 box-shadow:1px 0px -4px #747474;
 
-	
+	overflow:scroll;
 	
 	
 }
@@ -419,6 +419,7 @@ box-shadow:1px 0px -4px #747474;
 }
 #mw_sidebar_modules_holder, #mw_sidebar_design_holder, #mw_sidebar_add_holder, #mw_edit_module_iframe_holder, #mw_sidebar_css_editor_holder {
 	display:none;
+ 
 }
 /*#mw_sidebar_module_edit_holder iframe {
 	height:800px;

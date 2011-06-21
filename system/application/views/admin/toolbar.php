@@ -304,6 +304,7 @@ $.each(obj.attributes, function(i, val) {
     });
 */
 $(".js_generated").remove();
+$(".mw_mod_drag_handle").remove();
 
 
 $(".mw_non_sortable").removeClass('mw_non_sortable');
@@ -328,6 +329,9 @@ $(".mw_non_sortable").removeClass('mw_non_sortable');
 			   window.saving =false;
 			   
 			   
+if (window.console != undefined) {
+	console.log('Saving ');
+}
 			   
 			   
 			  mw.modal.alert("Content Saved");
@@ -365,7 +369,10 @@ $async_save = false;
 
 
 
-var attrs = $(this)[0].attributes;
+
+ 
+
+var attrs = $(this).get(0).attributes;
 for(var i=0;i<attrs.length;i++) {
     temp1 = attrs[i].nodeName;
     temp2 = attrs[i].nodeValue;
@@ -378,19 +385,24 @@ for(var i=0;i<attrs.length;i++) {
     }
 
 }
-var content = $(this).html();
+content = $(this).html();
 
 var obj = {
     attributes:nic_obj,
     html : content
 }
 var objX = "field_data_"+j;
+if(master[objX] == undefined){
 master[objX] = obj;
+}
 
-
+		
+ 
 
 
    });
+
+		
 		
 		
 			//  mw.modal.overlay();
@@ -410,7 +422,7 @@ master_prev['mw_preview_only'] = 1;
 		  type: 'POST',
 		  url: "<?php print site_url('api/content/save_field');  ?>",
 		  data: master,
-		  datatype: "html",
+		  datatype: "json",
           async:$async_save,
 		  beforeSend :  function() {
 			
@@ -421,7 +433,12 @@ master_prev['mw_preview_only'] = 1;
 		  success: function(data) {
 			  
 			  
-			  
+			  			   
+if (window.console != undefined) {
+	var myJSONText = JSON.stringify(master, '|||||');
+	//console.log('Saving ' + myJSONText);
+}
+	
 			  
 			  
 			  window.saving =false;

@@ -7,7 +7,7 @@
       $(function(){
         
         // init Uni-Form
-        $('form.uniForm').uniform();
+        $('form.uniForm', '.edit').uniform();
         
          
          
@@ -138,7 +138,7 @@
       </fieldset>
       
       
-      <input type="submit" value="" class="x" />
+      <input type="hidden" value=""  class="x" />
       
       
       

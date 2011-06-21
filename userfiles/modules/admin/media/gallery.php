@@ -554,13 +554,17 @@ mw.reload_module('media/gallery');
                   
                    <label>Gallery width</label>
                    
-        <select name="galeria_skin_width" id="mw_gallery_skin_setting_<? print $rand ?>" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery">
+                   
+                   <input name="galeria_skin_width" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('galeria_skin_width', $params['module_id']) ?>" />
+                   
+                   
+       <!-- <select name="galeria_skin_width" id="mw_gallery_skin_setting_<? print $rand ?>" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery">
             <option value="500" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >500</option>
               <option value="700" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >700</option>
                   <option value="900" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >900</option>
                   <option value="1200" <? if( trim(option_get('galeria_skin_width', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >1200</option>
                   
-          </select>
+          </select>-->
                   
                   
                   
@@ -568,6 +572,9 @@ mw.reload_module('media/gallery');
                    
                    <label>Gallery height</label>
                    
+                   <input name="galeria_skin_height" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery"  value="<?php print option_get('galeria_skin_height', $params['module_id']) ?>" />
+                   
+       <!--            
         <select name="galeria_skin_height" id="mw_gallery_skin_setting_<? print $rand ?>" class="mw_option_field" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="media/gallery">
             <option value="500" <? if( trim(option_get('galeria_skin_height', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >500</option>
               <option value="700" <? if( trim(option_get('galeria_skin_height', $params['module_id'])) == '') : ?>  selected="selected" <? endif; ?> >700</option>
@@ -576,7 +583,7 @@ mw.reload_module('media/gallery');
                   
           </select>
                   
-                  
+                  -->
                   
                   
                   

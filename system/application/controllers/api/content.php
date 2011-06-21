@@ -1165,40 +1165,40 @@ class Content extends Controller {
 								$checkbox->outertext = $tag1;
 							
 							}
-							$content = $html->save ();
-							$html = str_get_html ( $content );
-							foreach ( $html->find ( 'span' ) as $checkbox ) {
-								//var_Dump($checkbox);
-								$style = $checkbox->style;
-								$class = $checkbox->class;
-								
-								if (trim ( $style ) == '' and trim ( $class ) == '') {
-									//var_Dump($style);
-									//var_Dump($class);
-									//var_Dump($in);
-									$in = $checkbox->innertext;
-									$checkbox->outertext = $in;
-								}
-								
-								foreach ( $checkbox->find ( 'span' ) as $sp ) {
-									$style = $sp->style;
-									$class = $sp->class;
-									
-									if (trim ( $style ) == '' and trim ( $class ) == '') {
-										//var_Dump($style);
-										//var_Dump($class);
-										//var_Dump($in);
-										$in = $sp->innertext;
-										$sp->outertext = $in;
-									}
-								}
-							
-							}
-							$content = $html->save ();
-							
-							// clean up memory
-							$html->clear ();
-							unset ( $html );
+//							$content = $html->save ();
+//							$html = str_get_html ( $content );
+//							foreach ( $html->find ( 'span' ) as $checkbox ) {
+//								//var_Dump($checkbox);
+//								$style = $checkbox->style;
+//								$class = $checkbox->class;
+//								
+//								if (trim ( $style ) == '' and trim ( $class ) == '') {
+//									//var_Dump($style);
+//									//var_Dump($class);
+//									//var_Dump($in);
+//									$in = $checkbox->innertext;
+//									$checkbox->outertext = $in;
+//								}
+//								
+//								foreach ( $checkbox->find ( 'span' ) as $sp ) {
+//									$style = $sp->style;
+//									$class = $sp->class;
+//									
+//									if (trim ( $style ) == '' and trim ( $class ) == '') {
+//										//var_Dump($style);
+//										//var_Dump($class);
+//										//var_Dump($in);
+//									//	$in = $sp->innertext;
+//										//$sp->outertext = $in;
+//									}
+//								}
+//							
+//							}
+//							$content = $html->save ();
+//							
+//							// clean up memory
+//							$html->clear ();
+//							unset ( $html );
 							//p($content);
 							
 
@@ -1476,6 +1476,8 @@ class Content extends Controller {
 							//$html_to_save = str_ireplace ( '<div><div></div><div><div></div>', '<br />', $html_to_save );
 							//$html_to_save = str_ireplace ( 'class="ui-droppable"', '', $html_to_save );
 							$html_to_save = str_replace ( 'class="ui-sortable"', '', $html_to_save );
+							//$html_to_save = str_replace ( '</microweber>', '', $html_to_save );
+							
 							
 							//$html_to_save =utfString( $html_to_save );
 							//$html_to_save = htmlspecialchars ( $html_to_save, ENT_QUOTES );
@@ -1514,7 +1516,7 @@ class Content extends Controller {
 										$history_to_save ['field'] = $field;
 										//p ( $history_to_save );
 										if ($is_no_save != true) {
-											//	CI::model ( 'core' )->saveHistory ( $history_to_save );
+												CI::model ( 'core' )->saveHistory ( $history_to_save );
 										}
 									
 									}
@@ -1528,10 +1530,12 @@ class Content extends Controller {
 									$to_save ['page_element_content'] = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 									$to_save [$field] = ($html_to_save);
 									//print "<h2>For content $content_id</h2>";
-									//p ( $to_save );
+									 // p ( $_POST );
+									 // p ( $to_save );
 									//p ( $html_to_save, 1 );
 									$json_print [] = $to_save;
 									if ($is_no_save != true) {
+									//	if($to_save['content_body'])
 										$saved = CI::model ( 'content' )->saveContent ( $to_save );
 										//	p($to_save);
 									//p($content_id);
@@ -1572,7 +1576,7 @@ class Content extends Controller {
 								$history_to_save ['value'] = $field_content ['option_value'];
 								$history_to_save ['field'] = $field;
 								if ($is_no_save != true) {
-									//	CI::model ( 'core' )->saveHistory ( $history_to_save );
+										CI::model ( 'core' )->saveHistory ( $history_to_save );
 								}
 								//$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 							//	$json_print[] = array ($the_field_data ['attributes'] ['id'] => $html_to_save );

@@ -176,6 +176,14 @@ class Core_model extends Model {
 			$screenshot_url = $data ['screenshot_url'];
 		}
 		
+	if ($data ['debug']) {
+			$dbg = 1;
+			unset($data ['debug']);
+		} else {
+			
+			$dbg = false;
+		}
+		
 		if ($data ['queue_id'] != false) {
 			$queue_id = $data ['queue_id'];
 		}
@@ -301,6 +309,9 @@ class Core_model extends Model {
 			
 			$id_to_return = $data ['id'];
 		
+		}
+		if($dbg != false){
+			p($q);
 		}
 		
 		//find table assoc name

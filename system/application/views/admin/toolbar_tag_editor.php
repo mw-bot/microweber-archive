@@ -20,7 +20,7 @@
 }*/
 
 </style>
-<div class="mw_admin_box_padding">
+<div class="mw_admin_box_padding mw_scollable">
   <div class="mw_iframe_sub_header" >
     <table width="95%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -34,40 +34,57 @@
       </tr>
     </table>
   </div>
-  <div id="image_editor_holder" class="mw_editor_accordeon"> <h3 class="css_editor_tab_text"> <a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/icons/121-landscape.png"  class="css_editor_accordeon_icon" />Image settings</a>
-    </h3>
+  <div id="link_editor_holder" class="mw_editor_accordeon">
+    <h3 class="css_editor_tab_text"> <a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/icons/55-network.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Link</span></a> </h3>
     <div class="css_editor_tab_text_inside">
-       
-          <table width="100%" border="0" cellspacing="4" cellpadding="0">
-            <tr>
-              <td colspan="2"><img id="image_editor_holder_src" width="100" /></td>
-            </tr>
-            <tr>
-              <td colspan="2"><form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
-                  <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
-                  <input type="file" name="file" onchange="mw_do_the_image_upload();">
-                </form></td>
-            </tr>
-            <tr>
-              <td><label>Thumbnail size</label></td>
-              <td><input id="mw_img_size_set" class="mw_img_size mw_tag_editor_input"  type="text" /></td>
-            </tr>
-            <tr>
-              <td><label>Image link</label></td>
-              <td><input name="mw_edit_image_link" id="mw_edit_image_link" class="mw_tag_editor_input"  /></td>
-            </tr>
-          </table>
+      <table width="100%" border="0" cellspacing="4" cellpadding="0">
+        <tr>
+          <td><label>Link</label></td>
+          <td><input name="mw_edit_link" id="mw_edit_link" class="mw_tag_editor_input"  /></td>
+        </tr>
         
+        <tr>
+          <td><label>Target</label></td>
+          <td>
+          <input name="mw_edit_link_window" id="mw_edit_link_window" class="mw_tag_editor_input"  />
+          </td>
+        </tr>
+
+      </table>
+    </div>
+  </div>
+  <div id="image_editor_holder" class="mw_editor_accordeon">
+    <h3 class="css_editor_tab_text"> <a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/icons/121-landscape.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Image settings</span></a> </h3>
+    <div class="css_editor_tab_text_inside">
+      <table width="100%" border="0" cellspacing="4" cellpadding="0">
+        <tr>
+          <td colspan="2"><img id="image_editor_holder_src" width="100" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
+              <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
+              <input type="file" name="file" onchange="mw_do_the_image_upload();">
+            </form></td>
+        </tr>
+        <tr>
+          <td><label>Thumbnail size</label></td>
+          <td><input id="mw_img_size_set" class="mw_img_size mw_tag_editor_input"  type="text" /></td>
+        </tr>
+        <tr>
+          <td><label>Image link</label></td>
+          <td><input name="mw_edit_image_link" id="mw_edit_image_link" class="mw_tag_editor_input"  /></td>
+        </tr>
+      </table>
     </div>
   </div>
   <div id="mw_html_css_editor" class="mw_editor_accordeon">
-    <h3 class="css_editor_tab_text"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/text.png"  class="css_editor_accordeon_icon" />Text properties</a></h3>
+    <h3 class="css_editor_tab_text"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/text.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Text properties</span></a></h3>
     <div class="css_editor_tab_text_inside">
       <div class="<? print $text_block_classes ?>">
         <table border="0" cellspacing="0" cellpadding="0">
           <tr valign="middle">
             <td><input  name="font-family" class="mw_ac_fonts css_property mw_tag_editor_input mw_tag_editor_input_select_font"  type="text" /></td>
-            <td><select name="font-size" dimensions="px" class="mw_ac_sizes css_property mw_tag_editor_input mw_tag_editor_input_select_font_size" type="text">
+            <td><select name="font-size" dimensions="px" class="mw_ac_sizes css_property mw_tag_editor_input mw_tag_editor_input_select_font_size" type="text" onchange="mw_html_tag_editor_apply_styles()">
                 <option value="">Size</option>
                 <? for ($i = 1; $i <= 100 ; $i++) : ?>
                 <option value="<? print $i ?>"><? print $i ?> px</option>
@@ -85,6 +102,15 @@
             <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'left', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="left"   > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_left.png"  /> </a> <a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'right', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="right"   > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_right.png"  /> </a> <a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'center', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="center"   > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_center.png"  /> </a> <a href="javascript:mw_html_tag_editor_apply_style_for_element('text-align', 'justify', 'none')"  class="mw_tag_editor_font_style_btns" css_name="text-align" css_value_active="justify"  > <img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align_justify.png"  /> </a></td>
             <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/seperator.png"  /></td>
             <td><input  class="mw_color css_property color mw_tag_editor_input_font_color"  name="color"   type="color"  data-hex="true" style="height:20px;width:20px;"   /></td>
+          </tr>
+          <tr>
+            <td><input type="image" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/heading_1.png"  class="mw_make_element" make_element="h1" value="h1" unselectable="true" /></td>
+            <td><input type="image"  class="mw_make_element" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/heading_2.png" make_element="h2" value="h2" unselectable="true" /></td>
+            <td><input type="image"  class="mw_make_element" make_element="h3" value="h3" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/heading_3.png" unselectable="true" /></td>
+            <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/seperator.png"  /></td>
+            <td><input type="image" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/image.gif"    class="mw_make_element" make_element="img" make_element_attr="src" make_element_attr_val="http://lorempixum.com/200/200/?<? print rand(); ?>" value="img"  unselectable="true" /></td>
+            <td><input type="image"  class="mw_make_element" make_element="a" value="a" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/world_link.png"  unselectable="true" /></td>
+            <td></td>
           </tr>
         </table>
       </div>
@@ -159,7 +185,7 @@
         </tr>
       </table>
     </div>
-    <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align.png"  class="css_editor_accordeon_icon" />Align and size</a></h3>
+    <h3 class="css_editor_tab_size"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/align.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Align and size</span></a></h3>
     <div class="css_editor_tab_size_inside">
       <div class="mw_tag_editor_item_holder">
         <div class="mw_tag_editor_label_wide">Align</div>
@@ -208,7 +234,7 @@
               <option value="none">none</option>
             </select>-->
     </div>
-    <h3 class="css_editor_tab_border"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/border.png"  class="css_editor_accordeon_icon" />Border</a></h3>
+    <h3 class="css_editor_tab_border"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/border.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Border</span></a></h3>
     <div  class="css_editor_tab_border_inside">
       <div class="mw_tag_editor_item_holder">
         <table border="0" cellspacing="5" cellpadding="0" >
@@ -247,7 +273,7 @@
         </table>
       </div>
     </div>
-    <h3 class="css_editor_tab_background"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Background</a></h3>
+    <h3 class="css_editor_tab_background"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Background</span></a></h3>
     <div class="css_editor_tab_background_inside">
       <div class="mw_tag_editor_item_holder">
         <table border="0" cellspacing="5" cellpadding="0" >
@@ -299,48 +325,72 @@
           </tr>
         </table>
       </div>
-      <input name="mw_css_editor_element_id" id="mw_css_editor_element_id" value="" type="text" />
-    </div>
-    <h3 class="css_editor_tab_effects"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Shadow</a></h3>
-    <div class="css_editor_tab_effects_inside">
+      
+     
+      
+      
       <div class="mw_tag_editor_item_holder">
         <table border="0" cellspacing="5" cellpadding="0" >
           <tr valign="middle">
-            <td><div class="mw_tag_editor_label_wide">box-shadow-horizontal</div></td>
-            <td><div class="mw_tag_editor_input">
-                <input  class="mw_slider css_property css_fx"  name="box-shadow-horizontal"  dimensions="px"  type="text"      />
-              </div></td>
-            <td></td>
+            <td><div class="mw_tag_editor_label_wide">Shadow horizontal</div></td>
+            <td><input  class="mw_slider css_property css_fx"  name="box-shadow-horizontal"  max="20"  dimensions="px"  type="text"      /></td>
           </tr>
           <tr valign="middle">
-            <td><div class="mw_tag_editor_label_wide">box-shadow-vertical</div></td>
-            <td><div class="mw_tag_editor_input">
-                <input  class="mw_slider css_property css_fx"  name="box-shadow-vertical" dimensions="px"   type="text"      />
-              </div></td>
-            <td></td>
+            <td><div class="mw_tag_editor_label_wide">Shadow vertical</div></td>
+            <td> <input  class="mw_slider css_property css_fx"  name="box-shadow-vertical"  max="20" dimensions="px"   type="text"      /></td>
           </tr>
           <tr valign="middle">
-            <td><div class="mw_tag_editor_label_wide">box-shadow-blur</div></td>
-            <td><div class="mw_tag_editor_input">
-                <input  class="mw_slider css_property css_fx"  name="box-shadow-blur" dimensions="px"   type="text"      />
-              </div></td>
-            <td></td>
+            <td><div class="mw_tag_editor_label_wide">Shadow blur</div></td>
+            <td>                <input  class="mw_slider css_property css_fx" max="20"  name="box-shadow-blur" dimensions="px"   type="text"      />
+</td>
           </tr>
           <tr valign="middle">
-            <td><div class="mw_tag_editor_label_wide">box-shadow-color</div></td>
-            <td><div class="mw_tag_editor_input">
-                <input  class="css_property css_fx"  name="box-shadow-spread"  dimensions="px"  type="hidden"      />
+            <td><div class="mw_tag_editor_label_wide">Shadow color</div></td>
+            <td> <input  class="css_property css_fx"  name="box-shadow-spread"  dimensions="px"  type="hidden"      />
                 <input  class="css_property css_fx mw_color"  name="box-shadow-color"    type="color"  data-hex="true"      />
-              </div></td>
-            <td></td>
+             </td>
           </tr>
         </table>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <input name="mw_css_editor_element_id" id="mw_css_editor_element_id" value="" type="text" />
+    </div>
+    <h3 class="css_editor_tab_effects"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Shadow</span></a></h3>
+    <div class="css_editor_tab_effects_inside">
+      <div class="mw_tag_editor_item_holder">
+        
       </div>
     </div>
   </div>
 </div>
 <div style="display:none">
-  <h3 class="css_editor_tab_rotate"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" />Rotate</a></h3>
+  <h3 class="css_editor_tab_rotate"><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/background.png"  class="css_editor_accordeon_icon" /><span class="css_editor_accordeon_text">Rotate</span></a></h3>
   <div class="css_editor_tab_effects_inside">
     <div class="mw_tag_editor_item_holder">
       <textarea id="transforms_cssOut"></textarea>

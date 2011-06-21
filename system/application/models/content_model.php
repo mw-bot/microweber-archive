@@ -6500,10 +6500,12 @@ $my_limit_q
 		
 		//$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
 		
+
 		if (($cache_content) != false) {
 			//p($cache_content);
-			//return $cache_content;
+		//return $cache_content;
 		
+
 		}
 		
 		//$data = $this->getMenuItems ( $menu_id );
@@ -7804,6 +7806,9 @@ $my_limit_q
 					
 					$to_print = str_ireplace ( '{link}', page_link ( $item ['id'] ), $to_print );
 					
+					if (strstr ( $to_print, '{tn}' )) {
+						$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'] ), $to_print );
+					}
 					foreach ( $item as $item_k => $item_v ) {
 						$to_print = str_ireplace ( '{' . $item_k . '}', $item_v, $to_print );
 					

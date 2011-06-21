@@ -473,6 +473,10 @@ if ($slash == '/') {
 }
 
 $page = CI::model ( 'content' )->getPageByURLAndCache ( $url );
+
+
+ 
+
 if (trim ( $page ['active_site_template'] ) != '') {
 	$tmpl = trim ( $page ['active_site_template'] );
 	if (strtolower ( $tmpl ) == 'default') {
@@ -500,7 +504,7 @@ if (strtolower ( $the_active_site_template ) == 'default') {
 }
 
 
-	$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
+	//$the_active_site_template = CI::model ( 'core' )->optionsGetByKey ( 'curent_template' );
  
 
 

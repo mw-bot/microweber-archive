@@ -1882,12 +1882,10 @@ p($modules );
 					}
 				}
 				
-				//p($m ['full_tag']);
-				
-
 				if (trim ( $field_content ) == '') {
+					$field_content = $m->innertext;
 					
-					$field_content = $m ['contents'];
+				//	$field_content = $m ['contents'];
 				} else {
 					//$quote_style = ENT_COMPAT [, string $charset = 'UTF-8' ]]
 					$field_content = htmlspecialchars_decode ( $field_content );
@@ -1907,13 +1905,15 @@ p($modules );
 				if ($editmode == true) {
 					
 					foreach ( $attr as $at_key => $at_value ) {
+						if($at_key != 'field'){
 						$attrs_to_append .= "$at_key='$at_value' ";
+						}
 					}
 					
 					//	$in = $m->innertext;
 					
 
-					$in = "<div id='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>';
+					$in = "<div id='{$attr['field']}' field='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>';
 					
 					$m->outertext = $in;
 					
@@ -1933,7 +1933,7 @@ p($modules );
 					//$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
 					//	$layout = str_replace_count ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, 1 );
 					//$layout = CI::model ( 'core' )->replace_in_long_text ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, $use_normal_replace = true );
-					$in = "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>';
+					$in = "<div id='{$attr['field']}'  field='{$attr['field']}'  class='edit'>" . $field_content . '</div>';
 					$m->outertext = $in;
 					
 					$layout = $html->save ();
