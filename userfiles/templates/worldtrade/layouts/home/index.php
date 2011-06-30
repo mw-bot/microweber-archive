@@ -99,7 +99,7 @@ $products = get_posts($products);
       <div class="rt"></div>
       <div class="lb"></div>
       <div class="rb"></div>
-      <div class="clener h10"></div>
+      <div class="clener h10"></div> 
     </div>
     <img src="<? print TEMPLATE_URL ?>images/img1.jpg" alt="" />
     <h1 class="pink_color font_size_18 home_products_list_title">Нови модели</h1>
@@ -109,10 +109,10 @@ $products = get_posts($products);
      
       <?   $i = 0;  foreach($products["posts"] as $product): ?>
       <? if($i < 8): ?>
-      <? $media =   get_media($product['id'], $for = 'post');  ; ?>
+      <? $media =   get_media($product['id'], $for = 'post');  ; ?> 
      
       <li>
-        <div class="left"><a href="<? print post_link($item['id']);?>"><img src="<? print get_media_thumbnail( $media["pictures"][0]['id'] , 150)  ?>" border="0" width="136" alt="<? print addslashes($product['content_title']);?>" /></a> </div>
+        <div class="left"><a href="<? print post_link($product['id']);?>"><img src="<? print get_media_thumbnail( $media["pictures"][0]['id'] , 150)  ?>" border="0" height="200" width="136" alt="<? print addslashes($product['content_title']);?>" /></a> </div>
         <div class="clener"></div>
         <h3><? print $product['content_title'] ?></h3>
         

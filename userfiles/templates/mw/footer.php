@@ -66,11 +66,25 @@
         <td><div class="footer__h"></div></td>
         <td></td>
         <td><div class="foot_share">
-            <div id="fb-root"></div>
+            
+            
+            <table border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td> <div id="fb-root"></div>
             <script src="http://connect.facebook.net/en_US/all.js#appId=225342984166233&amp;xfbml=1"></script>
             <fb:like href="https://www.facebook.com/Microweber" send="true" layout="button_count" width="50" show_faces="true" font=""></fb:like>
+            </td>
+    <td>   <!-- Place this tag in your head or just before your close body tag -->
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+
+<!-- Place this tag where you want the +1 button to render -->
+<g:plusone  href="http://microweber.com" size="small"></g:plusone></td>
+  </tr>
+</table>
+
             
-            <!--<a href="http://www.facebook.com/pages/Microweber/155325201170631" target="_blank"><img src="http://microweber.com/NotifyMe%20one%20page%20HTML%20template_files/SocialMediaBookmarkIcon/16/facebook.png" alt="facebook" border="0" /></a>--><br />
+           
+            <!--<a href="http://www.facebook.com/pages/Microweber/155325201170631" target="_blank"><img src="http://microweber.com/NotifyMe%20one%20page%20HTML%20template_files/SocialMediaBookmarkIcon/16/facebook.png" alt="facebook" border="0" /></a>--> 
 <br />
             <a href="http://twitter.com/Microweber" class="twitter-follow-button">Follow @Microweber</a>
             <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
@@ -86,15 +100,63 @@
     <table width="100%" border="0" cellspacing="10" cellpadding="10">
       <tr>
         <td><a href="<? print site_url(); ?>" title="Microweber"><img src="<? print TEMPLATE_URL ?>img/logo.png" height="27" /></a></td>
-        <td> See also: <span class="grey_small"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank" title="Creative Commons Share-Alike">License</a>    |    <a href="http://www.facebook.com/pages/Microweber/" title="Microweber">Microweber of Facebook</a> | <a href="<? print site_url('sub.php') ?>" title="Microweber"><strong>Subscribe for updates</strong></a></span></td>
+        <td> See also: <span class="grey_small"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank" title="Creative Commons Share-Alike">License</a>    |    <a href="http://www.facebook.com/Microweber/" title="Microweber">Microweber of Facebook</a> | <a href="<? print site_url('sub.php') ?>" title="Microweber"><strong>Subscribe for updates</strong></a></span></td>
         <td><span class="grey_small">&copy; All rights reserved 2010-<? print date("Y") ?> Microweber.com</span></td>
       </tr>
     </table>
   </div>
 </div>
 
+<script type="text/javascript">
 
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1065179-29']);
+  _gaq.push(['_trackPageview']);
 
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- Start of Woopra Code -->
+<script type="text/javascript">
+var woo_settings = {idle_timeout:'300000', domain:'microweber.com'};
+(function(){
+var wsc = document.createElement('script');
+wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
+wsc.type = 'text/javascript';
+wsc.async = true;
+var ssc = document.getElementsByTagName('script')[0];
+ssc.parentNode.insertBefore(wsc, ssc);
+})();
+</script>
+<!-- End of Woopra Code -->
+<!-- Quantcast Tag -->
+<script type="text/javascript">
+var _qevents = _qevents || [];
+
+(function() {
+var elem = document.createElement('script');
+elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+elem.async = true;
+elem.type = "text/javascript";
+var scpt = document.getElementsByTagName('script')[0];
+scpt.parentNode.insertBefore(elem, scpt);
+})();
+
+_qevents.push({
+qacct:"p-ca5yPJsgkZUuo"
+});
+</script>
+
+<noscript>
+<div style="display:none;">
+<img src="//pixel.quantserve.com/pixel/p-ca5yPJsgkZUuo.gif" border="0" height="1" width="1" alt="Quantcast"/>
+</div>
+</noscript>
+<!-- End Quantcast tag -->
 <!-- /#footer -->
 </div>
 <!-- /#container -->

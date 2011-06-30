@@ -12,12 +12,6 @@
 <link href="<? print TEMPLATE_URL ?>css/site.css" rel="stylesheet" type="text/css" />
 <? echo '<!--[if IE]><?import namespace="v" implementation="#default#VML" ?><![endif]-->'; ?>
 <script type="text/javascript" src="<?  print site_url('api/js'); ?>"></script>
-<!--<link href="<? print RESOURCES_URL ?>yaml/site.css" rel="stylesheet" type="text/css" />
--->
-
-<link href="<? print TEMPLATES_URL ?>css/site.css" rel="stylesheet" type="text/css" />
-
-
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery.cycle.all.min.js"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/site.js"></script>
   

@@ -420,11 +420,13 @@ a {
 .post .img {
 	display: block;
 	float: left;
-	width: 75px;
-	height: 75px;
+	width: 100px;
+	height: 100px;
 	text-align: center;
 	margin-right: 12px;
 	overflow: hidden;
+	background-repeat:no-repeat;
+	background-position:center center;
 }
 .post .img img {
 	width: 124px;

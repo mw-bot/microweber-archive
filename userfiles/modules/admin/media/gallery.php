@@ -106,7 +106,7 @@ if(intval($params['content_id'])  > 0){
 	$for = 'content'; 
 	$id = $params['content_id'];
 }
-
+ 
 if($for == false){
 	
 	$for = $params['for'];
@@ -116,6 +116,13 @@ if($params['for_id']!= false){
 	
 	$id = $params['for_id'];
 }
+ 
+ if(intval($params['for_id'])  > 0){
+	$for = 'content'; 
+	$id = $params['for_id'];
+}
+ 
+ 
  
 if($for == false){
 	

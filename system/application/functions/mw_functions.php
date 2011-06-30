@@ -66,15 +66,16 @@ function clean_word($html_to_save) {
 			$html_to_save = str_replace ( 'class="MsoNormal"', '', $html_to_save );
 		}
 		
-//		$tags = extract_tags ( $html_to_save, 'style', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
-//		
-//		$matches = $tags;
-//		if (! empty ( $matches )) {
-//			foreach ( $matches as $m ) {
-//				$html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
-//			}
-//		}
+	//		$tags = extract_tags ( $html_to_save, 'style', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8' );
+	//		
+	//		$matches = $tags;
+	//		if (! empty ( $matches )) {
+	//			foreach ( $matches as $m ) {
+	//				$html_to_save = str_replace ( $m ['full_tag'], '', $html_to_save );
+	//			}
+	//		}
 	
+
 	}
 	$html_to_save = str_replace ( 'class="exec"', '', $html_to_save );
 	$html_to_save = str_replace ( 'style=""', '', $html_to_save );
@@ -367,10 +368,10 @@ function get_custom_fields_config_for_content($content_id, $page_id) {
 				
 				}
 				if ($d ["custom_field_name"] != '') {
-				if ($d ["custom_field_name"] == $value ["custom_field_name"]) {
-					$f = true;
-				
-				}
+					if ($d ["custom_field_name"] == $value ["custom_field_name"]) {
+						$f = true;
+					
+					}
 				}
 				
 				if ($d ["custom_field_name"] == $value ["param"]) {
@@ -750,7 +751,11 @@ function paging($display = 'default', $data = false) {
 		case 'default' :
 			$CI->template ['posts_pages_links'] = $posts_pages_links;
 			$CI->load->vars ( $CI->template );
-			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/default.php', true );
+			
+			//p(RESOURCES_DIR . 'blocks/nav/default.php');
+			
+
+			$content_filename = $CI->load->file ( RESOURCES_DIR . 'blocks/nav/nav_default.php', true );
 			print ($content_filename) ;
 			break;
 		
@@ -758,7 +763,7 @@ function paging($display = 'default', $data = false) {
 			$CI->template ['posts_pages_links'] = $posts_pages_links;
 			$CI->load->vars ( $CI->template );
 			
-			$content_filename = $CI->load->file ( DEFAULT_TEMPLATE_DIR . 'blocks/nav/divs.php', true );
+			$content_filename = $CI->load->file ( RESOURCES_DIR . 'blocks/nav/nav_divs.php', true );
 			
 			print ($content_filename) ;
 			break;
@@ -1230,6 +1235,14 @@ function category_tree($params) {
 		$content_parent = $params ['content_subtype_value'];
 	}
 	
+	if ($params ['not_for_page'] != false) {
+		//	p($params);
+		$page = get_page ( $params ['not_for_page'] );
+		//p($page);
+		$remove_ids = array ($page ['content_subtype_value'] );
+		//$categories = CI::model ( 'taxonomy' )->getCategoriesForContent ( $content_id = $params ['for_content'], $return_only_ids = true );
+	}
+	
 	//$content_parent, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $add_ids = false, $orderby = false, $only_with_content = false
 	CI::model ( 'content' )->content_helpers_getCaregoriesUlTreeAndCache ( $content_parent, $link, $actve_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $add_ids, $orderby, $only_with_content );
 
@@ -1587,10 +1600,11 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 	}
 	
 	global $CI;
-	if($collection == false){
-	$to_table = CI::model ( 'core' )->guessDbTable ( $for );
-	//
+	if ($collection == false) {
+		$to_table = CI::model ( 'core' )->guessDbTable ( $for );
+		//
 	}
+	//	p($to_table);
 	//var_dump($id, $for, $media_type, $queue_id, $collection);
 	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
 	return $media;

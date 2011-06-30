@@ -130,12 +130,12 @@ $(".DropDown<? print  $rand; ?> ul li").live("click", function(){
 
 </script>
 <? 
+  // p( $params);
   
- //  p($cf_conf);
-  $media1 = get_media( $params['cf_id'], 'custom_fields', $media_type,  $queue_id, $collection);  
+  $media1 = get_media( $params['cf_id'], 'table_content', $media_type='pictures');  
   $pics = $media1['pictures'];
   
- 
+//  p( $media1);
   
    ?>
 <style>
@@ -146,6 +146,7 @@ $(".DropDown<? print  $rand; ?> ul li").live("click", function(){
 .DropDown<? print $rand;
 ?>Colors {
  width:80px;
+ 
 }
  .DropDown<? print $rand;
 ?>Colors em {
@@ -158,6 +159,7 @@ $(".DropDown<? print  $rand; ?> ul li").live("click", function(){
  border: 1px solid #C9C4C0;
  cursor: pointer;
  margin-left:4px;
+ display:block;
 /* padding: 3px;
 
 padding-left: 10px;*/ 
@@ -177,7 +179,9 @@ padding-left: 10px;*/
         <? endif; ?>
         </span></td>
       <td><div id="objcolors<? print  $rand; ?>" class="DropDown<? print  $rand; ?> DropDown<? print  $rand; ?>Alpha DropDown<? print  $rand; ?>Colors DropDown<? print  $rand; ?>Gray zebra"> <span class="only_colors"></span>
-          <ul style="height: 160px;overflow-x: hidden;overflow-y: scroll; display:none">
+          <br /><br>
+
+          <ul style="height: 160px;overflow-x: hidden;overflow-y: scroll; display:none; background-color:#FFF; ">
             <?  $i=0;  foreach($pics as $pic): ?>
             <?php 
                  $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
@@ -191,14 +195,14 @@ padding-left: 10px;*/
 			}
 			
             ?>
-            <li <? if($pic['media_name'] != '') : ?> title="<? print($tn) ;?>"   <? endif; ?>  <? if($i ==0): ?> class="active" <? endif; ?>  >
+            <li <? if($pic['media_name'] != '') : ?> title="<? print($tn) ;?>"   <? endif; ?>  <? if($i ==0): ?> class="active" <? endif; ?>  style="display:block;" >
             <div style="clear: both;overflow: hidden">
               <!--  -->
             </div>
             
             
-            <div style="background-image:url('<? print($tn) ;?>'); background-repeat:no-repeat; background-position:center center; float:left; margin-bottom:1px; " >
-            <s ><img height="22" width="60" src="<? print  $orig; ?>" style="visibility:hidden" />
+            <div style="background-image:none; background-repeat:no-repeat; background-position:center center; float:left; height:22px; display:block; margin-bottom:1px; " >
+            <s ><img height="22" width="60" src="<? print  $orig; ?>" style="visibility:visible" />
              
             </s>
             <em></em>

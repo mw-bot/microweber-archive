@@ -93,11 +93,10 @@ $(document).ready(function() {
  
 });
 
- 
 </script>
 
 <div class="left gallery_box">
-  <microweber module="media/gallery" display="mics/gallery.php" content_id="<? print $post['id']; ?>">
+  <microweber module="media/gallery"  display="mics/gallery.php" content_id="<? print $post['id']; ?>">
   <?
  
 /* 
@@ -136,10 +135,7 @@ $(document).ready(function() {
     <!-- <span class="text_align_right pink_color"><i>Единична цена: <span class="font_size_18">38.00</span> лв.</i></span> -->
     <br />
      
-       <div class="custom_field">  
-       <a href="<? print TEMPLATE_URL ?>size_charts/tabl1.gif" class="pink_color" target="_blank">Таблица с размери</a>
-      </div>
-
+      
   </div>
   <br />
   <div class="product_added_holder">
@@ -155,7 +151,7 @@ $(document).ready(function() {
     <td><div id="fb-root"></div><script src="http://connect.facebook.net/bg_BG/all.js#appId=156746347726744&amp;xfbml=1&amp;locale=bg_BG"></script><fb:like href="<? print post_link($post['id']);?>" locale="bg_BG" send="false" width="370" show_faces="true" action="recommend" font="arial"></fb:like></td>
   </tr>
 </table>
-    <p class="font_size_10"><i>* За да поръчате този продукт, трябва да изберете модел цвят и брой.</i></p>
+    <p class="font_size_10"><i>*  За да изберете този продукт  изберете цвят и размер.</i></p>
     <form id="products_option_form" method="post" action="#">
       <input type="hidden" value="<? print $post['id'] ?>"   name="post_id" />
       <microweber module="content/custom_fields" content_id="<? print $post['id'] ?>" module_id="custom_fields_for_products<? print $page['id'] ?>" />
@@ -218,16 +214,22 @@ $(document).ready(function() {
         </tr>
       </table>
     </div> 
+    
 
 
     
+    <br />
+ <div class="custom_field">  
+       <a href="<? print TEMPLATE_URL ?>size_charts/tabl2.gif" class="pink_color" target="_blank"><img src="http://www.dinodirect.com/Templates/Site61/Dino/images/buyingguide/ad1.gif" height="20" align="left" hspace="5" />Таблица с размери</a>
+      </div>
+
     
     
     
     
     
     
-    <div id="buy_it_box"> <i>* Всички цени са в български лева</i> <a href="javascript:mw.cart.add('#products_option_form', function(){add_to_cart_callback()});" class="rounded right pink_btn"> <span class="in1"> <span class="in2 min_w_120">Купи сега</span> </span> </a> </div>
+    <div id="buy_it_box"> <i>* Всички цени са в български лева</i> <a href="javascript: add_to_cart_this()" class="rounded right pink_btn"> <span class="in1"> <span class="in2 min_w_120">Купи сега</span> </span> </a> </div>
     
     
  
@@ -305,4 +307,127 @@ $posts_data = $related_posts['posts'];
  
    
  ?>
+ 
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <script>
+ 
+ 
+
+$(document).ready(function() {
+
+
+ 
+ tw_set_sizes_from_colors()
+ 
+
+
+ });
+
+
+
+
+$('.each_color').live('click', function() {
+setTimeout('tw_set_sizes_from_colors()', 500);
+
+$lic = $(this).attr('color_number');
+$pic_nums =  $('[pic_number="'+$lic+'"]').attr('tn_small');
+ $pic_numb =  $('[pic_number="'+$lic+'"]').attr('tn_big');
+ 
+ if($pic_nums != undefined){
+	  set_gallery_img($pic_nums, $pic_numb);
+ }
+
+
+
+
+ 
+
+//alert($pic_num);
+
+});
+$('.ch_colors').live('click', function() {
+$pic_number = $(this).attr('pic_number');
+
+//alert($pic_number);
+  var DropItemHTML = $('div[color_number="'+$pic_number+'"]').html();
+    var DropItemValue = $('div[color_number="'+$pic_number+'"]').attr("title");
+	
+//	$(".DropDown").find("input").val(DropItemValue);
+	
+	
+  //  $(".DropDown").find("span").html(DropItemHTML );
+
+	
+	
+
+});
+
+
+function add_to_cart_this(){
+	$colorzzzz = $('#products_option_form').find('.custom_field_razmeri_new').size();
+	
+	
+	if($colorzzzz > 0){
+			$('.custom_field_razmeri').remove();
+	}
+	
+	 
+	mw.cart.add('#products_option_form', function(){add_to_cart_callback()});
+}
+
+function tw_set_sizes_from_colors(){
+
+  
+  //p( $pics);
+
+$size_to_color = $('.only_colors > .each_color:first').attr('description');
+//alert($size_to_color);
+	if($size_to_color != undefined && $size_to_color != ''){
+		$new_sizes = $size_to_color.split(',');
+		$new_sizes_l = $new_sizes.length;
+		$('.custom_field_razmeri_new').remove();
+		$str_s = '<select class="custom_field_razmeri_new" name="custom_field_razmeri_new">';
+ 
+
+		var i=0;
+		if($new_sizes_l > 0){
+for (i=0;i<=$new_sizes_l;i++)
+{
+	if($new_sizes[i] != undefined && $new_sizes[i] != 'undefined'){
+ $str_s = $str_s+  '<option value="'+$new_sizes[i]+'">'+$new_sizes[i]+'</option>';
+	}
+}
+
+$str_s = $str_s+ '</select>';
+		  
+		
+	}
+	$('.custom_field_razmeri').before($str_s);
+	$('.custom_field_razmeri').hide();
+	} else {
+		$('.custom_field_razmeri').show();
+		$('.custom_field_razmeri_new').remove();
+	}
+	
+ 
+
+
+
+	
+}
+ 
+ </script>

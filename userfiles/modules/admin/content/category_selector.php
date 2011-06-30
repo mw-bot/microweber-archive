@@ -33,7 +33,8 @@ Example:
 
  */
 
-?><?
+?>
+<?
 
 
 $orig_params = $params;
@@ -48,7 +49,6 @@ if($params['multiselect']){
 	 }
 
 ?>
-
 <?
  $sortable = false;
 if($params['sortable']){
@@ -121,11 +121,7 @@ if($params['sortable']){
 
 ?>
 <? if($sortable == true):?>
-
- 
-<? endif; ?>   
-
-
+<? endif; ?>
 
 <div class="<? print $params ['holder_class_name'] ?> <? print $multiselect; ?> <? print $params ['ul_class_name'] ?>" id="<? print $rand_id ?>">
   <?
@@ -134,7 +130,7 @@ if($params['sortable']){
     // $params['content_parent'] = 0; //parent id
 
 
-//	p($params);
+ //	p($params);
 
 
 
@@ -148,7 +144,18 @@ if($params['sortable']){
 	$add_ids = ($params ['add_ids']) ? $params ['add_ids'] : false;
 	$orderby = ($params ['orderby']) ? $params ['orderby'] : false;*/
 
-category_tree( $params ) ; ?>
+category_tree( $params ) ;
+ 
+ 
+ if( $params['for_page'] ){
+	 $params['not_for_page'] = $params['for_page'];
+	  $params['for_page'] = false;
+	 category_tree( $params ) ;
+ }
+
+
+
+?>
   <? if($params['update_field']):  ?>
   <script type="text/javascript">
  $(document).ready(function () {

@@ -1420,7 +1420,7 @@ p($modules );
 							$attr ['module'] = 'non_existing';
 						}
 						
-						//p($attr ['module']);
+						//p($attr );
 						
 
 						if ($attr ['module'] != '') {
@@ -1508,6 +1508,19 @@ p($modules );
 								$error = false;
 							}
 							//	p($try_file1);
+							
+
+							if (($attr ['module_id']) == true) {
+								$mod_id = $attr ['module_id'];
+							} else {
+								//$mod_id = false;
+								$mod_id = $attr ['module'];
+								$mod_id = str_replace ( '/', '_', $mod_id );
+								$mod_id = str_replace ( '\\', '_', $mod_id );
+								$mod_id = str_replace ( '-', '_', $mod_id );
+								$attr ['module_id'] = $mod_id;
+							}
+							
 							if (is_file ( $try_file1 ) == true and $error == false) {
 								$arrts = array ();
 								foreach ( $attr as $att => $at ) {
@@ -1617,15 +1630,6 @@ p($modules );
 										
 										}
 									}
-									if (($attr ['module_id']) == true) {
-										$mod_id = $attr ['module_id'];
-									} else {
-										//$mod_id = false;
-										$mod_id = $attr ['module'];
-										$mod_id = str_replace ( '/', '_', $mod_id );
-										$mod_id = str_replace ( '\\', '_', $mod_id );
-										$mod_id = str_replace ( '-', '_', $mod_id );
-									}
 									
 									if ($options ['admin'] == true) {
 										$cache_this = false;
@@ -1651,13 +1655,18 @@ p($modules );
 										
 										$cache_group = 'global/blocks/';
 										
-										$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
+										//$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
 										
+
 										if (($cache_content) != false) {
 											//var_dump($cache_content);
 											$module_file = $cache_content;
 										
 										} else {
+											//	p($arrts);
+											
+											
+											
 											$this->template ['params'] = $arrts;
 											$this->load->vars ( $this->template );
 											
@@ -1667,6 +1676,7 @@ p($modules );
 										}
 									
 									} else {
+										//	p($arrts);
 										$this->template ['params'] = $arrts;
 										$this->load->vars ( $this->template );
 										
@@ -1708,8 +1718,17 @@ p($modules );
 								} else {
 								
 								}
+								if ($mod_id == true) {
+									$mod_id_tag = ' module_id="' . $mod_id . '" ';
+								} else {
+									//	$mod_id_tag = '';
+									$mod_id_tag = ' module_id="default" ';
 								
-								if ($editmode == true) {
+								}
+								if ($mod_title != '') {
+									$mod_id_tag .= ' module_title="' . $mod_title . '" ';
+								}
+								if ($editmode = true) {
 									//	p($m);
 									//p( $arrts);
 									
@@ -1718,15 +1737,6 @@ p($modules );
 										$no_admin_tag = ' no_admin="true" ';
 									} else {
 										$no_admin_tag = '';
-									}
-									
-									if ($mod_id == true) {
-										$mod_id_tag = ' module_id="' . $mod_id . '" ';
-									} else {
-										$mod_id_tag = '';
-									}
-									if ($mod_title != '') {
-										$mod_id_tag = ' module_title="' . $mod_title . '" ';
 									}
 									
 									//$edtid_hash = base64_encode ( $m ['full_tag'] );
@@ -1763,7 +1773,7 @@ p($modules );
 
 								} else {
 									if (strval ( $module_file ) != '') {
-										$module_file = '<div ' . $more_attrs2 . ' class="module" mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
+										$module_file = '<div ' . $more_attrs2 . ' class="module" ' . $mod_id_tag . '  mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
 									}
 								}
 								//}  ++
@@ -1905,8 +1915,8 @@ p($modules );
 				if ($editmode == true) {
 					
 					foreach ( $attr as $at_key => $at_value ) {
-						if($at_key != 'field'){
-						$attrs_to_append .= "$at_key='$at_value' ";
+						if ($at_key != 'field') {
+							$attrs_to_append .= "$at_key='$at_value' ";
 						}
 					}
 					

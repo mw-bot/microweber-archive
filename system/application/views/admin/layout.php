@@ -39,7 +39,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
       <div id="user_info">
         <table width="100%" border="0" cellspacing="3" cellpadding="3">
           <tr valign="middle">
-            <td><span>Site:</span> <a class="blue" href="<?php print site_url(); ?>" target="_blank"><?php print site_url(); ?></a> | Logged in as: <strong class="blue"><?php print  user_name(); ?></strong> <small><a title="Log out" class="blue" href="<?php print $exit_url ?>">(Log out)</a></small> | <a href="javascript:mw.clear_cache()" class="blue" id="clear_cache_admin_link">Clear site cache</a></td>
+            <td><span>Site:</span> <a class="blue" href="<?php print site_url(); ?>" target="_blank"><?php print site_url(); ?></a> | Logged in as: <strong class="blue"><?php print  user_name(); ?></strong> <small><a title="Log out" class="blue" href="<?php print site_url('login/leave'); ?>">(Log out)</a></small> | <a href="javascript:mw.clear_cache()" class="blue" id="clear_cache_admin_link">Clear site cache</a></td>
             <td><div style="float:right"> <span>Powered by </span> <a class="blue" href="http://microweber.com" target="_blank">Microweber</a></div></td>
           <tr valign="middle">
             <td></td>

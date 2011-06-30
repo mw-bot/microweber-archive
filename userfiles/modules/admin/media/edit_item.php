@@ -112,6 +112,8 @@ save_media_close<? print $rand ;?>()
   <span class="mw_sidebar_module_box_title">Edit picture</span>
   <div class="mw_admin_rounded_box">
     <div class="mw_admin_box_padding">
+     <?php $thumb = $this->core_model->mediaGetThumbnailForMediaId($pic['id'], 120); ?>
+     <img src="<? $thumb ?>" width="120" />
       <!-- <tr>
                   <td><h4>Filename: <?php print character_limiter( $pic['filename'], 10) ?></h4>
                     </td>

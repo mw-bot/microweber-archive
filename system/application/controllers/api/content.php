@@ -244,6 +244,48 @@ class Content extends Controller {
 		if ($id == false) {
 			exit ( 'Error: not logged in as admin.' );
 		}
+		$ids = $_POST ['category_item'];
+		if (empty ( $ids )) {
+			$ids = $_POST ['category_items'];
+		
+		}
+		if (empty ( $ids )) {
+			exit ();
+		}
+		
+		$ids_implode = implode ( ',', $ids );
+		global $cms_db_tables;
+		$table_taxonomy = $cms_db_tables ['table_taxonomy'];
+		
+		$q = " SELECT id, updated_on from $table_taxonomy where id IN ($ids_implode)  order by updated_on DESC  ";
+		$q = CI::model ( 'core' )->dbQuery ( $q );
+		$max_date = $q [0] ['updated_on'];
+		$max_date_str = strtotime ( $max_date );
+		$i = 1;
+		foreach ( $ids as $id ) {
+			//$max_date_str = $max_date_str - $i;
+			//	$nw_date = date ( 'Y-m-d H:i:s', $max_date_str );
+			
+
+			$q = " UPDATE $table_taxonomy set position='$i' where id = '$id'    ";
+			//var_dump($q);
+			$q = CI::model ( 'core' )->dbQ ( $q );
+			
+			$i ++;
+		}
+		
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'taxonomy' );
+		
+		//var_dump($q);
+		exit ();
+	
+	}
+	
+	function save_taxonomy_items_order2() {
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
 		
 		if ($_POST) {
 			global $cms_db_tables;
@@ -431,16 +473,58 @@ class Content extends Controller {
 		}
 		
 		if ($_POST) {
-			
-			if ($_POST ['option_key'] and $_POST ['option_group']) {
-				
-				CI::model ( 'core' )->optionsDeleteByKey ( $_POST ['option_key'], $_POST ['option_group'] );
+			if (intval ( $_POST ['id'] ) == 0) {
+				if ($_POST ['option_key'] and $_POST ['option_group']) {
+					
+					CI::model ( 'core' )->optionsDeleteByKey ( $_POST ['option_key'], $_POST ['option_group'] );
+				}
 			}
 			if (strval ( $_POST ['option_key'] ) != '') {
 				CI::model ( 'core' )->optionsSave ( $_POST );
 			}
 		
 		}
+	}
+	
+	function posts_sort_by_date() {
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		$ids = $_POST ['post'];
+		if (empty ( $ids )) {
+			$ids = $_POST ['page_list_holder'];
+		
+		}
+		if (empty ( $ids )) {
+			exit ();
+		}
+		
+		$ids_implode = implode ( ',', $ids );
+		global $cms_db_tables;
+		$table = $cms_db_tables ['table_content'];
+		
+		$q = " SELECT id, updated_on from $table where id IN ($ids_implode)  order by updated_on DESC  ";
+		$q = CI::model ( 'core' )->dbQuery ( $q );
+		$max_date = $q [0] ['updated_on'];
+		$max_date_str = strtotime ( $max_date );
+		$i = 1;
+		foreach ( $ids as $id ) {
+			$max_date_str = $max_date_str - $i;
+			$nw_date = date ( 'Y-m-d H:i:s', $max_date_str );
+			
+			$q = " UPDATE $table set updated_on='$nw_date' where id = '$id'    ";
+			//var_dump($q);
+			$q = CI::model ( 'core' )->dbQ ( $q );
+			
+			$i ++;
+		}
+		
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'content' );
+		
+		//var_dump($q);
+		exit ();
+	
 	}
 	
 	function clean_word() {
@@ -478,6 +562,44 @@ class Content extends Controller {
 			}
 		
 		}
+	
+	}
+	
+	function save_menu_items_order() {
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		}
+		$ids = $_POST ['menu_items'];
+		if (empty ( $ids )) {
+			$ids = $_POST ['menu_item'];
+		
+		}
+		if (empty ( $ids )) {
+			exit ();
+		}
+		
+		$ids_implode = implode ( ',', $ids );
+		global $cms_db_tables;
+		$table_taxonomy = TABLE_PREFIX . 'menus';
+		
+		$i = 1;
+		foreach ( $ids as $id ) {
+			//$max_date_str = $max_date_str - $i;
+			//	$nw_date = date ( 'Y-m-d H:i:s', $max_date_str );
+			
+
+			$q = " UPDATE $table_taxonomy set position='$i' where id = '$id'    ";
+			//var_dump($q);
+			$q = CI::model ( 'core' )->dbQ ( $q );
+			
+			$i ++;
+		}
+		
+		CI::model ( 'core' )->cacheDelete ( 'cache_group', 'menus' );
+		
+		//var_dump($q);
+		exit ();
 	
 	}
 	
@@ -1052,16 +1174,12 @@ class Content extends Controller {
 							$html_to_save = str_replace ( '</P>', '</p>', $html_to_save );
 							$html_to_save = str_replace ( 'ui-droppable-disabled', '', $html_to_save );
 							$html_to_save = str_replace ( 'ui-state-disabled', '', $html_to_save );
-														$html_to_save = str_replace ( 'ui-sortable', '', $html_to_save );
+							$html_to_save = str_replace ( 'ui-sortable', '', $html_to_save );
 							$html_to_save = str_replace ( 'ui-resizable', '', $html_to_save );
 							
+							$html_to_save = str_replace ( 'module_draggable', '', $html_to_save );
 							
-								$html_to_save = str_replace ( 'module_draggable', '', $html_to_save );
-							
-							
-									$html_to_save = str_replace ( 'mw_no_module_mask', '', $html_to_save );
-							
-							
+							$html_to_save = str_replace ( 'mw_no_module_mask', '', $html_to_save );
 							
 							$html_to_save = str_ireplace ( '<span >', '<span>', $html_to_save );
 							$html_to_save = str_replace ( '<SPAN >', '<span>', $html_to_save );
@@ -1165,40 +1283,40 @@ class Content extends Controller {
 								$checkbox->outertext = $tag1;
 							
 							}
-//							$content = $html->save ();
-//							$html = str_get_html ( $content );
-//							foreach ( $html->find ( 'span' ) as $checkbox ) {
-//								//var_Dump($checkbox);
-//								$style = $checkbox->style;
-//								$class = $checkbox->class;
-//								
-//								if (trim ( $style ) == '' and trim ( $class ) == '') {
-//									//var_Dump($style);
-//									//var_Dump($class);
-//									//var_Dump($in);
-//									$in = $checkbox->innertext;
-//									$checkbox->outertext = $in;
-//								}
-//								
-//								foreach ( $checkbox->find ( 'span' ) as $sp ) {
-//									$style = $sp->style;
-//									$class = $sp->class;
-//									
-//									if (trim ( $style ) == '' and trim ( $class ) == '') {
-//										//var_Dump($style);
-//										//var_Dump($class);
-//										//var_Dump($in);
-//									//	$in = $sp->innertext;
-//										//$sp->outertext = $in;
-//									}
-//								}
-//							
-//							}
-//							$content = $html->save ();
-//							
-//							// clean up memory
-//							$html->clear ();
-//							unset ( $html );
+							//							$content = $html->save ();
+							//							$html = str_get_html ( $content );
+							//							foreach ( $html->find ( 'span' ) as $checkbox ) {
+							//								//var_Dump($checkbox);
+							//								$style = $checkbox->style;
+							//								$class = $checkbox->class;
+							//								
+							//								if (trim ( $style ) == '' and trim ( $class ) == '') {
+							//									//var_Dump($style);
+							//									//var_Dump($class);
+							//									//var_Dump($in);
+							//									$in = $checkbox->innertext;
+							//									$checkbox->outertext = $in;
+							//								}
+							//								
+							//								foreach ( $checkbox->find ( 'span' ) as $sp ) {
+							//									$style = $sp->style;
+							//									$class = $sp->class;
+							//									
+							//									if (trim ( $style ) == '' and trim ( $class ) == '') {
+							//										//var_Dump($style);
+							//										//var_Dump($class);
+							//										//var_Dump($in);
+							//									//	$in = $sp->innertext;
+							//										//$sp->outertext = $in;
+							//									}
+							//								}
+							//							
+							//							}
+							//							$content = $html->save ();
+							//							
+							//							// clean up memory
+							//							$html->clear ();
+							//							unset ( $html );
 							//p($content);
 							
 
@@ -1478,7 +1596,7 @@ class Content extends Controller {
 							$html_to_save = str_replace ( 'class="ui-sortable"', '', $html_to_save );
 							//$html_to_save = str_replace ( '</microweber>', '', $html_to_save );
 							
-							
+
 							//$html_to_save =utfString( $html_to_save );
 							//$html_to_save = htmlspecialchars ( $html_to_save, ENT_QUOTES );
 							//$html_to_save = html_entity_decode ( $html_to_save );
@@ -1516,7 +1634,7 @@ class Content extends Controller {
 										$history_to_save ['field'] = $field;
 										//p ( $history_to_save );
 										if ($is_no_save != true) {
-												CI::model ( 'core' )->saveHistory ( $history_to_save );
+											CI::model ( 'core' )->saveHistory ( $history_to_save );
 										}
 									
 									}
@@ -1530,12 +1648,12 @@ class Content extends Controller {
 									$to_save ['page_element_content'] = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 									$to_save [$field] = ($html_to_save);
 									//print "<h2>For content $content_id</h2>";
-									 // p ( $_POST );
-									 // p ( $to_save );
+									// p ( $_POST );
+									// p ( $to_save );
 									//p ( $html_to_save, 1 );
 									$json_print [] = $to_save;
 									if ($is_no_save != true) {
-									//	if($to_save['content_body'])
+										//	if($to_save['content_body'])
 										$saved = CI::model ( 'content' )->saveContent ( $to_save );
 										//	p($to_save);
 									//p($content_id);
@@ -1576,7 +1694,7 @@ class Content extends Controller {
 								$history_to_save ['value'] = $field_content ['option_value'];
 								$history_to_save ['field'] = $field;
 								if ($is_no_save != true) {
-										CI::model ( 'core' )->saveHistory ( $history_to_save );
+									CI::model ( 'core' )->saveHistory ( $history_to_save );
 								}
 								//$html_to_save = CI::model ( 'template' )->parseMicrwoberTags ( $html_to_save, $options = false );
 							//	$json_print[] = array ($the_field_data ['attributes'] ['id'] => $html_to_save );

@@ -24,8 +24,11 @@
 <br/>
 <div id="gallery">
   <? if(!empty($pictures)): ?>
-  <? foreach($pictures as $pic): ?>
-  <a href="javascript:set_gallery_img('<? print get_media_thumbnail( $pic['id'] , 400)  ?>', '<? print get_media_thumbnail( $pic['id'] , '900')  ?>');"><img src="<? print get_media_thumbnail( $pic['id'] , 250)  ?>"  height="120" alt="" /></a>
-  <? endforeach ;  ?>
+  <?
+  $i = 0;
+  foreach($pictures as $pic): ?>
+  <a class="ch_colors"  pic_number="<? print $i; ?>" tn_small="<? print get_media_thumbnail( $pic['id'] , 400)  ?>" tn_big="<? print get_media_thumbnail( $pic['id'] , '900')  ?>" href="javascript:set_gallery_img('<? print get_media_thumbnail( $pic['id'] , 400)  ?>', '<? print get_media_thumbnail( $pic['id'] , '900')  ?>');"><img src="<? print get_media_thumbnail( $pic['id'] , 250)  ?>"  height="120" alt="" /></a>
+  <? 
+$i++;  endforeach ;  ?>
   <? endif; ?>
 </div>

@@ -15,4 +15,4 @@ $mw_config ['db_password'] = '123456';
 
 $mw_config ['db_database'] = 'cms_wt';
 
-?>
+ 

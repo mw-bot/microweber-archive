@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-<title></title>
+<title>{content_meta_title}</title>
 <script type="text/javascript">
             imgurl="<? print TEMPLATE_URL ?>img/";
             siteurl="<? print site_url() ?>";
@@ -18,19 +18,14 @@
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/functions.js"></script>
 </head>
 <body>
+<div id="uc"><strong>We are working on our site at the moment. If you see a page not working, check again soon.</strong></div>
 <div id="container" class="mw">
- 
 <div id="header">
-
-  <div id="header_top">
-     <a href="<? print site_url(); ?>" id="logo" title="Microweber"></a> 
-    
-    
-     <div id="nav">
-    <microweber module="content/menu"  name="main_menu"  />
+  <div id="header_top"> <a href="<? print site_url(); ?>" id="logo" title="Microweber"></a>
+    <div id="nav">
+      <microweber module="content/menu"  name="main_menu"  />
+    </div>
   </div>
-  </div>
- 
 </div>
 <!-- /#header -->
 <div id="content">

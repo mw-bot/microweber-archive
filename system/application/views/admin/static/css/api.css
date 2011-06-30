@@ -111,6 +111,11 @@
 .original-placeholder {
 	background-color:#00F;
 }
+.container .to_here_drop2 {
+	 margin-bottom:20px;
+	padding-bottom:20px;
+	outline:solid #FF3 2px;
+}
 .to_here_drop {
 	/*
 	min-width:100px;*/
@@ -759,7 +764,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', end
 	float: left;
 	padding-right: 5px;
 	padding-top:9px;
+	
 }
+#admin_sidebar .ui-accordion-icons .ui-accordion-header a {
+    padding-left: 15px;
+	line-height:34px;
+}
+
 #admin_sidebar .css_editor_accordeon_text {
 	line-height:39px;
 }

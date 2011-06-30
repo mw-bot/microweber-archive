@@ -176,9 +176,9 @@ class Core_model extends Model {
 			$screenshot_url = $data ['screenshot_url'];
 		}
 		
-	if ($data ['debug']) {
+		if ($data ['debug']) {
 			$dbg = 1;
-			unset($data ['debug']);
+			unset ( $data ['debug'] );
 		} else {
 			
 			$dbg = false;
@@ -310,8 +310,8 @@ class Core_model extends Model {
 			$id_to_return = $data ['id'];
 		
 		}
-		if($dbg != false){
-			p($q);
+		if ($dbg != false) {
+			p ( $q );
 		}
 		
 		//find table assoc name
@@ -1545,12 +1545,11 @@ class Core_model extends Model {
 								 and param='{$data_to_save ['param']}'
 								   ";
 				
-	//		p($q);
-			
+				//		p($q);
+				
 
-			$q = $this->dbQ ( $q );
+				$q = $this->dbQ ( $q );
 			
-
 			}
 		}
 		
@@ -1850,8 +1849,32 @@ class Core_model extends Model {
 				}
 			}
 			
+			if ($criteria ['count_only'] == true) {
+				$count_only = $criteria ['count_only'];
+				
+				unset ( $criteria ['count_only'] );
+			
+			}
+			if ($criteria ['get_count'] == true) {
+				$count_only = $criteria ['get_count'];
+				
+				unset ( $criteria ['get_count'] );
+			
+			}
+			
+			if ($criteria ['count'] == true) {
+				$count_only = $criteria ['count'];
+				
+				unset ( $criteria ['count'] );
+			
+			}
+			
 			if ($criteria ['with_pictures'] == true) {
 				$with_pics = true;
+			}
+			
+			if ($criteria ['limit'] == true) {
+				$limit = $criteria ['limit'];
 			}
 			
 			if ($criteria ['fields'] == true) {
@@ -2342,8 +2365,9 @@ class Core_model extends Model {
 			$first = array_shift ( $includeIds );
 			
 			$includeIds_idds = false;
-			p ( $includeIds );
+			//	p ( $includeIds );
 			
+
 			$includeIds_i = implode ( ',', $includeIds );
 			
 			$includeIds_idds .= "   AND id IN ($includeIds_i)   ";
@@ -2396,6 +2420,14 @@ class Core_model extends Model {
 		}
 		
 		$result = $this->dbQuery ( $q );
+		
+		if ($count_only == true) {
+			//p($result);
+			$ret = $result [0] ['qty'];
+			
+			return $ret;
+		
+		}
 		
 		if ($only_those_fields == false) {
 			
@@ -5391,8 +5423,9 @@ $w
 		
 		}
 		
-	//	$this->load->library ( 'image_lib' );
+			$this->load->library ( 'image_lib' );
 		
+
 		require_once (LIBSPATH . 'thumb/ThumbLib.inc.php');
 		
 		global $cms_db_tables;
@@ -5530,15 +5563,27 @@ $w
 									}
 								
 								}
+								if ($size) {
+									$new_filename_url = $the_original_dir . $size . '_' . $size_height . '/' . $origina_filename;
+								} else {
+									$new_filename_url = $the_original_dir .  '/' . $origina_filename;
 								
-								$new_filename_url = $the_original_dir . $size . '_' . $size_height . '/' . $origina_filename;
-								
+								}
 								$new_filename_url = str_ireplace ( MEDIAFILES, $media_url, $new_filename_url );
+								$new_filename = str_replace('/_/', '',$new_filename);
+								$new_filename = str_replace('\_\\', '',$new_filename);
 								
-								//p($new_filename);
-								//p($file_path);
+								$file_path = str_replace('/_/', '',$file_path);
+								$file_path = str_replace('\_\\', '',$file_path);
+								$file_path = normalize_path($file_path, false);
+								
+								
+								
+							//	p ( $new_filename );
+							//	p ( $file_path );
 								$new_filename_url = pathToURL ( $new_filename );
-								
+								$new_filename = normalize_path($new_filename, false);
+							 	unlink($new_filename);
 								if (is_file ( $new_filename ) == TRUE) {
 									
 									$src = $new_filename_url;
@@ -5563,19 +5608,20 @@ $w
 									
 									$src = $new_filename_url;
 									//p($config);
-									//$this->image_lib->initialize ( $config );
+									$this->image_lib->initialize ( $config );
 									
 
-									try {
-										$thumb = PhpThumbFactory::create ( $file_path );
-										//var_dump($size, $size_height);
-										$thumb->resize ( $size, $size_height );
-										
+								try {
+									$thumb = PhpThumbFactory::create ( $file_path );
+									//var_dump($size, $size_height);
+								 	$thumb->resize ( $size, $size_height );
+								//	p($new_filename);
 										$thumb->save ( $new_filename );
 									
 									} catch ( Exception $e ) {
 										// handle error here however you'd like
-										print 'cant open image file' . $file_path;
+									//	var_dump($e);
+									print 'cant open image file' . $file_path;
 									}
 									
 								// do your manipulations
@@ -6390,7 +6436,7 @@ $w
 			$cache_group = false;
 		
 		}
-		
+		//$media_get['debug'] = 1; 
 		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		$target_path = MEDIAFILES;
 		
@@ -9248,6 +9294,16 @@ $w
 	
 	}
 	
+	function optionsSetDefault($key) {
+		if (is_file ( APPPATH . 'options' . '/' . trim ( $key ) . '.php' )) {
+			include (APPPATH . 'options' . '/' . trim ( $key ) . '.php');
+			if (! empty ( $option )) {
+				$this->optionsSave ( $option );
+			}
+		}
+	
+	}
+	
 	function optionsSave($data) {
 		
 		global $cms_db_tables;
@@ -9255,7 +9311,7 @@ $w
 		$table = $cms_db_tables ['table_options'];
 		
 		$this->cleanCacheGroup ( 'options' );
-		
+		$data ['debug'] = 1;
 		$save = $this->saveData ( $table, $data );
 		
 		return true;

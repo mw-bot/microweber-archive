@@ -1,6 +1,6 @@
 <?  
 
-//p( $params); 
+ //p( $params); 
 
 $orig_params = $params;
 
@@ -118,8 +118,8 @@ if($params['value'] != '' and $params['value'] != 'undefined') : ?>
 
 <? if($cf_cfg['param'] != '' and $cf_cfg['param'] != 'undefined') : ?>
 
-<? if(trim($orig_params['only_value']) == ''): ?>
-
+<? if(trim(strval($orig_params['only_value'])) == ''): ?>
+<? if(trim($cf_cfg['help']) == '') {$cf_cfg['help'] = $cf_cfg['name'];}  ?>
 <span><? print $cf_cfg['help'] ?>:
 <input name="custom_field_<? print $cf_cfg['param'] ?>" value="<? print  $params['value']   ?>" type="hidden">
 </span> <? print  $params['value']   ?>

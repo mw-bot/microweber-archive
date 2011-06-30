@@ -1,7 +1,7 @@
 <? $rand_id = md5(serialize($params)); ?>
 <script type="text/javascript">
                 $(document).ready(function(){
-                 	$("#mw_map_editor<? print $rand_id ?>").accordion({
+                 	$("#mw_v_editor<? print $rand_id ?>").accordion({
 			autoHeight: false,
 			clearStyle: true,
 			collapsible: true,
@@ -16,7 +16,7 @@
                 });
             </script>
 
-<div id="mw_map_editor<? print $rand_id ?>">
+<div id="mw_v_editor<? print $rand_id ?>">
   <h3><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/icons/72-pin.png"  height="24" class="css_editor_accordeon_icon" />Paste youtube embed code</a></h3>
   <div>
     <div class="mw_tag_editor_item_holder">

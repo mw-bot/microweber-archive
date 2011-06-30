@@ -305,7 +305,7 @@ class content_model extends Model {
 			}
 		
 		}
-		if (strval ( $data_to_save ['content_subtype_value'] ) == '') {
+		if (strval ( $data_to_save ['content_subtype_value_new'] ) != '') {
 			$adm = is_admin ();
 			
 			if ($data_to_save ['content_subtype_value_new'] != '') {
@@ -5668,13 +5668,13 @@ $my_limit_q
 
 				$sql = "SELECT max(position) as maxpos from $table where item_parent='{$data ['item_parent']}'  ";
 				
-				$q = CI::model ( 'core' )->sqlQuery ( $sql, 'menus' );
+			//	$q = CI::model ( 'core' )->sqlQuery ( $sql, 'menus' );
 				
-				$result = $q [0];
+				//$result = $q [0];
 				
-				$maxpos = intval ( $result ['maxpos'] ) + 1;
+			//	$maxpos = intval ( $result ['maxpos'] ) + 1;
 				
-				$data ['position'] = $maxpos;
+			//?	$data ['position'] = $maxpos;
 			
 			}
 		
@@ -6524,7 +6524,10 @@ $my_limit_q
 		
 		$table_menus = $cms_db_tables ['table_menus'];
 		
-		$sql = "SELECT id from $table_menus where item_parent=$menu_id  and $table_menus.item_parent<>$table_menus.id  order by position ASC ";
+		$sql = "SELECT id from $table_menus 
+		where item_parent=$menu_id  
+		and $table_menus.item_parent<>$table_menus.id  
+		order by position ASC ";
 		//p ( $sql );
 		$q = CI::model ( 'core' )->dbQuery ( $sql, __FUNCTION__ . md5 ( $sql ), 'menus' );
 		
@@ -7148,7 +7151,7 @@ $my_limit_q
 		$menus_array = implode ( ',', $menus_array );
 		
 		$q = "DELETE FROM $table where content_id=$content_id and item_parent NOT IN ($menus_array)  ";
-		
+	//	p($q);
 		$sql_q = CI::db ()->query ( $q );
 		
 		CI::model ( 'core' )->cleanCacheGroup ( 'menus' );
@@ -7741,7 +7744,7 @@ $my_limit_q
 		
 		}
 		
-		$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  ";
+		$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
 		
 		$q = CI::model ( 'core' )->dbQuery ( $sql );
 		
@@ -7794,7 +7797,7 @@ $my_limit_q
 				
 				}
 				
-				print "<li class='$content_type_li_class'>";
+				print "<li class='$content_type_li_class' id='page_list_holder_{$item['id']}' >";
 				
 				if ($link != false) {
 					
@@ -7807,7 +7810,7 @@ $my_limit_q
 					$to_print = str_ireplace ( '{link}', page_link ( $item ['id'] ), $to_print );
 					
 					if (strstr ( $to_print, '{tn}' )) {
-						$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'] ), $to_print );
+						$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'] , 'original'), $to_print );
 					}
 					foreach ( $item as $item_k => $item_v ) {
 						$to_print = str_ireplace ( '{' . $item_k . '}', $item_v, $to_print );

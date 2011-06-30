@@ -26,7 +26,7 @@
                         phone:$("input[name='from_phone']").val(),
                         message:$("textarea[name='message']").val()
                     }
-                    $.post("<? TEMPLATE_URL ?>contact_form_sender.php", contacts, function(){
+                    $.post("<? print $config['url_to_module'] ?>contact_form_sender.php", contacts, function(){
                         Modal.box("<h2 style='padding:20px;text-align:center'>Your message has been Sent</h2>", 400, 100);
                         Modal.overlay();
                     });

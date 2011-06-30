@@ -158,6 +158,11 @@ $data = $data2;
 $(document).ready(function() {
 		  $t = $('*[name="type"]').val(); 
 		   cf_type_set($t)
+		   $('.custom_fields_table_edit_cf tr').hide();
+		   $('.custom_fields_table_edit_cf .cf_values_row').show();
+		   
+		   
+		   
 });
 
 
@@ -188,6 +193,12 @@ function cf_type_set_show_all_types($form_selector){
 	
 	
 	
+}
+
+function edit_cf_show_advanced(){
+	
+	   $('.custom_fields_table_edit_cf tr').toggle();
+		   $('.custom_fields_table_edit_cf .cf_values_row').show();
 }
 
 
@@ -297,11 +308,26 @@ function cf_type_set($type, $form_selector){
   
              <input name="param" type="hidden" class="cf_form_<? print $item['id'] ?>" value="<? print $item['param'] ?>"  />
 
+
+ <table width="80%" border="0" cellspacing="4" cellpadding="4">
+  <tr>
+    <td><? print $item['type'] ?> (<small><a class="blue" href="javascript:edit_cf_show_advanced()">Edit</a></small>)</td>
+  </tr>
+  <tr>
+    <td>  <? print $item['help'] ?></td>
+  </tr>
+</table>
+
+
+ 
+
   
   <table border="0" class="custom_fields_table_edit_cf">
     <tr>
       <td><span class="darkblue">Name:</span>
       <div class="formitem"><span class="formfield">
+      
+      
           <input name="name" type="text" class="cf_form_<? print $item['id'] ?>" value="<? print $item['name'] ?>"  />
           </span> </div>
       
@@ -342,7 +368,7 @@ function cf_type_set($type, $form_selector){
        
       
     </tr>
-    <tr>
+    <tr class="cf_values_row">
       <td><span class="darkblue">Values:</span>
       
       <div class="formitem"> <span class="formfield">
@@ -372,8 +398,12 @@ function cf_type_set($type, $form_selector){
     </tr>
     </tr>
     
-    <tr>
-      <td><input class="btn" name="save"  value="Save" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" /><? if(($item['id']) != false) :  ?>
+     
+  </table>
+  
+  
+  
+  <input class="btn" name="save"  value="Save" type="button" onClick="save_cf('cf_form_<? print $item['id'] ?>')" /><? if(($item['id']) != false) :  ?>
       
       
       
@@ -382,10 +412,11 @@ function cf_type_set($type, $form_selector){
         
         
         
-        <? endif; ?></td>
-     
-    </tr>
-  </table>
+        <? endif; ?>
+  
+  
+  
+  
   <? if(($params['post_id'])== false ): ?>
   <span class="darkblue"> Apply to:</span>
   <? endif; ?>

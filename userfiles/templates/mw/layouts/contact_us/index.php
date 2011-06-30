@@ -31,7 +31,7 @@ description: contact us site layout
     <div class="col" style="width:220px; margin-right:30px; float:left"><img  src="<? print TEMPLATE_URL ?>img/mw1.png" /> </div >
     <div class="col" style="float:right;width:720px;"> <img  src="<? print TEMPLATE_URL ?>img/nice_to_meet_you.png" />
       <p class="text_14 line_spacing"> You are welcome to share with us any ideas or questions you have in mind </p>
-      <p class="text_14 line_spacing"> You can contact us at info@microweber.com or at +1 (310) 878 9051</p>
+      
       <br />
       <br />
       <microweber module="forms/mail_form" module_id="contact_us<? print PAGE_ID ?>" />

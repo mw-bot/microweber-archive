@@ -8,28 +8,60 @@
 <? endforeach; ?>
 <? endif; ?>
 <script type="text/javascript">
+ 
+	   //sortable table
+  $(document).ready(function(){
+      //
 
+	$('.Pages ul').sortable({
+					opacity: '0.5',
+					containment: 'parent',
+					items: 'ul, li' ,
+					forcePlaceholderSize: true,
+					forceHelperSize: true ,
+					 
+					update: function(e, ui){
+						serial = $(this).sortable("serialize");
+						$.ajax({
+							url: "<?php print site_url('api/content/posts_sort_by_date')  ?>",
+							type: "POST",
+							data: serial,
+							// complete: function(){},
+							success: function(feedback){
+							//alert(feedback);
+								//$('#data').html(feedback);
+							}
+							// error: function(){}
+						});
+					}
+				});
 
-$(document).ready(function(){
+	
 
-        $('.Pages ul:first').nestedSortable({
-			disableNesting: 'no-nest',
-			forcePlaceholderSize: true,
-			handle: 'h2',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placehulder',
-			tabSize: 25,
-			tulerance: 'pointer',
-			update: function(serialized) {
-    			/*serialized = $('ul.category_tree').nestedSortable('serialize');
-     	        $.post("http://pecata/microweber/api/content/save_taxonomy_items_order", { items: serialized },
-                function(data){
-
-                }); */
-            }
-		});
-});
+  });
+ 
+//
+//
+//$(document).ready(function(){
+//
+//        $('.Pages ul:first').nestedSortable({
+//			disableNesting: 'no-nest',
+//			forcePlaceholderSize: true,
+//			handle: 'h2',
+//			items: 'li',
+//			opacity: .6,
+//			placeholder: 'placehulder',
+//			tabSize: 25,
+//			tulerance: 'pointer',
+//			update: function(serialized) {
+//    			/*serialized = $('ul.category_tree').nestedSortable('serialize');
+//     	        $.post("http://pecata/microweber/api/content/save_taxonomy_items_order", { items: serialized },
+//                function(data){
+//
+//                }); */
+//            }
+//		});
+//});
 
 
 

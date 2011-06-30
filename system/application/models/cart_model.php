@@ -550,10 +550,13 @@ class Cart_model extends Model {
 
 		$to_return = $to_return + $total_no_promo;
 		
+		$shipp = option_get ( 'shipping' );
+		if ($shipp != false) {
+			$to_return = $to_return + floatval ( $shipp );
 		
+		}
 		
-		$to_return = number_format($to_return, 2, '.', '');
-		
+		$to_return = number_format ( $to_return, 2, '.', '' );
 		
 		if ($convert_to_currency == "EUR") {
 			return $to_return;
@@ -1138,6 +1141,18 @@ class Cart_model extends Model {
 		//$get_option ['option_group'] = 'orders';
 		$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
 		$subj = $get_option1 ['option_value'];
+		
+		if (trim ( $subj ) == '') {
+			
+			CI::model ( 'core' )->optionsSetDefault ( 'order_complete_email' );
+			
+			$get_option = array ();
+			$get_option ['option_key'] = 'order_complete_email';
+			//$get_option ['option_group'] = 'orders';
+			$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+			$subj = $get_option1 ['option_value'];
+		
+		}
 		
 		$get_option = array ();
 		$get_option ['option_key'] = 'order_complete_email_body';

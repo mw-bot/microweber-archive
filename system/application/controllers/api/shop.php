@@ -102,16 +102,24 @@ class Shop extends Controller {
 						CI::model ( 'users' )->saveUser ( $to_save );
 					
 					}
-					
-					$email = 'boksiora@gmail.com';
+					$get_option = array ();
+					$get_option ['option_key'] = 'mailform_to';
+					//$get_option ['option_group'] = 'orders';
+					$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+					$email = $get_option1 ['option_value'];
+					//$email = 'boksiora@gmail.com';
 					mail ( $email, "Live-VERIFIED IPN", $emailtext . "\n\n" . $req );
 				} else if (strcmp ( $res, "INVALID" ) == 0) {
 					// If 'INVALID', send an email. TODO: Log for manual investigation. 
 					foreach ( $_POST as $key => $value ) {
 						$emailtext .= $key . " = " . $value . "\n\n";
 					}
-					$email = 'boksiora@gmail.com';
-					mail ( $email, "Live-INVALID IPN", $emailtext . "\n\n" . $req );
+					$get_option = array ();
+					$get_option ['option_key'] = 'mailform_to';
+					//$get_option ['option_group'] = 'orders';
+					$get_option1 = CI::model ( 'core' )->optionsGetByKey ( $get_option, true );
+					$email = $get_option1 ['option_value'];
+					mail ( $email, "Error: Live-INVALID IPN", $emailtext . "\n\n" . $req );
 				}
 			}
 			fclose ( $fp );
@@ -144,16 +152,13 @@ class Shop extends Controller {
 		}
 	}
 	
-	
 	function promo_code_delete() {
 		
 		$adm = is_admin ();
 		if ($adm == true) {
-			$id = intval($_POST['id']);
-			 
+			$id = intval ( $_POST ['id'] );
+			
 			CI::model ( 'cart' )->promoCodeDeleteById ( $id );
-			
-			
 			
 			CI::model ( 'core' )->cacheDelete ( 'cache_group', 'cart' );
 			exit ();

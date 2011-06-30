@@ -19,7 +19,10 @@ $rand = rand();
  // $for =  $params['for_what'] = 'module';
  }
   
-  
+   if(intval($params['for_id'])  > 0){
+ 
+	$id = $params['for_id'];
+}
   $queue_id = $params['queue_id'];
   
   
@@ -34,8 +37,8 @@ $rand = rand();
  }
  
  
- //p($params);
- // var_dump($collection);
+  //p($params);
+//  var_dump($id,  $media_type,  $queue_id, $collection);
   ?>
 <?  $media1 = get_media($id, $for = 'post', $media_type,  $queue_id, $collection);
  

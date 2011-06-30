@@ -249,7 +249,7 @@ $('.edit .module a', '.edit').live('click',function(e) {
     //do other stuff when a click happens
 });
 
- $('.module *' , '.edit').live('click',function(e) {
+ $('.module' , '.mw').live('click',function(e) {
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
 		 
 		 
@@ -262,7 +262,10 @@ $('.edit .module a', '.edit').live('click',function(e) {
 		  window.mw_making_sortables = false;
 		  
 		$clicked_on_module = 	$(this).attr('module_id');
-		
+		  if($clicked_on_module == undefined || $clicked_on_module == ''){
+			  $clicked_on_module = 	$(this).attr('module_id', 'default');
+			  
+		  }
 		
 		 if (window.console != undefined) {
 				console.log('click on module 1 ' + $clicked_on_module );	
@@ -270,7 +273,12 @@ $('.edit .module a', '.edit').live('click',function(e) {
 		
 		
 		  if($clicked_on_module == undefined || $clicked_on_module == ''){
-				$clicked_on_module = 	$(this).parents('.module:first').attr('module_id');
+				$clicked_on_module = 	$(this).parents('.module').attr('module_id');
+		  }
+		  
+		  if($clicked_on_module == undefined || $clicked_on_module == ''){
+			  $clicked_on_module = 	$(this).parents('.module').attr('module_id', 'default');
+			  
 		  }
 		  
 		  $('.mw_non_sortable').removeClass('mw_non_sortable');
@@ -298,14 +306,16 @@ $('.edit .module a', '.edit').live('click',function(e) {
 });
  
  $( '.mw_mod_drag_handle').disableSelection();
- $(".mw_mod_drag_handle, .col_handle", '.edit').live("mouseenter mousedown", function(event) {
+ $(".mw_mod_drag_handle, .col_handle, .container_handle", '.edit').live("mouseenter mousedown click", function(event) {
 	 window.mw_editing_started  = false;
+	 window.mw_editing_started  = false;
+	 window.mw_editables_created = false;
 	 if ( event.type == "mouseenter" ) {
 	 if( window.mw_drag_started == false){
 	//	 window.mw_drag_started = true;
 	  mw_remove_editables();
 		
-		 window.mw_sortables_created = false;
+		// window.mw_sortables_created = false;
  
 	 	init_edits()
 	 }
@@ -320,16 +330,29 @@ $('.edit .module a', '.edit').live('click',function(e) {
 			 mw_html_tag_editor(window.mw_last_hover)
 			 
 			 
-		 mw_remove_editables()
+		// mw_remove_editables()
+		 
+		  window.mw_last_hover++;
+	 window.mw_editing_started  = false;
+	 window.mw_editables_created = false;
+	 $(this).parent().attr('mw_tag_edit' ,window.mw_last_hover );
+	 mw_html_tag_editor(window.mw_last_hover)
+	 $('#mw_css_editor_element_id').val(window.mw_last_hover);
 		 
 		 event.preventDefault(); // this prevents the original href of the link from being opened
 			event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
   return false;
 	 }
 	 
-
+	 if ( event.type == "click" ) {
+	
+	 event.preventDefault(); // this prevents the original href of the link from being opened
+		event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+return false;
+//	 $(this).parent().addClass('original-placeholder' );
 	 
-	 
+	// $('#mw_css_editor_element_id').val($t);
+	 }
 	 
 	 
  });
@@ -591,182 +614,7 @@ $('.edit .module a', '.edit').live('click',function(e) {
 //	 
 //	 
 // });
- 
- 
-$(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", function(event) {
-	 
-	
-	
-	
-	
-	
-	
-	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
-	
-	if ( event.type == "mouseup" ) {
-
-
-		  if (window.console != undefined) {
-				console.log('mouseup on module '  );	
-				
-			}
-		  
-		  
-		
-			
-		  
-		  
-		  window.mw_making_sortables = false;
-		  
-	  }  else if ( event.type == "mousedown" ) {
-
-		  if (window.console != undefined) {
-				console.log('mousedown on module ' );	
-			}
-		  $( this ).children('.mw_mod_drag_handle').show();
-		  $('.edit .mw_non_sortable').removeClass('mw_non_sortable');
-		 // window.mw_making_sortables = true;
- 		  mw_remove_editables();
-			
-		 	init_edits()
-		 	
-		 		event.preventDefault(); // this prevents the original href of the link from being opened
-		 	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-				// 
-				// 
-			 return false;
-		  
-	  }  else if ( event.type == "click" ) {
-		  if (window.console != undefined) {
-				console.log('click on module ' );	
-			}
-		  window.mw_making_sortables = false;
-		  
-		$clicked_on_module = 	$(this).attr('module_id');
-		  
-		 window.mw_drag_started = false 
-		 window.mw_handle_hover = false
-		  
-		  load_edit_module_by_module_id($clicked_on_module) 
-		  
-			//event.preventDefault(); // this prevents the original href of the link from being opened
-		 	//event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-				// 
-				// 
-			// return false;
-		  
-		  window.mw_sortables_created = false;
-		  init_edits()
-		  
-		  
-		  
-	  }  else if ( event.type == "mouseleave" ) {
-		  if (window.console != undefined) {
-				console.log('mouseleave on module ' );	
-			}
-		  if( window.mw_drag_started == false){
-			  
-			  
-		   
-		   
-		  
-		  }
-		  
-	//	  $( this ).disableSelection();
-		//	$( this ).children().disableSelection();
-		//	$(this).attr('contentEditable', false);
-		//	$( this ).children().attr('contentEditable', false);
-		  
-		//	$( '.mw_non_sortable' ).removeClass('mw_non_sortable');
-			//$( this ).children().removeClass('mw_non_sortable');
-
-		//  init_edits()
-		  
-	  }
-	  else if ( event.type == "mouseenter" ) {
-		  
-			if( window.mw_drag_started == false){
-				
-				 // window.mw_sortables_created = false;
-				//  init_edits()
-				
-		  if (window.console != undefined) {
-				console.log('mouseenter on module ' );	
-			}
-		  
-		  
-			$module_title = 	$(this).attr('module_title');
-		//  $( this ).children('.mw_mod_drag_handle').show();
-	  	// 
-			if( $( this ).children('.mw_mod_drag_handle').length || $( this ).parents('.mw_mod_drag_handle').length){  
-				 
-			} else {
-				$( this ).prepend('<span class="mw_mod_drag_handle">'+$module_title+'</span>');
-			}
-			
-		   $( this ).children('.mw_mod_drag_handle').show();
-			
-		   
-		   if( window.mw_editing_started == false){
-		 //  position1223 = $(this).position();
-			  
-		//	  $( this ).children('.mw_mod_drag_handle:first').css({top:position1223.top,left:position1223.left+2});
-		   }
-		   //init_edits()
-			}
-			
-			
-			
-			
-			
-
-//			$(this).resizable( "destroy" )
-//			
-//				$(this).resizable({
-//				handles: 'n, s, e, w',
-//				cancel: ':input,option',
-//				start: function(event, ui) {
-//				
-//				window.mw_drag_started = true;
-//			 
-//				 
-//				
-//			},resize: function(event, ui) {
-//				window.mw_drag_started = true;
-//			
-//			},
-//			stop: function() {
-//				//	window.mw_drag_started = false;
-//				  	setTimeout("set_drag_started_false()",1000);
-//				} ,
-//				  
-//				helper: "ui-resizable-helper"
-//			});
-//			
-			
- 
   
-		  
-	  }
-	  
-	  
-	  else {
-	    // do something on mouseout
-		  window.mw_making_sortables = false;
-	  }
-	
-	
-	
-	
-	
-	 }
-	
-	
-	
-	
-	
-	});
-
 // $('.edit[contenteditable=true]')
 //$('a:not("a[href^=mailto]").live('click',function(){ });
 //
@@ -792,7 +640,7 @@ function set_mw_editing_started_false(){
  window.mw_last_hover = 1000;
 window.mw_editing_started  = false;
 window.mw_drag_started = false
-$(".edit *:not(.mw_mod_drag_handle,img,.module,.resize_handle,.ui-resizable-handle )[contenteditable=true]", '.mw').live("click", function(event) {
+$(".edit, .edit *:not(.mw_mod_drag_handle,img,.module,.resize_handle,.ui-resizable-handle )[contenteditable=true]", '.mw').live("click", function(event) {
 
 	
 	
@@ -839,7 +687,7 @@ $(".edit *:not(.mw_mod_drag_handle,img,.module,.resize_handle,.ui-resizable-hand
 	*/
 	
 });
-$(".edit *:not(.mw_mod_drag_handle,img,.module,.resize_handle,.ui-resizable-handle )[contenteditable=false]", '.mw').live("mousedown", function(event) {
+$(".edit,.edit *:not(.mw_mod_drag_handle,img,.module,.module *,.resize_handle,.ui-resizable-handle )[contenteditable=false]", '.mw').live("mousedown", function(event) {
 	
 
 	
@@ -894,7 +742,7 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 	
 	 if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
 	
-	if ( event.type == "mouseup" ) {
+	if ( event.type == "mousasdasdaeup" ) {
 
 
 		  if (window.console != undefined) {
@@ -917,9 +765,9 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 		  $( this ).children('.mw_mod_drag_handle').show();
 		  $('.edit .mw_non_sortable').removeClass('mw_non_sortable');
 		 // window.mw_making_sortables = true;
- 		  mw_remove_editables();
+ 		//  mw_remove_editables();
 			
-		 	init_edits()
+		 //	init_edits()
 		 	
 		 		event.preventDefault(); // this prevents the original href of the link from being opened
 		 	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
@@ -927,7 +775,7 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 				// 
 			 return false;
 		  
-	  }  else if ( event.type == "click" ) {
+	  }  else if ( event.type == "mouseup" || event.type == "click" ) {
 		  if (window.console != undefined) {
 				console.log('click on module ' );	
 			}
@@ -960,7 +808,7 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 			}
 		  if( window.mw_drag_started == false){
 			  
-			  
+				$(this ).resizable('destroy');
 		   
 		   
 		  
@@ -980,6 +828,85 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 	  else if ( event.type == "mouseenter" ) {
 		  
 			if( window.mw_drag_started == false){
+				
+				
+				
+				
+				
+				
+			
+			 	 $(this).resizable({
+							 handles: 'e',
+						//	 handles: {'w': '.resize_handle'},
+						//	 ne:'span.resize_handle', se:'div.wnd_bottom_right', sw:'div.wnd_bottom_left', nw:'div.wnd_top_left' ,
+						//	 cancel: '*:not(.resize_handle)',
+					//		 autoHide: true ,
+							  resize: function(event, ui) {
+			 		window.mw_drag_started= true;
+								 
+							 },
+							 
+							 start: function(event, ui) {
+									window.mw_drag_started= true;
+						//		 window.mw_drag_started = true;
+							// window.mw_handle_hover = true;
+
+							// $(this).next(".col").css('background-color', 'red');
+							 //$(this).next(".col").attr('also_resize', window.mw_last_hover);
+							 
+					//		 $(this).not('img').css("height", 'auto');
+							 
+							 
+						},
+						
+						
+						//alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
+						 stop: function(event, ui) {
+			 
+					        $(this).not('img').css("height", 'auto');
+					        $(this).css("position", '');
+					        $(this).css("top", '');
+					        $(this).css("left", '');
+					        window.mw_drag_started = false;
+					        window.mw_drag_started = false;
+						//	setTimeout("   window.mw_drag_started = false;",500);
+						} 
+							 
+						 
+						});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				 // window.mw_sortables_created = false;
 				//  init_edits()
@@ -1321,6 +1248,19 @@ function remove_sortables(){
 }
 var wscrolltop = 0;
 
+/*$('.edit').keyup(function (e) {
+	 if(	window.mw_editables_created == undefined || window.mw_editables_created == false  ){
+	    if (e.keyCode == 46) {
+		    	if (window.console != undefined) {
+		 			console.log('delete key was pressed   ' + window.mw_editables_created);	
+		 			 mw_html_tag_delete();
+		 		}
+	    }
+	 }
+});*/
+
+ 
+
 function init_edits(){
 	//mw_remove_editables() 
 	//mw_make_editables()
@@ -1643,11 +1583,11 @@ tempArray=new Array();
 		//	placeholderElement: 'div',
 		//	containment: '.edit',
 	  //  items : 'div',
-	 	items: '.edit *, .container,.module:not(.mw_mod_wrap), p, br',
+	 	items: '.edit *, .container,.row,.module:not(.mw_mod_wrap), p, br',
 	 	//items: '.container,.module,.col *.module, p, br',
 	//	items: '*:not(.mw_mod_wrap)', 
 			//revert: true,
-			handle : '.mw_mod_drag_handle:not(.col_handle)',
+			handle : '.mw_mod_drag_handle',
 			//cancel: '.row',
 			  cancel: '.mw_mod_wrap',
 		 placeholder: "to_here_drop",
@@ -1668,10 +1608,13 @@ tempArray=new Array();
 			}).remove();
 		
 	  	setTimeout("set_drag_started_false()",500);
-		
+	  	$( '.container').removeClass('to_here_drop2');
 		
 	},	start: function() {
-	
+		
+		
+		$( '.container').addClass('to_here_drop2');
+		
 		$( '.edit').append('<div class="mw_dropable_generated container"></div>');
 	   	$( '.edit').prepend('<div class="mw_dropable_generated container"></div>');
 	   	$( '.container').before('<div class="mw_dropable_generated container"></div>');
@@ -1715,38 +1658,38 @@ tempArray=new Array();
 	}).sortable("option", "connectWith", ".edit" )
 	 //"option", "connectWith", ".row" //"option", "connectWith", ".edit *" 
 	
-	
+//	
 	$(".row").sortable('destroy');
-	$(".row").sortable({
+	$(".row", '.edit').sortable({
 		  forcePlaceholderSize: true,
  	forceHelperSize : true ,
-		tolerance: 'pointer',
-	//	  helper:'clone',
-		//tolerance: 'intersect',
-		//	iframeFix: true,
-		   //cancel: '.module > * :not(:has(.module)) ',
+	tolerance: 'pointer',
+//	//	  helper:'clone',
+	//tolerance: 'intersect',
+//		//	iframeFix: true,
+//		   //cancel: '.module > * :not(:has(.module)) ',
 	    cancel: '.module',
-	//	placeholder: "to_here_drop",
-		//	placeholderElement: 'div',
-	//	containment: 'parent',
-	//	containment: '.row:not(.col)',  
-		//  axis: 'x',
-
-	 
+//	//	placeholder: "to_here_drop",
+//		//	placeholderElement: 'div',
+//	//	containment: '.edit *',
+//	//	containment: '.row:not(.col)',  
+//		//  axis: 'x',
+//
+//	 
 			items: '.col',
-		//items: '*:not(:has(.module))',
-		//revert: true,
-		handle : '.col_handle',
+//		//items: '*:not(:has(.module))',
+//		//revert: true,
+ 	handle : '.col_handle' ,
 		  cancel: '.module',
 	 placeholder: "to_here_drop",
-			 placeholderElement: 'div',
-//			
-	zIndex: 6000,
-//		//	 grid: [5, 5],
- 	 opacity: 0.6,
-   	distance: 1 ,
-//	   	
-//	//placeholder: "ui-state-highlight",
+//			 placeholderElement: 'div',
+////			
+//	zIndex: 6000,
+////		//	 grid: [5, 5],
+// 	 opacity: 0.6,
+//   	distance: 1 ,
+////	   	
+////	//placeholder: "ui-state-highlight",
 stop: function() {
 		mw_set_grid()
 	//	window.mw_drag_started = false;
@@ -1754,7 +1697,7 @@ stop: function() {
 	},	start: function() {
 		window.mw_drag_started = true; 
 	}
-	}).sortable("option", "connectWith", ".row")
+	}).sortable("option", "connectWith", ".row");
 	
 
  	$("div.module", '.edit').find('.module').addClass('mw_mod_wrap');
@@ -1986,25 +1929,25 @@ function bind_module_edit_iframe_click(){
  $("img", '.edit').live(" mouseenter mousedown click", function(event) {
 	 if ( event.type == "mouseenter" ) {
 		
-		$(this).resizable('destroy');
-			 $(this).resizable({
-				 handles: 's, e',
-				 autoHide: false ,
-				 start: function(event, ui) {
-				  window.mw_handle_hover = true;
- 
-				 
-			},
-			//alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
-			 stop: function(event, ui) { 
-				 
-		     
-
-			 setTimeout("set_handle_hover_false()",1500);
-			} 
-				 
-			 
-			});
+		//$(this).resizable('destroy');
+//			 $(this).resizable({
+//				 handles: 's, e',
+//				 autoHide: false ,
+//				 start: function(event, ui) {
+//				  window.mw_handle_hover = true;
+// 
+//				 
+//			},
+//			//alsoResizeReverse: "[also_resize='"+window.mw_last_hover+"']",
+//			 stop: function(event, ui) { 
+//				 
+//		     
+//
+//			 setTimeout("set_handle_hover_false()",1500);
+//			} 
+//				 
+//			 
+//			});
 		 
 	 }
 	 if ( event.type == "click" ) {
@@ -2100,6 +2043,10 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 	 }
 	 
 	 if ( event.type == "click" ) {
+	
+		   
+		   
+			 
 		 
 		// setTimeout("set_drag_started_false()",500);
 	 }
@@ -2162,7 +2109,7 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
  });
  
  
-$(".col").live("mouseenter mouseleave", function(event) {
+$(".col", '.edit').live("mouseenter mouseleave", function(event) {
 	 
 	 if ( event.type == "mouseenter" ) {
 		  
@@ -2267,6 +2214,10 @@ $(".col").live("mouseenter mouseleave", function(event) {
 			setTimeout("mw_drag_started_false()",1000);
 		 $(this ).resizable('destroy');
 	 }
+	 
+	 
+	 
+	 
 	 
 	 
 });

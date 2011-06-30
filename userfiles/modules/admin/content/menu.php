@@ -221,9 +221,38 @@ print $menu_items ; ?>
   
 	$(document).ready(function(){
 		add_menus_controlls();
+		
+		
+		
+		$('#edit_memu_items<? print $params['module_id'];  ?> ul.menu').sortable({
+					opacity: '0.5',
+					containment: 'parent',
+					items: 'ul, li' ,
+					//forcePlaceholderSize: true,
+					//forceHelperSize: true ,
+					 
+					update: function(e, ui){
+						serial = $(this).sortable("serialize");
+						$.ajax({
+							url: "<?php print site_url('api/content/save_menu_items_order')  ?>",
+							type: "POST",
+							data: serial,
+							// complete: function(){},
+							success: function(feedback){
+								add_menus_controlls();
+								 mw.reload_module('content/menu');
+								 							 
+								 
+							//alert(feedback);
+								//$('#data').html(feedback);
+							}
+							// error: function(){}
+						});
+					}
+				});
 							   
  
-		$('#menu_module_admin_<? print $params['module_id'];  ?> ul.menu').nestedSortable({
+/*		$('#menu_module_admin_<? print $params['module_id'];  ?> ul.menu').nestedSortable({
 			disableNesting: 'no-nest',
 			forcePlaceholderSize: true,
 			connectWith: "ul.menu", 
@@ -247,8 +276,8 @@ print $menu_items ; ?>
    });
 					 
 					 
-                } 
-		});
+               } 
+		}); */
  
 		 
  

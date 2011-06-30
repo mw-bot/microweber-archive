@@ -89,35 +89,66 @@ function update_category_list(){
       mw.prevent(event);
     })
 	
-	$('ul.category_tree').nestedSortable({
-			disableNesting: 'no-nest',
-			forcePlaceholderSize: true,
-			connectWith: "ul.category_tree", 
-			accept: 'category_element',
-			handle: 'div',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placehulder',
-			tabSize: 25,
-			tulerance: 'pointer',
-			update: function(serialized) {    
-			serialized = $('ul.category_tree').nestedSortable('serialize');
-			
-			//alert(serialized);
-                     // alert(arraied);   
-					 
- 	 $.post("<? print site_url('api/content/save_taxonomy_items_order') ?>", { items: serialized },
-   function(data){
-    //alert("Data Loaded: " + data);
-	//add_menus_controlls();
-   });
-					 
-					 
-                } 
-		}); 
 	
 	
 	
+	$('.mw_admin_categories').sortable({
+					opacity: '0.5',
+					containment: 'parent',
+					items: 'ul, li' ,
+					forcePlaceholderSize: true,
+					forceHelperSize: true ,
+					 
+					update: function(e, ui){
+						serial = $(this).sortable("serialize");
+						$.ajax({
+							url: "<?php print site_url('api/content/save_taxonomy_items_order')  ?>",
+							type: "POST",
+							data: serial,
+							// complete: function(){},
+							success: function(feedback){
+							//alert(feedback);
+								//$('#data').html(feedback);
+							}
+							// error: function(){}
+						});
+					}
+				});
+	
+	
+	
+	
+	
+	//
+//	$('ul.category_tree').nestedSortable({
+//			disableNesting: 'no-nest',
+//			forcePlaceholderSize: true,
+//			connectWith: "ul.category_tree", 
+//			accept: 'category_element',
+//			handle: 'div',
+//			items: 'li',
+//			opacity: .6,
+//			placeholder: 'placehulder',
+//			tabSize: 25,
+//			tulerance: 'pointer',
+//			update: function(serialized) {    
+//			serialized = $('ul.category_tree').nestedSortable('serialize');
+//			
+//			//alert(serialized);
+//                     // alert(arraied);   
+//					 
+// 	 $.post("<? print site_url('api/content/save_taxonomy_items_order') ?>", { items: serialized },
+//   function(data){
+//    //alert("Data Loaded: " + data);
+//	//add_menus_controlls();
+//   });
+//					 
+//					 
+//                } 
+//		}); 
+//	
+//	
+//	
 	
 	
 	
@@ -317,7 +348,13 @@ function back_to_category_list(){
 </script>
 
 <div class="box radius">
-  <div class="box_header radius_t"> <a href="#" class="cms_help">Help</a> <a class="sbm right" href="javascript:edit_category_dialog(0);"  >New category</a>
+  <div class="box_header radius_t"> 
+  
+  
+  
+  <a href="#" class="cms_help">Help</a> <a class="sbm right" href="javascript:edit_category_dialog(0);"  >New category</a>
+  
+   <a class="xbtn right" href="<? print site_url('admin/action:posts'); ?>"  style="margin-right:5px;" >Back to posts list</a>
     <h2>Categories</h2>
   </div>
   <div class="Pages">

@@ -1,5 +1,3 @@
-
-
 <? if($params['id'] != false){
 	
 	 menu_tree($params['id']);
@@ -23,4 +21,3 @@ if($params['name'] != false){
 	}
 }
 ?>
- 

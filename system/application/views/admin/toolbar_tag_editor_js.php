@@ -119,7 +119,7 @@ $( "#mw_html_css_editor .mw_slider" ).each(function() {
 
 if($input.attr('name') == 'height' || $input.attr('name') == 'width'){
 	$min = 0;
-		$max = 1200;
+		$max = 4000;
 		 $value1 = 0;
 	
 }
@@ -318,7 +318,9 @@ function mw_html_tag_editor_show_styles_for_tag(){
 	
  
 	try{
- $tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
+// $tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
+
+ $tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').nodeName;
 }
 catch(e){
 	
@@ -329,8 +331,10 @@ catch(e){
 	
  return false;
 }
-	
-	$tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
+	if($tag_name == undefined){
+	$tag_name = 'DIV';	
+	}
+	//$tag_name = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit').get(0).nodeName;
 	
 	$el123 = $('*[mw_tag_edit="'+$element+'"]:last' ,'.edit');
 	
