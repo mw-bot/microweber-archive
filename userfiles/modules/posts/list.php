@@ -131,22 +131,31 @@ Example:
 
 
 	?>
+    
+ 
+    
 <? if(empty($posts )): ?>
 <? if(($no_results_text )): ?>
 <? print $no_results_text ; ?>
 <? endif; ?>
 <?  else : ?>
 <? if($file): ?>
-<? foreach($posts['posts'] as $post): ?>
+<? //foreach($posts['posts'] as $post): ?>
 <?
-	$try_file1 = TEMPLATE_DIR . $file.'.php';
-$this->template ['the_post'] = $post;
-				$this->load->vars ( $this->template );
-				
-				$content_filename = $this->load->file ( $try_file1, true );
-				print $content_filename;
+if(stristr($file, '.php') == false){
+	
+	$file = $file.'.php';
+}
+	$try_file1 = TEMPLATE_DIR . $file;
+	include($try_file1);
+//$this->template ['posts'] = $posts['posts'];
+//$this->template ['data'] = $posts;
+//				$this->load->vars ( $this->template );
+//				
+//				$content_filename = $this->load->file ( $try_file1, true );
+//				print $content_filename;
 ?>
-<? endforeach; ?>
+<? //endforeach; ?>
 <?  else : ?>
 <? if(!$display and !$file): ?>
 

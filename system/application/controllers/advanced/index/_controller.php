@@ -328,6 +328,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 			$layout = TEMPLATES_DIR . 'layouts/' . $content ['content_layout_name'] . '/index.php';
 			
 			$layout = $this->load->file ( $layout, true );
+			$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout );
 			
 		//
 		}
@@ -448,7 +449,7 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		}
 		
 		$stats_js = CI::model ( 'stats' )->get_js_code ();
-		;
+	 
 		
 		$layout = CI::model ( 'template' )->parseMicrwoberTags ( $layout );
 		

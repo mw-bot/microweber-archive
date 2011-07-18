@@ -305,7 +305,7 @@ $('.edit .module a', '.edit').live('click',function(e) {
     //do other stuff when a click happens
 });
  
- $( '.mw_mod_drag_handle').disableSelection();
+ $( '.mw_mod_drag_handle, .container_handle,.col_handle').disableSelection();
  $(".mw_mod_drag_handle, .col_handle, .container_handle", '.edit').live("mouseenter mousedown click", function(event) {
 	 window.mw_editing_started  = false;
 	 window.mw_editing_started  = false;
@@ -687,7 +687,7 @@ $(".edit, .edit *:not(.mw_mod_drag_handle,img,.module,.resize_handle,.ui-resizab
 	*/
 	
 });
-$(".edit,.edit *:not(.mw_mod_drag_handle,img,.module,.module *,.resize_handle,.ui-resizable-handle )[contenteditable=false]", '.mw').live("mousedown", function(event) {
+$(".edit,.edit *:not(.mw_mod_drag_handle,.col_handle, .container_handle ,img,.module,.module *,.resize_handle,.ui-resizable-handle )[contenteditable=false]", '.mw').live("mousedown", function(event) {
 	
 
 	
@@ -1438,8 +1438,8 @@ function init_edits(){
 							        window.mw_drag_started = true;
 							        
 							       // alert(1);
-							   	$( '.edit').append('<div class="mw_dropable_generated"></div>');
-							   	$( '.edit').prepend('<div class="mw_dropable_generated"></div>');
+							   //	$( '.edit').append('<div class="mw_dropable_generated"></div>');
+							//   	$( '.edit').prepend('<div class="mw_dropable_generated"></div>');
 							        
 						//	    	$('.container *', '.edit' ).not('.module').removeClass('mw_mod_wrap'); 
 							  //  	$('.container', '.edit' ).not('.module').removeClass('mw_mod_wrap'); 
@@ -1568,26 +1568,32 @@ tempArray=new Array();
 	$(".edit").sortable('destroy');
 	$(".container").sortable('destroy');
 	$(".col").sortable('destroy');
+	$(".row").sortable('destroy');
+	
+	$(".container_holder").sortable('destroy');
+	
+	
 	$(".edit").sortable({
-		  forcePlaceholderSize: false,
-			forceHelperSize : true ,
-			tolerance: 'pointer',
-		//	   helper:'clone',
+		  forcePlaceholderSize: true,
+		 	forceHelperSize : true ,
+ 	tolerance: 'pointer',
+			revert:true,
+		 	   helper:'clone',
 		//	containment: '.container:not(.row)',  
-			
+		// 	  containment: '.container_holder,.container:not(.row)',  
 			//tolerance: 'intersect',
 		// 	iframeFix: true,
 		   //cancel: '.module > * :not(:has(.module)) ',
 	    //cancel: '.mw_mod_wrap',
 		//	placeholder: "to_here_drop",
 		//	placeholderElement: 'div',
-		//	containment: '.edit',
+	 //containment: '.edit',
 	  //  items : 'div',
-	 	items: '.edit *, .container,.row,.module:not(.mw_mod_wrap), p, br',
+	 	items: '.edit *:not(.mw_mod_wrap, .row), .container:not(.mw_mod_wrap),.module:not(.mw_mod_wrap), p:not(.mw_mod_wrap), br:not(.mw_mod_wrap), .col:not(.mw_mod_wrap) > *, .container_holder:not(.mw_mod_wrap) > *',
 	 	//items: '.container,.module,.col *.module, p, br',
 	//	items: '*:not(.mw_mod_wrap)', 
 			//revert: true,
-			handle : '.mw_mod_drag_handle',
+			handle : '.mw_mod_drag_handle:not(.col_handle),.container_handle:not(.col_handle)',
 			//cancel: '.row',
 			  cancel: '.mw_mod_wrap',
 		 placeholder: "to_here_drop",
@@ -1602,6 +1608,8 @@ tempArray=new Array();
 	stop: function() {
 		mw_set_grid()
 		
+			$( ".edit .js_mod_remove" ).remove();
+		$( ".js_remove" ).remove();
 		
 		$('.mw_dropable_generated').filter(function (index) { 
 			    return $(this).children().length < 1; 
@@ -1609,16 +1617,16 @@ tempArray=new Array();
 		
 	  	setTimeout("set_drag_started_false()",500);
 	  	$( '.container').removeClass('to_here_drop2');
+	  	mw_set_handles();
 		
 	},	start: function() {
 		
 		
 		$( '.container').addClass('to_here_drop2');
 		
-		$( '.edit').append('<div class="mw_dropable_generated container"></div>');
-	   	$( '.edit').prepend('<div class="mw_dropable_generated container"></div>');
-	   	$( '.container').before('<div class="mw_dropable_generated container"></div>');
-	   	$( '.container').after('<div class="mw_dropable_generated container"></div>');
+	 
+		
+		
 	   	
   
 	   	
@@ -1655,16 +1663,19 @@ tempArray=new Array();
 			bind_module_edit_iframe_click()
 			
 }
-	}).sortable("option", "connectWith", ".edit" )
+	}).sortable("option", "connectWith", ".edit, .col, .container, .container_holder > *,.col > *" )
 	 //"option", "connectWith", ".row" //"option", "connectWith", ".edit *" 
 	
 //	
-	$(".row").sortable('destroy');
+
+	
+	
 	$(".row", '.edit').sortable({
 		  forcePlaceholderSize: true,
  	forceHelperSize : true ,
-	tolerance: 'pointer',
-//	//	  helper:'clone',
+	//revert:true,
+ tolerance: 'pointer',
+   //helper:'clone',
 	//tolerance: 'intersect',
 //		//	iframeFix: true,
 //		   //cancel: '.module > * :not(:has(.module)) ',
@@ -1672,8 +1683,9 @@ tempArray=new Array();
 //	//	placeholder: "to_here_drop",
 //		//	placeholderElement: 'div',
 //	//	containment: '.edit *',
-//	//	containment: '.row:not(.col)',  
-//		//  axis: 'x',
+//containment: '.row:not(.col)',  
+	   //containment: '.row',
+//		//  axis: 'x', 
 //
 //	 
 			items: '.col',
@@ -1682,6 +1694,7 @@ tempArray=new Array();
  	handle : '.col_handle' ,
 		  cancel: '.module',
 	 placeholder: "to_here_drop",
+	// placeholderElement: 'div',
 //			 placeholderElement: 'div',
 ////			
 //	zIndex: 6000,
@@ -1693,6 +1706,10 @@ tempArray=new Array();
 stop: function() {
 		mw_set_grid()
 	//	window.mw_drag_started = false;
+		//  $(".row").sortable('refresh');
+
+		
+		
 	  	setTimeout("set_drag_started_false()",500);
 	},	start: function() {
 		window.mw_drag_started = true; 
@@ -1709,6 +1726,29 @@ stop: function() {
  	 
 	
 	}
+	
+	
+	
+	
+	/*$(".container_holder").sortable({
+		forcePlaceholderSize: true,
+	 	forceHelperSize : true ,
+	 	 placeholder: "to_here_drop",
+		 placeholderElement: 'div',
+	 	items: '.container'
+	}).sortable("option", "connectWith", ".container_holder");
+	
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	bind_module_edit_iframe_click()
@@ -1768,40 +1808,83 @@ function rgbConvert(str) {
 	}
 
 function mw_set_handles(){
- if( window.mw_editing_started == false){
- 	$(".container_handle", '.edit').each(function() {
- 		 position123 = $(this).parents('.container:first').position();
- 	//  $( this ).css(position123);
-  });
+ if( 1 == 1){
+ 	 
+	 
+	 $new_holders = 0;
+	 $(".container_holder").each(function() { 
+		
+		    if($(this).children().length < 1) {
+		    	$( this ).html('<div class="js_remove_empty"><span class="js_remove mw_mod_wrap"><br class="js_remove mw_mod_wrap">Drop box here<br class="js_remove mw_mod_wrap"></span></div>');
+		    	$new_holders ++;
+		 
+		    }
+		       // $(this).remove() 
+		    
+		    
+		    
+		 
+		});
+		
+	 if( $new_holders > 0){
+		 window.mw_sortables_created = false;
+		 init_edits();
+	 }
+	 
+	 
+	 $(".js_remove_empty").each(function() { 
+			
+		    if($(this).children().length < 1) {
+		    	$(this).remove() 
+		 
+		    }
+ 
+		});
+	 
  	
  	$(".mw_mod_drag_handle").each(function() {
  	 position123 = $(this).parent().position();;
- //	 position123 =  findElPos(this)
- 	// alert(position123);
  	 if(position123 != undefined){
- 		 
- 	//	 position1234 = position123.split(',');
  			 if(position123[0] != undefined){
- 			 
- 			 
  				  if (window.console != undefined) {
- 					//console.log('col position ' +position123.top + position123.left );	
- 				}
- 		  
- 			 
- 			  
-   $(this).children('.mw_mod_drag_handle').css({top:position123[0],left:position123[1]+20});
-  
-   
-   
-   
+ 			 				}
+   $(this).css({position: 'absolute', top:position123[0],left:position123[1]+20});
  		 }
-  }
-  });
+ 	 }
+ 	});
 	
  	
-
-	
+ 	$(".col_handle").each(function() {
+ 	 	 position123 = $(this).parent().position();;
+ 	 	 if(position123 != undefined){
+ 	 			 if(position123[0] != undefined){
+ 	 				  if (window.console != undefined) {
+ 	 					console.log(' col_handle position ' +position123 );	
+ 	 			 				}
+ 	   $(this).css({position: 'absolute', top:position123[0],left:position123[1]+40});
+ 	 		 }
+ 	 	 }
+ 	 	});
+ 		
+ 	$(".container").each(function() {
+	 	 position123 = $(this).position();;
+	 	 
+	 	 
+	 	 
+	 	 if(position123.top != undefined){
+	 			 if(position123.left != undefined){
+	 				  				position123.top = Math.round(position123.top);
+	 				position123.left = Math.round(position123.left);
+	 				  if (window.console != undefined) {
+	 	 					console.log(' container position ' +position123.top);	
+	 	 			 				}
+	 				  
+	 				  
+	 				  
+	   $(this).children('.container_handle:first').css({position: 'absolute', top:position123.top-20+'px',left:position123.left-30+'px', zIndex:1500});
+	 		 }
+	 	 }
+	 	});
  
  	
  	
@@ -1977,13 +2060,13 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 	
 	
 	 
-	if( window.mw_editing_started == false){
+	//if( window.mw_editing_started == false){
 	
 	 
 	 if ( event.type == "mouseenter" ) {
  
 
-			if( window.mw_drag_started == false){
+			if( 1 == 1){
 				
  
 				 
@@ -1997,25 +2080,26 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 			if( $( this ).children('.container_handle').length || $( this ).parents('.container_handle').length){  
 				 
 			} else {
-				$( this ).prepend('<span class="mw_mod_drag_handle container_handle">box</span>');
+				$( this ).prepend('<div class="container_handle">box</div>');
 
 			}
 			
  	
-			
+		
 			
 			mw_set_handles()
  
 			 window.mw_last_hover++;
 			 //$( this ).children('.mw_mod_drag_handle').not('.col_handle').css(position123);
 			  
-			  $( this ).children('.container_handle').html('box');
+			$('.container_handle').html('box');
+			  
 			  
 		//	  $( this ).find('.col').attr('also_resize', window.mw_last_hover);
 			  
 			  
 			
-		   $( this ).children('.mw_mod_drag_handle').show();
+		   $('.container_handle').show();
 		   
 		   
 
@@ -2045,14 +2129,11 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 	 if ( event.type == "click" ) {
 	
 		   
-		   
-			 
-		 
 		// setTimeout("set_drag_started_false()",500);
 	 }
 	 
 	
-	}
+	//}
 	 
 });
 
@@ -2129,7 +2210,7 @@ $(".col", '.edit').live("mouseenter mouseleave", function(event) {
 			if( $( this ).children('.col_handle').length || $( this ).parents('.col_handle').length){  
 				 
 			} else {
-				$( this ).prepend('<span class="mw_mod_drag_handle col_handle">column</span>');
+				$( this ).prepend('<div class="mw_mod_drag_handle col_handle">column</div>');
 			
 			}
 			
@@ -2140,6 +2221,7 @@ $(".col", '.edit').live("mouseenter mouseleave", function(event) {
 			
 			}
 			
+			mw_set_handles()
 			
 			
 			
@@ -2156,7 +2238,7 @@ $(".col", '.edit').live("mouseenter mouseleave", function(event) {
 			
 			  
 			  
-		   $(this ).resizable('destroy');
+		  // $(this ).resizable('destroy');
  	 $(this).resizable({
 				 handles: 'e',
 			//	 handles: {'w': '.resize_handle'},
@@ -2262,12 +2344,12 @@ function mw_sidebar_make_sortables(){
 	return li.clone();
 	},	start: function() {
  
- 		$( '.edit').append('<div class="mw_dropable_generated"></div>');
- 	  	$( '.edit').prepend('<div class="mw_dropable_generated"></div>');
+ 		//$( '.edit').append('<div class="mw_dropable_generated"></div>');
+ 	//  	$( '.edit').prepend('<div class="mw_dropable_generated"></div>');
 // 
 	 	
-	 	$('<div class="mw_dropable_generated"></div>').insertAfter('.container');
-		$('<div class="mw_dropable_generated"></div>').insertBefore('.container');
+	 //	$('<div class="mw_dropable_generated"></div>').insertAfter('.container');
+	//	$('<div class="mw_dropable_generated"></div>').insertBefore('.container');
 	 	
 	 
 		window.mw_drag_started = true;
@@ -3452,6 +3534,24 @@ function mw_saveALL($no_async) {
 mw.saveALL = function($no_async){
  //	$( ".edit .module" ).children().remove();
 	$( ".edit .mw_mod_drag_handle" ).remove();
+	$( ".js_remove" ).remove();
+	
+	 $(".js_remove_empty").each(function() { 
+			
+		    if($(this).children().length < 1) {
+		    	$(this).remove() 
+		 
+		    }
+
+		});
+	 
+	
+	
+	
+	
+	
+	
+	
 	window.no_async = true;
 	nic_save_all(function(){
 	
