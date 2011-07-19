@@ -159,7 +159,7 @@ $cf_cfg ['page_id'] = $page_data['id'];
 
 
 $data =  CI::model('core')->getCustomFieldsConfig($cf_cfg);
-//p($data);
+ //p($data);
 if($base64_val_for_insert != false){
 	$data[] = $base64_val_for_insert;
 } else {

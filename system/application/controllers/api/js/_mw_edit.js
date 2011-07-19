@@ -637,7 +637,7 @@ function set_mw_editing_started_false(){
 //});
 
 
- window.mw_last_hover = 1000;
+ window.mw_last_hover =  new Date().getTime();
 window.mw_editing_started  = false;
 window.mw_drag_started = false
 $(".edit, .edit *:not(.mw_mod_drag_handle,img,.module,.resize_handle,.ui-resizable-handle )[contenteditable=true]", '.mw').live("click", function(event) {
@@ -662,36 +662,154 @@ $(".edit, .edit *:not(.mw_mod_drag_handle,img,.module,.resize_handle,.ui-resizab
 	    	 
 			
 	    	
-	    	 window.mw_last_hover++;
-	    	 event.target.setAttribute('mw_tag_edit', window.mw_last_hover);
-	    	 setTimeout("mw_html_tag_editor(window.mw_last_hover)",300);	
+	    //	 window.mw_last_hover++;
+	    	 //event.target.setAttribute('mw_tag_edit', window.mw_last_hover);
+	    	// setTimeout("mw_html_tag_editor(window.mw_last_hover)",300);	
 	    	 
 	 	 //	event.preventDefault(); // this prevents the original href of the link from being opened
 			 	//event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-					// 
-					// 
+ 
 				 // return false;
 	    	 
 	     } else {
-	    	 window.mw_last_hover++;
+	     
 	     }
 	}
-	
-	/*
-	if ( event.type == "click" ) {
-		window.mw_last_hover++;
-		 event.target.setAttribute('mw_tag_edit', window.mw_last_hover);
-    	 mw_html_tag_editor(window.mw_last_hover)
-		
-	}
-	*/
+ 
 	
 });
+
+function mw_outline_by_edit_tag($tag_id){
+	mw.outline.removeAll();
+	mw.outline.init("*[mw_tag_edit='"+$tag_id+"']", '#DCCC01');
+
+}
+
+function mw_apply_code_from_editor(){
+	$htm =  $('#mw_edit_code_holder').val();
+	$v  =  $('#mw_css_editor_element_id').val();
+	
+	$("*[mw_tag_edit='"+$v+"']",'.edit').html($htm);
+	
+	
+}
+
+
+
+
+window.html_editor_code_posted = false
+window.html_editor_code_updated = false
+$(".edit div:not(.mw_mod_drag_handle,.col_handle, .container_handle ,img,.module,.module *,.resize_handle,.ui-resizable-handle),.edit p,.edit table", '.mw').live("mouseup", function(event) {
+	//mw.modal.close();
+	if ($('.mw_live_edit_on_off').hasClass('mw_live_edit_on_off_state_on')) {
+					$html = $(this).html();
+					window.mw_last_hover++;
+					
+				 
+			
+					if(window.html_editor_code_posted == false){
+					$all_attr = {};
+					$all_attr.file=window.mw_last_hover+'.php';
+					$all_attr.content=$html ;
+					window.html_editor_code_posted = true;
+					 url1= '{SITE_URL}api/content/html_editor_write_cache_file';
+					 $.post(url1,$all_attr,function() {
+					//	 alert($all_attr);
+						 window.html_editor_code_updated = true;
+						 window.html_editor_code_posted = false;
+					 }); 
+					}
+					 
+					 
+					 
+				
+			 
+					
+	//	$html =  event.target.innerHTML;
+					
+				
+					 $('#mw_edit_code_holder').val($html);
+					 $('#mw_css_editor_element_id').val(window.mw_last_hover);
+					
+					//alert($html );
+					 var rightArrowParents = [],
+				     elm,
+				     entry;
+				$nom = 0;
+				 for (elm = event.target; elm; elm = elm.parentNode) {
+				    if($nom < 15){
+				    	
+				    	
+					    	entry = elm.tagName.toLowerCase();
+					        cl = elm.className.toLowerCase();
+					        cl = cl.replace("ui-sortable", '');
+					        cl = cl.replace(" ui-sortable", '');
+					        cl = cl.replace("ui-sortable ", '');
+					        
+					        if (entry === "html") {
+					            break;
+					        }
+					        if (entry === "body") {
+					            break;
+					        }
+					        
+					        if (cl == "edit") {
+					            break;
+					        }
+					        
+					        if (cl == "mw") {
+					            break;
+					        }
+					        
+					        elm.setAttribute('mw_tag_edit', window.mw_last_hover);
+					        
+					        
+					        if (elm.className) {
+					         //  entry += "." + elm.className.replace(/ /g, '.');
+					        	//  entry +=  cl;
+					        }
+					        
+					        
+					     
+					        entry = "<a onmouseout='mw.outline.removeAll();'   onmouseover='mw_outline_by_edit_tag("+window.mw_last_hover+")'  href='javascript:mw_html_tag_editor("+window.mw_last_hover+")'>" + entry + "</a>"
+					        
+					        rightArrowParents.push(entry);
+					        window.mw_last_hover++;
+				     $nom ++;
+				    }
+				 }
+				 rightArrowParents.reverse();
+				 
+				 
+				 
+				 $( '#mw_dom_element_path' ).html(rightArrowParents.join(">"));
+				 
+				 
+	 }
+	
+	
+	
+	
+	
+	event.preventDefault(); // this prevents the original href of the link from being opened
+ 	event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+		// 
+		// 
+	 return false;
+})
+
 $(".edit,.edit *:not(.mw_mod_drag_handle,.col_handle, .container_handle ,img,.module,.module *,.resize_handle,.ui-resizable-handle )[contenteditable=false]", '.mw').live("mousedown", function(event) {
 	
 
 	
 	
+
+
+	
+		
+		
+		
+		
 	
 	if(   window.mw_drag_started == false){
 		var randomCssClass = "rangyTemp_" + (+new Date());
@@ -987,108 +1105,7 @@ $(".module", '.edit').live("mouseenter mouseleave mouseup mousedown click", func
 	
 	
 	});
-
-//$(".edit .module *").live("mouseup", function(event){
-//	if (window.console != undefined) {
-//		console.log('hover on module ' + event.target.nodeName );	
-//	}
-//	
-//	
-//	
-//	
-//});
-
-
-
-//$('.edit *:not(.mw_mod_wrap)').die('click') ;
-
  
- //$('.edit *').live('click',function(event) {
-//$('.edit *').filter('.module)').live('click', function(event){ 
- 
-
-//
-//$('.edit *').live('click',function(event) {
-//	
-//	
-//	is = $(this).attr('contentEditable');	
-//	
-//	
-//
-//	//alert(is);
-//	
-//	//$(this).focus();
-//	
-////if(is == false){
-////	setCaretAfter(this);
-//	//}
-////	 range = document.body.createTextRange();
-////     range.moveToElementText(this);
-////     range.collapse(false);
-////     range.select();
-//     
-//	//	$(this).parentsUntil('.edit').attr('contentEditable', true);	
-//	 	//$(this).parent().attr('contentEditable', true);	
-//
-//	
-//	if (window.console != undefined) {
-//	console.log('Making CE'+is+$(this).attr('class'));	
-//	}
-////	$ce =   $(this).attr('contentEditable');	
-////	if($ce  == false){
-////	//	$(this).attr('contentEditable', true);	
-////		//$(this).parent().attr('contentEditable', true);	
-////		
-////		
-////	
-////	//	alert('ce 0');
-////	//	$(this).attr('contentEditable', false);	
-////	window.mw_drag_started = false;
-////	 window.mw_sortables_created = false;
-////	 remove_sortables()
-////	
-////	
-////	//restoreCaretPos();
-//////	mw_remove_inner_sortables()
-//// // $(this).attr('contentEditable', true);	
-////	 mw_make_editables()
-////	// $(this).siblings().attr('contentEditable', true);	
-////	// $(this).parentsUntil('.edit').attr('contentEditable', true);	
-////	// $(this).focus();
-////	} else {
-////		//alert('ce 1');
-////		//$(this).focus();
-////		 
-////		
-////		
-////		// $(this).attr('contentEditable', true);	
-////		
-////	//	 $(this).siblings().attr('contentEditable', true);	
-////		//$(this).parentsUntil('.edit').attr('contentEditable', true);	
-////		
-////	}
-//	
-////	 remove_sortables()
-////	 mw_make_editables()
-////	 window.mw_sortables_created = false;
-////	 $(this).sortable('destroy');
-////	 $(this).parents().sortable('destroy');
-////	 $(".edit").sortable('destroy');
-////	$(this).attr('contentEditable', true);	
-////	
-//	
-//	
-//	//  event.preventDefault(); // this prevents the original href of the link from being opened
-// //event.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-// 
-// 
-// //return false;
-// 
-////	 window.mw_sortables_created = false;
-//	//init_edits()
-//
-//	
-//});
  
 
 
@@ -1578,7 +1595,7 @@ tempArray=new Array();
 		 	forceHelperSize : true ,
  	tolerance: 'pointer',
 			revert:true,
-		 	   helper:'clone',
+		 //	   helper:'clone',
 		//	containment: '.container:not(.row)',  
 		// 	  containment: '.container_holder,.container:not(.row)',  
 			//tolerance: 'intersect',
@@ -1616,13 +1633,13 @@ tempArray=new Array();
 			}).remove();
 		
 	  	setTimeout("set_drag_started_false()",500);
-	  	$( '.container').removeClass('to_here_drop2');
+	 // 	$( '.container').removeClass('to_here_drop2');
 	  	mw_set_handles();
 		
 	},	start: function() {
 		
 		
-		$( '.container').addClass('to_here_drop2');
+	//	$( '.container').addClass('to_here_drop2');
 		
 	 
 		
@@ -1708,7 +1725,7 @@ stop: function() {
 	//	window.mw_drag_started = false;
 		//  $(".row").sortable('refresh');
 
-		
+		 
 		
 	  	setTimeout("set_drag_started_false()",500);
 	},	start: function() {
@@ -1815,14 +1832,11 @@ function mw_set_handles(){
 	 $(".container_holder").each(function() { 
 		
 		    if($(this).children().length < 1) {
-		    	$( this ).html('<div class="js_remove_empty"><span class="js_remove mw_mod_wrap"><br class="js_remove mw_mod_wrap">Drop box here<br class="js_remove mw_mod_wrap"></span></div>');
+		    	$( this ).html('<div class="js_remove_empty container_holder_placeholder"><span class="js_remove mw_mod_wrap "><br class="js_remove mw_mod_wrap container_holder_placeholder">Drop box here<br class="js_remove mw_mod_wrap"></span></div>');
 		    	$new_holders ++;
 		 
 		    }
 		       // $(this).remove() 
-		    
-		    
-		    
 		 
 		});
 		
@@ -1848,40 +1862,36 @@ function mw_set_handles(){
  			 if(position123[0] != undefined){
  				  if (window.console != undefined) {
  			 				}
-   $(this).css({position: 'absolute', top:position123[0],left:position123[1]+20});
+ 				  $(this).css({position: 'absolute', top:position123[0],left:position123[1]+20});
  		 }
  	 }
  	});
 	
- 	
- 	$(".col_handle").each(function() {
- 	 	 position123 = $(this).parent().position();;
- 	 	 if(position123 != undefined){
- 	 			 if(position123[0] != undefined){
- 	 				  if (window.console != undefined) {
- 	 					console.log(' col_handle position ' +position123 );	
- 	 			 				}
- 	   $(this).css({position: 'absolute', top:position123[0],left:position123[1]+40});
- 	 		 }
- 	 	 }
- 	 	});
+ 
  		
  	$(".container").each(function() {
 	 	 position123 = $(this).position();;
-	 	 
-	 	 
-	 	 
 	 	 if(position123.top != undefined){
 	 			 if(position123.left != undefined){
 	 				  				position123.top = Math.round(position123.top);
 	 				position123.left = Math.round(position123.left);
-	 				  if (window.console != undefined) {
-	 	 					console.log(' container position ' +position123.top);	
-	 	 			 				}
-	 				  
-	 				  
-	 				  
-	   $(this).children('.container_handle:first').css({position: 'absolute', top:position123.top-20+'px',left:position123.left-30+'px', zIndex:1500});
+	 			 
+	   $(this).children('.container_handle:first').css({position: 'absolute', top:position123.top+'px',left:position123.left-20+'px', zIndex:1500});
+	 		 }
+	 	 }
+	 	});
+ 	
+ 	
+ 	
+	$(".col").each(function() {
+	 	 position123 = $(this).offsetParent().position();
+
+	 	 if(position123.top != undefined){
+	 			 if(position123.left != undefined){
+	 				  				position123.top = Math.round(position123.top);
+	 				position123.left = Math.round(position123.left);
+	 				 
+	   $(this).find('.col_handle:first').css({position: 'absolute', top:position123.top+'px',left:position123.left+20+'px', zIndex:1600});
 	 		 }
 	 	 }
 	 	});
@@ -2089,7 +2099,7 @@ $(".container", '.edit').live("mouseenter mouseleave mouseup mousedown click", f
 			
 			mw_set_handles()
  
-			 window.mw_last_hover++;
+			 
 			 //$( this ).children('.mw_mod_drag_handle').not('.col_handle').css(position123);
 			  
 			$('.container_handle').html('box');
@@ -2210,7 +2220,7 @@ $(".col", '.edit').live("mouseenter mouseleave", function(event) {
 			if( $( this ).children('.col_handle').length || $( this ).parents('.col_handle').length){  
 				 
 			} else {
-				$( this ).prepend('<div class="mw_mod_drag_handle col_handle">column</div>');
+				$( this ).prepend('<div class="col_handle">column</div>');
 			
 			}
 			
@@ -2379,95 +2389,7 @@ function mw_sidebar_make_sortables(){
 	
 	
 	
-	
-	
-	
-//	
-//	
-//	
-// 
-//	$(".mw_layout").sortable('destroy');
-//	//$(".module").addClass('mw_layout_item');
-//	
-//	 
-//	
-//	$(".mw_layout").sortable({
-//		forcePlaceholderSize: false,
-//		//	forceHelperSize : true ,
-//			//tolerance: 'pointer',
-//			tolerance: 'intersect',
-//		//	iframeFix: true,
-//		   //cancel: '.module > * :not(:has(.module)) ',
-//		    cancel: '.mw_non_sortable',
-//		//	placeholder: "to_here_drop",
-//			//placeholderElement: 'div',
-//	
-//			items: '.mw_layout_item, .module',
-//			//items: '*:not(:has(.module))',
-//			//revert: true,
-//			handle : '.mw_mod_drag_handle',
-//			
-//			//zIndex: 5000,
-//		//	 grid: [5, 5],
-//	 	//opacity: 0.6,
-//	   	distance: 1 ,
-//	   	
-//	//placeholder: "ui-state-highlight",
-//	stop: function() {
-//	//	window.mw_drag_started = false;
-//	  	setTimeout("set_drag_started_false()",500);
-//	},	start: function() {
-//		window.mw_drag_started = true;
-//	}
-//	}).sortable( "option", "connectWith", ".mw_layout" );
-//	
-//	
-//	
-//	
-	
 	 
-	
-	
-	
-	
-	
-//	
-//	
-	
-///	 //"option", "connectWith", ".row" 
-
- 
-
-	
-//	$( ".mw_layout_item, .mw_layout" , '.edit').resizable( "destroy" )
-//	
-//	$( ".mw_layout_item, .mw_layout" , '.edit').resizable({
-//		handles: 'n, s, e, w',
-//		start: function(event, ui) {
-//		
-//		window.mw_drag_started = true;
-//	//	 remove_sortables()
-//		mw_remove_editables();
-//		 
-//		 
-//		
-//	},resize: function(event, ui) {
-//		window.mw_drag_started = true;
-//	
-//	},
-//	stop: function() {
-//		//	window.mw_drag_started = false;
-//		  	setTimeout("set_drag_started_false()",1000);
-//		} ,
-//		  
-//		helper: "ui-resizable-helper"
-//	});
-//	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -2547,91 +2469,16 @@ var  mw_click_on_history_prev  = function($direction){
 function gEBI(id) {
     return document.getElementById(id);
 }
-
-var italicYellowBgApplier, boldRedApplier;
-
-function toggleItalicYellowBg() {
-  //  italicYellowBgApplier.toggleSelection();
-   // event.preventDefault(); // this prevents the original href of the link from being opened
- 	// event.stopPropigation(); // this prevents the click from triggering click events up the DOM from this element
-	document.execCommand("italic", false, null);
-}
-
-function toggleBoldRed() {
-	
-	document.execCommand("bold", false, null);
-	
-	
  
-      	
-}
-
+ 
  
 
 var editing;
 var c;
 var guid;
-
-function setup()
-{
-    c=$(".edit");
-    var bbar = $("<div class='buttons'>Regular buttons<br></div>");
-    $("#buttons").append(bbar);
-    add_regular_button(bbar, "Clone", function(){clone()});
-    add_regular_button(bbar, "toggle research", 
-		       function(){toggle_class(".research")});
-    add_regular_button(bbar, "toggle edit", 
-		       function(){toggle_edit()});
-    var editButtons = $("<div id='editButtons' class='buttons'>Edit buttons<br></div>");
-    $("#buttons").append(editButtons);
-    add_regular_button(editButtons, "save", function(){save_edit()});
-    add_edit_button(editButtons, "Q",   "insertHTML", "&ldquo;quotes&rdquo;"); 
-    add_edit_button(editButtons, "I",   "italic", null);
-    add_edit_button(editButtons, "S",   "strikethrough", null);
-    add_edit_button(editButtons, "B",   "bold", null);
-    
-    
-    add_edit_button(editButtons, "ol",  "insertHTML", "<ol><li>one</ol>\n");
-    add_edit_button(editButtons, "ul",  "insertHTML", "<ul><li>one</ul>\n");
-    add_edit_button(editButtons, "pre", "insertHTML", "<pre></pre>");
-    add_edit_button(editButtons, "h2",  "insertHTML", "<h2>H2</h2>");
-    add_edit_button(editButtons, "h1",  "insertHTML", "<h1>H</h1>");
-    add_edit_button(editButtons, "p",  "insertHTML", "<p>para</p>");
-    
-    
-    
-    
-    add_edit_button(editButtons, "todo",  "insertHTML", 
-		    "<h3>To Do</h3><ul><li>one</li>");
-
-    add_edit_button(editButtons, "image",  "insertHTML", 
-		    "<center><img onclick='cimage(1);' width='200' src='p2.jpg'/></center>");
-    add_regular_button(editButtons, "add research", 
-		       function(){add_div("research")});
-    entry = $("<input id='#input'></input>");
-    editButtons.append(entry);
-    var versions = $("<div id='versions' class='buttons'>versions<br></div>");
-    $("#buttons").append(versions);
-    // load_versions("2009_06_25d");
-    // Not yet ...
-    set_edit_off();
-}
-
-function cimage(x)
-{
-    alert(x);
-    alert($(this));
-    $(this).hide();
-}
-
-
-function save_edit()
-{
-    // send data back to the server
-    val = $("#content").html();
-    $.get("save_content", 
-	  {id:guid, value:val}, function(x){done_save(x)}, 'json'); 
-}
+ 
+ 
+ 
 
 function load_content(g)
 {
@@ -2661,17 +2508,7 @@ function done_load(x)
     };
 }
 
-function toggle_edit()
-{
-    switch(editing){
-    case true:
-	set_edit_off();
-	break;
-    case false:
-	set_edit_on();
-	break;
-    };
-}
+ 
 
 
 function load_content_old(type, G)
@@ -2691,37 +2528,13 @@ function load_content_old(type, G)
 	alert("????????");
     };}
 
-function load_versions(Guid)
-{
-    // load the toolbar with versions ...
-    $("#versions").load("get_versions", 
-			{"id":Guid});
-    
-}
+ 
 
 function toggle_class(x)
 {
     $(x).toggle();
 }
-
-function set_edit_off()
-{
-   // c.get(0).contentEditable = false;
-   // c.css({background:"white"});
-    editing=false;
-   // $("#header").html("<h2>This document cannot be edited</h2>");
-    $("#editButtons").hide();
-}
-
-function set_edit_on()
-{
-   // c.get(0).contentEditable = true;
-   // c.css({background:"#eeeeee"});
-    editing=true;
-
-    //$("#header").html("<h2>You can now edit this document - but you can't save the results</h2>");
-    $("#editButtons").show();
-}
+ 
 
 function add_regular_button(x, text, callback)
 {
@@ -2929,7 +2742,7 @@ function load_edit_module_by_module_id($the_module_id) {
 	var edit = $module_by_id.attr("edit");
 	 var rel = $module_by_id.attr("rel");
 	 
-	 
+	  
 	 
 	 
 	 
@@ -3534,7 +3347,11 @@ function mw_saveALL($no_async) {
 mw.saveALL = function($no_async){
  //	$( ".edit .module" ).children().remove();
 	$( ".edit .mw_mod_drag_handle" ).remove();
+	$( ".edit .col_handle" ).remove();
+	$( ".edit .container_handle" ).remove();
+	$( ".edit .row_handle" ).remove();
 	$( ".js_remove" ).remove();
+	$( ".module script", '.edit' ).html('Saving... please wait...');
 	
 	 $(".js_remove_empty").each(function() { 
 			

@@ -395,7 +395,8 @@ if ($mw_config ['site_url']) {
    define ( 'SITEURL', $pageURL . '://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
 }
 //define ( 'SITEURL', $pageURL . '://' . 'skidekids.com' . '/' . $subdir . '/' );
-$cache_main_dir = dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
+$md5_conf = md5(serialize($mw_config));
+$cache_main_dir = dirname ( (__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR.$md5_conf. DIRECTORY_SEPARATOR;
 
 if (is_dir ( $cache_main_dir ) == false) {
 	
@@ -412,6 +413,8 @@ if (is_dir ( $cache_main_dir ) == false) {
 }
 
 define ( 'CACHEDIR', $cache_main_dir );
+define ( 'SITE_URL', SITEURL );
+
 
 define ( 'HISTORY_DIR', CACHEDIR . 'history' . '/' );
 

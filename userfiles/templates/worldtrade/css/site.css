@@ -63,7 +63,7 @@ p.text {
 	border:5px solid #e5e5e5;
 }
 .roundex_box_size {
-	height:250px;
+	max-height:250px;
 	width:177px;
 	overflow:hidden;
 }
@@ -312,7 +312,7 @@ p.text {
 }
 .gallery_box {
 	position:relative;
-	overflow:hidden;
+	overflow:visible;
 	width:260px;
 }
 #gallery {

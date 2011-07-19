@@ -534,14 +534,20 @@ function get_pages_old($params = array()) {
   	$params['items_per_page'] = 5; //limits the results by paging
 	$params['curent_page'] = 1; //curent result page
 	$params['without_custom_fields'] = true; //if true it will get only basic posts info. Use this parameter for large queries
-    
+    $params['created_by'] = 1; the user id who created the post
     
  * 
  * 
   
  */
 
-function get_posts($params = array()) {
+function get_posts($params = false) {
+	
+	if(!is_array($params)){
+		if(is_string($params)){
+			$params = parse_str($params);
+		}
+	}
 	
 	global $CI;
 	if ($params ['display']) {
@@ -1605,7 +1611,7 @@ function get_media($id, $for = 'post', $media_type = false, $queue_id = false, $
 		//
 	}
 	//	p($to_table);
-	//var_dump($id, $for, $media_type, $queue_id, $collection);
+	// var_dump($id, $for, $media_type, $queue_id, $collection);
 	$media = CI::model ( 'core' )->mediaGet ( $to_table, $content_id, $media_type, $order = "ASC", $queue_id, $no_cache = false, $id = false, $collection );
 	return $media;
 	// p($media);

@@ -231,7 +231,7 @@ class Content extends Controller {
 			$p_id1 = ($_POST ['param']);
 			$q1 = "DELETE from {$custom_field_table2}  WHERE (post_id={$p_id} or page_id={$p_id} ) and param='$p_id1'";
 			//p($q1);
-			$q1 = CI::model ( 'core' )->dbQ ( $q1 );
+		//	$q1 = CI::model ( 'core' )->dbQ ( $q1 );
 		}
 		
 		$s = CI::model ( 'core' )->deleteDataById ( 'table_custom_fields_config', $_POST ['id'], $delete_cache_group = false );
@@ -1265,7 +1265,7 @@ class Content extends Controller {
 							$content = str_replace ( '<span >', '<span>', $content );
 							
 							//$tags2 = html2a($content);
-							$tags1 = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true );
+							//$tags1 = extract_tags ( $content, 'div', $selfclosing = false, $return_the_entire_tag = true );
 							//p($tags1); 
 							// p($tags1); 	
 							$html = str_get_html ( $content );
@@ -1279,10 +1279,12 @@ class Content extends Controller {
 								$tag1 = $tag1 . "module_id=\"{$re1}\" ";
 								$tag1 = $tag1 . "style=\"{$style}\" ";
 								$tag1 .= " />";
-								
+								//p($tag1);
 								$checkbox->outertext = $tag1;
+								$html->save ();
 							
 							}
+							//$html = $html->save ();
 							//							$content = $html->save ();
 							//							$html = str_get_html ( $content );
 							//							foreach ( $html->find ( 'span' ) as $checkbox ) {
@@ -1320,7 +1322,7 @@ class Content extends Controller {
 							//p($content);
 							
 
-							$matches = $tags1;
+							/*$matches = $tags1;
 							if (! empty ( $matches )) {
 								//
 								foreach ( $matches as $m ) {
@@ -1403,7 +1405,7 @@ class Content extends Controller {
 										}
 									}
 								}
-							}
+							}*/
 							
 							/*$doc = new DOMDocument ();
 								$doc->preserveWhiteSpace = true;
@@ -1453,7 +1455,7 @@ class Content extends Controller {
 
 							//}
 							//	p($some_mods,1);
-							$html_to_save = $content;
+							$html_to_save = $html;
 							//p ( $content );
 							/*foreach ( $some_mods as $some_mod_k => $some_mod_v ) {
 								
@@ -1764,6 +1766,111 @@ class Content extends Controller {
 		
 		CI::model ( 'core' )->cleanCacheGroup ( 'global/blocks' );
 		exit ();
+	}
+	
+	function html_editor_get_cache_file() {
+		
+		//if ((trim ( strval ( $_POST ['history_file'] ) ) != '') and strval ( $_POST ['history_file'] ) != 'false') {
+		//	p ( $_POST );
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		} else {
+			
+			$file = ($_POST ['file']);
+			if ($file) {
+				if (stristr ( $file, '.php' ) == false) {
+					$file = $file . '.php';
+				
+				}
+				
+				//$d = 'global';
+				
+
+				$d = CACHEDIR . 'global' . DIRECTORY_SEPARATOR . 'html_editor' . DIRECTORY_SEPARATOR;
+				if (is_dir ( $d ) == false) {
+					mkdir_recursive ( $d );
+				}
+				
+				$file2 = $d . $file;
+				//	p($file2);
+				$content = file_get_contents ( $file2 );
+				exit ( $content );
+				
+			// 
+			}
+		}
+		//}
+	//exit ( 1 );
+	
+
+	}
+	
+	function html_editor_write_cache_file() {
+		
+		//if ((trim ( strval ( $_POST ['history_file'] ) ) != '') and strval ( $_POST ['history_file'] ) != 'false') {
+		//	p ( $_POST );
+		$id = is_admin ();
+		if ($id == false) {
+			exit ( 'Error: not logged in as admin.' );
+		} else {
+			
+			$file = ($_POST ['file']);
+			if ($file) {
+				if (stristr ( $file, '.php' ) == false) {
+					$file = $file . '.php';
+				
+				}
+				
+				//$d = 'global';
+				
+
+				$d = CACHEDIR . 'global' . DIRECTORY_SEPARATOR . 'html_editor' . DIRECTORY_SEPARATOR;
+				if (is_dir ( $d ) == false) {
+					mkdir_recursive ( $d );
+				}
+				
+				$dir = $d;
+				$dp = opendir ( $dir ) or die ( 'Could not open ' . $dir );
+				while ( $filez = readdir ( $dp ) ) {
+					if (($filez != '..') and ($filez != '.')) {
+						if (filemtime ( $dir . $filez ) < (strtotime ( '-1 hour' ))) {
+							//p ( $dir . $filez );
+							unlink ( $dir . $filez );
+						}
+					}
+				}
+				closedir ( $dp );
+				
+				$file1 = $d . 'temp_' . $file;
+				$file2 = $d . $file;
+				//	require_once (LIBSPATH . "cleaner". DIRECTORY_SEPARATOR . 'class.folders.php');
+				require_once (LIBSPATH . "cleaner" . DIRECTORY_SEPARATOR . 'cl.php');
+				$content = ($_POST ['content']);
+				$content = str_replace ( ' class="Apple-converted-space"', '', $content );
+				$content = str_replace ( ' class="Apple-interchange-newline"', '', $content );
+				
+				$pattern = "/mw_tag_edit=\"[0-9]*\"/i";
+				
+				$content = preg_replace ( $pattern, "", $content );
+				
+				$pattern = "/mw_tag_edit=\"\"/";
+				$content = preg_replace ( $pattern, "", $content );
+				
+				$content = clean_html_code ( $content );
+				touch ( $file2 );
+				//p($file2);
+				file_put_contents ( $file2, $content );
+				exit ( $content );
+				//p ( $file );
+			
+
+			// 
+			}
+		}
+		//}
+		exit ( 1 );
+	
 	}
 	
 	function load_history_file() {

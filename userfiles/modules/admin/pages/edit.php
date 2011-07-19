@@ -98,10 +98,15 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
    // alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +    '\n\nThe output div should have already been updated with the responseText.');
 }
 </script>
+<script>
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+</script>
 
 <div class="box radius">
   <div class="box_header radius_t">
-    <input type="submit" value="Save changes" onclick="$('#save_page_form').submit()" class="sbm right post_saved" name="save">
+    <input type="submit" value="Save page" onclick="$('#save_page_form').submit()" class="sbm right post_saved" name="save">
     <? if(intval($form_values['id']) != 0): ?>
     <? endif; ?>
     <h2>Edit Page <em><? print $form_values['content_title'] ?></em></h2>
@@ -142,54 +147,52 @@ function save_page_showResponse(responseText, statusText, xhr, $form)  {
       <input name="content_type" type="hidden" value="page" />
       <mw module="admin/content/title_and_body" id="<? print $form_values['id'] ?>" />
       <br />
+      <input type="button" value="Save page" onclick="$('#save_page_form').submit()" class="sbm right post_saved" name="save">
       <br />
       <br />
-      <div id="orders_tabs" class="mw_box">
-        <div class="mw_box_tab_content">
-          <div class="shop_nav_main">
-            <h2 class="box_title">Options</h2>
-            <ul class="shop_nav">
-              <li><a href="#tab=fragment-1"><img src="<? print $url_to_module_static ; ?>page_white_stack.png"  height="16" align="bottom" /><span>Layout and category</span></a></li>
-              <li><a href="#tab=fragment-2"><img src="<? print $url_to_module_static ; ?>images.png"  height="16" align="bottom" /><span>Media</span></a></li>
-              <li><a href="#tab=fragment-3"><img src="<? print $url_to_module_static ; ?>pencil.png"  height="16" align="bottom" /><span>Custom Fields</span></a></li>
-              <li><a href="#tab=fragment-4"><img src="<? print $url_to_module_static ; ?>world.png"  height="16" align="bottom" /><span>Meta tags</span></a></li>
-              <li><a href="#tab=fragment-5"><img src="<? print $url_to_module_static ; ?>link.png"  height="16" align="bottom" /><span>Menus</span></a></li>
-              <li><a href="#tab=fragment-6"><img src="<? print $url_to_module_static ; ?>cog.png"  height="16" align="bottom" /><span>Advanced options</span></a></li>
-            </ul>
+      <h2>Options</h2>
+      <div id="orderasdasds_tabs" class="mw_box">
+        <div id="tabs">
+          <ul class="shopddssd_nav">
+            <li><a href="#fragment-1"><img src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>img/silk/layout_content.png"  height="16" align="left"  class="mw_admin_tab_icon" /><span>Layout and category</span></a></li>
+            <li><a href="#fragment-2"><img src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>img/silk/images.png"  height="16" align="left" class="mw_admin_tab_icon"  /><span>Media</span></a></li>
+            <li><a href="#fragment-3"><img src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>img/silk/pencil.png"  height="16" align="left" class="mw_admin_tab_icon"  /><span>Custom Fields</span></a></li>
+            <li><a href="#fragment-4"><img src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>img/silk/world.png"  height="16" align="left" class="mw_admin_tab_icon"  /><span>Meta tags</span></a></li>
+            <li><a href="#fragment-5"><img src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>img/silk/link.png"  height="16" align="left" class="mw_admin_tab_icon"  /><span>Menus</span></a></li>
+            <li><a href="#fragment-6"><img src="<?php  print( ADMIN_STATIC_FILES_URL);  ; ?>img/silk/cog.png"  height="16" align="left" class="mw_admin_tab_icon"  /><span>Advanced options</span></a></li>
+          </ul>
+          <div id="fragment-1" >
+            <table width="100%" border="0" cellspacing="0"  >
+              <tr>
+                <td style="padding:15px;" width="50%"><mw module="admin/pages/page_template" id="<? print $form_values['id'] ?>"   /></td>
+                <td style="border-left:1px dotted #CCC; padding:15px;"><mw module="admin/pages/choose_category" id="<? print $form_values['id'] ?>"   /></td>
+              </tr>
+            </table>
           </div>
-          <div id="tabs">
-            <div id="fragment-1" class="tab">
-              <table width="100%" border="0" cellspacing="0"  >
-                <tr>
-                  <td style="padding:15px;" width="50%"><mw module="admin/pages/page_template" id="<? print $form_values['id'] ?>"   /></td>
-                  <td style="border-left:1px dotted #CCC; padding:15px;"><mw module="admin/pages/choose_category" id="<? print $form_values['id'] ?>"   /></td>
-                </tr>
-              </table>
-            </div>
-            <div id="fragment-2" class="tab">
-              <mw module="admin/media/gallery" page_id="<? print $form_values['id'] ?>" for="page"  />
-            </div>
-            <div id="fragment-3" class="tab">
-              <mw module="admin/content/custom_fields" page_id="<? print $form_values['id'] ?>" />
-                
-              <div id="post_custom_fields"></div>
-            </div>
-            <div id="fragment-4" class="tab">
-              <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
-            </div>
-            <div id="fragment-5" class="tab">
-              <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
-            </div>
-            <div id="fragment-6" class="tab">
-              <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
-            </div>
+          <div id="fragment-2">
+            <mw module="admin/media/gallery" page_id="<? print $form_values['id'] ?>" for="page"  />
+          </div>
+          <div id="fragment-3" >
+            <mw module="admin/content/custom_fields" page_id="<? print $form_values['id'] ?>" />
+            <div id="post_custom_fields"></div>
+          </div>
+          <div id="fragment-4" >
+            <mw module="admin/content/meta_tags" id="<? print $form_values['id'] ?>" />
+          </div>
+          <div id="fragment-5" >
+            <mw module="admin/content/content_to_menus" id="<? print $form_values['id'] ?>" />
+          </div>
+          <div id="fragment-6" >
+            <mw module="admin/content/advanced_options" id="<? print $form_values['id'] ?>" />
           </div>
         </div>
       </div>
     </form>
+    <br />
+    <br />
   </div>
   <div class="box_footer radius_b">
-    <input type="submit" value="Save changes" onclick="$('#save_page_form').submit()" class="sbm right post_saved" name="save">
+    <input type="submit" value="Save page" onclick="$('#save_page_form').submit()" class="sbm right post_saved" name="save">
     <h2>Edit Page <em><? print $form_values['content_title'] ?></em></h2>
   </div>
 </div>

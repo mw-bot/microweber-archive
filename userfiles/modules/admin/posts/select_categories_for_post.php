@@ -225,7 +225,9 @@ function set_categories(){
 //	p($page_from_cat);
 	
 	}
- 
+ if(!empty($category_ids)){
+	$category_ids = array_unique( $category_ids );
+ }
 
 ?>
  

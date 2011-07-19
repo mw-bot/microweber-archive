@@ -5669,13 +5669,17 @@ $my_limit_q
 				$sql = "SELECT max(position) as maxpos from $table where item_parent='{$data ['item_parent']}'  ";
 				
 			//	$q = CI::model ( 'core' )->sqlQuery ( $sql, 'menus' );
-				
-				//$result = $q [0];
-				
+			
+
+			//$result = $q [0];
+			
+
 			//	$maxpos = intval ( $result ['maxpos'] ) + 1;
-				
+			
+
 			//?	$data ['position'] = $maxpos;
 			
+
 			}
 		
 		}
@@ -7151,7 +7155,7 @@ $my_limit_q
 		$menus_array = implode ( ',', $menus_array );
 		
 		$q = "DELETE FROM $table where content_id=$content_id and item_parent NOT IN ($menus_array)  ";
-	//	p($q);
+		//	p($q);
 		$sql_q = CI::db ()->query ( $q );
 		
 		CI::model ( 'core' )->cleanCacheGroup ( 'menus' );
@@ -7732,7 +7736,7 @@ $my_limit_q
 
 	}
 	
-	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false) {
+	function content_helpers_getPagesAsUlTree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
 		
 		global $cms_db_tables;
 		
@@ -7740,11 +7744,19 @@ $my_limit_q
 		
 		if ($content_parent == false) {
 			
-			$content_parent = intval ( 0 );
+			$content_parent =  ( 0 );
 		
 		}
+		if ($include_first == true) {
+			$sql = "SELECT * from $table where  id=$content_parent    and content_type='page'  order by updated_on desc ";
+	
+		} else {
+			
+			$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
 		
-		$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
+		}
+			//p($sql);
+					$sql = "SELECT * from $table where  content_parent=$content_parent    and content_type='page'  order by updated_on desc ";
 		
 		$q = CI::model ( 'core' )->dbQuery ( $sql );
 		
@@ -7810,7 +7822,7 @@ $my_limit_q
 					$to_print = str_ireplace ( '{link}', page_link ( $item ['id'] ), $to_print );
 					
 					if (strstr ( $to_print, '{tn}' )) {
-						$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'] , 'original'), $to_print );
+						$to_print = str_ireplace ( '{tn}', thumbnail ( $item ['id'], 'original' ), $to_print );
 					}
 					foreach ( $item as $item_k => $item_v ) {
 						$to_print = str_ireplace ( '{' . $item_k . '}', $item_v, $to_print );

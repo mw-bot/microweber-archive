@@ -24,6 +24,90 @@ mw.users.AjaxLogin = function($redirect_to) {
 	msRoundedField();
 }
 
+
+mw.users.register = function($form_selector, $callback) {
+	$data = ($($form_selector).serialize());
+
+	$.ajax( {
+		type : "POST",
+		url : "{SITE_URL}api/user/register",
+		data : $data,
+		dataType: 'json',
+		success : function(msg) {
+			//alert("Data: " + msg);
+		 // $('.cart_items_qty').html(msg);
+ 
+		if (typeof  $callback == 'function') {
+			$callback.call(this, msg);
+		} else {
+			$($callback).fadeOut();
+		}
+		
+		
+		
+		
+			
+		}
+	});
+
+}
+
+mw.users.login = function($form_selector, $callback) {
+	$data = ($($form_selector).serialize());
+
+	$.ajax( {
+		type : "POST",
+		url : "{SITE_URL}api/user/login",
+		data : $data,
+		dataType: 'json',
+		success : function(msg) {
+			//alert("Data: " + msg);
+		 // $('.cart_items_qty').html(msg);
+ 
+		if (typeof  $callback == 'function') {
+			$callback.call(this, msg);
+		} else {
+			//$($callback).fadeOut();
+		}
+		
+		
+		
+		
+			
+		}
+	});
+
+}
+
+
+mw.users.save = function($form_selector, $callback) {
+	$data = ($($form_selector).serialize());
+
+	$.ajax( {
+		type : "POST",
+		url : "{SITE_URL}api/user/save",
+		data : $data,
+		dataType: 'json',
+		success : function(msg) {
+			//alert("Data: " + msg);
+		 // $('.cart_items_qty').html(msg);
+ 
+		if (typeof  $callback == 'function') {
+			$callback.call(this, msg);
+		} else {
+			$($callback).fadeOut();
+		}
+		
+		
+		
+		
+			
+		}
+	});
+
+}
+
+
 mw.users.ChangePass = function() {
 	// $back_location = (window.location.href);
 	// $backto = Base64.encode($back_location)

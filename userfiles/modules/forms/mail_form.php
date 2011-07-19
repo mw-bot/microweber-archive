@@ -41,7 +41,13 @@
 
 
  
+  <?php $form_btn_text  = option_get('form_btn_text', $params['module_id']);
   
+  if(trim($form_btn_text) == ''){
+	$form_btn_text = 'Send';  
+	  
+  }
+  ?>
   
   <form method="post" action="" id="contact_form<? print  $params['module_id'] ?>" class="uniForm"> 
   
@@ -164,6 +170,6 @@
       
       
   
-    <a href="#" class="btn2 submit right">Send</a>
+    <a href="#" class="submit form_submit_button"><? print $form_btn_text; ?></a>
   </form>
 </div>

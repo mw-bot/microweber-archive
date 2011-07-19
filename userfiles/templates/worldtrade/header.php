@@ -13,10 +13,27 @@
 <? echo '<!--[if IE]><?import namespace="v" implementation="#default#VML" ?><![endif]-->'; ?>
 <script type="text/javascript" src="<?  print site_url('api/js'); ?>"></script>
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/jquery.cycle.all.min.js"></script>
+
+
+
+
+
 <script type="text/javascript" src="<? print TEMPLATE_URL ?>js/site.js"></script>
   
  
-<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/zoom/js/jquery.jqzoom-core.js"></script>
+<script type="text/javascript" src="<? print TEMPLATE_URL ?>js/anything_zoomer/js/zoomer.jquery.js"></script>
+
+ 
+ 
+ 
+ 
+<link href="<? print TEMPLATE_URL ?>js/cloudzoom/cloud-zoom.css" rel="stylesheet" type="text/css" />
+
+ 
+ 
+<script type="text/JavaScript" src="<? print TEMPLATE_URL ?>js/cloudzoom/cloud-zoom.1.0.2.min.js"></script>
+ 
+
 <script type="text/javascript">
          function add_to_cart_callback(){
 			 

@@ -2,9 +2,9 @@
  $id = $params['id'];
 
 
-
+if(intval($id) > 0){
 $form_values = get_page($id);
- 
+}
  ?>
 <script type="text/javascript">
 function set_layout($filename, $layout_name){
@@ -206,9 +206,11 @@ $template_options['site_template'] = $template_dir;
 //p( $layouts);
 
 ?>
+ 
+
 <? if(!empty($layouts)): ?>
 <select name="layoutsList" id="mw_layoutsList">
-  <option>Inherit</option>
+  <option value="inherit"  onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')" >Inherit</option>
   <? foreach($layouts as $layout): ?>
   <? if($layout['screenshot']): ?>
   <!-- <a href="<? print $layout['screenshot'] ?>"> <img src="<? print $layout['screenshot'] ?>" height="100" /></a>-->

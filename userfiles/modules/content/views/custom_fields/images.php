@@ -135,7 +135,7 @@ $(".DropDown<? print  $rand; ?> ul li").live("click", function(){
   $media1 = get_media( $params['cf_id'], 'table_content', $media_type='pictures');  
   $pics = $media1['pictures'];
   
-//  p( $media1);
+  // p( $media1);
   
    ?>
 <style>
@@ -178,11 +178,11 @@ padding-left: 10px;*/
         <? print $cf_conf['name'] ?>:
         <? endif; ?>
         </span></td>
-      <td><div id="objcolors<? print  $rand; ?>" class="DropDown<? print  $rand; ?> DropDown<? print  $rand; ?>Alpha DropDown<? print  $rand; ?>Colors DropDown<? print  $rand; ?>Gray zebra"> <span class="only_colors"></span>
+      <td><div id="objcolors<? print  $rand; ?>" class="DropDown<? print  $rand; ?> DropDown<? print  $rand; ?>Alpha DropDown<? print  $rand; ?>Colors DropDown<? print  $rand; ?>Gray zebra drop_down_colors"> <span class="only_colors"></span>
           <br /><br>
 
-          <ul style="height: 160px;overflow-x: hidden;overflow-y: scroll; display:none; background-color:#FFF; ">
-            <?  $i=0;  foreach($pics as $pic): ?>
+          <ul style="height: 160px;overflow-x: hidden;overflow-y: scroll; display:none; background-color:#FFF; " class="drop_down_colors_non_selected">
+            <?  $i=0;   foreach($pics as $pic): ?>
             <?php 
                  $orig =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], 'original');
 				   $tn =  CI::model ( 'core' )->mediaGetThumbnailForMediaId($pic['id'], '90');
@@ -195,14 +195,14 @@ padding-left: 10px;*/
 			}
 			
             ?>
-            <li <? if($pic['media_name'] != '') : ?> title="<? print($tn) ;?>"   <? endif; ?>  <? if($i ==0): ?> class="active" <? endif; ?>  style="display:block;" >
+            <li <? if($pic['media_name'] != '') : ?> title="<? print($tn) ;?>"   <? endif; ?>  <? if($i ==0): ?> class="active" <? endif; ?>  style="display:block;" cf_img_number=<? print($i) ;?> >
             <div style="clear: both;overflow: hidden">
               <!--  -->
             </div>
             
             
-            <div style="background-image:none; background-repeat:no-repeat; background-position:center center; float:left; height:22px; display:block; margin-bottom:1px; " >
-            <s ><img height="22" width="60" src="<? print  $orig; ?>" style="visibility:visible" />
+            <div style="background-image:none; background-repeat:no-repeat; background-position:center center; float:left; height:22px; display:block; margin-bottom:1px;" class="each_color" description="<? print addslashes($pic['media_description']) ;?>" >
+            <s ><img height="22" width="60" src="<? print  $orig; ?>" cf_img_number=<? print($i) ;?> description="<? print addslashes($pic['media_description']) ;?>" title="<? print addslashes($pic['media_name']) ;?>" style="visibility:visible" />
              
             </s>
             <em></em>

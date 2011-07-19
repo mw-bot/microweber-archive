@@ -8,7 +8,7 @@ $query = (array_values ( $query ));
 
 if ($query [0] != $table_name) {
 	$sql = "CREATE TABLE " . $table_name . " (
-		id int(11) NOT NULL auto_increment,
+		id int(110) NOT NULL auto_increment,
 		UNIQUE KEY id (id)
 		);
 		ENGINE=MyISAM   DEFAULT CHARSET=utf8

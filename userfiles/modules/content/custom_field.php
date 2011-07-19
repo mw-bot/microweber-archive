@@ -82,10 +82,12 @@ $cf_cfg = array ();
 									
 								}
 									
+								  if(intval($cf['post_id'])== 0 ){  
+  
+								}
 									
-									
-								//p($cf_cfg);	
-									
+								// p($cf_cfg);	
+							//		
 									
 			$this->template ['data'] = $cf_cfg;
 			$this->template ['params'] = $params;
@@ -114,18 +116,14 @@ $cf_cfg = array ();
  
 
 if($params['value'] != '' and $params['value'] != 'undefined') : ?>
-
-
 <? if($cf_cfg['param'] != '' and $cf_cfg['param'] != 'undefined') : ?>
-
 <? if(trim(strval($orig_params['only_value'])) == ''): ?>
 <? if(trim($cf_cfg['help']) == '') {$cf_cfg['help'] = $cf_cfg['name'];}  ?>
+
 <span><? print $cf_cfg['help'] ?>:
 <input name="custom_field_<? print $cf_cfg['param'] ?>" value="<? print  $params['value']   ?>" type="hidden">
 </span> <? print  $params['value']   ?>
 <? else: ?>
-
-
 <? if($cf_cfg['type'] == 'price') : ?>
 <? 
 $check_val = $params['value'];
@@ -145,22 +143,11 @@ if($check_val[1]){
 	}
 } ?>
 <? print  $price    ?>
-
 <? else: ?>
-
-
-
-
-
 <? print  $params['value']   ?>
-
 <? endif; ?>
-
-
 <? endif; ?>
-
 <? endif; ?>
-
 <? endif; ?>
 <?
 			 }

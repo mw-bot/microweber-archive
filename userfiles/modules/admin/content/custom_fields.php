@@ -311,9 +311,7 @@ $(document).ready(function() {
     <? else: ?>
     <h2>Custom fields</h2>
     <? endif; ?>
-    <a class="btn" href="javascript:edit_cf_config<? print $rand_id ?>('new')">Add new custom field</a> <br />
-    <br />
-<div id="cf_edit_resp<? print $rand_id ?>_id_new"></div>
+
     <? foreach($data as $cf): ?>
     <?
    
@@ -469,6 +467,10 @@ $i = 0;
 
 
 ?>
+
+
+<input name="skip_custom_field_save" value="1" type="hidden">
+
     <? foreach($data_for_table as $k => $data): ?>
     <? if( is_array($data) and !empty($data) and !empty($data[0])): ?>
     <table <? if($params['element_id']) : ?> width="80%" <? else : ?> width="98%" <? endif; ?> border="0" class="custom_fields_table cf_order_table<?  print $params['element_id'] ; ?>"      cellpadding="0" cellspacing="0">
@@ -501,7 +503,18 @@ $i = 0;
           <!--<span class="gray" title="content type"><? print $cf['content_type'] ?></span>-->
           <div onclick="javascript:edit_cf_config<? print $rand_id ?>('<? print $cf['id']; ?>', '')">
  
- <microweber module="content/custom_field"  name="custom_field_<? print $cf['name'] ?>" cf_id="<? print $cf['id'] ?>" >
+ <? if(intval($cf['post_id'])== 0 ): ?>
+   <? //$cf['id'] = intval($cf['id'])+10000+url_param('id'); 
+ 
+ // p($cf);
+ ?>
+ <? endif; ?>
+ 
+ 
+ 
+
+ 
+ <microweber module="content/custom_field"    name="custom_field_<? print $cf['name'] ?>" cf_id="<? print $cf['id'] ?>" >
         </div>
 		
 		
@@ -546,6 +559,15 @@ $i = 0;
     </table>
     <? endif; ?>
     <? endforeach; ?>
+    
+    
+    <br />
+
+        <a class="xbtn" href="javascript:edit_cf_config<? print $rand_id ?>('new')"><strong>Add new custom field</strong></a> <br />
+    <br />
+<div id="cf_edit_resp<? print $rand_id ?>_id_new"></div>
+    
+    
     <? if($params['element_id']) : ?>
  
 <? endif; ?>

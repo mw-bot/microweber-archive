@@ -35,6 +35,17 @@
             <br />
             <input name="form_email" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="forms/mail_form"  value="<?php print option_get('media_name', $params['module_id']) ?>" /></td>
         </tr>
+        
+        
+        
+        
+        <tr valign="middle">
+          <td><div class="mw_tag_editor_label_wide">Send button text</div>
+            <input name="form_btn_text" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider" option_group="<? print $params['module_id'] ?>" type="text" refresh_modules="forms/mail_form"  value="<?php print option_get('form_btn_text', $params['module_id']) ?>" /></td>
+        </tr>
+        
+        
+        
       </table>
     </div>
   </div>

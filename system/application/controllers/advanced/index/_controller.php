@@ -126,6 +126,10 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		if (empty ( $post )) {
 			$content = $page;
 		}
+		
+		$page['content_body'] = html_entity_decode($page['content_body']);
+		
+		
 		if (user_id () != false) {
 			//$full_page = get_page ( $page ['id'] );
 			$more = CI::model ( 'core' )->getCustomFields ( 'table_content', $page ['id'] );
@@ -225,7 +229,9 @@ if (defined ( 'INTERNAL_API_CALL' ) == true) {
 		}
 		
 		//if ( empty ( $subdomain_user )) {
-		
+		if (strtolower($content ['content_layout_file']) == 'inherit') {
+			$content ['content_layout_file'] = '';
+		}
 
 		if ($content ['content_layout_file'] != '') {
 			

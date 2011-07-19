@@ -257,7 +257,10 @@ $(document).ready(function(){
 
 nic_save = function(content, id, instance){
 
-
+$(".js_generated").remove();
+$(".mw_mod_drag_handle").remove();
+$(".col_handle").remove();
+$(".container_handle").remove();
 
  
 
@@ -303,8 +306,6 @@ $.each(obj.attributes, function(i, val) {
       alert(i+" = "+val)
     });
 */
-$(".js_generated").remove();
-$(".mw_mod_drag_handle").remove();
 
 
 $(".mw_non_sortable").removeClass('mw_non_sortable');
@@ -600,7 +601,7 @@ $(document).ready(function(){
 
 window.mw_sortables_created = false;
 init_edits()
-	setup()
+ 
 
 
 
@@ -895,7 +896,12 @@ function mw_sidebar_nav($selector){
 	
 	
 }
-
+function iframe_code_editor(){
+	
+	//'<?php   print( ADMIN_STATIC_FILES_URL);  ?>codemirror/demo/preview.html'
+		 var call_iframe = mw.modal.iframe({src: '<? print site_url('admin/edit') ?>', width:800, height:600, overlay:true,
+					 height:500, id:"module_edit_iframe"});	
+}
 
 
 </script>
@@ -939,7 +945,7 @@ function mw_sidebar_nav($selector){
     
     
     
-     
+ <!--    <button onclick="iframe_code_editor()"> iframe_code_editor()</button>-->
     <a href="<? print  $sw_to_admin_link ?>" class="mw_toolbar_nav_go_to_admin"> <span> Switch to Admin </span> </a>
     <div id="mw_sidebar_styler"> </div>
   </div>
@@ -1033,5 +1039,5 @@ function mw_sidebar_nav($selector){
     <?  include "toolbar_design_editor.php" ?>
   </div>
   <div id="mw_sidebar_add_holder"> mw_sidebar_add_holder </div>
-
+<textarea id="mw_edit_code_holder" name="mw_edit_code_holder" rows="50" cols="300" style="display:none"></textarea>
 </div>

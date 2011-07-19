@@ -83,8 +83,14 @@ function get_new_users($period = '7 days', $limit = 20) {
  * @param  $id = the id of the user;
  * @return array
  */
-function get_user($id) {
+function get_user($id = false) {
 	global $CI;
+	
+	
+	if($id == false){
+		$id = user_id();
+	}
+	
 	$res = CI::model ( 'users' )->getUserById ( $id );
 	
 	if (! empty ( $res )) {

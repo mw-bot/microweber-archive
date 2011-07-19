@@ -98,7 +98,7 @@ function gallery<? print $params['module_id'] ?>() {
 }
 </style>
  
-<h1>JQuery Photo Slider with Semi Transparent Caption Tutorial</h1>
+<h1>JQuery Photo Slider / Semi Transparent</h1>
 <div id="gallery<? print $params['module_id'] ?>"> 
 
 

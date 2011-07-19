@@ -33,10 +33,7 @@ padding:0px;
 }
 
 
-.col:hover {
-	 outline: 1px dotted #117829;
-outline-offset: 10px; /*Delete if you don't want an offset*/
-}
+
 
 
 .onecol, .twocol, .threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol, .ninecol, .tencol, .elevencol {

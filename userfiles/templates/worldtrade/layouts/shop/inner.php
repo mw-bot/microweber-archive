@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-function set_gallery_img($new_src, $new_src_big){
+function set_gallery_img($new_src, $new_src_big, $title, $color_num){
 	
 //	$('.zoomWrapperImage img').attr('src', $new_src_big);
 	//$('.zoomWrapperImage img').css('z-index',50000);
@@ -14,14 +14,32 @@ function set_gallery_img($new_src, $new_src_big){
   
   
   
-  
+ 
   
   
  
  
-  $('#set_gallery_img_z').append('<a href="'+$new_src_big+'" class="jqzoom"><img width="250" src="'+$new_src+'" id="main-product-image" /></a>');
+  $('#set_gallery_img_z').append('<a href="'+$new_src_big+'" class="cloud-zoom jqzoom" rel="adjustX: 10, adjustY:-4"><img width="250" src="'+$new_src+'" title="'+$title+'" id="main-product-image" /></a>');
  
-  
+   $col_n = $('img[cf_img_number="'+$color_num+'"]', '.drop_down_colors_non_selected').attr('src');
+   $col_s = $('img[cf_img_number="'+$color_num+'"]' ,'.drop_down_colors_non_selected').attr('description');
+    $col_t = $('img[cf_img_number="'+$color_num+'"]', '.drop_down_colors_non_selected').attr('title');
+ //  alert($col_n);
+   $('span.only_colors img').attr('src', $col_n)
+    $('span.only_colors img').attr('title', $col_t);
+	 $('span.only_colors img').attr('description', $col_s);
+	 
+	 
+	  $('span.only_colors img').attr('description', $col_s);
+   
+   
+    $('.only_colors input').val( $col_s );
+      
+	 $('span.only_colors > img:last').remove();
+	 
+   setTimeout('tw_set_sizes_from_colors()', 50);
+
+  //alert( $col_n);
   
   
   //$('#set_gallery_img').attr('src', $new_src);
@@ -63,16 +81,20 @@ function qty_to_price(){
 function make_jq_zoom(){
 	
    var options1 = {  
-            zoomType: 'innerzoom',  
-            lens:true,  
-            preloadImages: false,  
-            alwaysOn:false,  
-            zoomWidth: 300,  
-            zoomHeight: 250
+          zoomType: 'innerzoom',  
+          preloadImages: true,  
+            alwaysOn:true,  
+            zoomWidth: 250,  
+            zoomHeight: 250  
+          
+         
+            
             
             //...MORE OPTIONS  
     };  
-    $('.jqzoom').jqzoom(options1);  	
+	
+	$('.cloud-zoom').CloudZoom(); 
+    //$('a.jqzoom').jqzoom(options1);  	
 }
 
 $(document).ready(function() {
@@ -94,6 +116,114 @@ $(document).ready(function() {
 });
 
 </script>
+<script>
+ 
+ 
+
+$(document).ready(function() {
+
+
+ 
+ tw_set_sizes_from_colors()
+ 
+
+
+ });
+
+
+
+
+$('.each_color').live('click', function() {
+setTimeout('tw_set_sizes_from_colors()', 500);
+
+$lic = $(this).attr('color_number');
+$pic_nums =  $('[pic_number="'+$lic+'"]').attr('tn_small');
+ $pic_numb =  $('[pic_number="'+$lic+'"]').attr('tn_big');
+ 
+ if($pic_nums != undefined){
+	  set_gallery_img($pic_nums, $pic_numb);
+ }
+
+
+
+
+ 
+
+//alert($pic_num);
+
+});
+$('.ch_colors').live('click', function() {
+$pic_number = $(this).attr('pic_number');
+
+//alert($pic_number);
+  var DropItemHTML = $('div[color_number="'+$pic_number+'"]').html();
+    var DropItemValue = $('div[color_number="'+$pic_number+'"]').attr("title");
+	
+//	$(".DropDown").find("input").val(DropItemValue);
+	
+	
+  //  $(".DropDown").find("span").html(DropItemHTML );
+
+	
+	
+
+});
+
+
+function add_to_cart_this(){
+	$colorzzzz = $('#products_option_form').find('.custom_field_razmeri_new').size();
+	
+	
+	if($colorzzzz > 0){
+			$('.custom_field_razmeri').remove();
+	}
+	
+	 
+	mw.cart.add('#products_option_form', function(){add_to_cart_callback()});
+}
+
+function tw_set_sizes_from_colors(){
+
+  
+  //p( $pics);
+
+$size_to_color = $('span.only_colors img').attr('description');
+//alert($size_to_color);
+	if($size_to_color != undefined && $size_to_color != ''){
+		$new_sizes = $size_to_color.split(',');
+		$new_sizes_l = $new_sizes.length;
+		$('.custom_field_razmeri_new').remove();
+		$str_s = '<select class="custom_field_razmeri_new" name="custom_field_razmeri_new">';
+ 
+
+		var i=0;
+		if($new_sizes_l > 0){
+for (i=0;i<=$new_sizes_l;i++)
+{
+	if($new_sizes[i] != undefined && $new_sizes[i] != 'undefined'){
+ $str_s = $str_s+  '<option value="'+$new_sizes[i]+'">'+$new_sizes[i]+'</option>';
+	}
+}
+
+$str_s = $str_s+ '</select>';
+		  
+		
+	}
+	$('.custom_field_razmeri').before($str_s);
+	$('.custom_field_razmeri').hide();
+	} else {
+		$('.custom_field_razmeri').show();
+		$('.custom_field_razmeri_new').remove();
+	}
+	
+ 
+
+
+
+	
+}
+ 
+ </script>
 
 <div class="left gallery_box">
   <microweber module="media/gallery"  display="mics/gallery.php" content_id="<? print $post['id']; ?>">
@@ -323,111 +453,4 @@ $posts_data = $related_posts['posts'];
 
 
 
- <script>
  
- 
-
-$(document).ready(function() {
-
-
- 
- tw_set_sizes_from_colors()
- 
-
-
- });
-
-
-
-
-$('.each_color').live('click', function() {
-setTimeout('tw_set_sizes_from_colors()', 500);
-
-$lic = $(this).attr('color_number');
-$pic_nums =  $('[pic_number="'+$lic+'"]').attr('tn_small');
- $pic_numb =  $('[pic_number="'+$lic+'"]').attr('tn_big');
- 
- if($pic_nums != undefined){
-	  set_gallery_img($pic_nums, $pic_numb);
- }
-
-
-
-
- 
-
-//alert($pic_num);
-
-});
-$('.ch_colors').live('click', function() {
-$pic_number = $(this).attr('pic_number');
-
-//alert($pic_number);
-  var DropItemHTML = $('div[color_number="'+$pic_number+'"]').html();
-    var DropItemValue = $('div[color_number="'+$pic_number+'"]').attr("title");
-	
-//	$(".DropDown").find("input").val(DropItemValue);
-	
-	
-  //  $(".DropDown").find("span").html(DropItemHTML );
-
-	
-	
-
-});
-
-
-function add_to_cart_this(){
-	$colorzzzz = $('#products_option_form').find('.custom_field_razmeri_new').size();
-	
-	
-	if($colorzzzz > 0){
-			$('.custom_field_razmeri').remove();
-	}
-	
-	 
-	mw.cart.add('#products_option_form', function(){add_to_cart_callback()});
-}
-
-function tw_set_sizes_from_colors(){
-
-  
-  //p( $pics);
-
-$size_to_color = $('.only_colors > .each_color:first').attr('description');
-//alert($size_to_color);
-	if($size_to_color != undefined && $size_to_color != ''){
-		$new_sizes = $size_to_color.split(',');
-		$new_sizes_l = $new_sizes.length;
-		$('.custom_field_razmeri_new').remove();
-		$str_s = '<select class="custom_field_razmeri_new" name="custom_field_razmeri_new">';
- 
-
-		var i=0;
-		if($new_sizes_l > 0){
-for (i=0;i<=$new_sizes_l;i++)
-{
-	if($new_sizes[i] != undefined && $new_sizes[i] != 'undefined'){
- $str_s = $str_s+  '<option value="'+$new_sizes[i]+'">'+$new_sizes[i]+'</option>';
-	}
-}
-
-$str_s = $str_s+ '</select>';
-		  
-		
-	}
-	$('.custom_field_razmeri').before($str_s);
-	$('.custom_field_razmeri').hide();
-	} else {
-		$('.custom_field_razmeri').show();
-		$('.custom_field_razmeri_new').remove();
-	}
-	
- 
-
-
-
-	
-}
- 
- </script>

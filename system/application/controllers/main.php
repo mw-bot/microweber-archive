@@ -15,6 +15,12 @@ class Main extends Controller {
 		print 'test';
 
 	}
+		function captcha() {
+ 
+		require (APPPATH . 'controllers/captcha.php');
+		exit();
+
+	}
 
 	function cronjobs() {
 

@@ -158,9 +158,9 @@ class Media extends Controller {
 		if (intval ( $user_id ) == 0) {
 			exit ( 'Error!' );
 		}
-		$id = is_admin ();
+		//$id = is_admin ();
 		if ($id == false) {
-			exit ( 'Error: not logged in as admin.' );
+			//exit ( 'Error: not logged in as admin.' );
 		}
 		
 		//var_dump ( $_POST );

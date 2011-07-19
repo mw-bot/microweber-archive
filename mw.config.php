@@ -13,6 +13,8 @@ $mw_config ['db_username'] = 'root';
 $mw_config ['db_password'] = '123456';
 
 
-$mw_config ['db_database'] = 'mw_kings';
+$mw_config ['db_database'] = 'cms_dental_center';
+$mw_config ['db_database'] = 'cms_wt2';
 
+//$mw_config ['site_url'] = 'localhost/Microweber2/';
  

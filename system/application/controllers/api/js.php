@@ -39,7 +39,7 @@ class js extends Controller {
 		if ($edit == true) {
 			$cache_group = 'global/blocks/edit';
 		}
-		
+	//	$editmode =$edit= false;
 		//$cache_content = CI::model ( 'core' )->cacheGetContentAndDecode ( $cache_id, $cache_group );
 		
 
@@ -108,6 +108,7 @@ class js extends Controller {
 			//		 
 			//			
 			
+			//pecata
 
 			$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js_dist/' . 'jquery.cookie.js', true );
 			
@@ -117,9 +118,10 @@ class js extends Controller {
 			if ($ajax == false) {
 				if (($edit == true and $in_admin == false and $no_mw_edit == false) or $load_editmode == true) {
 					$layout = $layout . "\n\n\n // File: _mw_edit.js \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw_edit.js', true );
+										$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw_extra.js', true );
+
 				}
-				if (($editmode == true) or $load_extra_libs == true or $load_editmode == true) {
-					$layout = $layout . "\n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . '_mw_extra.js', true );
+				if ($editmode == true) {
 				}
 			}
 			
@@ -130,7 +132,7 @@ class js extends Controller {
 					if (($file != '_mw.js') and ($file != 'utils.js') and ($file != '_mw_edit.js')) {
 						$this->load->vars ( $this->template );
 						$layout = $layout . "\n\n\n // File: $file \n\n" . $this->load->file ( APPPATH . 'controllers/api/js/' . $file, true );
-					}
+					} 
 				
 				}
 			

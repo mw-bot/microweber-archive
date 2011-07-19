@@ -348,8 +348,8 @@ class Core_model extends Model {
 
 		$taxonomy_table = $cms_db_tables ['table_taxonomy'];
 		$taxonomy_items_table = $cms_db_tables ['table_taxonomy_items'];
-		
-		if (! empty ( $original_data ['taxonomy_categories'] )) {
+		//p ( $original_data );
+		if (is_array ( $original_data ['taxonomy_categories'] )) {
 			
 			$taxonomy_save = array ();
 			
@@ -367,7 +367,7 @@ class Core_model extends Model {
 			
 			//	$this->deleteData ( $taxonomy_table, $taxonomy_save, 'taxonomy' );
 			$q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return' and  content_type='{$original_data ['content_type']}' and  taxonomy_type= 'category_item'     ";
-			
+			//	p ( $q );
 			$this->dbQ ( $q );
 			
 			foreach ( $original_data ['taxonomy_categories'] as $taxonomy_item ) {
@@ -387,7 +387,7 @@ class Core_model extends Model {
 				
 
 				$q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  taxonomy_type= 'category_item' , parent_id='$parent_cat_id'   ";
-				
+				//	p ( $q );
 				$this->dbQ ( $q );
 				$this->cleanCacheGroup ( 'taxonomy/' . $parent_cat_id );
 			
@@ -497,7 +497,9 @@ class Core_model extends Model {
 		}
 		
 		//adding custom fields
-		if ($table_assoc_name != 'table_custom_fields') {
+		
+
+		if (($original_data ['skip_custom_field_save'] == false) and $table_assoc_name != 'table_custom_fields') {
 			
 			$custom_field_to_save = array ();
 			
@@ -533,8 +535,9 @@ class Core_model extends Model {
 					
 					$custom_field_to_delete ['to_table_id'] = $id_to_return;
 					
-					$this->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
-					
+				//	$this->deleteData ( $custom_field_table, $custom_field_to_delete, 'custom_fields' );
+				
+
 				//$clean = " delete from $custom_field_table where to_table is null or   to_table_id is null ";
 				
 
@@ -557,8 +560,9 @@ class Core_model extends Model {
 						
 						";
 						
-						$this->dbQ ( $clean );
+						//	$this->dbQ ( $clean );
 						
+
 						$custom_field_to_save ['custom_field_name'] = $cf_k;
 						
 						$custom_field_to_save ['custom_field_value'] = $cf_v;
@@ -1548,7 +1552,7 @@ class Core_model extends Model {
 				//		p($q);
 				
 
-				$q = $this->dbQ ( $q );
+				//$q = $this->dbQ ( $q );
 			
 			}
 		}
@@ -4675,7 +4679,7 @@ class Core_model extends Model {
 			
 			$cache_group_noslash = ($cache_group);
 		
-		}
+		} 
 		
 		$recycle_bin = CACHEDIR . 'deleted'. DIRECTORY_SEPARATOR;
 		
@@ -4804,6 +4808,7 @@ class Core_model extends Model {
 
 		}
 		if ($test_for_long > 1000) {
+			
 			CI::model ( 'core' )->cacheWrite ( $sNewText, $function_cache_id, $cache_group );
 		}
 		return $sNewText;
@@ -5403,14 +5408,12 @@ $w
 			
 			if (trim ( strval ( $cache_content ) ) == 'false') {
 				
-			//return false;
+				return false;
 			
-
 			} else {
 				
-			//return $cache_content;
+				return $cache_content;
 			
-
 			}
 		
 		}
@@ -5423,10 +5426,11 @@ $w
 		
 		}
 		
-			$this->load->library ( 'image_lib' );
+		//	$this->load->library ( 'image_lib' );
 		
 
-		require_once (LIBSPATH . 'thumb/ThumbLib.inc.php');
+		//	require_once (LIBSPATH . 'thumb/ThumbLib.inc.php');
+		require_once (LIBSPATH . "resize-class.php");
 		
 		global $cms_db_tables;
 		
@@ -5516,7 +5520,7 @@ $w
 								$the_original_dir = reduce_double_slashes ( $the_original_dir );
 								
 								$new_filename = $the_original_dir . '/' . $size . '_' . $size_height . '/' . $origina_filename;
-								
+								$new_filename2 = '/' . $size . '_' . $size_height . '/' . $origina_filename;
 								$new_filename = str_ireplace ( ' ', '-', $new_filename );
 								
 								$new_filename = str_ireplace ( ' ', '-', $new_filename );
@@ -5557,38 +5561,38 @@ $w
 									@mkdir_recursive ( $the_original_dir . $size . '_' . $size_height . '/' );
 								
 								} else {
-									
-									if (! is_writable ( $the_original_dir . $size . '_' . $size_height )) {
-									
-									}
 								
 								}
+								
 								if ($size) {
 									$new_filename_url = $the_original_dir . $size . '_' . $size_height . '/' . $origina_filename;
 								} else {
-									$new_filename_url = $the_original_dir .  '/' . $origina_filename;
+									$new_filename_url = $the_original_dir . '/' . $origina_filename;
 								
 								}
 								$new_filename_url = str_ireplace ( MEDIAFILES, $media_url, $new_filename_url );
-								$new_filename = str_replace('/_/', '',$new_filename);
-								$new_filename = str_replace('\_\\', '',$new_filename);
+								$new_filename = str_replace ( '/_/', '', $new_filename );
+								$new_filename = str_replace ( '\_\\', '', $new_filename );
 								
-								$file_path = str_replace('/_/', '',$file_path);
-								$file_path = str_replace('\_\\', '',$file_path);
-								$file_path = normalize_path($file_path, false);
+								$file_path = str_replace ( '/_/', '', $file_path );
+								$file_path = str_replace ( '\_\\', '', $file_path );
+								$file_path = normalize_path ( $file_path, false );
 								
-								
-								
-							//	p ( $new_filename );
-							//	p ( $file_path );
+								//	p ( $new_filename );
+								//	p ( $file_path );
 								$new_filename_url = pathToURL ( $new_filename );
-								$new_filename = normalize_path($new_filename, false);
-							 	unlink($new_filename);
+								$new_filename = normalize_path ( $new_filename, false );
+								
+								//	unlink($new_filename);
 								if (is_file ( $new_filename ) == TRUE) {
 									
 									$src = $new_filename_url;
 								
 								} else {
+									
+									//touch($new_filename);
+									
+
 									$config = array ();
 									$config ['image_library'] = 'gd2';
 									
@@ -5603,25 +5607,44 @@ $w
 									$config ['width'] = $size;
 									
 									$config ['height'] = $size_height;
+									$config ['dest_folder'] = $new_filename_dir;
 									
 									$config ['quality'] = '100%';
 									
 									$src = $new_filename_url;
-									//p($config);
-									$this->image_lib->initialize ( $config );
+									//p ( $config );
+									//$this->image_lib->initialize ( $config );
 									
 
-								try {
-									$thumb = PhpThumbFactory::create ( $file_path );
-									//var_dump($size, $size_height);
-								 	$thumb->resize ( $size, $size_height );
-								//	p($new_filename);
-										$thumb->save ( $new_filename );
+									//CI::library ( 'image_lib' )->initialize ( $config );
+									//$this->load->library ( 'image_lib', $config );
+									//CI::library ( 'image_lib' )->resize ();
 									
+
+									// *** 1) Initialise / load image
+									$resizeObj = new resize ( $file_path );
+									
+									// *** 2) Resize image (options: exact, portrait, landscape, auto, crop)
+									$resizeObj->resizeImage ( $size, $size_height, auto );
+									
+									// *** 3) Save image
+									$resizeObj->saveImage ( $new_filename, 100 );
+									
+									//$this->image_lib->resize ();
+									
+
+									try {
+										//$thumb = PhpThumbFactory::create ( $file_path );
+									//var_dump($size, $size_height);
+									//$thumb->resize ( $size, $size_height );
+									//	p($new_filename);
+									//$thumb->save ( $new_filename );
+									
+
 									} catch ( Exception $e ) {
 										// handle error here however you'd like
 									//	var_dump($e);
-									print 'cant open image file' . $file_path;
+									//print 'cant open image file' . $file_path;
 									}
 									
 								// do your manipulations
@@ -6320,7 +6343,7 @@ $w
 				if ($cache_content == 'false') {
 					
 					return false;
-				
+			 
 				} else {
 					return $cache_content;
 				
@@ -6381,15 +6404,15 @@ $w
 				
 				$q = " SELECT count(*) as qty from $table where to_table='$to_table' and to_table_id='$to_table_id' $media_type_q  ";
 				//var_dump($q);
-				$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+				//$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
 				
-				$q = $q [0] ['qty'];
+				//$q = $q [0] ['qty'];
 				
 				if (intval ( $q ) == 0) {
 					
-					$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+				//	$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
 					
-					return false;
+				//	return false;
 				
 				}
 			
@@ -6399,11 +6422,11 @@ $w
 				
 				$q = " SELECT count(*) as qty from $table where to_table='$to_table' and queue_id='$queue_id' $media_type_q  ";
 				
-				$q = $this->dbQuery ( $q );
-				$q = $q [0] ['qty'];
+				//$q = $this->dbQuery ( $q );
+				//$q = $q [0] ['qty'];
 				if (intval ( $q ) == 0) {
-					$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
-					return false;
+				//	$this->cacheWriteAndEncode ( 'false', $function_cache_id, $cache_group );
+				//	return false;
 				
 				}
 			
@@ -6436,7 +6459,7 @@ $w
 			$cache_group = false;
 		
 		}
-		//$media_get['debug'] = 1; 
+		// $media_get['debug'] = 1; 
 		$media_get = $this->getDbData ( $table, $media_get, false, false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = true );
 		$target_path = MEDIAFILES;
 		

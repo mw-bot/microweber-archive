@@ -54,7 +54,7 @@
 		
 // ]]>
 </script>
- 
+
     <table width="98%" border="0" cellspacing="2" cellpadding="2" height="67">
       <tr valign="middle">
         <td><img src="<? print TEMPLATE_URL ?>img/mail.png" height="32" /></td>
@@ -100,7 +100,13 @@
     <table width="100%" border="0" cellspacing="10" cellpadding="10">
       <tr>
         <td><a href="<? print site_url(); ?>" title="Microweber"><img src="<? print TEMPLATE_URL ?>img/logo.png" height="27" /></a></td>
-        <td> See also: <span class="grey_small"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank" title="Creative Commons Share-Alike">License</a>    |    <a href="http://www.facebook.com/Microweber/" title="Microweber">Microweber of Facebook</a> | <a href="<? print site_url('sub.php') ?>" title="Microweber"><strong>Subscribe for updates</strong></a></span></td>
+        <td><!-- LiveZilla Chat Button Link Code (ALWAYS PLACE IN BODY ELEMENT) --><a href="javascript:void(window.open('http://microweber.com/live_chat/chat.php','','width=590,height=610,left=0,top=0,resizable=yes,menubar=no,location=no,status=yes,scrollbars=yes'))"><img src="http://microweber.com/live_chat/image.php?id=01&amp;type=inlay" width="120" height="30" border="0" alt="LiveZilla Live Help" /></a><!-- http://www.LiveZilla.net Chat Button Link Code --><!-- LiveZilla Tracking Code (ALWAYS PLACE IN BODY ELEMENT) --><div id="livezilla_tracking" style="display:none"></div><script type="text/javascript">
+/* <![CDATA[ */
+var script = document.createElement("script");script.type="text/javascript";var src = "http://microweber.com/live_chat/server.php?request=track&output=jcrpt&nse="+Math.random();setTimeout("script.src=src;document.getElementById('livezilla_tracking').appendChild(script)",1);
+/* ]]> */
+</script><noscript><img src="http://microweber.com/live_chat/server.php?request=track&amp;output=nojcrpt" width="0" height="0" style="visibility:hidden;" alt="" /></noscript><!-- http://www.LiveZilla.net Tracking Code -->
+ </td>
+        <td> See also: <span class="grey_small"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank" title="Creative Commons Share-Alike">License</a>    |   <a href="<? print site_url('sub.php') ?>" title="Microweber"><strong>Subscribe for updates</strong></a></span>   |   <a href="<? print site_url('docs') ?>" title="Documentation"><strong>Documentation</strong></a></span></td>
         <td><span class="grey_small">&copy; All rights reserved 2010-<? print date("Y") ?> Microweber.com</span></td>
       </tr>
     </table>

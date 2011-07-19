@@ -49,6 +49,34 @@ if(!isset($_SESSION)){ session_start();}
  * ... where $_SESSION['IsAuthorized'] is set to "true" as soon as the user logs in to your system.
 **/
 
+if(!function_exists('normalize_path')){
+function normalize_path($path, $slash_it = true) {
+	//var_dump($path);
+	// DIRECTORY_SEPARATOR is a system variable
+	// which contains the right slash for the current 
+	// system (windows = \ or linux = /)
+	
+
+	$path_original = $path;
+	$s = DIRECTORY_SEPARATOR;
+	$path = preg_replace ( '/[\/\\\]/', $s, $path );
+	$path = preg_replace ( '/' . $s . '$/', '', $path ) . $s;
+	
+	$path = str_replace ( $s . $s, $s, $path );
+	if (strval ( $path ) == '') {
+		$path = $path_original;
+	}
+	if ($slash_it == false) {
+		$path = rtrim ( $path, DIRECTORY_SEPARATOR );
+	}
+	if (strval (trim( $path )) == '' or strval (trim( $path )) == '/') {
+		$path = $path_original;
+	}
+	return $path;
+}
+}
+
+
 /*
  * UPLOAD PATH
  * 
@@ -60,12 +88,23 @@ if(!isset($_SESSION)){ session_start();}
  * $uploadpath = '/images/upload/';
  *
  */
-$uploadpath = "/upload_folder/"; // absolute path from root to upload folder (DON'T FORGET SLASHES)
+ 
+ define("INTERNAL_API_CALL", 1);
+  define("NO_MICROWEBER", 1);
+ 
+ 
+ include('../../../../../../../../../index.php');
+ 
+ 
+
 //var_dump($uploadpath);
 
-if(!is_dir($uploadpath)){
-//mkdir($uploadpath );
-}
+
+
+
+
+
+
 
 
 /*
@@ -129,7 +168,26 @@ $allowedActions = array(
 //define('DOCUMENTROOT', 'c:\\webroot\\example.com\\www');
 //define('DOCUMENTROOT', $_SERVER['DOCUMENT_ROOT']);
 //define('DOCUMENTROOT', realpath((@$_SERVER['DOCUMENT_ROOT'] && file_exists(@$_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])) ? $_SERVER['DOCUMENT_ROOT'] : str_replace(dirname(@$_SERVER['PHP_SELF']), '', str_replace(DIRECTORY_SEPARATOR, '/', realpath('.')))));
-define('DOCUMENTROOT', realpath((getenv('DOCUMENT_ROOT') && preg_match('#^'.preg_quote(realpath(getenv('DOCUMENT_ROOT'))).'#', realpath(__FILE__))) ? getenv('DOCUMENT_ROOT') : str_replace(dirname(@$_SERVER['PHP_SELF']), '', str_replace(DIRECTORY_SEPARATOR, '/', dirname(__FILE__)))));
+ //define('DOCUMENTROOT', realpath((getenv('DOCUMENT_ROOT') && preg_match('#^'.preg_quote(realpath(getenv('DOCUMENT_ROOT'))).'#', realpath(__FILE__))) ? getenv('DOCUMENT_ROOT') : str_replace(dirname(@$_SERVER['PHP_SELF']), '', str_replace(DIRECTORY_SEPARATOR, '/', dirname(__FILE__)))));
+
+
+
+define('DOCUMENTROOT', ROOTPATH);
+
+
+
+$uploadpath = dirname(__FILE__)."/upload_dir/"; // absolute path from root to upload folder (DON'T FORGET SLASHES)
+
+$uploadpath = normalize_path($uploadpath, true);
+if(!is_dir($uploadpath)){
+//mkdir($uploadpath );
+}
+$uploadpath  = str_ireplace(DOCUMENTROOT, '',$uploadpath);
+ 
+
+
+//var_dump(DOCUMENTROOT);
+//var_dump($uploadpath );
 
 /*
  * CUSTOM FILTERS
@@ -184,7 +242,7 @@ $extension_whitelist = "asf,avi,bmp,fla,flv,gif,jpeg,jpg,mov,mpeg,mpg,png,tif,ti
  *
  * Ex. http://www.example.com/upload/file.jpg instead of /upload/file.jpg 
  */
-$absolute_url = FALSE; // When FALSE url will be returned absolute without hostname, like /upload/file.jpg.
+$absolute_url = TRUE; // When FALSE url will be returned absolute without hostname, like /upload/file.jpg.
 $absolute_url_disabled = FALSE; // When TRUE changing from absolute to relative is not possible.
 
 
@@ -205,11 +263,11 @@ $absolute_url_disabled = FALSE; // When TRUE changing from absolute to relative 
 
 define('STARTINGPATH', DOCUMENTROOT . $uploadpath); //DON'T EDIT
 
-
+var_dump(STARTINGPATH);
 if(!is_dir(STARTINGPATH)){
 mkdir(STARTINGPATH );
 }
-
+//var_dump(STARTINGPATH);
 //Check if upload folder exists
 if(!@is_dir(STARTINGPATH)) die('Upload folder doesn\'t exist or $uploadpath in config.php is set wrong!');
 

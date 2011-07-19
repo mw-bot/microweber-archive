@@ -10,7 +10,10 @@
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/libs.js"></script>
 <script type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/functions.js"></script>
 <!--<script id="mw_ready_js" type="text/javascript" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/mw.ready.js"></script>-->
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
+<!--<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />-->
+
+ 
+<link rel="stylesheet" type="text/css" href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/jquery-ui-1.8.13.custom/css/custom-theme/jquery-ui-1.8.13.custom.css"/>
 <!--<link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/plupload/css/jquery.ui.plupload.css" rel="stylesheet" type="text/css"/>-->
  
 
@@ -39,7 +42,7 @@
                         theme_advanced_statusbar_location : "bottom",
                         theme_advanced_resizing : true,
 						
-						file_browser_callback: "filebrowser",
+						file_browser_callback: "ajaxfilemanager",
 
 						
 
@@ -51,7 +54,7 @@
                         external_link_list_url : "lists/link_list.js",
                         external_image_list_url : "lists/image_list.js",
                         media_external_list_url : "lists/media_list.js",
-
+relative_urls : false,
                         // Replace values for the template plugin
                         template_replace_values : {
                                 username : "Some User",
@@ -66,23 +69,50 @@
 		
 
  
-function filebrowser(field_name, url, type, win) {
-		
-	fileBrowserURL = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/plugins/pdw_file_browser/index.php?filter=" + type;
+function ajaxfilemanager(field_name, url, type, win) {
+			var ajaxfilemanagerurl = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/plugins/ajaxfilemanager/ajaxfilemanager.php";
+			var view = 'detail';
+			switch (type) {
+				case "image":
+				view = 'thumbnail';
+					break;
+				case "media":
+					break;
+				case "flash": 
+					break;
+				case "file":
+					break;
+				default:
+					return false;
+			}
+            tinyMCE.activeEditor.windowManager.open({
+                url: "<?php   print( ADMIN_STATIC_FILES_URL);  ?>js/tiny_mce/plugins/ajaxfilemanager/ajaxfilemanager.php?view=" + view,
+                width: 782,
+                height: 440,
+                inline : "yes",
+                close_previous : "no"
+            },{
+                window : win,
+                input : field_name
+            });
+            
+/*            return false;			
+			var fileBrowserWindow = new Array();
+			fileBrowserWindow["file"] = ajaxfilemanagerurl;
+			fileBrowserWindow["title"] = "Ajax File Manager";
+			fileBrowserWindow["width"] = "782";
+			fileBrowserWindow["height"] = "440";
+			fileBrowserWindow["close_previous"] = "no";
+			tinyMCE.openWindow(fileBrowserWindow, {
+			  window : win,
+			  input : field_name,
+			  resizable : "yes",
+			  inline : "yes",
+			  editor_id : tinyMCE.getWindowArg("editor_id")
+			});
 			
-	tinyMCE.activeEditor.windowManager.open({
-		title: "File Browser",
-		url: fileBrowserURL,
-		width: 950,
-		height: 650,
-		inline: 0,
-		maximizable: 1,
-		close_previous: 1
-	},{
-		window : win,
-		input : field_name
-	});		
-}
+			return false;*/
+		}
 
 
 

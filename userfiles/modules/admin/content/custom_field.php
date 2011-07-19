@@ -1,5 +1,5 @@
 <?
-//p($params);
+ //p($params);
 
 ?>
 <? if($params['element_id']): ?>
