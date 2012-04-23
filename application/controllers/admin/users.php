@@ -13,7 +13,7 @@ class Users extends CI_Controller {
 	
 	function delete() {
 		
-		$id = CI::model('core')->getParamFromURL ( 'id' );
+		$id = $this->core_model->getParamFromURL ( 'id' );
 		CI::model('users')->userDeleteById ( $id );
 		redirect ( 'admin/users/index' );
 	
@@ -28,7 +28,7 @@ class Users extends CI_Controller {
 			exit ();
 		} else {
 			$togo_tags = false;
-			$tags = CI::model('core')->getParamFromURL ( 'keyword' );
+			$tags = $this->core_model->getParamFromURL ( 'keyword' );
 			$togo_tags = "/keyword:{$tags}";
 			$gogo = site_url ( 'admin/users/index' ) . $togo_tags;
 			$gogo = reduce_double_slashes ( $gogo );
@@ -54,7 +54,7 @@ class Users extends CI_Controller {
 			CI::model('users')->saveUser ( $_POST );
 		
 		}
-		$tags = CI::model('core')->getParamFromURL ( 'keyword' );
+		$tags = $this->core_model->getParamFromURL ( 'keyword' );
 		
 		$criteria = array ();
 		$this->template ['search_by_keyword'] = '';
@@ -65,11 +65,11 @@ class Users extends CI_Controller {
 		
 		$results_count = CI::model('users')->getUsers ( $criteria, false, true );
 		
-		$items_per_page = CI::model('core')->optionsGetByKey ( 'admin_default_items_per_page' );
+		$items_per_page = $this->core_model->optionsGetByKey ( 'admin_default_items_per_page' );
 		
 		$content_pages_count = ceil ( $results_count / $items_per_page );
 		
-		$curent_page = CI::model('core')->getParamFromURL ( 'curent_page' );
+		$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 		if (intval ( $curent_page ) < 1 || intval ( $curent_page ) > $content_pages_count) {
 			$curent_page = 1;
 		}
@@ -84,7 +84,7 @@ class Users extends CI_Controller {
 		$this->template ['content_pages_curent_page'] = $curent_page;
 		
 		//get paging urls
-		$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
+		$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 		$this->template ['content_pages_links'] = $content_pages;
 		
 		$this->template ['users'] = $users;
@@ -190,7 +190,7 @@ class Users extends CI_Controller {
 			exit ();
 		
 		}
-		$tags = CI::model('core')->getParamFromURL ( 'id' );
+		$tags = $this->core_model->getParamFromURL ( 'id' );
 		if (intval ( $tags ) != 0) {
 			$criteria = array ();
 			//$this->template ['search_by_keyword'] = '';
@@ -202,7 +202,7 @@ class Users extends CI_Controller {
 			$users = CI::model('users')->getUsers ( $criteria, false, false );
 			$users = $users [0];
 		} else {
-			$userz = CI::model('core')->dbGetTableFields ( TABLE_PREFIX . 'users' );
+			$userz = $this->core_model->dbGetTableFields ( TABLE_PREFIX . 'users' );
 			foreach ( $userz as $item ) {
 				$users [$item] = '';
 			}

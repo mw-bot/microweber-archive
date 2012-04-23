@@ -1,10 +1,10 @@
 <?php
-$username = CI::model('core')->getParamFromURL ( 'username' );
+$username = $this->core_model->getParamFromURL ( 'username' );
 
 //print $username;
 
 
-$action = CI::model('core')->getParamFromURL ( 'action' );
+$action = $this->core_model->getParamFromURL ( 'action' );
 
 $author = CI::model('users')->getIdByUsername ( $username );
 $this->template ['author_id'] = $author;
@@ -35,7 +35,7 @@ if ($action == 'gallery') {
 
 
 //p($user_content);
-$user_content = CI::model('content')->contentGetByParams ( $user_content );
+$user_content = $this->content_model->contentGetByParams ( $user_content );
 
 //p($user_content);
 

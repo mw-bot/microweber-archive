@@ -1,7 +1,7 @@
 <?php
 
 
-$mw_user = CI::model('core')->userId();
+$mw_user = $this->core_model->userId();
 if(intval($mw_user) != 0){
 	redirect ( 'dashboard' );
 }
@@ -127,7 +127,7 @@ if ($_POST) {
 		//						$to_reg ['parent'] = $parent [0] ['username'];
 		//
 		//						$to_reg ['option_key'] = 'mail_new_user_reg';
-		//						CI::model('core')->sendMail ( $to_reg, true );
+		//						$this->core_model->sendMail ( $to_reg, true );
 
 
 		//$primarycontent =$this->load->view ( 'me/register_done', true, true );
@@ -136,15 +136,15 @@ if ($_POST) {
 
 		/*~~~~~~~~~~~~~~~ Send activation email ~~~~~~~~~~~~~~~~~~~*/
 
-		$emailTemplate = CI::model('core')->optionsGetByKey ( 'registration_email', true );
-		$from = CI::model('core')->optionsGetByKey ( 'reg_email_from', true );
+		$emailTemplate = $this->core_model->optionsGetByKey ( 'registration_email', true );
+		$from = $this->core_model->optionsGetByKey ( 'reg_email_from', true );
 
 		$message = str_replace ( "{activation_url}", site_url ( 'users/user_action:activate/code:' . md5 ( $userId ) ), $emailTemplate ['option_value2'] );
 
 		// Send activation email
 		$sendOptions = array ('subject' => $emailTemplate ['option_value'], 'message' => $message, 'from_email' => $from ['option_value'], 'from_name' => $from ['option_value2'], 'to_email' => $to_reg ['email'] );
 
-		CI::model('core')->sendMail2 ( $sendOptions );
+		$this->core_model->sendMail2 ( $sendOptions );
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 

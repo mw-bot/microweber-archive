@@ -24,7 +24,7 @@ class Comments extends CI_Controller {
 	function index() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );
 		
-		$tags = CI::model('core')->getParamFromURL ( 'tags' );
+		$tags = $this->core_model->getParamFromURL ( 'tags' );
 		
 		
 		$data = array ( );
@@ -39,11 +39,11 @@ class Comments extends CI_Controller {
 		
 		$results_count = CI::model('comments')->commentsGet ($data,false,true);
 		
-		$items_per_page = CI::model('core')->optionsGetByKey ( 'admin_default_items_per_page' );
+		$items_per_page = $this->core_model->optionsGetByKey ( 'admin_default_items_per_page' );
 
 		$content_pages_count = ceil ( $results_count / $items_per_page );
 		
-		$curent_page = CI::model('core')->getParamFromURL ( 'curent_page' );
+		$curent_page = $this->core_model->getParamFromURL ( 'curent_page' );
 		if (intval ( $curent_page ) < 1 || intval($curent_page) > $content_pages_count ) {
 			$curent_page = 1;
 		}
@@ -65,7 +65,7 @@ class Comments extends CI_Controller {
 		$this->template ['content_pages_curent_page'] = $curent_page;
 		
 		//get paging urls
-		$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
+		$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 		$this->template ['content_pages_links'] = $content_pages;
 		
 		$this->template ['new_comments'] = $new_comments;

@@ -15,13 +15,13 @@ $content = array ();
 
 $content ['content_layout_file'] = 'default_layout.php';
 
-$user_action = CI::model('core')->getParamFromURL ( 'user_action' );
+$user_action = $this->core_model->getParamFromURL ( 'user_action' );
 if ($user_action == false) {
 	
-	$user_action = CI::model('core')->getParamFromURL ( 'action' );
+	$user_action = $this->core_model->getParamFromURL ( 'action' );
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -31,7 +31,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -229,7 +229,7 @@ if (trim ( $content ['content_filename'] ) != '') {
 
 }
 
-$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout );
+$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout );
 
 //		p($layout, 1);
 

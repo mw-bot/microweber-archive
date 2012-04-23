@@ -375,7 +375,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 		$test = $this->core_model->securityDecryptArray ( $tree_params );
 		$tree_params = $test;
 		$this->content_model->content_helpers_getPagesAsUlTree ( $content_parent = $tree_params ['content_parent'], $link = $tree_params ['link'], $actve_ids = $tree_params ['active_ids'], $active_code = $tree_params ['active_code'], $remove_ids = $tree_params ['remove_ids'], $removed_ids_code = $tree_params ['removed_ids_code'] );
-		//CI::model('content')->content_helpers_getCaregoriesUlTree ( $content_parent = $tree_params ['content_parent'], $link = $tree_params ['link'], $actve_ids = $tree_params ['actve_ids'], $active_code = $tree_params ['active_code'], $remove_ids = $tree_params ['remove_ids'], $removed_ids_code = $tree_params ['removed_ids_code'], $ul_class_name = $tree_params ['ul_class_name'], $include_first = $tree_params ['include_first'], $content_type = $tree_params ['content_type'], $li_class_name = $tree_params ['li_class_name'] );
+		//$this->content_model->content_helpers_getCaregoriesUlTree ( $content_parent = $tree_params ['content_parent'], $link = $tree_params ['link'], $actve_ids = $tree_params ['actve_ids'], $active_code = $tree_params ['active_code'], $remove_ids = $tree_params ['remove_ids'], $removed_ids_code = $tree_params ['removed_ids_code'], $ul_class_name = $tree_params ['ul_class_name'], $include_first = $tree_params ['include_first'], $content_type = $tree_params ['content_type'], $li_class_name = $tree_params ['li_class_name'] );
 		exit ();
 	}
 	

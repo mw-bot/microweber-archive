@@ -34,18 +34,18 @@ class Main extends CI_Controller {
 
 		if ($what == false) {
 
-			CI::model('content')->content_pingServersWithNewContent ();
+			$this->content_model->content_pingServersWithNewContent ();
 
 		//sleep ( 5 );
 
 
-		//CI::model('content')->content_cleanUpGarbageFromRss ();
+		//$this->content_model->content_cleanUpGarbageFromRss ();
 
 
 		//sleep ( 5 );
 
 
-		//CI::model('content')->content_RemapExternalLinkFromRssWithInternal ();
+		//$this->content_model->content_RemapExternalLinkFromRssWithInternal ();
 
 
 		}
@@ -94,7 +94,7 @@ class Main extends CI_Controller {
 
 		$data = array ();
 
-		$categories = CI::model('core')->getParamFromURL ( 'categories' );
+		$categories = $this->core_model->getParamFromURL ( 'categories' );
 		if (trim ( $categories ) != '') {
 
 			$categories = explode ( ',', $categories );
@@ -102,7 +102,7 @@ class Main extends CI_Controller {
 				$data ['selected_categories'] = $categories;
 			}
 		}
-		$post = CI::model('core')->getParamFromURL ( 'post' );
+		$post = $this->core_model->getParamFromURL ( 'post' );
 		if (intval ( $post ) != 0) {
 			$data ['id'] = intval ( $post );
 
@@ -119,7 +119,7 @@ class Main extends CI_Controller {
 		//	function getContent($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false) {
 
 
-		$posts = CI::model('content')->getContent ( $data, $orderby, $limit, false, true );
+		$posts = $this->content_model->getContent ( $data, $orderby, $limit, false, true );
 		$post = $posts [0];
 		if (! empty ( $post )) {
 			$comments = array ();
@@ -154,7 +154,7 @@ class Main extends CI_Controller {
 
 		$data = array ();
 
-		$categories = CI::model('core')->getParamFromURL ( 'categories' );
+		$categories = $this->core_model->getParamFromURL ( 'categories' );
 		if (trim ( $categories ) != '') {
 
 			$categories = explode ( ',', $categories );
@@ -162,7 +162,7 @@ class Main extends CI_Controller {
 				$data ['selected_categories'] = $categories;
 			}
 		}
-		$created_by = CI::model('core')->getParamFromURL ( 'author' );
+		$created_by = $this->core_model->getParamFromURL ( 'author' );
 		if (intval ( $created_by ) != 0) {
 			$data ['created_by'] = $created_by;
 
@@ -179,7 +179,7 @@ class Main extends CI_Controller {
 		//	function getContent($data, $orderby = false, $limit = false, $count_only = false, $short_data = false, $only_fields = false) {
 
 
-		$posts = CI::model('content')->getContent ( $data, $orderby, $limit, false, true );
+		$posts = $this->content_model->getContent ( $data, $orderby, $limit, false, true );
 
 		//	var_dump($posts);
 		$this->load->helper ( 'url' );
@@ -208,7 +208,7 @@ class Main extends CI_Controller {
 
 		$q = "select * from $table  where taxonomy_type='category' and users_can_create_content='y' ";
 
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 
 		$data_to_save_options ['use_this_field_for_id'] = 'forum_id';
 		foreach ( $q as $item ) {
@@ -232,7 +232,7 @@ $skip = false;
 
 			$to_save ['forum_parent'] = ($item ['parent_id']);
 
-			//CI::model('core')-> saveData($table2, $to_save, $data_to_save_options);
+			//$this->core_model-> saveData($table2, $to_save, $data_to_save_options);
 
 
 			if ($skip == false) {
@@ -259,7 +259,7 @@ $skip = false;
 
 		if ($_POST) {
 
-			if (CI::model('core')->optionsGetByKey ( 'require_login_to_comment' ) == 'y') {
+			if ($this->core_model->optionsGetByKey ( 'require_login_to_comment' ) == 'y') {
 				/*$user_session = CI::library('session')->userdata ( 'user_session' );
 				if (strval ( $user_session ['is_logged'] ) != 'yes') {
 					exit ( 'Error: You must be logged in. Your comment was not posted.' );
@@ -270,8 +270,8 @@ $skip = false;
 		//	$_POST ['to_table_id'] = base64_decode ( $_POST ['to_table_id'] );
 		//	$_POST ['to_table'] = base64_decode ( $_POST ['to_table'] );
 
-			$_POST ['to_table_id'] = CI::model('core')->securityDecryptString ( $_POST ['to_table_id'] );
-			$_POST ['to_table'] = CI::model('core')->securityDecryptString ( $_POST ['to_table'] );
+			$_POST ['to_table_id'] = $this->core_model->securityDecryptString ( $_POST ['to_table_id'] );
+			$_POST ['to_table'] = $this->core_model->securityDecryptString ( $_POST ['to_table'] );
 
 			if (intval ( $_POST ['to_table_id'] ) == 0) {
 				exit ( '1' );
@@ -292,7 +292,7 @@ $skip = false;
 
 		}
 
-	//	CI::model('core')->cacheDeleteAll ();
+	//	$this->core_model->cacheDeleteAll ();
 
 	}
 
@@ -322,13 +322,13 @@ $skip = false;
 
 				$user = CI::library('session')->userdata ( 'user' );
 
-				$content = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'content', array (array ('id', $_POST ['to_table_id'] ) ) );
+				$content = $this->core_model->fetchDbData ( TABLE_PREFIX . 'content', array (array ('id', $_POST ['to_table_id'] ) ) );
 				$content = $content [0];
 
-				$author = CI::model('core')->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', $content ['created_by'] ) ) );
+				$author = $this->core_model->fetchDbData ( TABLE_PREFIX . 'users', array (array ('id', $content ['created_by'] ) ) );
 				$author = $author [0];
 
-				$notification = array ('from_user' => $user ['id'], 'to_user' => $author ['id'], 'type' => 'vote_on_post', 'message_params' => array ('content_url' => CI::model('content')->getContentURLByIdAndCache ( $content ['id'] ), 'content_title' => $content ['content_title'] ) );
+				$notification = array ('from_user' => $user ['id'], 'to_user' => $author ['id'], 'type' => 'vote_on_post', 'message_params' => array ('content_url' => $this->content_model->getContentURLByIdAndCache ( $content ['id'] ), 'content_title' => $content ['content_title'] ) );
 
 				CI::model('users')->sendNotification ( $notification );
 
@@ -353,7 +353,7 @@ $skip = false;
 
 	//	ob_clean ();
 
-		CI::model('core')->cacheDeleteAll ();
+		$this->core_model->cacheDeleteAll ();
 
 		exit ( '1' );
 
@@ -450,7 +450,7 @@ $skip = false;
 
 		$only_valiudation = false;
 
-		$only_valiudation_check = CI::model('core')->getParamFromURL ( 'validate' );
+		$only_valiudation_check = $this->core_model->getParamFromURL ( 'validate' );
 
 		if ($only_valiudation_check == 'yes') {
 
@@ -462,7 +462,7 @@ $skip = false;
 
 		}
 
-		$subject = CI::model('core')->optionsGetByKey ( 'mailform_subject' );
+		$subject = $this->core_model->optionsGetByKey ( 'mailform_subject' );
 
 		$subject = $subject . ' ' . $_REQUEST ['subject'];
 
@@ -558,7 +558,7 @@ $skip = false;
 
 			if ($only_valiudation == false) {
 
-				$sendto = CI::model('core')->optionsGetByKey ( 'mailform_to' );
+				$sendto = $this->core_model->optionsGetByKey ( 'mailform_to' );
 
 				//$sendto = 'boksiora@gmail.com';
 
@@ -657,7 +657,7 @@ $skip = false;
 
 		}
 
-		$subject = CI::model('core')->optionsGetByKey ( 'mailform_subject' );
+		$subject = $this->core_model->optionsGetByKey ( 'mailform_subject' );
 
 		$subject = $subject . ' ' . $_REQUEST ['subject'];
 
@@ -691,7 +691,7 @@ $skip = false;
 
 				$message = $message . $what . ': ' . $v . "\r\n";
 			} else {
-				$auto_rep_temp = CI::model('core')->optionsGetByKeyAsArray ( 'mailform_' . trim ( $v ) );
+				$auto_rep_temp = $this->core_model->optionsGetByKeyAsArray ( 'mailform_' . trim ( $v ) );
 				$autoreply_msg ['subject'] = $auto_rep_temp ['option_value'];
 				$autoreply_msg ['message'] = $auto_rep_temp ['option_value2'];
 				//var_dump($autoreply_msg);
@@ -708,7 +708,7 @@ $skip = false;
 				$autoreply_msg_headers .= "Content-type: text/plain; charset=utf-8\r\n";
 				$autoreply_msg_headers .= "Content-Transfer-Encoding: quoted-printable\r\n";
 				$autoreply_msg_headers .= "MIME-Version: 1.0\r\n";
-				$sendto = CI::model('core')->optionsGetByKey ( 'mailform_to' );
+				$sendto = $this->core_model->optionsGetByKey ( 'mailform_to' );
 				$autoreply_msg_headers .= "From: $sendto" . "\r\n" . #    "Reply-To: webmaster@example.com" . "\r\n" .
 $to1 = $_REQUEST ['email'];
 
@@ -743,7 +743,7 @@ $to1 = $_REQUEST ['email'];
 
 			if ($only_valiudation == false) {
 
-				$sendto = CI::model('core')->optionsGetByKey ( 'mailform_to' );
+				$sendto = $this->core_model->optionsGetByKey ( 'mailform_to' );
 
 				//				$sendto = 'boksiora@gmail.com';
 				//				$sendto = 'stoil@ooyes.net';
@@ -798,7 +798,7 @@ $to1 = $_REQUEST ['email'];
 
 		$q = "select count(*) as qty from $table  ";
 
-		$q = CI::model('core')->dbQuery ( $q );
+		$q = $this->core_model->dbQuery ( $q );
 
 		$q = $q [0] ['qty'];
 
@@ -837,7 +837,7 @@ $to1 = $_REQUEST ['email'];
 				//var_dump($q);
 
 
-				$q = CI::model('core')->dbQuery ( $q );
+				$q = $this->core_model->dbQuery ( $q );
 
 				$q = $q [0] ['updated_on'];
 
@@ -892,7 +892,7 @@ $to1 = $_REQUEST ['email'];
 
 			$q = "select id, updated_on from $table  order by updated_on DESC limit $some,$some2 ";
 
-			$q = CI::model('core')->dbQuery ( $q );
+			$q = $this->core_model->dbQuery ( $q );
 
 			$updates = $q;
 

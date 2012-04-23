@@ -14,9 +14,9 @@ $content = array ();
 
 $content ['content_layout_file'] = 'default_layout.php';
 
-$user_action = CI::model('core')->getParamFromURL ( 'user_action' );
+$user_action = $this->core_model->getParamFromURL ( 'user_action' );
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -26,7 +26,7 @@ if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
 
 }
 
-$the_active_site_template = CI::model('core')->optionsGetByKey ( 'curent_template' );
+$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
 
 $the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 
@@ -86,7 +86,7 @@ switch ($user_action) {
 	case 'activate' :
 		
 		//				$activationCode = '8758d3a5cdbcbfe773ff3758db541b10';
-		$activationCode = CI::model('core')->getParamFromURL ( 'code' );
+		$activationCode = $this->core_model->getParamFromURL ( 'code' );
 		
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];
@@ -149,7 +149,7 @@ switch ($user_action) {
 	
 	case 'comment_delete' :
 		
-		$content_id = CI::model('core')->getParamFromURL ( 'id' );
+		$content_id = $this->core_model->getParamFromURL ( 'id' );
 		
 		$check_is_permisiions_error = false;
 		
@@ -165,14 +165,14 @@ switch ($user_action) {
 			
 			$get_id ['id'] = $post_id;
 			
-			$get_id = CI::model('content')->getContent ( $get_id );
+			$get_id = $this->content_model->getContent ( $get_id );
 			
 			$get_id = $get_id [0];
 			
 			//var_dump($get_id);
 			if (! empty ( $get_id )) {
 				
-				if ($get_id ['created_by'] != CI::model('core')->userId ()) {
+				if ($get_id ['created_by'] != $this->core_model->userId ()) {
 					
 					//var_dump($get_id ['created_by'], $user_session ['user_id']);
 					//redirect ( 'users/posts' );
@@ -209,7 +209,7 @@ switch ($user_action) {
 		
 		$user_content ['created_by'] = $user_session ['user_id'];
 		
-		$user_content = CI::model('content')->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
+		$user_content = $this->content_model->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
 		
 		//	var_dump ( $user_content );
 		$this->template ['user_content'] = $user_content;
@@ -344,7 +344,7 @@ if (trim ( $taxonomy_data ) != '') {
 
 }
 
-$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
+$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
 
 //var_dump($layout);
 

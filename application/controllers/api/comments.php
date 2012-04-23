@@ -66,7 +66,7 @@ class Comments extends CI_Controller {
 
 		}
 		
-		//CI::model('core')->cacheDeleteAll ();
+		//$this->core_model->cacheDeleteAll ();
 		exit ();
 	}
 	
@@ -111,7 +111,7 @@ class Comments extends CI_Controller {
 
 
 
-		$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout );
+		$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout );
 
 		CI::library('output')->set_output ( $layout );*/
 	//var_dump ($content_filename_pre, $files );

@@ -9,7 +9,7 @@ $this->load->vars ( $this->template );
 if ($_POST) {
 
 		$to_save = $_POST;
-		$to_save ['id'] = CI::model('core')->userId() ;
+		$to_save ['id'] = $this->core_model->userId() ;
 		$saved_id = CI::model('users')->saveUser ( $to_save );
 		$this->template ['user_edit_done'] = true;
 		$this->load->vars ( $this->template );

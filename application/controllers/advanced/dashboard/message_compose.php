@@ -1,6 +1,6 @@
 <?php
 $no_layout = true;
-$to = CI::model('core')->getParamFromURL ( 'to' );
+$to = $this->core_model->getParamFromURL ( 'to' );
 $to = CI::model('users')->getUserById ( $to );
 $this->template ['message_to_user'] = $to;
 

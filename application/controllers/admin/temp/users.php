@@ -20,7 +20,7 @@ class Users extends CI_Controller {
 	function delete() {
 
 
-		$id = CI::model('core')->getParamFromURL ( 'id' );
+		$id = $this->core_model->getParamFromURL ( 'id' );
 		CI::model('users')->userDeleteById ( $id );
 		redirect ( 'admin/users/index' );
 

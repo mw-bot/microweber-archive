@@ -1,7 +1,7 @@
 <?php
 
 $no_layout = true;
-$curent_user_id = CI::model('core')->userId ();
+$curent_user_id = $this->core_model->userId ();
 if (intval ( $curent_user_id ) == 0) {
 	exit ( 'login required' );
 }

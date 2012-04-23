@@ -16,7 +16,7 @@ $results_count = intval ( $dashboard_following_count );
 $following_pages_count = ceil ( $results_count / $some_items_per_page );
 
 $url = site_url ( 'dashboard/action:' . $user_action . '/' );
-$paging = CI::model('content')->pagingPrepareUrls ( $url, $following_pages_count );
+$paging = $this->content_model->pagingPrepareUrls ( $url, $following_pages_count );
 $this->template ['posts_pages_links'] = $paging;
 
 

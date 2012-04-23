@@ -120,17 +120,17 @@ class Index extends CI_Controller {
 				
 				}
 				
-				//$post_maybe = CI::model('content')->getContentByURLAndCache ( $url );
-				$post_maybe = CI::model('content')->getContentByURLAndCache ( $url );
+				//$post_maybe = $this->content_model->getContentByURLAndCache ( $url );
+				$post_maybe = $this->content_model->getContentByURLAndCache ( $url );
 				if (intval ( $post_maybe ['id'] ) != 0) {
-					$post_maybe = CI::model('content')->contentGetByIdAndCache ( $post_maybe ['id'] );
+					$post_maybe = $this->content_model->contentGetByIdAndCache ( $post_maybe ['id'] );
 				}
 				//var_Dump($post_maybe);
-				$page = CI::model('content')->getPageByURLAndCache ( $url );
+				$page = $this->content_model->getPageByURLAndCache ( $url );
 				
 				if ($post_maybe ['content_type'] == 'post') {
 					
-					//$post = CI::model('content')->getPostByURLAndCache ( $content ['id'], $url );
+					//$post = $this->content_model->getPostByURLAndCache ( $content ['id'], $url );
 					$post = $post_maybe;
 				
 				}
@@ -151,7 +151,7 @@ class Index extends CI_Controller {
 					
 					} else {
 						
-						$content = CI::model('content')->getContentHomepage ();
+						$content = $this->content_model->getContentHomepage ();
 						
 						if (empty ( $content )) {
 							
@@ -177,7 +177,7 @@ class Index extends CI_Controller {
 					
 					if (trim ( $post ['page_301_redirect_to_post_id'] ) != '') {
 						
-						$gogo = CI::model('content')->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
+						$gogo = $this->content_model->getContentURLByIdAndCache ( $post ['page_301_redirect_to_post_id'] );
 						
 						if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
 							
@@ -212,7 +212,7 @@ class Index extends CI_Controller {
 				
 				}
 				
-				$the_active_site_template = CI::model('content')->optionsGetByKey ( 'curent_template' );
+				$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
 				
 				$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 				
@@ -222,7 +222,7 @@ class Index extends CI_Controller {
 				
 				}
 				
-				$the_active_site_template = CI::model('content')->optionsGetByKey ( 'curent_template' );
+				$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
 				
 				$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 				
@@ -238,10 +238,10 @@ class Index extends CI_Controller {
 				}
 				$ipto = $_SERVER ["REMOTE_ADDR"];
 				
-				$active_categories = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url );
+				$active_categories = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url );
 				
 				//
-				//$active_categories = CI::model('content')->contentActiveCategoriesForPageId2 ( $page ['id'], $url );
+				//$active_categories = $this->content_model->contentActiveCategoriesForPageId2 ( $page ['id'], $url );
 				
 
 				$ipto = $_SERVER ["REMOTE_ADDR"];
@@ -306,7 +306,7 @@ class Index extends CI_Controller {
 					//articles list
 					
 
-					$active_categories2 = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+					$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 					
 					$posts_data = false;
 					
@@ -319,11 +319,11 @@ class Index extends CI_Controller {
 						//redirect($togo);
 						if (empty ( $active_categories2 )) {
 							
-							$togo = CI::model('content')->getContentURLByIdAndCache ( $page ['id'] );
+							$togo = $this->content_model->getContentURLByIdAndCache ( $page ['id'] );
 						
 						} else {
 							
-							$togo = CI::model('content')->taxonomyGetUrlForTaxonomyId ( $active_categories2 [0] );
+							$togo = $this->content_model->taxonomyGetUrlForTaxonomyId ( $active_categories2 [0] );
 						
 						}
 						
@@ -380,7 +380,7 @@ class Index extends CI_Controller {
 					
 					$posts_data ['content_type'] = 'post';
 					
-					$items_per_page = CI::model('content')->optionsGetByKey ( 'default_items_per_page' );
+					$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
 					
 					$items_per_page = intval ( $items_per_page );
 					
@@ -399,7 +399,7 @@ class Index extends CI_Controller {
 					
 					foreach ( $active_categories2 as $active_cat ) {
 						
-						if (CI::model('content')->taxonomyCheckIfParamExistForSingleItemId ( $active_cat, 'category_no_paging' ) == true) {
+						if ($this->content_model->taxonomyCheckIfParamExistForSingleItemId ( $active_cat, 'category_no_paging' ) == true) {
 							
 							$items_per_page = intval ( 9999 );
 						
@@ -412,7 +412,7 @@ class Index extends CI_Controller {
 								//var_dump ( $post );
 								
 
-								$the_taxonomy_item_fulll = CI::model('content')->taxonomyGetSingleItemById ( $active_cat );
+								$the_taxonomy_item_fulll = $this->content_model->taxonomyGetSingleItemById ( $active_cat );
 								
 								if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_link'] ) != '') {
 									
@@ -436,7 +436,7 @@ class Index extends CI_Controller {
 								
 								if (trim ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] ) != '') {
 									
-									$gogo = CI::model('content')->getContentURLByIdAndCache ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] );
+									$gogo = $this->content_model->getContentURLByIdAndCache ( $the_taxonomy_item_fulll ['page_301_redirect_to_post_id'] );
 									
 									//exit($gogo);
 									if (CI::model('core')->validators_isUrl ( $gogo ) == true) {
@@ -503,11 +503,11 @@ class Index extends CI_Controller {
 						//	var_dump( array ($page_start, $page_end ));
 						
 
-						//$data = CI::model('content')->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), false, $only_fields = false );
+						//$data = $this->content_model->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), false, $only_fields = false );
 						
 
 						//var_dump($posts_data);
-						$data = CI::model('content')->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ) );
+						$data = $this->content_model->getContentAndCache ( $posts_data, $orderby1, array ($page_start, $page_end ), $short_data = false, $only_fields = array ('id', 'content_title', 'content_body', 'content_url', 'content_filename', 'content_parent', 'content_filename_sync_with_editor', 'content_body_filename' ) );
 						
 						//var_dump($data);
 						
@@ -516,7 +516,7 @@ class Index extends CI_Controller {
 						
 						$posts = $data;
 						
-						$results_count = CI::model('content')->getContentAndCache ( $posts_data, $orderby1, false, true, $short_data = true, $only_fields = array ('id' ) );
+						$results_count = $this->content_model->getContentAndCache ( $posts_data, $orderby1, false, true, $short_data = true, $only_fields = array ('id' ) );
 						
 						$content_pages_count = ceil ( $results_count / $items_per_page );
 						
@@ -526,7 +526,7 @@ class Index extends CI_Controller {
 						$this->template ['posts_pages_curent_page'] = $curent_page;
 						
 						//get paging urls
-						$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
+						$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 						
 						//var_dump($content_pages);
 						$this->template ['posts_pages_links'] = $content_pages;
@@ -559,7 +559,7 @@ class Index extends CI_Controller {
 				
 				if (! empty ( $post )) {
 					
-					$cats = CI::model('content')->contentGetActiveCategoriesForPostIdAndCache ( $post ['id'] );
+					$cats = $this->content_model->contentGetActiveCategoriesForPostIdAndCache ( $post ['id'] );
 					
 					$this->template ['active_categories'] = $cats;
 					
@@ -583,41 +583,41 @@ class Index extends CI_Controller {
 
 				if (! empty ( $posts )) {
 					
-					$active_categories2 = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+					$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 					
-					$meta = CI::model('content')->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
+					$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
 				
 				}
 				
 				if (! empty ( $post )) {
 					
 					//	var_dump ( $post );
-					$meta = CI::model('content')->metaTagsGenerateByContentId ( $post ['id'] );
+					$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
 					
 				//	var_dump ( $meta );
 				} elseif (! empty ( $posts )) {
 					
-					$active_categories2 = CI::model('content')->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
+					$active_categories2 = $this->content_model->contentActiveCategoriesForPageIdAndCache ( $page ['id'], $url, true );
 					
-					$meta = CI::model('content')->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
+					$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'], $posts_data = $posts, $selected_taxonomy = $active_categories );
 				
 				} 
 
 				elseif (! empty ( $page )) {
 					
-					$meta = CI::model('content')->metaTagsGenerateByContentId ( $page ['id'] );
+					$meta = $this->content_model->metaTagsGenerateByContentId ( $page ['id'] );
 				
 				}
 				
 				if (! empty ( $post )) {
 					
-					$meta = CI::model('content')->metaTagsGenerateByContentId ( $post ['id'] );
+					$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
 				
 				}
 				
 				//if (! empty ( $post )) {
 				//var_dump ( $post );
-				//$meta = CI::model('content')->metaTagsGenerateByContentId ( $post ['id'] );
+				//$meta = $this->content_model->metaTagsGenerateByContentId ( $post ['id'] );
 				//}
 				$content ['content_meta_title'] = $meta ['content_meta_title'];
 				
@@ -685,7 +685,7 @@ class Index extends CI_Controller {
 					
 					foreach ( $active_categories_temp as $thecategory ) {
 						
-						$temp = CI::model('content')->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $thecategory, 'category' );
+						$temp = $this->content_model->taxonomyGetChildrenItemsIdsRecursiveAndCache ( $thecategory, 'category' );
 						
 						$taxonomy_tree = array_merge ( $taxonomy_tree, $temp );
 					
@@ -713,7 +713,7 @@ class Index extends CI_Controller {
 				
 				if (! empty ( $taxonomy_tree )) {
 					
-					$the_active_site_template = CI::model('content')->optionsGetByKey ( 'curent_template' );
+					$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
 					
 					$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 					
@@ -725,7 +725,7 @@ class Index extends CI_Controller {
 						
 						$temp ['id'] = $something;
 						
-						$temp = CI::model('content')->taxonomyGet ( $temp );
+						$temp = $this->content_model->taxonomyGet ( $temp );
 						
 						$temp = $temp [0];
 						
@@ -802,13 +802,13 @@ class Index extends CI_Controller {
 				
 				$global_template_replaceables ["content_meta_title"] = $content ['content_title'];
 				
-				$global_template_replaceables ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : CI::model('content')->optionsGetByKey ( 'content_meta_title' );
+				$global_template_replaceables ["content_meta_title"] = ($content ['content_meta_title'] != '') ? $content ['content_meta_title'] : $this->content_model->optionsGetByKey ( 'content_meta_title' );
 				
-				$global_template_replaceables ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : CI::model('content')->optionsGetByKey ( 'content_meta_description' );
+				$global_template_replaceables ["content_meta_description"] = ($content ['content_meta_description'] != '') ? $content ['content_meta_description'] : $this->content_model->optionsGetByKey ( 'content_meta_description' );
 				
-				$global_template_replaceables ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : CI::model('content')->optionsGetByKey ( 'content_meta_keywords' );
+				$global_template_replaceables ["content_meta_keywords"] = ($content ['content_meta_keywords'] != '') ? $content ['content_meta_keywords'] : $this->content_model->optionsGetByKey ( 'content_meta_keywords' );
 				
-				$global_template_replaceables ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : CI::model('content')->optionsGetByKey ( 'content_meta_other_code' );
+				$global_template_replaceables ["content_meta_other_code"] = ($content ['content_meta_other_code'] != '') ? $content ['content_meta_other_code'] : $this->content_model->optionsGetByKey ( 'content_meta_other_code' );
 				
 				$global_template_replaceables ["content_meta_other_code"] = htmlspecialchars_decode ( $global_template_replaceables ["content_meta_other_code"], ENT_QUOTES );
 				$global_template_replaceables ["content_meta_other_code"] = html_entity_decode ( $global_template_replaceables ["content_meta_other_code"] );
@@ -890,7 +890,7 @@ class Index extends CI_Controller {
 								
 								$use_the_parent_page_layout = false;
 								
-								$parent_pages = CI::model('content')->getParentPagesIdsForPageIdAndCache ( $content ['id'] );
+								$parent_pages = $this->content_model->getParentPagesIdsForPageIdAndCache ( $content ['id'] );
 								
 								if (! empty ( $parent_pages )) {
 									
@@ -899,7 +899,7 @@ class Index extends CI_Controller {
 										
 										if ($use_the_parent_page_layout == false) {
 											
-											$parent_page_info = CI::model('content')->contentGetByIdAndCache ( $parent_page );
+											$parent_page_info = $this->content_model->contentGetByIdAndCache ( $parent_page );
 											
 											//var_dump($parent_page_info);
 											if (strval ( $parent_page_info ['content_layout_file'] ) != '') {
@@ -973,7 +973,7 @@ class Index extends CI_Controller {
 				
 				if ($content ['content_body_filename'] != false) {
 					if (trim ( $content ['content_body_filename'] ) != '') {
-						$the_active_site_template12 = CI::model('content')->optionsGetByKey ( 'curent_template' );
+						$the_active_site_template12 = $this->content_model->optionsGetByKey ( 'curent_template' );
 						$the_active_site_template_dir1 = TEMPLATEFILES . $the_active_site_template12 . '/content_files/';
 						if (is_file ( $the_active_site_template_dir1 . $content ['content_body_filename'] ) == true) {
 							{
@@ -1028,7 +1028,7 @@ class Index extends CI_Controller {
 				//
 				
 
-				$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
+				$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
 				
 				if ($content_display_mode == 'extended_api_with_no_template') {
 					
@@ -1063,7 +1063,7 @@ class Index extends CI_Controller {
 		
 		}
 		
-		$items_per_page = CI::model('content')->optionsGetByKey ( 'default_items_per_page' );
+		$items_per_page = $this->content_model->optionsGetByKey ( 'default_items_per_page' );
 		
 		$items_per_page = intval ( $items_per_page );
 		
@@ -1081,7 +1081,7 @@ class Index extends CI_Controller {
 		
 		$id = CI::model('core')->getParamFromURL ( $id );
 		
-		$the_active_site_template = CI::model('content')->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
 		
 		$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 		
@@ -1091,7 +1091,7 @@ class Index extends CI_Controller {
 		
 		}
 		
-		$the_active_site_template = CI::model('content')->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
 		
 		$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 		
@@ -1111,7 +1111,7 @@ class Index extends CI_Controller {
 		
 		$page_end = ($page_start) + $items_per_page;
 		
-		//	$data = CI::model('content')->getContent ( $posts_data, false, array ($page_start, $page_end ), false );
+		//	$data = $this->content_model->getContent ( $posts_data, false, array ($page_start, $page_end ), false );
 		
 
 		switch ($action) {
@@ -1150,7 +1150,7 @@ class Index extends CI_Controller {
 				$this->template ['content_pages_curent_page'] = $curent_page;
 				
 				//get paging urls
-				$content_pages = CI::model('content')->pagingPrepareUrls ( false, $content_pages_count );
+				$content_pages = $this->content_model->pagingPrepareUrls ( false, $content_pages_count );
 				
 				//var_dump($content_pages);
 				$this->template ['content_pages_links'] = $content_pages;
@@ -1247,7 +1247,7 @@ class Index extends CI_Controller {
 		
 		}
 		
-		$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
+		$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
 		
 		//var_dump($layout);
 		
@@ -1270,7 +1270,7 @@ class Index extends CI_Controller {
 		
 		$user_action = CI::model('core')->getParamFromURL ( 'user_action' );
 		
-		$the_active_site_template = CI::model('content')->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
 		
 		$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 		
@@ -1280,7 +1280,7 @@ class Index extends CI_Controller {
 		
 		}
 		
-		$the_active_site_template = CI::model('content')->optionsGetByKey ( 'curent_template' );
+		$the_active_site_template = $this->content_model->optionsGetByKey ( 'curent_template' );
 		
 		$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
 		
@@ -1731,7 +1731,7 @@ class Index extends CI_Controller {
 					
 					$get_id ['id'] = $content_id;
 					
-					$get_id = CI::model('content')->getContent ( $get_id );
+					$get_id = $this->content_model->getContent ( $get_id );
 					
 					$get_id = $get_id [0];
 					
@@ -1749,7 +1749,7 @@ class Index extends CI_Controller {
 							
 
 							//var_dump($content_id);
-							CI::model('content')->deleteContent ( $content_id );
+							$this->content_model->deleteContent ( $content_id );
 							
 							redirect ('users');
 						
@@ -1852,7 +1852,7 @@ class Index extends CI_Controller {
 				
 				$categories_ids_to_remove ['users_can_create_content'] = 'n';
 				
-				$categories_ids_to_remove = CI::model('content')->taxonomyGetIds ( $data = $categories_ids_to_remove, $orderby = false );
+				$categories_ids_to_remove = $this->content_model->taxonomyGetIds ( $data = $categories_ids_to_remove, $orderby = false );
 				
 				//var_dump($categories_ids_to_remove);
 				$this->template ['categories_ids_to_remove'] = $categories_ids_to_remove;
@@ -1865,7 +1865,7 @@ class Index extends CI_Controller {
 					
 					$get_id ['id'] = $content_id;
 					
-					$get_id = CI::model('content')->getContent ( $get_id );
+					$get_id = $this->content_model->getContent ( $get_id );
 					
 					$get_id = $get_id [0];
 					
@@ -1908,7 +1908,7 @@ class Index extends CI_Controller {
 						
 						$check_title ['content_type'] = 'post';
 						
-						$check_title = CI::model('content')->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
+						$check_title = $this->content_model->getContent ( $check_title, $orderby = false, $limit = false, $count_only = false );
 						
 						$check_title_error = false;
 						
@@ -1944,7 +1944,7 @@ class Index extends CI_Controller {
 							
 							$taxonomy_categories = array ($category );
 							
-							$taxonomy = CI::model('content')->taxonomyGetParentItemsAndReturnOnlyIds ( $category );
+							$taxonomy = $this->content_model->taxonomyGetParentItemsAndReturnOnlyIds ( $category );
 							
 							if (! empty ( $taxonomy )) {
 								
@@ -1964,7 +1964,7 @@ class Index extends CI_Controller {
 							
 							$to_save ['taxonomy_categories'] = $taxonomy_categories;
 							
-							$parent_page = CI::model('content')->contentsGetTheFirstBlogSectionForCategory ( $category );
+							$parent_page = $this->content_model->contentsGetTheFirstBlogSectionForCategory ( $category );
 							
 							if (empty ( $parent_page )) {
 								
@@ -1973,7 +1973,7 @@ class Index extends CI_Controller {
 								
 								$to_save ['content_parent'] = $parent_page ['id'];
 								
-								$to_save = CI::model('content')->saveContent ( $to_save );
+								$to_save = $this->content_model->saveContent ( $to_save );
 								
 							//var_dump($to_save);
 							}
@@ -2039,7 +2039,7 @@ class Index extends CI_Controller {
 				
 				$user_content ['created_by'] = $user_session ['user_id'];
 				
-				$user_content = CI::model('content')->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
+				$user_content = $this->content_model->getContent ( $user_content, $orderby = array ('updated_on', 'DESC' ), $limit = false, $count_only = false );
 				
 				//var_dump ( $user_content );
 				$this->template ['user_content'] = $user_content;
@@ -2170,7 +2170,7 @@ class Index extends CI_Controller {
 		
 		}
 		
-		$layout = CI::model('content')->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
+		$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables = false );
 		
 		//var_dump($layout);
 		

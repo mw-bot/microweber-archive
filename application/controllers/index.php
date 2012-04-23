@@ -48,7 +48,7 @@ class Index extends CI_Controller {
 	}
 
 	function login() {
-		$back_to = CI::model('core')->getParamFromURL ( 'back_to' );
+		$back_to = $this->core_model->getParamFromURL ( 'back_to' );
 
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_users'];

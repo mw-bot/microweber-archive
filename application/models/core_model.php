@@ -4534,31 +4534,32 @@ class Core_model extends CI_Model {
 		$cache_group = reduce_double_slashes ( $cache_group );
 		
 		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
-		
-		if ($time != false) {
-			if (is_file ( $cache_file )) {
+		$get_file = $cache_file;
+		if ($tsdfsdfime != false) {
+			//if (is_file ( $cache_file )) {
 				$time_limit = strtotime ( $time );
 				
-				$last_modified = filemtime ( $cache_file );
+				$last_modified = @filemtime ( $cache_file );
 				
 				if (time () - $last_modified > $time_limit) {
 				//p($time_limit);
 					//p($last_modified);
-					unlink ( $cache_file );
-					return false;
+					
+					//unlink ( $cache_file );
+					//return false;
 				} else {
 					
 					$get_file = $cache_file;
 				}
 				
-			}
+			//}
 		}
 		
 		 
 			try {
 				
 				if($cache_file != false){
-				if(isset($get_file )== true OR is_file($cache_file)){
+				if(isset($get_file )== true and is_file($cache_file)){
 				 $cache = file_get_contents ( $cache_file );
 				}
  
@@ -10206,10 +10207,10 @@ $w
 	}
 	
 	function securityDecryptString($plaintext) {
-		
+		$this->load->library('encrypt');
 		$plaintext = base64_decode ( $plaintext );
 		
-		$plaintext = CI::library ( 'encrypt' )->decode ( $plaintext );
+		$plaintext = $this->encrypt->decode ( $plaintext );
 		
 		return $plaintext;
 		

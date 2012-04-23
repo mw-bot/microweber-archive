@@ -1,6 +1,6 @@
 <?php
 $users_list = array ();
-$username = CI::model('core')->getParamFromURL ( 'username' );
+$username = $this->core_model->getParamFromURL ( 'username' );
 $users_list ['username'] = $username;
 
 $users_list = CI::model('users')->getUsers ( $users_list, false );

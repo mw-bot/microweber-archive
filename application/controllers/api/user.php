@@ -589,7 +589,7 @@ class User extends CI_Controller {
 				// $to_reg ['parent'] = $parent [0] ['username'];
 				//
 				// $to_reg ['option_key'] = 'mail_new_user_reg';
-				// CI::model('core')->sendMail ( $to_reg, true );
+				// $this->core_model->sendMail ( $to_reg, true );
 				
 				// $primarycontent =$this->load->view ( 'me/register_done', true, true
 				// );
@@ -670,7 +670,7 @@ class User extends CI_Controller {
 			unset ( $_POST ['mk'] );
 			// $messageKey = ( $messageKey );
 			$messageKey = $this->core_model->securityDecryptString ( $messageKey );
-			// var_dump( CI::model('core')->userId (), $messageKey);
+			// var_dump( $this->core_model->userId (), $messageKey);
 			
 			if ($this->core_model->userId () != $messageKey) {
 				exit ( 'Error in $messageKey' );
@@ -811,7 +811,7 @@ class User extends CI_Controller {
 			$cache_group = 'users/notifications';
 			$this->core_model->cleanCacheGroup ( $cache_group );
 			
-			// $read = CI::model('core')->saveData ( $table, array ('id' =>
+			// $read = $this->core_model->saveData ( $table, array ('id' =>
 			// $messageId, 'is_read' => 'y' ) );
 			
 			echo $messageId;

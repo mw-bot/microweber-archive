@@ -33,7 +33,7 @@ class Plugins extends CI_Controller {
 		$layout =$this->load->view ( 'admin/layout', true, true );
 		$primarycontent = '';
 		$secondarycontent = '';
-		$plugindata = CI::model('core')->plugins_getPluginConfig ( $plugin_name );
+		$plugindata = $this->core_model->plugins_getPluginConfig ( $plugin_name );
 		//
 		//print  PLUGINS_DIRNAME . $dirname .$plugin_name.'/'.$plugindata['plugin_admin_dir']. '/controller.php' ;
 		if (is_file ( PLUGINS_DIRNAME . $dirname . $plugin_name . '/' . $plugindata ['plugin_admin_dir'] . '/controller.php' ) == true) {
