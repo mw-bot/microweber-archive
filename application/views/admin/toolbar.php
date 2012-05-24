@@ -762,6 +762,8 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 
 
 </script>
+<div id="mw-layout-edit-site-previe-button" class="fixed-position">
+</div>
 <div id="mw-layout-edit-site-top-bar" class="fixed-position">
   <div id="mw-layout-edit-site-top-bar-l">
     <div id="mw-layout-edit-toolbar-top-container"> 
@@ -780,6 +782,7 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
           <li><a href="#mw_toolbar_tabs-6">Settings</a></li>
           <li><a href="#mw_toolbar_tabs-7">Help</a></li> 
           <li><a href="#mw_css_editor">Style editor</a></li>
+            
         </ul>
         <div id="mw_toolbar_tabs-1"></div>
         <div id="mw_toolbar_tabs-2">

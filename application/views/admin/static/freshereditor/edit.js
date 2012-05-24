@@ -523,7 +523,7 @@ function init_sortables() {
                 window.mw_drag_started = false;
                 $('.column').removeClass('column-outline');
                 $('.ui-state-highlight').remove();
-				$('.empty-element').fadeOut().hide();
+				$('.empty-element').hide();
 
 				mw_z_index_fix();
 				
@@ -741,7 +741,7 @@ function init_sortables() {
             },
             deactivate: function (en, ui) {
                 window.mw_drag_started = false;
-	$('.empty-element').fadeOut().hide();
+	$('.empty-element').hide();
                 
                 // $('.row').equalWidths().equalHeights() ;
                 $(this).css('min-height', '10px');
