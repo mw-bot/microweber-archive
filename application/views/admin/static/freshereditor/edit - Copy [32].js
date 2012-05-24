@@ -201,7 +201,7 @@ function mw_load_new_dropped_modules() {
 
         $name = $(this).attr("data-module-name");
         if ($name && $name != 'undefined' && $name != false && $name != '') {
-            $el_id_new = 'mw-col-' + new Date().getTime()+Math.floor(Math.random()*101);
+            $el_id_new = 'mw-col-' + new Date().getTime();
             $(this).after("<div class='element' id='" + $el_id_new + "'></div>");
             //  $(this).attr('id', $el_id_column);	
             mw.load_module($name, '#' + $el_id_new);
@@ -213,7 +213,7 @@ function mw_load_new_dropped_modules() {
 
         $name = $(this).attr("data-element-name");
         if ($name && $name != 'undefined' && $name != false && $name != '') {
-            $el_id_new = 'mw-layout-element-' + new Date().getTime()+Math.floor(Math.random()*101);
+            $el_id_new = 'mw-layout-element-' + new Date().getTime();
             $(this).after("<div  id='" + $el_id_new + "'></div>");
             //  $(this).attr('id', $el_id_column);	
             mw.load_layout_element($name, '#' + $el_id_new);
@@ -280,7 +280,7 @@ if(window.mw_drag_started == false){
 		
 		 $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-row-' + new Date().getTime()+Math.floor(Math.random()*101);
+                $el_id = 'mw-row-' + new Date().getTime();
                 $(this).attr('id', $el_id);
             }
 			
@@ -294,7 +294,7 @@ if(window.mw_drag_started == false){
 
  $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-element-' + new Date().getTime()+Math.floor(Math.random()*101);
+                $el_id = 'mw-element-' + new Date().getTime();
                 $(this).attr('id', $el_id);
             }
 
@@ -478,7 +478,7 @@ function init_sortables() {
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
-               	$('.empty-element').hide();
+               
                 $('.column', '.edit').resizable("destroy");
   /*              $('.ui-resizable').resizable("destroy");
 				 $('.ui-resizable').resizable("destroy");
@@ -635,7 +635,7 @@ function init_sortables() {
 					 
                 });
                 $(ui.item).css({
-                    "width": $(ui.placeholder).width()
+                    "width": $(this).width()
 					
                 });
 				
@@ -717,7 +717,7 @@ function init_sortables() {
             },
 
             out: function (event, ui) {
-            	//$(this).children('.empty-element').fadeOut();
+            	$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
             //    $(this).sortable('refreshPositions')
@@ -741,7 +741,7 @@ function init_sortables() {
             },
             deactivate: function (en, ui) {
                 window.mw_drag_started = false;
-	$('.empty-element').hide();
+
                 
                 // $('.row').equalWidths().equalHeights() ;
                 $(this).css('min-height', '10px');
@@ -776,7 +776,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 
             $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-element-' + new Date().getTime()+Math.floor(Math.random()*101);
+                $el_id = 'mw-element-' + new Date().getTime();
                 $(this).attr('id', $el_id);
             }
 			
@@ -797,7 +797,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             $col_panels = [];
             $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-row-' + new Date().getTime()+Math.floor(Math.random()*101);
+                $el_id = 'mw-row-' + new Date().getTime();
                 $(this).attr('id', $el_id);
             }
             window.mw_row_id = $el_id;
@@ -820,7 +820,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
                     }];
                     $el_id_column = $(this).attr('id');
                     if ($el_id_column == undefined || $el_id_column == 'undefined') {
-                        $el_id_column = 'mw-column-' + new Date().getTime()+Math.floor(Math.random()*101);
+                        $el_id_column = 'mw-column-' + new Date().getTime();
                         $(this).attr('id', $el_id_column);
                     }
 
@@ -844,18 +844,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             //e.stopPropagation();
         });
 
-   $(".row:not(.mw-sorthandle)", '.edit').die('mouseleave');
-        $(".row:not(.mw-sorthandle)", '.edit').mouseleave(function () {
-			
-			if(window.mw_drag_started == false){
-			
-			 $(this).find(".mw-sorthandle").hide();
-			 // $(this).find(".empty-element").hide();
-			   $(this).find(".mw-outline-column").removeClass('mw-outline-column');
-			  
-			
-			}
-        })
+
 
         $(".row", '.edit').die('mouseenter');
         $(".row", '.edit').mouseenter(function () {
@@ -864,7 +853,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			
 			// $(".mw-sorthandle-row", '.edit').hide();
 			
-			//$(this).children(".mw-sorthandle-row").show();
+			
             $has = $(this).children(":first").hasClass("mw-sorthandle-row");
             if ($has == false) {
                 $(this).prepend(window.mw_sorthandle_row);
@@ -874,7 +863,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             $(".column", '.edit').removeClass("mw-outline-column");
 
             $(this).children(".column").addClass("mw-outline-column");
-            $(this).children(".mw-sorthandle-row").show();
+            $(this).children(".mw-sorthandle-row:first").show();
 			}
 
         })
@@ -960,7 +949,7 @@ $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").sh
 
     $el_id_column = $(this).attr('id');
     if ($el_id_column == undefined || $el_id_column == 'undefined') {
-        $el_id_column = 'mw-column-' + new Date().getTime()+Math.floor(Math.random()*101);
+        $el_id_column = 'mw-column-' + new Date().getTime();
         $(this).attr('id', $el_id_column);
         $(this).addClass($el_id_column);
     }
@@ -991,7 +980,7 @@ $no_next = false;
 
         $also_el_id_column = $also.attr('id');
         if ($also_el_id_column == undefined || $also_el_id_column == 'undefined' || $also_el_id_column == '') {
-            $also_el_id_column = 'mw-column-' + new Date().getTime()+Math.floor(Math.random()*101);
+            $also_el_id_column = 'mw-column-' + new Date().getTime();
             $also.attr('id', $also_el_id_column);
         }
 
