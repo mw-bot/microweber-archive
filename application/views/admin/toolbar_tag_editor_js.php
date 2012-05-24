@@ -977,8 +977,8 @@ document.getElementsByTagName('head')[0].appendChild(link);
 		
 		$("#"+$element, '.edit').addClass("mw-custom-style");
 		$("#"+$element, '.edit').addClass("mw-style-"+$style_name);
-
-
+ $(".row",'.edit').equalWidths().equalHeights();
+ $(".column",'.edit').height('auto');
 
 	
 }

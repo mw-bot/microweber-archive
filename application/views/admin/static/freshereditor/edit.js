@@ -201,7 +201,7 @@ function mw_load_new_dropped_modules() {
 
         $name = $(this).attr("data-module-name");
         if ($name && $name != 'undefined' && $name != false && $name != '') {
-            $el_id_new = 'mw-col-' + new Date().getTime();
+            $el_id_new = 'mw-col-' + new Date().getTime()+Math.floor(Math.random()*101);
             $(this).after("<div class='element' id='" + $el_id_new + "'></div>");
             //  $(this).attr('id', $el_id_column);	
             mw.load_module($name, '#' + $el_id_new);
@@ -213,7 +213,7 @@ function mw_load_new_dropped_modules() {
 
         $name = $(this).attr("data-element-name");
         if ($name && $name != 'undefined' && $name != false && $name != '') {
-            $el_id_new = 'mw-layout-element-' + new Date().getTime();
+            $el_id_new = 'mw-layout-element-' + new Date().getTime()+Math.floor(Math.random()*101);
             $(this).after("<div  id='" + $el_id_new + "'></div>");
             //  $(this).attr('id', $el_id_column);	
             mw.load_layout_element($name, '#' + $el_id_new);
@@ -280,7 +280,7 @@ if(window.mw_drag_started == false){
 		
 		 $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-row-' + new Date().getTime();
+                $el_id = 'mw-row-' + new Date().getTime()+Math.floor(Math.random()*101);
                 $(this).attr('id', $el_id);
             }
 			
@@ -294,7 +294,7 @@ if(window.mw_drag_started == false){
 
  $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-element-' + new Date().getTime();
+                $el_id = 'mw-element-' + new Date().getTime()+Math.floor(Math.random()*101);
                 $(this).attr('id', $el_id);
             }
 
@@ -776,7 +776,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 
             $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-element-' + new Date().getTime();
+                $el_id = 'mw-element-' + new Date().getTime()+Math.floor(Math.random()*101);
                 $(this).attr('id', $el_id);
             }
 			
@@ -797,7 +797,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             $col_panels = [];
             $el_id = $(this).attr('id');
             if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-row-' + new Date().getTime();
+                $el_id = 'mw-row-' + new Date().getTime()+Math.floor(Math.random()*101);
                 $(this).attr('id', $el_id);
             }
             window.mw_row_id = $el_id;
@@ -820,7 +820,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
                     }];
                     $el_id_column = $(this).attr('id');
                     if ($el_id_column == undefined || $el_id_column == 'undefined') {
-                        $el_id_column = 'mw-column-' + new Date().getTime();
+                        $el_id_column = 'mw-column-' + new Date().getTime()+Math.floor(Math.random()*101);
                         $(this).attr('id', $el_id_column);
                     }
 
@@ -949,7 +949,7 @@ $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").sh
 
     $el_id_column = $(this).attr('id');
     if ($el_id_column == undefined || $el_id_column == 'undefined') {
-        $el_id_column = 'mw-column-' + new Date().getTime();
+        $el_id_column = 'mw-column-' + new Date().getTime()+Math.floor(Math.random()*101);
         $(this).attr('id', $el_id_column);
         $(this).addClass($el_id_column);
     }
@@ -980,7 +980,7 @@ $no_next = false;
 
         $also_el_id_column = $also.attr('id');
         if ($also_el_id_column == undefined || $also_el_id_column == 'undefined' || $also_el_id_column == '') {
-            $also_el_id_column = 'mw-column-' + new Date().getTime();
+            $also_el_id_column = 'mw-column-' + new Date().getTime()+Math.floor(Math.random()*101);
             $also.attr('id', $also_el_id_column);
         }
 
