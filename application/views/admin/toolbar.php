@@ -781,11 +781,11 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
           <li><a href="#mw_toolbar_tabs-7">Help</a></li> 
           <li><a href="#mw_css_editor">Style editor</a></li>
         </ul>
-        <div id="mw_toolbar_tabs-1"><microweber module="admin/modules/list_elements" /></div>
+        <div id="mw_toolbar_tabs-1"></div>
         <div id="mw_toolbar_tabs-2">
           <microweber module="admin/modules/list" />
         </div>
-        <div id="mw_toolbar_tabs-3">Layouts</div>
+        <div id="mw_toolbar_tabs-3"><microweber module="admin/modules/list_elements" /></div>
         <div id="mw_toolbar_tabs-4">Pages</div>
         <div id="mw_toolbar_tabs-5">Templates</div>
         <div id="mw_toolbar_tabs-6">Settings</div>

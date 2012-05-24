@@ -974,6 +974,22 @@ link.type = 'text/css';
 link.href = url;
 document.getElementsByTagName('head')[0].appendChild(link);
 
+var regEx = /^mw-style/;
+var elm = $("#"+$element, '.edit');
+
+var classes = elm.attr('class').split(/\s+/); //it will return  foo1, foo2, foo3, foo4
+
+for (var i = 0; i < classes.length; i++) {
+  var className = classes[i];
+	
+  if (className.match(regEx)) {
+	elm.removeClass(className);
+  }
+}
+
+
+
+
 		
 		$("#"+$element, '.edit').addClass("mw-custom-style");
 		$("#"+$element, '.edit').addClass("mw-style-"+$style_name);

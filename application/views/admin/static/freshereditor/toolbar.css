@@ -41,14 +41,15 @@ body {
 	background-color:#FFFF93 !important;
 	line-height: 28px;
 	color:#DEE0B6;
-	margin-top:80px;
-	margin-bottom:80px;
+	margin-top:10px;
+	margin-bottom:30px;
 	text-transform: none;
 	text-decoration: none;
-	height: 28px;
+	height: 80px;
 }
 .empty-element:hover {
 	visibility:hidden;
+	margin-top:80px;
 }
 .row {
 	margin-left: 0px !important;

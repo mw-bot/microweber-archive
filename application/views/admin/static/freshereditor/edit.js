@@ -478,7 +478,7 @@ function init_sortables() {
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
-               
+               	$('.empty-element').hide();
                 $('.column', '.edit').resizable("destroy");
   /*              $('.ui-resizable').resizable("destroy");
 				 $('.ui-resizable').resizable("destroy");
@@ -635,7 +635,7 @@ function init_sortables() {
 					 
                 });
                 $(ui.item).css({
-                    "width": $(this).width()
+                    "width": $(ui.placeholder).width()
 					
                 });
 				
@@ -717,7 +717,7 @@ function init_sortables() {
             },
 
             out: function (event, ui) {
-            	$(this).children('.empty-element').fadeOut();
+            	//$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
             //    $(this).sortable('refreshPositions')
@@ -741,7 +741,7 @@ function init_sortables() {
             },
             deactivate: function (en, ui) {
                 window.mw_drag_started = false;
-
+	$('.empty-element').hide();
                 
                 // $('.row').equalWidths().equalHeights() ;
                 $(this).css('min-height', '10px');
@@ -844,7 +844,18 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             //e.stopPropagation();
         });
 
-
+   $(".row:not(.mw-sorthandle)", '.edit').die('mouseleave');
+        $(".row:not(.mw-sorthandle)", '.edit').mouseleave(function () {
+			
+			if(window.mw_drag_started == false){
+			
+			 $(this).find(".mw-sorthandle").hide();
+			 // $(this).find(".empty-element").hide();
+			   $(this).find(".mw-outline-column").removeClass('mw-outline-column');
+			  
+			
+			}
+        })
 
         $(".row", '.edit').die('mouseenter');
         $(".row", '.edit').mouseenter(function () {
