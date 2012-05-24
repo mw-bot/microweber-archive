@@ -351,6 +351,7 @@ define ( 'MEDIAFILES', USERFILES . 'media' . '/' );
 
 define ( 'ELEMENTS_DIR', USERFILES . 'elements' . '/' );
 
+define ( 'STYLES_DIR', USERFILES . 'styles' . '/' );
 
 
 define ( 'PLUGINS_DIRNAME', USERFILES . 'plugins' . '/' );

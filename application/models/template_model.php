@@ -1,7 +1,5 @@
 <?php
 
-
-
 class Template_model extends CI_Model {
 	public static $parse_memory = array();
 	function __construct() {
@@ -15,7 +13,7 @@ class Template_model extends CI_Model {
 		if (strstr($layout, '<object') == true) {
 
 			$relations = array();
-			$tags = $this->core_model -> extractTags($layout, 'object', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+			$tags = $this -> core_model -> extractTags($layout, 'object', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 			// p($tags);
 			$matches = $tags;
 			if (!empty($matches)) {
@@ -40,7 +38,7 @@ class Template_model extends CI_Model {
 		if (strstr($layout, '<embed') == true) {
 
 			$relations = array();
-			$tags = $this->core_model -> extractTags($layout, 'embed', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
+			$tags = $this -> core_model -> extractTags($layout, 'embed', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
 
 			$matches = $tags;
 			if (!empty($matches)) {
@@ -60,7 +58,7 @@ class Template_model extends CI_Model {
 				}
 			}
 
-			$tags = $this->core_model -> extractTags($layout, 'embed', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+			$tags = $this -> core_model -> extractTags($layout, 'embed', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 
 			$matches = $tags;
 			if (!empty($matches)) {
@@ -89,7 +87,7 @@ class Template_model extends CI_Model {
 		// moved to content model
 		// @todo cleaup here
 
-		$html = $this->content_model -> applyGlobalTemplateReplaceables($layout);
+		$html = $this -> content_model -> applyGlobalTemplateReplaceables($layout);
 
 		/*require_once 'htmlsql-v0.5/htmlsql.class.php';
 		 require_once ("htmlsql-v0.5/snoopy.class.php");
@@ -126,17 +124,17 @@ class Template_model extends CI_Model {
 	}
 
 	function layoutGet($filename) {
-		$the_active_site_template = $this->core_model -> optionsGetByKey('curent_template');
+		$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
 		$layout_path = $path;
 		//$file = @file_get_contents ( $layout_path. $filename );
-		$file =  $this->load-> file($layout_path . $filename, true);
+		$file = $this -> load -> file($layout_path . $filename, true);
 		return $file;
 	}
 
 	function layoutGetConfig($filename, $template = false) {
 		if (trim($template) == '' or strtolower($template) == 'default') {
-			$the_active_site_template = $this->core_model -> optionsGetByKey('curent_template');
+			$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
 		} else {
 
 			$the_active_site_template = $template;
@@ -184,7 +182,7 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function templatesList($options = false) {
-		 $this->load-> helper('directory');
+		$this -> load -> helper('directory');
 		//$path = BASEPATH . 'content/templates/';
 
 		$path = TEMPLATEFILES;
@@ -254,7 +252,7 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function layoutsList($options = false) {
-		 $this->load-> helper('directory');
+		$this -> load -> helper('directory');
 		//$path = BASEPATH . 'content/templates/';
 
 		if ($options['site_template'] and (strtolower($options['site_template']) != 'default')) {
@@ -263,12 +261,12 @@ class Template_model extends CI_Model {
 			if (is_dir($check_dir)) {
 				$the_active_site_template = $tmpl;
 			} else {
-				$the_active_site_template = $this->core_model -> optionsGetByKey('curent_template');
+				$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
 
 			}
 
 		} else {
-			$the_active_site_template = $this->core_model -> optionsGetByKey('curent_template');
+			$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
 
 		}
 
@@ -440,9 +438,9 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function layoutGetHTMLByDirName($layout_name) {
-		 $this->load-> helper('directory');
+		$this -> load -> helper('directory');
 		//$path = BASEPATH . 'content/templates/';
-		$the_active_site_template = $this->core_model -> optionsGetByKey('curent_template');
+		$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
 		$path = TEMPLATEFILES . '' . $the_active_site_template . '/layouts/';
 		//	print $path;
 		//exit;
@@ -499,9 +497,9 @@ class Template_model extends CI_Model {
 	 */
 	function stylesList($layout_name) {
 
-		 $this->load-> helper('directory');
+		$this -> load -> helper('directory');
 		//$path = BASEPATH . 'content/templates/';
-		$the_active_site_template = $this->core_model -> optionsGetByKey('curent_template');
+		$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
 		$path = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'styles' . DIRECTORY_SEPARATOR;
 		//int $path;
 		//exit;
@@ -577,7 +575,7 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function styleGetCSSURLsAsString($layout_name, $style_css = false) {
-		$the_active_site_template = $this->core_model -> optionsGetByKey('curent_template');
+		$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
 		$path_layout_css = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'layout.css';
 		$path_style_css = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'styles' . DIRECTORY_SEPARATOR . $style_css;
 		$defalt_style_css = TEMPLATEFILES . '' . $the_active_site_template . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $layout_name . DIRECTORY_SEPARATOR . 'styles' . DIRECTORY_SEPARATOR . 'default.css';
@@ -727,7 +725,7 @@ class Template_model extends CI_Model {
 
 		p($content, 1);
 		$relations = array();
-		$tags = $this->core_model -> extractTags($content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+		$tags = $this -> core_model -> extractTags($content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 		//
 		$matches = $tags;
 		if (!empty($matches)) {
@@ -814,7 +812,7 @@ class Template_model extends CI_Model {
 		if ($data['type'] == 'content') {
 			if (strval($data['to_table']) != '') {
 				if (strval($data['to_table_id']) != '') {
-					$res = $this->core_model -> fetchDbData($data['to_table'], array( array('is_active', 'y'), array('id', $data['to_table_id'])), array('debug' => false, 'cache_group' => false, 'order' => array( array('id', 'DESC'))));
+					$res = $this -> core_model -> fetchDbData($data['to_table'], array( array('is_active', 'y'), array('id', $data['to_table_id'])), array('debug' => false, 'cache_group' => false, 'order' => array( array('id', 'DESC'))));
 					$res = $res[0];
 				} else {
 
@@ -855,7 +853,7 @@ class Template_model extends CI_Model {
 			$try_file = $history_file;
 		}
 		//p($try_file);
-		$module_file =  $this->load-> file($try_file, true);
+		$module_file = $this -> load -> file($try_file, true);
 		//$module_file = html_entity_decode ( $module_file );
 
 		$module_file = $this -> parseMicrwoberTags($module_file);
@@ -898,7 +896,7 @@ class Template_model extends CI_Model {
 			if (strstr($content, '<microweber') == true) {
 
 				$relations = array();
-				$tags = $this->core_model -> extractTags($content, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
+				$tags = $this -> core_model -> extractTags($content, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
 				//	p($tags);
 				$matches = $tags;
 				if (!empty($matches)) {
@@ -927,7 +925,7 @@ class Template_model extends CI_Model {
 			if (strstr($content, '<div') == true) {
 
 				$relations = array();
-				$tags = $this->core_model -> extractTags($content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+				$tags = $this -> core_model -> extractTags($content, 'div', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 				//	p($tags);
 				$matches = $tags;
 				if (!empty($matches)) {
@@ -1018,13 +1016,80 @@ class Template_model extends CI_Model {
 				$saveh = array();
 				$saveh['value'] = $to_save_text;
 				$saveh['full_path'] = $history_file;
-				$this->core_model -> saveHistory($saveh);
+				$this -> core_model -> saveHistory($saveh);
 
 				//copy ( $try_file, $history_file );
 
 				file_put_contents($try_file, $to_save_text);
-				$this->core_model -> cleanCacheGroup('global/blocks');
+				$this -> core_model -> cleanCacheGroup('global/blocks');
 			}
+		}
+
+	}
+
+	function getDesignStyles($options = false) {
+		//p($options);
+		if (!$options['dir_name']) {
+			$dir_name = normalize_path(STYLES_DIR);
+		} else {
+			$dir_name = normalize_path(STYLES_DIR . '/' . $options['dir_name']);
+		}
+		$dir = rglob('bootstrap.css', 0, $dir_name);
+
+		if (!empty($dir)) {
+			$configs = array();
+			foreach ($dir as $key => $value) {
+
+				$config = array();
+				$value = normalize_path($value, false);
+				$value_fn = $mod_name = str_replace('bootstrap.css', '', $value);
+				$value_fn = str_replace($dir_name, '', $value_fn);
+
+				$value_fn = reduce_double_slashes($value_fn);
+				//p($value);
+				$try_icon = $mod_name . 'thumbnail.png';
+				$def_icon = STYLES_DIR . 'default.png';
+				//include ($value);
+				
+				$value_fn = rtrim($value_fn, '\\');
+				
+				$config['style_name'] = $value_fn . '';
+				$config['style_dirname'] = $mod_name;
+				$config['style_path'] = $mod_name . 'bootstrap.css';
+				$config['style_url'] = pathToURL($mod_name . 'bootstrap.css');
+
+				if (is_file($try_icon)) {
+					//p($try_icon);
+					$config['icon'] = $config['thumbnail'] = pathToURL($try_icon);
+
+					$mmd5 = md5($value_fn);
+					$check_if_uninstalled = STYLES_DIR . '_system/' . $mmd5 . '.php';
+					if (is_file($check_if_uninstalled)) {
+						$config['uninstalled'] = true;
+						$config['installed'] = false;
+					} else {
+						$config['uninstalled'] = false;
+						$config['installed'] = true;
+						//$config['file'] = $value_fn;
+
+						//$config ['content'] = file_get_contents();
+
+					}
+
+					if ($options['ui'] == true) {
+						if ($config['ui'] == false) {
+							//	$skip_module = true;
+						}
+					}
+
+					if ($skip_module == false) {
+						$configs[] = $config;
+					}
+				}
+				//p ( $value );
+			}
+
+			return $configs;
 		}
 
 	}
@@ -1158,7 +1223,7 @@ class Template_model extends CI_Model {
 
 	function getModules($options = false) {
 		//p($options);
-$args = func_get_args();
+		$args = func_get_args();
 
 		foreach ($args as $k => $v) {
 
@@ -1167,18 +1232,17 @@ $args = func_get_args();
 		}
 
 		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
-			
+
 		$cache_group = 'modules/';
-		
-		$cache_content =$this->core_model->cacheGetContentAndDecode ( $cache_id, $cache_group );
-		
+
+		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+
 		if (($cache_content) != false) {
-		
-			 return $cache_content;
-		
-			 
+
+			return $cache_content;
+
 		}
-		
+
 		$dir_name = normalize_path(MODULES_DIR);
 		$dir = rglob('*_config.php', 0, $dir_name);
 
@@ -1238,8 +1302,8 @@ $args = func_get_args();
 
 				//p ( $value );
 			}
-			$this->core_model->cacheWriteAndEncode ( $configs, $function_cache_id, $cache_group );
-				
+			$this -> core_model -> cacheWriteAndEncode($configs, $function_cache_id, $cache_group);
+
 			return $configs;
 		}
 
@@ -1262,7 +1326,7 @@ $args = func_get_args();
 			if (intval(PAGE_ID) == 0) {
 
 				$p = url($skip_ajax = false);
-				$page = $this->content_model -> getPageByURLAndCache($p);
+				$page = $this -> content_model -> getPageByURLAndCache($p);
 
 				define("PAGE_ID", $page['id']);
 
@@ -1317,7 +1381,7 @@ $args = func_get_args();
 		}
 		//var_dump( $this->$parse_memory);
 		//$layout = str_ireplace ( '<mw', '<microweber', $layout );
-		$layout = $this->core_model -> replace_in_long_text('<mw', '<microweber', $layout, $use_normal_replace = true);
+		$layout = $this -> core_model -> replace_in_long_text('<mw', '<microweber', $layout, $use_normal_replace = true);
 
 		$v = $layout;
 
@@ -1335,7 +1399,7 @@ $args = func_get_args();
 
 		if (strstr($layout, '<nomw') == true) {
 			$relations = array();
-			$tags = $this->core_model -> extractTags($layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+			$tags = $this -> core_model -> extractTags($layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 			//	p($tags);
 			$matches = $tags;
 			$txt_to_replace_back = array();
@@ -1354,14 +1418,12 @@ $args = func_get_args();
 			}
 		}
 
-		 
-
 		if (strstr($layout, '<microweber') == true) {
 
-			$editmode = $this->core_model -> is_editmode();
+			$editmode = $this -> core_model -> is_editmode();
 
 			$relations = array();
-			$tags = $this->core_model -> extractTags($layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
+			$tags = $this -> core_model -> extractTags($layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
 			//	p($tags);
 			$matches = $tags;
 			if (!empty($matches)) {
@@ -1519,7 +1581,7 @@ $args = func_get_args();
 									// $this->load-> vars(array($att => $at));
 									$arrts[$att] = ($at);
 								}
-								 $this->load-> vars($arrts);
+								$this -> load -> vars($arrts);
 								$no_edit = false;
 								$no_admin = false;
 								$check2 = false;
@@ -1599,8 +1661,8 @@ $args = func_get_args();
 									$config['url_to_module_front'] = str_ireplace('admin', '', $config['url_to_module']);
 									//p($config);
 									// $this -> template['config'] = $config;
-									 $this->load-> vars(array('config' => $config));
-									  
+									$this -> load -> vars(array('config' => $config));
+
 									if ($arrts['no_cache'] == true) {
 										$cache_this = false;
 									}
@@ -1678,24 +1740,24 @@ $args = func_get_args();
 											//	p($arrts);
 
 											// $this -> template['params'] = $arrts;
-											 
-											 $this->load-> vars(array('params' => $arrts));
+
+											$this -> load -> vars(array('params' => $arrts));
 
 											//$module_file = $this->load->file ( $try_file1, true );
 
-											$module_file =  $this->load-> file($try_file1, true);
+											$module_file = $this -> load -> file($try_file1, true);
 
 											//$this->core_model->cacheWriteAndEncode ( $module_file, $cache_id, $cache_group );
 										}
 
 									} else {
-										 $this->load-> vars(array('params' => $arrts));
+										$this -> load -> vars(array('params' => $arrts));
 
 										// // $this -> template['params'] = $arrts;
-										 
+
 										//p($this->template);
 										//$module_file = $this->load->file ( $try_file1, true );
-										$module_file =  $this->load-> file($try_file1, true);
+										$module_file = $this -> load -> file($try_file1, true);
 									}
 									//$params_encoded = encode_var ( $arrts );
 
@@ -1802,13 +1864,13 @@ $args = func_get_args();
 
 								if (strstr($params_module, 'source_code') == false and $error == false) {
 									if (strstr($module_file, '<microweber') == true and $error == false) {
-										$module_file = $this->parseMicrwoberTags($module_file, $options);
+										$module_file = $this -> parseMicrwoberTags($module_file, $options);
 									}
 								}
 
 								//	$layout = str_replace_count ( $m ['full_tag'],htmlentities($m ['full_tag']). $module_file, $layout, 1 );
 								$layout = str_replace_count($m['full_tag'], $module_file, $layout, 1);
-								$layout = $this->core_model -> replace_in_long_text($m['full_tag'], $module_file, $layout, $use_normal_replace = true);
+								$layout = $this -> core_model -> replace_in_long_text($m['full_tag'], $module_file, $layout, $use_normal_replace = true);
 
 								//$layout = str_replace ( $m ['full_tag'], $module_file, $layout );
 								//$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
@@ -1833,7 +1895,7 @@ $args = func_get_args();
 
 		if (strstr($layout, '<editable') == true and $error == false) {
 
-			$editmode = $this->core_model -> is_editmode();
+			$editmode = $this -> core_model -> is_editmode();
 			//p($editmode);
 			require_once (LIBSPATH . "simplehtmldom/simple_html_dom.php");
 
@@ -1906,7 +1968,7 @@ $args = func_get_args();
 
 				if ($get_global == true) {
 
-					$field_content = $this->core_model -> optionsGetByKey($attr['field'], $return_full = false, $orderby = false);
+					$field_content = $this -> core_model -> optionsGetByKey($attr['field'], $return_full = false, $orderby = false);
 
 				} else {
 					if (strstr($attr['field'], 'custom_field_') == true) {
@@ -1985,10 +2047,10 @@ $args = func_get_args();
 					//$layout = $this->core_model->replace_in_long_text ( '<mw', '<microweber', $layout, $use_normal_replace = true );
 
 					if (strstr($layout, '<microweber') == true and $error == false) {
-						$layout = $this->parseMicrwoberTags($layout, $options);
+						$layout = $this -> parseMicrwoberTags($layout, $options);
 					}
 					if (strstr($layout, '<editable') == true and $error == false) {
-						$layout = $this->parseMicrwoberTags($layout, $options);
+						$layout = $this -> parseMicrwoberTags($layout, $options);
 					}
 
 				} else {
@@ -2145,29 +2207,29 @@ $args = func_get_args();
 
 		//$layout = str_replace ( '{SITE_URL}', $site_url, $layout );
 
-		$layout = $this->core_model -> replace_in_long_text('{SITE_URL}', $site_url, $layout, true);
-		$layout = $this->core_model -> replace_in_long_text('{SITEURL}', $site_url, $layout, true);
+		$layout = $this -> core_model -> replace_in_long_text('{SITE_URL}', $site_url, $layout, true);
+		$layout = $this -> core_model -> replace_in_long_text('{SITEURL}', $site_url, $layout, true);
 		//$layout = str_replace ( '{SITEURL}', $site_url, $layout );
 		//$layout = $this->badWordsRemove ( $layout );
 
 		if (defined('POST_ID') == true) {
 			//$layout = str_replace ( '{POST_ID}', POST_ID, $layout );
-			$layout = $this->core_model -> replace_in_long_text('{POST_ID}', POST_ID, $layout, true);
+			$layout = $this -> core_model -> replace_in_long_text('{POST_ID}', POST_ID, $layout, true);
 
 		}
 
 		if (defined('PAGE_ID') == true) {
 			//$layout = str_replace ( '{PAGE_ID}', PAGE_ID, $layout );
-			$layout = $this->core_model -> replace_in_long_text('{PAGE_ID}', PAGE_ID, $layout, true);
+			$layout = $this -> core_model -> replace_in_long_text('{PAGE_ID}', PAGE_ID, $layout, true);
 		}
 
 		if (defined('CATEGORY_ID') == true) {
 			//$layout = str_replace ( '{CATEGORY_ID}', CATEGORY_ID, $layout );
-			$layout = $this->core_model -> replace_in_long_text('{CATEGORY_ID}', CATEGORY_ID, $layout, true);
+			$layout = $this -> core_model -> replace_in_long_text('{CATEGORY_ID}', CATEGORY_ID, $layout, true);
 
 		}
 		$layout = str_replace('</microweber>', '', $layout);
- //	$this->load->vars ( $this->template );
+		//	$this->load->vars ( $this->template );
 		if (stristr($layout, 'content_meta_title')) {
 
 			if (defined('POST_ID') == true) {
@@ -2188,14 +2250,14 @@ $args = func_get_args();
 			} elseif ($is_content['content_title']) {
 				$content_meta_title = codeClean($is_content['content_title']);
 			} else {
-				$content_meta_title = $this->core_model -> optionsGetByKey('content_meta_title');
+				$content_meta_title = $this -> core_model -> optionsGetByKey('content_meta_title');
 			}
 			$layout = str_replace('{content_meta_title}', $content_meta_title, $layout);
 
 			if ($is_content['content_meta_keywords']) {
 				$content_meta_title = $is_content['content_meta_keywords'];
 			} else {
-				$content_meta_title = $this->core_model -> optionsGetByKey('content_meta_keywords');
+				$content_meta_title = $this -> core_model -> optionsGetByKey('content_meta_keywords');
 			}
 			$layout = str_replace('{content_meta_keywords}', $content_meta_title, $layout);
 
@@ -2206,7 +2268,7 @@ $args = func_get_args();
 			} elseif ($is_content['content_body']) {
 				$content_meta_title = codeClean($is_content['content_body']);
 			} else {
-				$content_meta_title = $this->core_model -> optionsGetByKey('content_meta_title');
+				$content_meta_title = $this -> core_model -> optionsGetByKey('content_meta_title');
 			}
 			$layout = str_replace('{content_description}', $content_meta_title, $layout);
 
@@ -2230,11 +2292,11 @@ $args = func_get_args();
 
 			foreach ($txt_to_replace_back as $k => $v) {
 				//	$v = html_entity_decode($v);
-				$layout = $this->core_model -> replace_in_long_text($k, $v, $layout, true);
+				$layout = $this -> core_model -> replace_in_long_text($k, $v, $layout, true);
 
 			}
-			$layout = $this->core_model -> replace_in_long_text('<nomw>', '', $layout, true);
-			$layout = $this->core_model -> replace_in_long_text('</nomw>', '', $layout, true);
+			$layout = $this -> core_model -> replace_in_long_text('<nomw>', '', $layout, true);
+			$layout = $this -> core_model -> replace_in_long_text('</nomw>', '', $layout, true);
 		}
 
 		if (empty($relations)) {
@@ -2271,7 +2333,7 @@ $args = func_get_args();
 
 		$function_cache_id = __FUNCTION__ . md5($function_cache_id);
 
-		$cache_content = $this->core_model -> cacheGetContentAndDecode($function_cache_id, $cache_group = 'options');
+		$cache_content = $this -> core_model -> cacheGetContentAndDecode($function_cache_id, $cache_group = 'options');
 
 		if (($cache_content) != false) {
 
@@ -2289,7 +2351,7 @@ $args = func_get_args();
 				if ($option['module']) {
 					$get_option['module'] = $option['module'];
 				}
-				$get_option1 = $this->core_model -> optionsGetByKey($get_option);
+				$get_option1 = $this -> core_model -> optionsGetByKey($get_option);
 				if (empty($get_option1)) {
 					$get_option['name'] = $option['name'];
 					$get_option['help'] = $option['help'];
@@ -2298,14 +2360,14 @@ $args = func_get_args();
 					$get_option['option_value'] = $option['default'];
 					$get_option['option_value2'] = $option['values'];
 
-					$save = $this->core_model -> optionsSave($get_option);
+					$save = $this -> core_model -> optionsSave($get_option);
 
 					//p ( $save );
 
 				}
 
 			}
-			$this->core_model -> cacheWriteAndEncode('true', $function_cache_id, $cache_group = 'options');
+			$this -> core_model -> cacheWriteAndEncode('true', $function_cache_id, $cache_group = 'options');
 
 			return true;
 
@@ -2317,7 +2379,7 @@ $args = func_get_args();
 
 	function badWordsRemove($layout) {
 
-		$bad_words = $this->core_model -> optionsGetByKey('bad_words');
+		$bad_words = $this -> core_model -> optionsGetByKey('bad_words');
 
 		if ($bad_words) {
 

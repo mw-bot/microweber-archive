@@ -3,12 +3,15 @@
 
 <div  id="mw_html_css_editor"  class="mw_editor_accordeon">
   <ul>
- 
+   <li><a href="#mw-css-editor-tab-style">Styles</a></li>
     <li><a href="#mw-css-editor-tab-size">Size & Fonts</a></li>
     <li><a href="#mw-css-editor-tab-border">Border & Background</a></li>
      <li><a href="#mw-css-editor-tab-effects">Effects</a></li>
   </ul>
- 
+  
+  <div id="mw-css-editor-tab-style">
+  <microweber module="admin/modules/list_styles" />
+  </div>
   <div id="mw-css-editor-tab-size">
     <div class="css_editor_tab_float">
       <div class="css_editor_tab_float">
