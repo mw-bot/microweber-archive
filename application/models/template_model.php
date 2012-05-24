@@ -1056,7 +1056,7 @@ class Template_model extends CI_Model {
 				$config['style_name'] = $value_fn . '';
 				$config['style_dirname'] = $mod_name;
 				$config['style_path'] = $mod_name . 'bootstrap.css';
-				$config['style_url'] = pathToURL($mod_name . 'bootstrap.css');
+				$config['style_url'] = pathToURL($mod_name . 'bootstrap.min.css');
 
 				if (is_file($try_icon)) {
 					//p($try_icon);

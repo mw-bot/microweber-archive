@@ -389,3 +389,23 @@ position:relative;*/
 	
 padding:0px !important;	
 }
+
+.mw-styles-list ul {
+	width:100% !important;	
+	list-style:none !important;	
+	list-style-type:none !important;	
+}
+
+.mw-styles-list ul li{
+	width:48px !important;	
+	float:left !important;	
+	list-style:none !important;	
+	list-style-type:none !important;	
+}
+
+.style-item {
+ 	float:left !important;	
+	margin-left:10px;
+	list-style:none !important;	
+	list-style-type:none !important;	
+}

@@ -962,7 +962,26 @@ function mw_html_tag_remove_styles(){
 	  	//$('*[mw_tag_edit="'+$element+'"]').parent().removeAttr("style");
 }
 
+function mw_html_tag_editor_apply_custom_element_style($style_name, $style_url){
+		$element = $('#mw_css_editor_element_id').val();
+		
+		url = $style_url;
+ 
 
+var link = document.createElement('link');
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = url;
+document.getElementsByTagName('head')[0].appendChild(link);
+
+		
+		$("#"+$element, '.edit').addClass("mw-custom-style");
+		$("#"+$element, '.edit').addClass("mw-style-"+$style_name);
+
+
+
+	
+}
 function mw_html_tag_editor_apply_styles(){
 	$element = $('#mw_css_editor_element_id').val();
 	var $inputs = $('#mw_html_css_editor .css_property').not('.css_fx');
@@ -1453,6 +1472,29 @@ $(document).ready(function() {
 	//   $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
 
 	});
+	
+	
+	
+	
+	
+	  $('#mw_html_css_editor .style-item').die('click')
+	 $('#mw_html_css_editor .style-item').live('click',function(){
+	
+	$style = $(this).attr('data-style-name');
+	$style_url = $(this).attr('data-style-url');
+	
+	mw_html_tag_editor_apply_custom_element_style($style, $style_url);
+	//alert($style);
+	//  mw_html_tag_editor_apply_styles()
+	//  mw_slider_name = $(this).attr('for');
+	  
+	  
+	 // $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'value', parseInt($(this).val()));
+	//   $('[mw_slider_name="'+mw_slider_name+'"]').slider('option', 'max', parseInt($(this).val())+100);
+
+	});
+	
+	
 			// upl_options = { 
 //       beforeSubmit: function(a,f,o) {
 //            o.dataType = 'json';
