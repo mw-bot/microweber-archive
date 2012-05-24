@@ -382,3 +382,10 @@ position:relative;*/
 	float: left;
 	 
 }
+
+
+
+#mw_css_editor .ui-tabs .ui-tabs-nav li a {
+	
+padding:0px !important;	
+}
