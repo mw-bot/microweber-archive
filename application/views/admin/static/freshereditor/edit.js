@@ -484,6 +484,9 @@ function init_sortables() {
             handle: '.mw-sorthandle-col,.mw-sorthandle-row',
             revert: true,
            //  helper: 'clone',
+		   helasdasper: function( event ) {
+				return $( "<div class='ui-state-highlight'> </div>" );
+			},
             placeholder: "ui-state-highlight",
             //placeholder: "empty",
             connectWith: '.edit,.row>.column,' + $drop_areas,
