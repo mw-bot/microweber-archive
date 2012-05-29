@@ -472,6 +472,63 @@ $(".mw-sorthandle", '.edit').remove();
 
 
 
+
+
+ var custom_styles = new Array();
+var regEx = /^mw-style/;
+var elm = $(".mw-custom-style", '.edit');
+$save_custom_styles = false
+			elm.each(function(j){
+			var classes = $(this).attr('class').split(/\s+/); //it will return  foo1, foo2, foo3, foo4
+			
+			for (var i = 0; i < classes.length; i++) {
+			  var className = classes[i];
+				
+			  if (className.match(regEx)) {
+				  $save_custom_styles = true
+				   custom_styles.push(className) ;
+				//elm.removeClass(className);
+			  }
+			}
+			 });
+
+
+
+
+
+
+
+if($save_custom_styles == true){
+	custom_styles.unique();
+	 				$styles_join = custom_styles.join(',');
+	$sav = {};
+	$sav['content_id'] = '<? print CONTENT_ID; ?>';
+		$sav['save_field_content_layout_style'] = $styles_join ;
+
+	
+	
+	
+				$.ajax({
+					  type: 'POST',
+					  url: "<?php print site_url('api/content/save_field_simple');  ?>",
+					//  data: dat1, 
+					  data: $sav,
+						//datatype: "json",
+					 // contentType:'application/json',
+					  async:true,
+					  beforeSend :  function() {
+
+					  },
+					  success: function(data) { 
+					  }
+					})
+
+
+	
+}
+
+
+
  var master = {};
   // $(".mw_edited").each(function(j){
 								   

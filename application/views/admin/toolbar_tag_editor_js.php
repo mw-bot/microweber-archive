@@ -967,12 +967,20 @@ function mw_html_tag_editor_apply_custom_element_style($style_name, $style_url){
 		
 		url = $style_url;
  
+ 
+ 
+ if (!$("link[href='"+url+"']").length){
+
+ 
 
 var link = document.createElement('link');
 link.rel = 'stylesheet';
 link.type = 'text/css';
 link.href = url;
 document.getElementsByTagName('head')[0].appendChild(link);
+}
+
+
 
 var regEx = /^mw-style/;
 var elm = $("#"+$element, '.edit');

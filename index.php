@@ -439,22 +439,27 @@ define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',   $application_folder . '/views/admi
 
 $media_url = SITEURL;
 
-$media_url = $media_url . '/' . USERFILES_DIRNAME . '/media/';
+$media_url = $media_url . USERFILES_DIRNAME . '/media/';
 
 define ( 'MEDIA_URL', $media_url );
 
-$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/elements/';
+$media_url = SITEURL .  USERFILES_DIRNAME . '/elements/';
 
 define ( 'ELEMENTS_URL', $media_url ); 
 
-$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/resources/';
+$media_url = SITEURL . USERFILES_DIRNAME . '/resources/';
  
 define ( 'RESOURCES_URL', $media_url );
 
 
-$media_url = SITEURL . '/' . USERFILES_DIRNAME . '/modules/';
+$media_url = SITEURL . USERFILES_DIRNAME . '/modules/';
  
 define ( 'MODULES_URL', $media_url );
+
+$media_url = SITEURL .  USERFILES_DIRNAME . '/styles/';
+
+ define ( 'STYLES_URL', $media_url);
+
 
 
 define ( 'RESOURCES_DIR', USERFILES . 'resources' . '/' );

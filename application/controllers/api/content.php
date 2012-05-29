@@ -1311,6 +1311,12 @@ class Content extends CI_Controller {
 			exit ( 'Error: not logged in as admin.' );
 		}
 		
+		
+		
+		 
+		
+		
+		
 		if ($_POST) {
 			$the_field_data_all = $_POST;
 		} else {
@@ -1323,7 +1329,17 @@ class Content extends CI_Controller {
 				$field = $k;
 				$html_to_save = $v;
 			}
+			
+			if (strstr ( $k, 'save_field_' )) {
+				$field = $k;
+				$field = str_ireplace ( 'save_field_', '', $field );
+				
+				$html_to_save = $v;
+			}
 		}
+		
+		
+		
 		
 		if ($content_id) {
 			

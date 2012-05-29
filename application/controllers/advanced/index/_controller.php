@@ -140,6 +140,10 @@ if (defined('INTERNAL_API_CALL') == true) {
 				define('POST_ID', $post['id']);
 			}
 
+			if (defined('CONTENT_ID') == false) {
+				define('CONTENT_ID', $post['id']);
+			}
+
 			if (defined('PAGE_ID') == false) {
 				define('PAGE_ID', $page['id']);
 			}
@@ -169,35 +173,37 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		if (empty($post)) {
 			$content = $page;
+			if (defined('CONTENT_ID') == false) {
+				define('CONTENT_ID', $content['id']);
+			}
 		} else {
-		//	$post['content_body'] = html_entity_decode($post['content_body']);
+			//	$post['content_body'] = html_entity_decode($post['content_body']);
 
 		}
 
-	//	$page['content_body'] = html_entity_decode($page['content_body']);
+		//	$page['content_body'] = html_entity_decode($page['content_body']);
 
 		/*
-		if (user_id() != false) {
-					//$full_page = get_page ( $page ['id'] );
-					$more = $this -> core_model -> getCustomFields('table_content', $page['id']);
-					$page['custom_fields'] = $more;
-					//p($page);
-					if (trim($more["logged_redirect"]) != '') {
-						//redirect ( $more ["logged_redirect"] );
-						//ob_start();
-						$this -> load -> helper('url');
-						$redir = site_url($more["logged_redirect"]);
-						//p($redir);
-						//header ( "HTTP/1.1 301 Moved Permanently" );
-						//header ( "Location: " . $redir );
-						//redirect ( $redir, 'refresh' );
-						echo "<meta http-equiv=\"refresh\" content=\"0;url=" . "{$redir}\" />";
-						//ob_end_flush(); //now the headers are sent
-						exit();
-					}
-		
-				}*/
-		
+		 if (user_id() != false) {
+		 //$full_page = get_page ( $page ['id'] );
+		 $more = $this -> core_model -> getCustomFields('table_content', $page['id']);
+		 $page['custom_fields'] = $more;
+		 //p($page);
+		 if (trim($more["logged_redirect"]) != '') {
+		 //redirect ( $more ["logged_redirect"] );
+		 //ob_start();
+		 $this -> load -> helper('url');
+		 $redir = site_url($more["logged_redirect"]);
+		 //p($redir);
+		 //header ( "HTTP/1.1 301 Moved Permanently" );
+		 //header ( "Location: " . $redir );
+		 //redirect ( $redir, 'refresh' );
+		 echo "<meta http-equiv=\"refresh\" content=\"0;url=" . "{$redir}\" />";
+		 //ob_end_flush(); //now the headers are sent
+		 exit();
+		 }
+
+		 }*/
 
 		if ($_POST['format'] == 'json') {
 			$output_format = 'json';
@@ -224,7 +230,6 @@ if (defined('INTERNAL_API_CALL') == true) {
 				define('PAGE_ID', $page['id']);
 			}
 
-			
 		}
 		//require (APPPATH . 'controllers/advanced/index/display_page.php');
 		require (APPPATH . 'controllers/advanced/index/display.php');
@@ -295,7 +300,24 @@ if (defined('INTERNAL_API_CALL') == true) {
 		if (strtolower($content['content_layout_file']) == 'inherit') {
 			$content['content_layout_file'] = '';
 		}
+		$css_files = false;
+		if (trim($content['content_layout_style']) != '') {
+			$styles = explode(',', $content['content_layout_style']);
 
+			if (!empty($styles)) {
+				$styles = array_unique($styles);
+				$stylesheets_to_add = array();
+				foreach ($styles as $style) {
+					$real_style_name = str_ireplace('mw-style-', '', $style);
+
+					$css_file_url = STYLES_URL . $real_style_name . '/' . 'bootstrap.min.css';
+					$stylesheets_to_add[$real_style_name] = $css_file_url;
+				}
+				//p($stylesheets_to_add, 1);
+
+			}
+
+		}
 		if ($content['content_layout_file'] != '') {
 
 			//$this->template ['title'] = 'adasdsad';
@@ -630,7 +652,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 				//$layout = $this->template_model->addTransparentBackgroudToFlash ( $layout );
 				$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
 				if ($layout_toolbar != '') {
-					$layout = str_replace('<body>', '<body>'.$layout_toolbar , $layout);
+					$layout = str_replace('<body>', '<body>' . $layout_toolbar, $layout);
 					//$layout = str_replace('</ body>', $layout_toolbar . '</ body>', $layout);
 					//some developers put spaces
 					//$layout = str_replace('</  body>', $layout_toolbar . '</  body>', $layout);
@@ -641,6 +663,27 @@ if (defined('INTERNAL_API_CALL') == true) {
 			}
 
 		}
+
+		if (!empty($stylesheets_to_add)) {
+			$layout = str_replace('</ head>', '</head>', $layout);
+
+			$temp = "";
+
+			if ($editmode == true) {
+				$temp = "<!-- Auto loading custom styles used by elements --> \n";
+			}
+			foreach ($stylesheets_to_add as $k => $v) {
+
+				$temp .= "<link href='{$v}' rel='stylesheet' name='{$k}' /> \n";
+
+			}
+			if ($editmode == true) {
+				$temp .= "<!-- End of auto loading --> \n";
+			}
+			$layout = str_replace('</head>', $temp . '</head>', $layout);
+
+		}
+
 		$r = (RESOURCES_DIR . 'load.php');
 		$r = normalize_path($r, false);
 		//$res =$this->load->file ( , true );
