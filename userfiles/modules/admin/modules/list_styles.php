@@ -28,7 +28,7 @@ $styles = $CI->template_model->getDesignStyles($params);
   
   <li data-style-name="<? print $style['style_name'] ?>" data-style-url="<? print $style['style_url'] ?>"  class="style-item" alt="<? print addslashes($style['style_name']) ?>">
     <? if($style['icon']): ?>
-    <img alt="<? print $style['style_name'] ?>" title="<? print addslashes($module2['style_name']) ?>"   data-element-name="<? print $module2['style_name'] ?>"   src="<? print $style['icon'] ?>" height="48" />
+    <img alt="<? print $style['style_name'] ?>" title="<? print addslashes($module2['style_name']) ?>"   data-element-name="<? print $module2['style_name'] ?>"   src="<? print $style['icon'] ?>" height="48"     />
     <? endif; ?>
     <span alt="<? print addslashes($style['description']) ?>"><? print $style['name'] ?></span> 
     

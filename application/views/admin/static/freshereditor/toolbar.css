@@ -24,7 +24,11 @@ body {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height: 150px;/*padding-right: 3%;
+	height: 150px;
+	min-height: 150px;
+	
+	
+	/*padding-right: 3%;
 	padding-left: 3%;    */     
 }
 .empty-column {
@@ -176,7 +180,7 @@ position:relative;*/
 	position:relative;
 }
 .mw-sorthandle {
-	width:50px;
+	width:100%;
 	position:absolute;
 	left: 0px;
 	background-repeat: repeat-x;
@@ -236,7 +240,7 @@ background-color:#56b322;
  	top:-14px;
 	  
 
-	width:100px;
+	 
 	z-index:900;
 	/*background-image: url(images/row-handle.png);
 	background-repeat: repeat-x;

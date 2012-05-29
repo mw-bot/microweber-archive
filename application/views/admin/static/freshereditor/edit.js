@@ -24,6 +24,7 @@ window.mw_sorthandle_delete_confirmation_text = "Are you sure you want to delete
 
 window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
+window.mw_sorthandle_module = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
 
 
@@ -300,7 +301,18 @@ if(window.mw_drag_started == false){
 
         $has = $(this).children(":first").hasClass("mw-sorthandle-col");
         if ($has == false) {
+			$has_module = $(this).children(".module").size();
+			$m_name = $(this).children(".module").attr('module_title');
+			
+			
+			
+			 if ($has_module == false) {
 			 text = window.mw_sorthandle_col
+			} else {
+					 text = window.mw_sorthandle_module
+					 	 text = text.replace(/MODULE_NAME/g, ""+'' + $m_name+"");
+
+			}
 	 text = text.replace(/ELEMENT_ID/g, "'"+'' + $el_id+"'");
   		 
 			
@@ -478,6 +490,10 @@ function init_sortables() {
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
+				
+				    ui.placeholder.height(ui.helper.height());
+
+
                	$('.empty-element').hide();
                 $('.column', '.edit').resizable("destroy");
   /*              $('.ui-resizable').resizable("destroy");
@@ -757,17 +773,19 @@ function init_sortables() {
 $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
        
        $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable({
-			connectToSortable: '.edit,.row>.column,' + $drop_areas,
+			connectToSortable: '.edit,.row>.column',
             helper: "clone",
-			// handle: '.module_draggable',
-            revert: "invalid"
+			//snap: ".element", 
+			//snapMode: "outer", 
+            revert: "invalid" 
+			
         });
         $('.modules-list', '#mw_toolbar_tabs .modules-list').disableSelection();
 		 
 
-      //  $(".module-item").disableSelection();
+     // $(".module-item").disableSelection();
 
-       $(".mw-sorthandle", '.edit').disableSelection();
+        $(".mw-sorthandle", '.edit').disableSelection();
 
 
 
@@ -802,19 +820,10 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             }
             window.mw_row_id = $el_id;
             mw_make_row_editor($el_id)
-
-
-
-
-
             $exisintg_num = $('#' + $el_id).children(".column").size();
             if ($exisintg_num > 0) {
                 a = 0;
                 $('#' + $el_id).children(".column").each(function () {
-
-
-
-
                     $col_panels[a] = [{
                         "size": $(this).width()
                     }];
@@ -823,25 +832,10 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
                         $el_id_column = 'mw-column-' + new Date().getTime()+Math.floor(Math.random()*101);
                         $(this).attr('id', $el_id_column);
                     }
-
-
-
-
-
                     a++;
                 });
             }
-
-
-
-
-
-
-
-
-
-
-            //e.stopPropagation();
+              //e.stopPropagation();
         });
 		
 		
@@ -852,7 +846,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
         })
 		
 
-   $(".row:not(.mw-sorthandle)", '.edit').die('mouseleave');
+   		$(".row:not(.mw-sorthandle)", '.edit').die('mouseleave');
         $(".row:not(.mw-sorthandle)", '.edit').mouseleave(function () {
 			
 			if(window.mw_drag_started == false){
