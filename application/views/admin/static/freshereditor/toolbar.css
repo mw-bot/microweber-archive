@@ -143,19 +143,18 @@ body {
 }
 .columns_set {
 	float:left;
-	font-size:10px;
-	color:#999999;
+ 
 }
 a.mw-make-cols {
-	font-size:10px;
+	font-size:9px;
 	color:#FFFFFF;
-	background-color:#CCC;
-	padding-left:3px;
-	padding-right:3px;
+	background-color:#60CD25;
+	padding-left:1px;
+	padding-right:1px;
 	text-decoration:none;
 }
 a.mw-make-cols.active {
-	background-color:#FFFFFF;
+	background-color:#ADE98D;
 	color:#333;
 }
 .column {
@@ -177,29 +176,53 @@ position:relative;*/
 	position:relative;
 }
 .mw-sorthandle {
-	width:100%;
+	width:50px;
 	position:absolute;
 	left: 0px;
 	background-repeat: repeat-x;
+	background-color:#387816;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #56b322;
+	padding:1px;
+	padding-left:2px;
+	padding-right:2px;
+	height:12px;
 	cursor:move;
+	font-family: Verdana, Geneva, sans-serif !important;
+	font-size: 9px !important;
+	font-style: normal;
+	line-height: 11px !important;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFF;
+	text-decoration: none;
+	opacity: 0.7;
+}
+.mw-sorthandle:hover {
+opacity: 1;
+background-color:#56b322;
+  -webkit-transition: opacity 1s linear;	
+  
 }
 .mw-sorthandle span {
 	width:100%;
 }
-.columns_set {
-	float:left;
-}
+
+
+ 
 .mw_delete_element {
 	float:right;
 }
 .mw-sorthandle-col {
-	background-color:#0F0;
-	height:12px;
+ 	
 	top:0px;
 	z-index:1000;
-	background-image: url(images/col-handle.png);
+	/*background-image: url(images/col-handle.png);
 	background-repeat: repeat-x;
-	background-position:center center;
+	background-position:center center;*/
 	display:none;
 	cursor:move;
 }
@@ -210,13 +233,14 @@ position:relative;*/
 	outline: 2px solid #e8e8e8;
 }
 .mw-sorthandle-row {
-	background-color:#CCC;
-	height:24px;
-	top:-24px;
-	background-image: url(images/row-handle.png);
+ 	top:-14px;
+	  
+
+	width:100px;
 	z-index:900;
+	/*background-image: url(images/row-handle.png);
 	background-repeat: repeat-x;
-	background-position:center center;
+	background-position:center center;*/
 	display:none;
 	cursor:move;
 }

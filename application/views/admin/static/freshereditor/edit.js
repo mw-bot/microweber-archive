@@ -14,7 +14,7 @@ window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big
 
 window.mw_sorthandle_row = "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw_row_delete mw_delete_element'>&nbsp;</div></div>";
 
-window.mw_sorthandle_row_columns_controlls = 'Columns: <a  href="javascript:mw_make_cols(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw_make_cols(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw_make_cols(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw_make_cols(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw_make_cols(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ';
+window.mw_sorthandle_row_columns_controlls = 'row <a  href="javascript:mw_make_cols(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw_make_cols(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw_make_cols(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw_make_cols(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw_make_cols(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ';
   
 window.mw_sorthandle_row_delete = '<a  href="javascript:mw_delete_element(ROW_ID)">x</a> ';
 window.mw_sorthandle_delete_confirmation_text = "Are you sure you want to delete this element?";
@@ -22,7 +22,7 @@ window.mw_sorthandle_delete_confirmation_text = "Are you sure you want to delete
   
   
 
-window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'></div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
+window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
 
 
@@ -843,14 +843,22 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 
             //e.stopPropagation();
         });
+		
+		
+		$(".mw-sorthandle", '.edit').die('mouseenter');
+        $(".mw-sorthandle", '.edit').mouseenter(function () {
+			
+			  $(this).show();
+        })
+		
 
    $(".row:not(.mw-sorthandle)", '.edit').die('mouseleave');
         $(".row:not(.mw-sorthandle)", '.edit').mouseleave(function () {
 			
 			if(window.mw_drag_started == false){
 			
-			 $(this).find(".mw-sorthandle").hide();
-			 // $(this).find(".empty-element").hide();
+			 
+			 //$(this).find(".empty-element").hide();
 			   $(this).find(".mw-outline-column").removeClass('mw-outline-column');
 			  
 			
@@ -861,8 +869,8 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
         $(".row", '.edit').mouseenter(function () {
 			
 			if(window.mw_drag_started == false){
-			
-			// $(".mw-sorthandle-row", '.edit').hide();
+			//$(".row").find(".mw-sorthandle").hide();
+			  $(".mw-sorthandle-row", '.edit').hide();
 			
 			//$(this).children(".mw-sorthandle-row").show();
             $has = $(this).children(":first").hasClass("mw-sorthandle-row");
@@ -871,9 +879,9 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             }
             $(this).equalHeights();
 
-            $(".column", '.edit').removeClass("mw-outline-column");
+           // $(".column", '.edit').removeClass("mw-outline-column");
 
-            $(this).children(".column").addClass("mw-outline-column");
+           // $(this).children(".column").addClass("mw-outline-column");
             $(this).children(".mw-sorthandle-row").show();
 			}
 
@@ -889,12 +897,13 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			
 			
 				if(window.mw_drag_started == false){
-			
+						 $(".mw-sorthandle-col", '.edit').hide();
+
 		//  $(".mw-sorthandle-row", '.edit').hide();
 					  $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
+					  $(this).parent(".row").children(".mw-sorthandle-row").show();
 
 			
-			 $(".mw-sorthandle-col", '.edit').hide();
             
 		 $(this).children(".mw-sorthandle-col:first").show();
 		 
