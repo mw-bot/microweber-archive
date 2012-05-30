@@ -493,7 +493,7 @@ function init_sortables() {
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
-				
+				 $('.mw-sorthandle').show();
 				    ui.placeholder.height(ui.helper.height());
 
 
@@ -522,11 +522,12 @@ function init_sortables() {
  
     change: function (e,ui){
 		  $(ui.placeholder).show();
-		   
+		   	 $(this).children('.empty-element').show();
+ 			 $(ui.placeholder).parent('.column').resizable("destroy");
 			  // $(ui.placeholder).parent('.row').equalHeights();
 			   $rh = $(ui.placeholder).parent('.row').height();
 			     $(ui.placeholder).parent('.column').height($rh);
-				  $(ui.placeholder).parent('.column').resizable("destroy");
+				
 				  //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
  
 			    $(ui.helper).css({
@@ -587,7 +588,7 @@ function init_sortables() {
 				
 				  
 				
-				
+				 
 				
 				
 
@@ -654,7 +655,7 @@ function init_sortables() {
 
 
             over: function (event, ui) {
- $(this).children('.empty-element').show();
+			 $(this).children('.empty-element').show();
 
                 // $('.empty', '.edit').remove();
              
