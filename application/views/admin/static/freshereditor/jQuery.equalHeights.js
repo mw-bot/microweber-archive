@@ -138,7 +138,7 @@
 					 
 					 
 				} else if (child_count > 0) { // only proceed if we've found any children
-								w_parent1 = $(this).width();
+								w_parent1 = $(this).outerWidth();
 								w_parent = 100;
 								//  width: $(this).width()/parent.width()*100+"%",
 								
@@ -163,12 +163,13 @@
 									//	  parent = parent_column
 									//  }
 									  
-									   var parent_w = parent.width();
+								//	   var parent_w = parent.width();
 									
+									  var parent_w = parent.outerWidth()
 									
-									
-									  $w1 = $(this).width()/w_parent1*100;
-									 
+									  $w1 = $(this).outerWidth()/w_parent1*100;
+									 									 
+
 									  if($a < child_count){
 									  w_ch = w_ch+$w1;
 									  }
@@ -177,6 +178,8 @@
 										 //$w1 = $w1 -1; 
 										  if(w_ch < 100){
 											  $t1 = 100 - w_ch - (child_count * 1) ;
+										// $w1 = Math.ceil($t1-1); // -1% padding
+										
 										 $w1 = Math.ceil($t1-1); // -1% padding
 									  }
 										 

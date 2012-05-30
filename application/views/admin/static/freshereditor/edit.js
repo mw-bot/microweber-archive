@@ -510,9 +510,9 @@ function init_sortables() {
 
                 $('[contenteditable=true]').attr("contenteditable", false);
 
-// $(".column").putPlaceholdersInEmptyColumns()
- // $('.empty-column').show();
-  // $(this).sortable('refreshPositions')
+  $(".column").putPlaceholdersInEmptyColumns()
+  $('.empty-column').show();
+  $(this).sortable('refreshPositions')
                 window.mw_drag_started = true;
                 //$(this).append(window.mw_empty_column_placeholder);
 
@@ -566,7 +566,6 @@ function init_sortables() {
                 //  $(".row").equalWidths() ;		
                 mw_load_new_dropped_modules();
 
-                $('.row').equalWidths();
                // $('.column').height('auto');
 				
 				$('.column' , '.row').each(function(){
@@ -582,7 +581,8 @@ function init_sortables() {
 
 			});
 			
-			
+			   $('.row', '.edit').equalWidths();
+
 			
 				
 				  

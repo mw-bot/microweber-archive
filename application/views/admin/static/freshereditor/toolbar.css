@@ -49,7 +49,8 @@ body {
 	margin-bottom:30px;
 	text-transform: none;
 	text-decoration: none;
-	height: 80px;
+	height: 100px;
+	visibility:hidden;
 }
 .empty-element:hover {
 	visibility:hidden;
