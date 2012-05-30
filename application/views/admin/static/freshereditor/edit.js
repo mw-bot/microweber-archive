@@ -508,6 +508,8 @@ function init_sortables() {
 					$('.-autohide').removeClass('-autohide');
 					$('.ui-resizable').removeClass('ui-resizable');*/
 
+
+
                 $('[contenteditable=true]').attr("contenteditable", false);
 
   $(".column").putPlaceholdersInEmptyColumns()
@@ -669,11 +671,14 @@ function init_sortables() {
 				 
 				   
 				   $col_s = $(ui.placeholder).parent('.column').children('.element').size();
+				   $rh = $(ui.placeholder).parent('.row').height();
+				   $(ui.placeholder).parent('.column').height($rh);  
+				//   $(ui.placeholder).parent('.row').height('auto'); 
 				   if($col_s  > 0){
-				   $(ui.placeholder).parent('.column').height('auto');
+				   //$(ui.placeholder).parent('.column').height('auto');
 				   } else {
-					    $rh = $(this).parent('.row').height();
-					$(this).height($rh);   
+					   // $rh = $(this).parent('.row').height();
+					//$(this).height($rh);   
 				   }
 				   
 				   
@@ -715,6 +720,7 @@ function init_sortables() {
             	//$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
+				 $(this).children('.column').height('auto');
             //    $(this).sortable('refreshPositions')
                 //$('.edit>.empty').hide()
                 // $(this).css('min-height', '10px');
