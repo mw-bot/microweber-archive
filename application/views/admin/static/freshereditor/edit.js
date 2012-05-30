@@ -498,7 +498,7 @@ function init_sortables() {
 
 
                	$('.empty-element').hide();
-                $('.column', '.edit').resizable("destroy");
+              //  $('.column', '.edit').resizable("destroy");
   /*              $('.ui-resizable').resizable("destroy");
 				 $('.ui-resizable').resizable("destroy");
 				 $('.ui-resizable-e', '.column').remove();
@@ -510,9 +510,9 @@ function init_sortables() {
 
                 $('[contenteditable=true]').attr("contenteditable", false);
 
- $(".column").putPlaceholdersInEmptyColumns()
-  $('.empty-column').show();
-   $(this).sortable('refreshPositions')
+// $(".column").putPlaceholdersInEmptyColumns()
+ // $('.empty-column').show();
+  // $(this).sortable('refreshPositions')
                 window.mw_drag_started = true;
                 //$(this).append(window.mw_empty_column_placeholder);
 
@@ -526,9 +526,17 @@ function init_sortables() {
 			  // $(ui.placeholder).parent('.row').equalHeights();
 			   $rh = $(ui.placeholder).parent('.row').height();
 			     $(ui.placeholder).parent('.column').height($rh);
+				  $(ui.placeholder).parent('.column').resizable("destroy");
 				  //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
  
-			 
+			    $(ui.helper).css({
+                    "width": $(ui.placeholder).width()
+					 
+                });
+                $(ui.item).css({
+                    "width": $(ui.placeholder).width()
+					
+                });
 			
 			 //  $('.row').equalWidths();
 			//  $rh =  $(ui.placeholder).parent('.row').height();
@@ -649,14 +657,7 @@ function init_sortables() {
  $(this).children('.empty-element').show();
 
                 // $('.empty', '.edit').remove();
-                $(ui.helper).css({
-                    "width": $(this).width()
-					 
-                });
-                $(ui.item).css({
-                    "width": $(ui.placeholder).width()
-					
-                });
+             
 				
 				 
 				
@@ -673,6 +674,9 @@ function init_sortables() {
 					    $rh = $(ui.placeholder).parent('.row').height();
 					$(ui.placeholder).height($rh);   
 				   }
+				   
+				   
+				   
 				//   $rh = $(ui.placeholder).parent('.row').height();
 			//    $(ui.placeholder).parent('.column').height($rh);
 				  
@@ -690,49 +694,20 @@ function init_sortables() {
    $('.row').children(".column").addClass("mw-outline-column");
            $('.row').children(".mw-sorthandle-row:first").show();
   window.mw_drag_started = true;
-	
-				
-				//  $(ui.placeholder).parent('.column').height('auto');
-				 
- //  $(ui.helper).closest(".empty").hide();
- 				//$(ui.placeholder).closest('.empty-column').remove();
-
-                //$(this).closest('.column').height('auto');
-  
-  
-  
-// $(".empty-column", '.edit').die('mouseover');
- 
-     //  $(this).children(".empty-column").remove();
-	 //    $(this).parent('.column').height('auto');
-
-                // $(ui.item).css({"width" : ui.placeholder.width()});	
-                //  $(ui.helper).css({"width" : ui.placeholder.width()});	
-                // $(ui.helper).css({"height" : ui.item.height()});	
-                // $(ui.placeholder).css({"height" : ui.item.height()});	
-                //$(ui.item).css({"height" :'10px'});
-                //$(ui.item).css({"overflow" :'hidden'});
-                // $(ui.placeholder).css({"height" : ui.item.height()});
-
-
-
-                //  var tr = $(event.target).closest('.empty').show()
-              //  $(ui.placeholder).closest('.empty').show()
-
-
-       //         $(this).sortable('refreshPositions')
-
-                //  $(ui.placeholder).closest('.row').find('.empty').show()	
-                // 	 $(ui.placeholder).closest('.column').find('.empty').show()			
-                // $(this).find('.empty').css({"height" : ui.item.height()});
-                //	 $(ui.placeholder).closest('.empty').css({"height" : ui.item.height()});
-                // ui.helper.width(ui.placeholder.width());
-                // ui.helper.height(ui.placeholder.height());
-                //   ui.helper.width(ui.placeholder.width());
-                //  ui.placeholder.height(ui.helper.height());
-
-                //ui.placeholder.width(ui.item.width());
-                // $(this).find('.empty:first').show()
+	 
+	 
+	 
+	 
+	    $(ui.helper).css({
+                    "width": $(ui.placeholder).width()
+					 
+                });
+                $(ui.item).css({
+                    "width": $(ui.placeholder).width()
+					
+                });
+	 
+	 
             },
 
             out: function (event, ui) {
