@@ -671,8 +671,8 @@ function init_sortables() {
 				   if($col_s  > 0){
 				   $(ui.placeholder).parent('.column').height('auto');
 				   } else {
-					    $rh = $(ui.placeholder).parent('.row').height();
-					$(ui.placeholder).height($rh);   
+					    $rh = $(this).parent('.row').height();
+					$(this).height($rh);   
 				   }
 				   
 				   
