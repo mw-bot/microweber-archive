@@ -568,7 +568,7 @@ function init_sortables() {
 				
                 //  $(".row").equalWidths() ;		
                 mw_load_new_dropped_modules();
-
+ $( '.row').height('auto');
                // $('.column').height('auto');
 				
 				$('.column' , '.row').each(function(){
@@ -705,9 +705,19 @@ function init_sortables() {
 	 
 	 
 	    $(ui.helper).css({
-                    "width": $(ui.placeholder).width()
+                    "width": $(ui.placeholder).width(),
+					  "height": 200
 					 
                 });
+				
+				
+				
+	    $(ui.placeholder).css({
+                    
+					  "height": 200
+					 
+                });
+				
                 $(ui.item).css({
                     "width": $(ui.placeholder).width()
 					
@@ -720,6 +730,7 @@ function init_sortables() {
             	//$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
+				// $( '.row').height('auto');
 				 $(this).children('.column').height('auto');
             //    $(this).sortable('refreshPositions')
                 //$('.edit>.empty').hide()
