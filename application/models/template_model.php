@@ -1050,9 +1050,9 @@ class Template_model extends CI_Model {
 				$try_icon = $mod_name . 'thumbnail.png';
 				$def_icon = STYLES_DIR . 'default.png';
 				//include ($value);
-				
+
 				$value_fn = rtrim($value_fn, '\\');
-				
+
 				$config['style_name'] = $value_fn . '';
 				$config['style_dirname'] = $mod_name;
 				$config['style_path'] = $mod_name . 'bootstrap.css';
@@ -1159,6 +1159,8 @@ class Template_model extends CI_Model {
 					include ($value);
 					$config['module'] = $value_fn . '';
 
+					$config['module_base'] = str_replace('admin/', '', $value_fn);
+
 					if (is_file($try_icon)) {
 						//p($try_icon);
 						$config['icon'] = pathToURL($try_icon);
@@ -1196,6 +1198,27 @@ class Template_model extends CI_Model {
 			}
 
 			return $configs;
+		}
+
+	}
+
+	function getModuleTemplates($module_name) {
+
+		$config = false;
+		$params['module_info'] = $module_name;
+		if ($params['module_info']) {
+			$params['module_info'] = str_replace('..', '', $params['module_info']);
+			$try_config_file = MODULES_DIR . '' . $params['module_info'] . '_config.php';
+			if (is_file($try_config_file)) {
+				include ($try_config_file);
+				if ($config['icon'] == false) {
+					$config['icon'] = MODULES_DIR . '' . $params['module_info'] . '.png';
+
+					$config['icon'] = pathToURL($config['icon']);
+				}
+
+			}
+			return $config;
 		}
 
 	}
@@ -1270,6 +1293,7 @@ class Template_model extends CI_Model {
 					$def_icon = MODULES_DIR . 'default.png';
 					include ($value);
 					$config['module'] = $value_fn . '';
+					$config['module_base'] = str_replace('admin/', '', $value_fn);
 
 					if (is_file($try_icon)) {
 						//p($try_icon);
@@ -1570,7 +1594,7 @@ class Template_model extends CI_Model {
 								$mod_id = str_replace('/', '_', $mod_id);
 								$mod_id = str_replace('\\', '_', $mod_id);
 								$mod_id = str_replace('-', '_', $mod_id);
-								$mod_id = $mod_id.'_'.date("YmdHis").rand(1,100);
+								$mod_id = $mod_id . '_' . date("YmdHis") . rand(1, 100);
 								$attr['module_id'] = $mod_id;
 							}
 
@@ -1653,6 +1677,8 @@ class Template_model extends CI_Model {
 										}
 
 									}
+									$config['module_admin'] = ('' . $attr['module']);
+									$config['module'] = str_ireplace('admin/', '', $attr['module']);
 
 									$config['url_to_module'] = (MODULES_DIR . '' . $attr['module'] . '.php');
 									$config['path_to_module'] = normalize_path((dirname($config['url_to_module'])) . '/', true);
@@ -1826,9 +1852,9 @@ class Template_model extends CI_Model {
 
 									$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
 
-									//  p($more_attrs2); 
+									//  p($more_attrs2);
 									//
-									
+
 									//
 									if (strval($module_file) != '') {
 
@@ -1846,7 +1872,7 @@ class Template_model extends CI_Model {
 											} else {
 												$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
 
-											} 
+											}
 										}
 
 									} else {
