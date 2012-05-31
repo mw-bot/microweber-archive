@@ -180,7 +180,7 @@ jQuery.extend(Boxy, {
 		container_id = url.replace(/[^a-z0-9_-]/gi, '_').toLowerCase()
 		$t1 = 'module-settings-'+container_id;
 		 
-		$('body').append('<div id="'+$t1+'"></div>');
+		$('body').append('<div class="mw_module_settings" id="'+$t1+'"></div>');
 		
 		  $('#'+$t1).load(url,data, function(response, status, xhr) {
 		 

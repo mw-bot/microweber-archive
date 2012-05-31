@@ -1,8 +1,8 @@
 <? $rand_id = md5(serialize($params)); ?>
 <script type="text/javascript">
                 $(document).ready(function(){
-					 $(".mw_email_form_editor<? print $rand_id ?>").tabs('destroy');
-                 	$(".mw_email_form_editor<? print $rand_id ?>").tabs({
+					 $(".mw_email_form_editor<? print $rand_id ?>").accordion('destroy');
+                 	$(".mw_email_form_editor<? print $rand_id ?>").accordion({
 			autoHeight: false,
 			clearStyle: true,
 			collapsible: true,
