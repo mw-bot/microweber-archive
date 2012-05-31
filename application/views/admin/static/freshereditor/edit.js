@@ -493,7 +493,7 @@ function init_sortables() {
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
-				 $('.mw-sorthandle').show();
+				
 				    ui.placeholder.height(ui.helper.height());
 
 
@@ -508,13 +508,11 @@ function init_sortables() {
 					$('.-autohide').removeClass('-autohide');
 					$('.ui-resizable').removeClass('ui-resizable');*/
 
-
-
                 $('[contenteditable=true]').attr("contenteditable", false);
 
-  $(".column").putPlaceholdersInEmptyColumns()
-  $('.empty-column').show();
-  $(this).sortable('refreshPositions')
+// $(".column").putPlaceholdersInEmptyColumns()
+ // $('.empty-column').show();
+  // $(this).sortable('refreshPositions')
                 window.mw_drag_started = true;
                 //$(this).append(window.mw_empty_column_placeholder);
 
@@ -523,13 +521,13 @@ function init_sortables() {
             },
  
     change: function (e,ui){
+	
 		  $(ui.placeholder).show();
-		   	 $(this).children('.empty-element').show();
- 			 $(ui.placeholder).parent('.column').resizable("destroy");
+		   
 			  // $(ui.placeholder).parent('.row').equalHeights();
 			   $rh = $(ui.placeholder).parent('.row').height();
 			     $(ui.placeholder).parent('.column').height($rh);
-				
+				  $(ui.placeholder).parent('.column').resizable("destroy");
 				  //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
  
 			    $(ui.helper).css({
@@ -554,7 +552,8 @@ function init_sortables() {
                 $('.column').removeClass('column-outline');
                 $('.ui-state-highlight').remove();
 				$('.empty-element').hide();
-
+	$('.column').height('auto');
+		$('.row').height('auto');
 				mw_z_index_fix();
 				
  				 $(".column").putPlaceholdersInEmptyColumns()
@@ -568,29 +567,25 @@ function init_sortables() {
 				
                 //  $(".row").equalWidths() ;		
                 mw_load_new_dropped_modules();
- $( '.row').height('auto');
+
+                $('.row').equalWidths();
                // $('.column').height('auto');
 				
 				$('.column' , '.row').each(function(){
-			 $col_s = $(this).children('.element').size();
-				   if($col_s  > 0){
-				   $(this).height('auto');
-				   } else {
-					   		    $rh =  $(this).parent('.row').height();
+					
+					   $rh =  $(this).parent('.row').height();
 			  $(this).height($rh );
-				   
-				   }
+			 
 		 				// shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
 
 			});
 			
-			   $('.row', '.edit').equalWidths();
-
+			
 			
 				
 				  
 				
-				 
+				
 				
 				
 
@@ -657,7 +652,7 @@ function init_sortables() {
 
 
             over: function (event, ui) {
-			 $(this).children('.empty-element').show();
+ $(this).children('.empty-element').show();
 
                 // $('.empty', '.edit').remove();
              
@@ -671,14 +666,11 @@ function init_sortables() {
 				 
 				   
 				   $col_s = $(ui.placeholder).parent('.column').children('.element').size();
-				   $rh = $(ui.placeholder).parent('.row').height();
-				   $(ui.placeholder).parent('.column').height($rh);  
-				//   $(ui.placeholder).parent('.row').height('auto'); 
 				   if($col_s  > 0){
-				   //$(ui.placeholder).parent('.column').height('auto');
+				   $(ui.placeholder).parent('.column').height('auto');
 				   } else {
-					   // $rh = $(this).parent('.row').height();
-					//$(this).height($rh);   
+					    $rh = $(ui.placeholder).parent('.row').height();
+					$(ui.placeholder).height($rh);   
 				   }
 				   
 				   
@@ -705,19 +697,9 @@ function init_sortables() {
 	 
 	 
 	    $(ui.helper).css({
-                    "width": $(ui.placeholder).width(),
-					  "height": 200
+                    "width": $(ui.placeholder).width()
 					 
                 });
-				
-				
-				
-	    $(ui.placeholder).css({
-                    
-					  "height": 200
-					 
-                });
-				
                 $(ui.item).css({
                     "width": $(ui.placeholder).width()
 					
@@ -730,8 +712,6 @@ function init_sortables() {
             	//$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
-				// $( '.row').height('auto');
-				 $(this).children('.column').height('auto');
             //    $(this).sortable('refreshPositions')
                 //$('.edit>.empty').hide()
                 // $(this).css('min-height', '10px');
@@ -758,7 +738,6 @@ function init_sortables() {
                 // $('.row').equalWidths().equalHeights() ;
                 $(this).css('min-height', '10px');
             }
-
 
 
 

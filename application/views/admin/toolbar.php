@@ -468,7 +468,7 @@ nic_save_all();
  nic_save_all = function(callback, only_preview){
 $(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
 $(".mw-sorthandle", '.edit').remove();
-
+$('.column', '.row').height('auto')  
 
 
 
