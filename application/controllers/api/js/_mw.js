@@ -161,37 +161,18 @@ mw.reload_module = function($module_name) {
 								
 									
 									if (mw_params_module == $module_name || mw_params_module_id == $module_name|| mw_params_module_no_adm == $module_name) {
-										var data_params_encoded = $(this).attr(	"data-params-encoded");
-										var elem = $(this)
-										     
+										 encoded = $(this).attr("data-params-encoded");
+										 elem = $(this);                   
+										           
 		
 								 
-										 url1= '{SITE_URL}api/module/index/reload_module:' + data_params_encoded;
+										 url1= '{SITE_URL}api/module/index/reload_module:' + encoded;
 										 elem.load(url1,$all_attr,function() {
 											 window.mw_sortables_created = false;
 										 }); 
 										 
 										 
-										 
-										
-										 
-											
-
-//										$.ajax( {
-//													url : '{SITE_URL}api/module/index/reload_module:' + data-params-encoded,
-//													type : "POST",
-//													data: $all_attr,
-//													async : false,
-//
-//													success : function(resp) {
-//												//	alert(resp);
-//														//$(this).empty();
-//											elem.before(resp).remove(); 
-//													// elem.empty();
-//													// elem.append(resp);
-//
-//												}
-//												});
+ 
 
 									}
 

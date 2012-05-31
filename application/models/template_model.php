@@ -1826,8 +1826,9 @@ class Template_model extends CI_Model {
 
 									$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
 
-									//  p($more_attrs2);
+									//  p($more_attrs2); 
 									//
+									
 									//
 									if (strval($module_file) != '') {
 
@@ -1845,7 +1846,7 @@ class Template_model extends CI_Model {
 											} else {
 												$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
 
-											}
+											} 
 										}
 
 									} else {
