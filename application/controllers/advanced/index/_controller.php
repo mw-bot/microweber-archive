@@ -309,9 +309,11 @@ if (defined('INTERNAL_API_CALL') == true) {
 				$stylesheets_to_add = array();
 				foreach ($styles as $style) {
 					$real_style_name = str_ireplace('mw-style-', '', $style);
-
-					$css_file_url = STYLES_URL . $real_style_name . '/' . 'bootstrap.min.css';
-					$stylesheets_to_add[$real_style_name] = $css_file_url;
+					$real_style_name = str_ireplace('mw-', '', $real_style_name);
+					if ($real_style_name != '') {
+						$css_file_url = STYLES_URL . $real_style_name . '/' . 'bootstrap.min.css';
+						$stylesheets_to_add[$real_style_name] = $css_file_url;
+					}
 				}
 				//p($stylesheets_to_add, 1);
 
