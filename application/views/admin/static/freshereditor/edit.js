@@ -522,7 +522,7 @@ function init_sortables() {
  
     change: function (e,ui){
 	
-		  $(ui.placeholder).show();
+		   $(ui.placeholder).show();
 		   
 			  // $(ui.placeholder).parent('.row').equalHeights();
 			   $rh = $(ui.placeholder).parent('.row').height();
