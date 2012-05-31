@@ -1,7 +1,8 @@
 <? $rand_id = md5(serialize($params)); ?>
 <script type="text/javascript">
                 $(document).ready(function(){
-                 	$("#mw_email_form_editor<? print $rand_id ?>").accordion({
+					 $(".mw_email_form_editor<? print $rand_id ?>").tabs('destroy');
+                 	$(".mw_email_form_editor<? print $rand_id ?>").tabs({
 			autoHeight: false,
 			clearStyle: true,
 			collapsible: true,
@@ -16,7 +17,7 @@
                 });
             </script>
 
-<div id="mw_email_form_editor<? print $rand_id ?>">
+<div class="mw_email_form_editor<? print $rand_id ?>">
   <h3><a href="#"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/icons/12-eye.png"  width="24" class="css_editor_accordeon_icon" />Form settings</a></h3>
   <div>
     <div class="mw_tag_editor_item_holder">

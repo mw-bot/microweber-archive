@@ -1,24 +1,24 @@
-<link href="<? print $config['url_to_module'] ?>skins/css/uni-form.css" media="screen" rel="stylesheet"/>
+ <!--  <link href="<? print $config['url_to_module'] ?>skins/css/uni-form.css" media="screen" rel="stylesheet"/>
     <link href="<? print $config['url_to_module'] ?>skins/css/default.uni-form.css" id="formStyle"  rel="stylesheet"/>
- <!--     <link href="<? print $config['url_to_module'] ?>skins/demos/css/demo.css" rel="stylesheet"/>-->
+   <link href="<? print $config['url_to_module'] ?>skins/demos/css/demo.css" rel="stylesheet"/>
     
     <script type="text/javascript" src="<? print $config['url_to_module'] ?>skins/js/uni-form.jquery.js"></script>
     <script type="text/javascript">
       $(function(){
         
         // init Uni-Form
-        $('form.uniForm', '.edit').uniform();
+       // $('form.uniForm', '.edit').uniform();
         
          
          
       });
     </script>
-    
+    -->
     
 
 <script type="text/javascript">
                 $(document).ready(function(){
-                  $("#contact_form<? print  $params['module_id'] ?>").validate(function(){
+                  $("#contact_form<? print  $params['module_id'] ?>").submit(function(){
 
                     var contacts = {
                         name:$("input[name='from_name']").val(),
@@ -95,30 +95,7 @@
         </div>
         
         
-        
-        
-        <?
-		$cf_post_config = array();
-				$cf_post_config['post_id'] = $params['module_id'];
-			  $cf_post_config =  get_instance()->core_model->getCustomFieldsConfig($cf_post_config);
-	//	p( $cf_post_config );
-		?>
-        
-        <? foreach($cf_post_config as $k => $cf): ?>
-        
-        
-          <div class="ctrlHolder">
-       <label for=""><? print $cf['name'] ?></label>
-           <microweber module="content/custom_field"  name="custom_field_<? print $cf['name'] ?>" cf_id="<? print $cf['id'] ?>" module_id="<? print $params['module_id'].'_cf_'.$cf['id'] ?>">
-
-          <p class="formHint"><? print $cf['help'] ?></p>
-        </div>
-        
-        
-        
-        
-        <? endforeach; ?>
-        
+ 
         
         
         

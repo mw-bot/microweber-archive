@@ -137,7 +137,7 @@ function mw_module_settings($module_id){
 $module = $('div.module[module_id="'+$module_id+'"]:first', '.edit'); 
 //alert($module_id);
 $module_name = $module.attr('module');
-
+$module_title = $module.attr('data-module-title');
 
 
 data1 = {}
@@ -148,7 +148,13 @@ data1 = {}
    data1.category_id = '<? print intval(CATEGORY_ID) ?>';
    
    
-   
+    Boxy.DEFAULTS.title = $module_title;
+ Boxy.DEFAULTS.fixed = true;
+  Boxy.DEFAULTS.draggable = true;
+  Boxy.DEFAULTS.modal = false;
+ Boxy.DEFAULTS.unloadOnHide = false;
+ 
+ 
    
 	Boxy.load2("<? print site_url('api/module') ?>", data1);
 

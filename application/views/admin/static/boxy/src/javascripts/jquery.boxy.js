@@ -177,12 +177,16 @@ jQuery.extend(Boxy, {
 	load2: function(url, data, callback) {
         
  
+		container_id = url.replace(/[^a-z0-9_-]/gi, '_').toLowerCase()
+		$t1 = 'module-settings-'+container_id;
+		 
+		$('body').append('<div id="'+$t1+'"></div>');
 		
-		
-		
-		
-		  $('#mw-temp').load(url,data, function(response, status, xhr) {
-   new Boxy(response);
+		  $('#'+$t1).load(url,data, function(response, status, xhr) {
+		 
+			
+		//	$('#'+$t1).boxy();
+    new Boxy('#'+$t1);
    
    
    if (callback != undefined) {
