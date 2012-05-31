@@ -526,7 +526,7 @@ function init_sortables() {
 		   
 			  // $(ui.placeholder).parent('.row').equalHeights();
 			   $rh = $(ui.placeholder).parent('.row').height();
-			     $(ui.placeholder).parent('.column').height($rh);
+			     $(ui.placeholder).parent('.row').children('.column').height($rh);
 				  $(ui.placeholder).parent('.column').resizable("destroy");
 				  //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
  
