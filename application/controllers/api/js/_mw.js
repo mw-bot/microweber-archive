@@ -161,12 +161,12 @@ mw.reload_module = function($module_name) {
 								
 									
 									if (mw_params_module == $module_name || mw_params_module_id == $module_name|| mw_params_module_no_adm == $module_name) {
-										var mw_params_encoded = $(this).attr(	"mw_params_encoded");
+										var data_params_encoded = $(this).attr(	"data-params-encoded");
 										var elem = $(this)
-										
+										     
 		
 								 
-										 url1= '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded;
+										 url1= '{SITE_URL}api/module/index/reload_module:' + data_params_encoded;
 										 elem.load(url1,$all_attr,function() {
 											 window.mw_sortables_created = false;
 										 }); 
@@ -178,7 +178,7 @@ mw.reload_module = function($module_name) {
 											
 
 //										$.ajax( {
-//													url : '{SITE_URL}api/module/index/reload_module:' + mw_params_encoded,
+//													url : '{SITE_URL}api/module/index/reload_module:' + data-params-encoded,
 //													type : "POST",
 //													data: $all_attr,
 //													async : false,

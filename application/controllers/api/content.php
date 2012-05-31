@@ -1658,7 +1658,7 @@ class Content extends CI_Controller {
 						//p ( $html_to_save, 1 );
 						$content = $html_to_save;
 						$html_to_save = $content;
-						//if (strstr ( $content, 'mw_params_encoded' ) == true) {
+						//if (strstr ( $content, 'data-params-encoded' ) == true) {
 						$content = str_replace ( '<span >', '<span>', $content );
 						
 						//$tags2 = html2a($content);
@@ -1666,7 +1666,7 @@ class Content extends CI_Controller {
 						//p($tags1); 
 						// p($tags1); 	
 						$html = str_get_html ( $content );
-						foreach ( $html->find ( 'div[mw_params_encoded="edit_tag"]' ) as $checkbox ) {
+						foreach ( $html->find ( 'div[data-params-encoded="edit_tag"]' ) as $checkbox ) {
 							//var_Dump($checkbox);
 							$re1 = $checkbox->module_id;
 							$style = $checkbox->style;
@@ -1702,8 +1702,8 @@ class Content extends CI_Controller {
 										$replaced = false;
 										$attr = $m ['attributes'];
 										
-										if ($attr ['mw_params_encoded']) {
-											$decode_params = $attr ['mw_params_encoded'];
+										if ($attr ['data-params-encoded']) {
+											$decode_params = $attr ['data-params-encoded'];
 											//$decode_params = base64_decode ( $decode_params );
 											$decode_params = 'edit_tag';
 										
@@ -2234,7 +2234,7 @@ class Content extends CI_Controller {
 							//p ( $html_to_save, 1 );
 							$content = $html_to_save;
 							$html_to_save = $content;
-							//if (strstr ( $content, 'mw_params_encoded' ) == true) {
+							//if (strstr ( $content, 'data-params-encoded' ) == true) {
 							$content = str_replace ( '<span >', '<span>', $content );
 							
 							//$tags2 = html2a($content);
@@ -2242,7 +2242,7 @@ class Content extends CI_Controller {
 							//p($tags1); 
 							// p($tags1); 	
 							$html = str_get_html ( $content );
-							foreach ( $html->find ( 'div[mw_params_encoded="edit_tag"]' ) as $checkbox ) {
+							foreach ( $html->find ( 'div[data-params-encoded="edit_tag"]' ) as $checkbox ) {
 								//var_Dump($checkbox);
 								$re1 = $checkbox->module_id;
 								$style = $checkbox->style;
@@ -2319,11 +2319,11 @@ class Content extends CI_Controller {
 										
 
 										if ($attr ['module_id'] != '' and $attr ['mw_params_module'] != '') {
-											$mw_params_encoded = $attr;
+											$data-params-encoded = $attr;
 											$mod_id = $attr ['module_id'];
 											$tag1 = "<microweber ";
 											
-											foreach ( $mw_params_encoded as $k => $v ) {
+											foreach ( $data-params-encoded as $k => $v ) {
 												$skip_key = false;
 												if ($k == 'edit') {
 													$v = 'edit_tag';
@@ -2384,24 +2384,24 @@ class Content extends CI_Controller {
 								$doc->preserveWhiteSpace = true;
 								$doc->loadHTML ( $content );
 								$xpath = new DOMXpath ( $doc );
-								foreach ( $xpath->query ( '//div[@mw_params_encoded]' ) as $a ) {
+								foreach ( $xpath->query ( '//div[@data-params-encoded]' ) as $a ) {
 									//	$clunker_vars = get_object_vars($a->nodeValue); // we pass the object, not th
 									//echo "Found {$a->previousSibling->previousSibling->nodeValue}," . " by {$a->previousSibling->nodeValue}\n";
 									
 
-									$mw_params_encoded = $a->getAttribute ( 'mw_params_encoded' );
+									$data-params-encoded = $a->getAttribute ( 'data-params-encoded' );
 									$mod_id = $a->getAttribute ( 'module_id' );
 									
-									$mw_params_encoded = base64_decode ( $mw_params_encoded );
-									$mw_params_encoded = unserialize ( $mw_params_encoded );
+									$data-params-encoded = base64_decode ( $data-params-encoded );
+									$data-params-encoded = unserialize ( $data-params-encoded );
 									
 									//$c1 = $a->nodeValue;
 									$c1 = domNodeContent ( $a, 1 );
 									
-									if (! empty ( $mw_params_encoded )) {
+									if (! empty ( $data-params-encoded )) {
 										$tag1 = "<microweber ";
 										
-										foreach ( $mw_params_encoded as $k => $v ) {
+										foreach ( $data-params-encoded as $k => $v ) {
 											if ($k == 'edit') {
 												$v = 'edit_tag';
 											}
@@ -2422,7 +2422,7 @@ class Content extends CI_Controller {
 									}
 								}*/
 							//
-							//$parsed = get_string_between ( $content, "mw_params_encoded=\"", '"' );
+							//$parsed = get_string_between ( $content, "data-params-encoded=\"", '"' );
 							//
 							
 
@@ -2489,8 +2489,8 @@ class Content extends CI_Controller {
 											$replaced = false;
 											$attr = $m ['attributes'];
 											
-											if ($attr ['mw_params_encoded']) {
-												$decode_params = $attr ['mw_params_encoded'];
+											if ($attr ['data-params-encoded']) {
+												$decode_params = $attr ['data-params-encoded'];
 												//$decode_params = base64_decode ( $decode_params );
 												$decode_params = 'edit_tag';
 											

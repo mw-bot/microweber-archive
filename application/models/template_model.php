@@ -1337,7 +1337,7 @@ class Template_model extends CI_Model {
 		/*if (intval ( PAGE_ID ) != 0) {
 		 require_once (LIBSPATH . "simplehtmldom/simple_html_dom.php");
 		 $html = str_get_html ( $layout );
-		 foreach ( $html->find ( 'div.module[mw_params_encoded="edit_tag"]' ) as $checkbox ) {
+		 foreach ( $html->find ( 'div.module[data-params-encoded="edit_tag"]' ) as $checkbox ) {
 		 //var_Dump($checkbox);
 		 $re1 = $checkbox->module_id;
 		 $style = $checkbox->style;
@@ -1570,6 +1570,7 @@ class Template_model extends CI_Model {
 								$mod_id = str_replace('/', '_', $mod_id);
 								$mod_id = str_replace('\\', '_', $mod_id);
 								$mod_id = str_replace('-', '_', $mod_id);
+								$mod_id = $mod_id.'_'.date("YmdHis").rand(1,100);
 								$attr['module_id'] = $mod_id;
 							}
 
@@ -1800,7 +1801,7 @@ class Template_model extends CI_Model {
 
 								}
 								if ($mod_title != '') {
-									$mod_id_tag .= ' module_title="' . $mod_title . '" ';
+									$mod_id_tag .= ' data-module-title="' . $mod_title . '" ';
 								}
 								if ($editmode = true) {
 									//	p($m);
@@ -1819,9 +1820,9 @@ class Template_model extends CI_Model {
 
 									$more_attrs = '';
 
-									$more_attrs = " class='mercury-snippet module' ";
+									$more_attrs = " class='module' ";
 
-									$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
+									//$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
 
 									$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
 
@@ -1836,13 +1837,13 @@ class Template_model extends CI_Model {
 										} else {
 
 											if ($no_edit == false) {
-												//$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
-												$module_file = '<div ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												//$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												$module_file = '<div ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 
-												//$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+												//$module_file = '<div data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 
 											} else {
-												$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
+												$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
 
 											}
 										}
@@ -1855,7 +1856,7 @@ class Template_model extends CI_Model {
 
 								} else {
 									if (strval($module_file) != '') {
-										$module_file = '<div ' . $more_attrs2 . ' class="module" ' . $mod_id_tag . '  mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
+										$module_file = '<div ' . $more_attrs2 . ' class="module" ' . $mod_id_tag . '  data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
 									}
 								}
 								//}  ++

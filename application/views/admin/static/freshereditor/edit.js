@@ -24,7 +24,7 @@ window.mw_sorthandle_delete_confirmation_text = "Are you sure you want to delete
 
 window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
-window.mw_sorthandle_module = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
+window.mw_sorthandle_module = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_module_settings(MODULE_ID)\">settings</a><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
 
 
@@ -302,7 +302,7 @@ if(window.mw_drag_started == false){
         $has = $(this).children(":first").hasClass("mw-sorthandle-col");
         if ($has == false) {
 			$has_module = $(this).children(".module").size();
-			$m_name = $(this).children(".module").attr('module_title');
+			$m_name = $(this).children(".module").attr('data-module-title');
 			
 			
 			
@@ -310,7 +310,7 @@ if(window.mw_drag_started == false){
 			 text = window.mw_sorthandle_col
 			} else {
 					 text = window.mw_sorthandle_module
-					 	 text = text.replace(/MODULE_NAME/g, ""+'' + $m_name+"");
+					 text = text.replace(/MODULE_NAME/g, ""+'' + $m_name+"");
 
 			}
 	 text = text.replace(/ELEMENT_ID/g, "'"+'' + $el_id+"'");
@@ -749,10 +749,15 @@ function init_sortables() {
 $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
        
        $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable({
-			connectToSortable: '.edit,.row>.column',
+			connectToSortable: '.column',
             helper: "clone",
-			//snap: ".element", 
-			//snapMode: "outer", 
+			snap: ".column,.edit", 
+			 cursorAt: {
+                top: -2,
+                left: -2
+            },
+			grid: [20, 20],
+			snapMode: "inner", 
             revert: "invalid" 
 			
         });
