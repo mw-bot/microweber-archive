@@ -1392,6 +1392,9 @@ class Core_model extends CI_Model {
 			return false;
 		}
 		
+		if(!is_callable($this->db)){
+		$this->load->database();
+		}
 		// $this->db->query ( 'SET NAMES utf8' );
 		// $this->db->query ( $q );
 		$this->db->query ( $q );

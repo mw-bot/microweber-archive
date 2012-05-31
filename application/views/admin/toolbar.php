@@ -132,6 +132,31 @@ return this;
  
 }
 
+function mw_module_settings($module_id){
+
+$module = $('div.module[module_id="'+$module_id+'"]:first', '.edit'); 
+//alert($module_id);
+$module_name = $module.attr('module');
+
+
+
+data1 = {}
+   data1.module = 'admin/'+$module_name;
+    data1.module_id =$module_id;
+   data1.page_id = '<? print intval(PAGE_ID) ?>';
+   data1.post_id = '<? print intval(POST_ID) ?>';
+   data1.category_id = '<? print intval(CATEGORY_ID) ?>';
+   
+   
+   
+   
+	Boxy.load2("<? print site_url('api/module') ?>", data1);
+
+
+
+
+
+}
 function openKCFinder(field) {
     window.KCFinder = {
         callBack: function(url) {

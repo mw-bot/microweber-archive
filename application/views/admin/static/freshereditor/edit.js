@@ -1,7 +1,7 @@
 window.mw_editables_created = false;
 window.mw_element_id = false;
 
-
+window.mw_text_edit_started = false;
 window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
@@ -25,6 +25,8 @@ window.mw_sorthandle_delete_confirmation_text = "Are you sure you want to delete
 window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
 window.mw_sorthandle_module = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_module_settings(MODULE_ID)\">settings</a><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
+
+
 
 
 
@@ -302,15 +304,19 @@ if(window.mw_drag_started == false){
         $has = $(this).children(":first").hasClass("mw-sorthandle-col");
         if ($has == false) {
 			$has_module = $(this).children(".module").size();
-			$m_name = $(this).children(".module").attr('data-module-title');
 			
 			
 			
 			 if ($has_module == false) {
 			 text = window.mw_sorthandle_col
 			} else {
+					 $m_name = $(this).children(".module").attr('data-module-title');
+
+					 $m_id = $(this).children(".module").attr('module_id');
 					 text = window.mw_sorthandle_module
 					 text = text.replace(/MODULE_NAME/g, ""+'' + $m_name+"");
+					 text = text.replace(/MODULE_ID/g, "'"  + $m_id+"'");
+
 
 			}
 	 text = text.replace(/ELEMENT_ID/g, "'"+'' + $el_id+"'");
@@ -416,7 +422,7 @@ function mw_make_editables() {
 
 function mw_remove_editables() {
 
-    window.mw_editing_started = false;
+    window.mw_text_edit_started = false;
     window.mw_editables_created = false;
     $(".edit").freshereditor("edit", false);
 
@@ -507,6 +513,7 @@ function init_sortables() {
 				    $('.ui-resizable-autohide').removeClass('ui-resizable-autohide');
 					$('.-autohide').removeClass('-autohide');
 					$('.ui-resizable').removeClass('ui-resizable');*/
+    window.mw_text_edit_started = false;
 
                 $('[contenteditable=true]').attr("contenteditable", false);
 
@@ -782,7 +789,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			$('.column').height('auto');
             window.mw_element_id = $el_id;
             mw_make_css_editor($el_id)
-
+window.mw_text_edit_started = true;
             $(this).freshereditor("edit", true);
             // e.stopPropagation();
         });
@@ -845,7 +852,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			
 			if(window.mw_drag_started == false){
 			//$(".row").find(".mw-sorthandle").hide();
-			  $(".mw-sorthandle-row", '.edit').hide();
+			  $(".mw-sorthandle", '.edit').hide();
 			
 			//$(this).children(".mw-sorthandle-row").show();
             $has = $(this).children(":first").hasClass("mw-sorthandle-row");
@@ -857,7 +864,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
            // $(".column", '.edit').removeClass("mw-outline-column");
 
            // $(this).children(".column").addClass("mw-outline-column");
-            $(this).children(".mw-sorthandle-row").show();
+            $(this).children(".mw-sorthandle").show();
 			}
 
         })

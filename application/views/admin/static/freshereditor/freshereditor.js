@@ -354,7 +354,15 @@ Improvments by Quan Nguyen (github.com/mquan):
 				{ keys: 'Ctrl+Alt+4', method: function () { methods.formatblock.apply(this, ["H4"]); } },
 				{ keys: 'Ctrl+m', method: function () { document.execCommand("removeFormat", false, null); } },
 				{ keys: 'Ctrl+u', method: function () { document.execCommand('underline', false, null); } },
-				{ keys: 'tab', method: function () { document.execCommand('indent', false, null); } },
+				{ keys: 'tab', method: function () { 
+				
+				if(    window.mw_text_edit_started == true){
+				document.execCommand('indent', false, null); 
+				}
+				
+				
+				
+				} },
 				{ keys: 'Ctrl+tab', method: function () { document.execCommand('indent', false, null); } },
 				{ keys: 'Shift+tab', method: function () { document.execCommand('outdent', false, null); } }
 			];
