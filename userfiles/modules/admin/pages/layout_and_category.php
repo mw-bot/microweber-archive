@@ -9,6 +9,9 @@ $form_values = get_page($id);
 <script type="text/javascript">
 function set_layout($filename, $layout_name){
 
+
+//alert($filename, $layout_name);
+
 	 $('#content_layout_file').val($filename);
 
   $('#content_layout_name').val($layout_name);
@@ -20,6 +23,16 @@ function set_layout($filename, $layout_name){
 $(window).load(function(){
   call_layout_config_module();
   ajax_content_subtype_change();
+});
+
+
+$(document).ready(function() {
+  call_layout_config_module();
+  ajax_content_subtype_change();
+});
+
+$(window).load(function(){
+ 
 });
 
 function call_layout_config_module(){
@@ -209,7 +222,7 @@ $template_options['site_template'] = $template_dir;
  
 
 <? if(!empty($layouts)): ?>
-<select name="layoutsList" id="mw_layoutsList">
+<select name="layoutsList" id="mw_layoutsList"  onchange="set_layout(this.value, '<? print $layout['layout_name'] ?>')" >
   <option value="inherit"  onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')" >Inherit</option>
   <? foreach($layouts as $layout): ?>
   <? if($layout['screenshot']): ?>
