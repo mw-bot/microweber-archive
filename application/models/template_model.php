@@ -1267,7 +1267,7 @@ class Template_model extends CI_Model {
 		}
 
 		$dir_name = normalize_path(MODULES_DIR);
-		$dir = rglob('*_config.php', 0, $dir_name);
+		$dir = rglob('*config.php', 0, $dir_name);
 
 		if (!empty($dir)) {
 			$configs = array();
@@ -1285,6 +1285,8 @@ class Template_model extends CI_Model {
 					$config = array();
 					$value = normalize_path($value, false);
 					$value_fn = $mod_name = str_replace('_config.php', '', $value);
+					$value_fn = $mod_name = str_replace('config.php', '', $value_fn);
+					$value_fn = $mod_name = str_replace('index.php', '', $value_fn);
 					$value_fn = str_replace($dir_name, '', $value_fn);
 
 					$value_fn = reduce_double_slashes($value_fn);
@@ -1448,13 +1450,13 @@ class Template_model extends CI_Model {
 
 			$relations = array();
 			$tags = $this -> core_model -> extractTags($layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
-			//	p($tags);
+
 			$matches = $tags;
 			if (!empty($matches)) {
 
 				//
 				foreach ($matches as $m) {
-
+					$error = false;
 					if ($m['tag_name'] == 'microweber') {
 
 						$attr = $m['attributes'];
@@ -1472,7 +1474,7 @@ class Template_model extends CI_Model {
 							}
 						}
 
-						if (strval($attr['module']) == '') {
+						if (($attr['module']) == '') {
 							$attr['module'] = 'non_existing';
 						}
 
@@ -1481,20 +1483,41 @@ class Template_model extends CI_Model {
 							$attr['module'] = trim($attr['module']);
 							$attr['module'] = str_replace('\\', '/', $attr['module']);
 							$attr['module'] = reduce_double_slashes($attr['module']);
+							$attr['module'] = rtrim($attr['module'], '\\');
+							$attr['module'] = rtrim($attr['module'], '/');
+ 
+							$try_file1 = MODULES_DIR . DS . $attr['module'] . DS . 'index.php';
+							$try_file1 = normalize_path($try_file1, false);
+						//	p($try_file1);
+							if (is_file($try_file1) == false) {
+								
+								$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
+								$try_file1 = normalize_path($try_file1, false);
+								$try_file = MODULES_DIR . 'modules' . DS . $attr['module'] . '.php';
 
-							$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
+							} else {
+								$try_file = $try_file1;
+								//$try_file = normalize_path($try_file, false);
 
-							$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
+							}
 
 							$try_file_db_file = MODULES_DIR . $attr['module'] . '_db.php';
 							$try_file_db_file = normalize_path($try_file_db_file, false);
-							//p($try_file_db_file);
+							$try_file1 = normalize_path($try_file1, false);
+							$try_file = normalize_path($try_file, false);
+
 							if (is_file($try_file_db_file) == true) {
 								//$this->init_model->db_setup_from_file ( $try_file_db_file );
 							}
 
 							if ($options['admin'] == true) {
-								$try_file1 = MODULES_DIR . 'admin/' . $attr['module'] . '.php';
+
+								$try_file1 = MODULES_DIR . DS . $attr['module'] . DS . 'admin.php';
+								$try_file1 = normalize_path($try_file1, false);
+
+								if (is_file($try_file1 == false)) {
+									$try_file1 = MODULES_DIR . 'admin/' . $attr['module'] . '.php';
+								}
 								$try_filefront = MODULES_DIR . '' . $attr['module'] . '.php';
 
 								if (strstr($attr['module'], 'admin') == false) {
@@ -1505,42 +1528,43 @@ class Template_model extends CI_Model {
 								}
 
 							}
-							$try_file1 = normalize_path($try_file1, false);
+ 
 							//$a = is_file ( $try_file1 );
 							if ($attr['file']) {
 								$attr['view'] = $attr['file'];
 							}
 
-							if ($attr['view']) {
-								$module_view_file = ACTIVE_TEMPLATE_DIR . $attr['view'];
-								$module_view_file = normalize_path($module_view_file, false);
-								// p($module_view_file);
-								$is_admin = is_admin();
-								if (is_file($module_view_file) == false) {
-									if ($is_admin == true) {
+							/*
+							 if ($attr['view']) {
+							 $module_view_file = ACTIVE_TEMPLATE_DIR . $attr['view'];
+							 $module_view_file = normalize_path($module_view_file, false);
+							 // p($module_view_file);
+							 $is_admin = is_admin();
+							 if (is_file($module_view_file) == false) {
+							 if ($is_admin == true) {
 
-										$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
+							 $try_config_file = MODULES_DIR . '' . $attr['module'] . 'config.php';
 
-										$dir = dirname($module_view_file);
-										if (is_dir($dir) == false) {
-											mkdir_recursive($dir);
-										}
+							 $dir = dirname($module_view_file);
+							 if (is_dir($dir) == false) {
+							 mkdir_recursive($dir);
+							 }
 
-										if (copy($try_file1, $module_view_file)) {
-											$try_file1 = $module_view_file;
-										}
+							 if (copy($try_file1, $module_view_file)) {
+							 $try_file1 = $module_view_file;
+							 }
 
-									}
-								} else {
-									$try_file1 = $module_view_file;
-								}
+							 }
+							 } else {
+							 $try_file1 = $module_view_file;
+							 }
 
-							}
+							 }*/
 
 							if (is_file($try_file1) == false) {
 
 								if (is_file($try_file) == true) {
-									$try_config_file = DEFAULT_TEMPLATE_DIR . 'modules/' . $attr['module'] . '_config.php';
+									$try_config_file = DEFAULT_TEMPLATE_DIR . 'modules' . DS . $attr['module'] . '_config.php';
 								} else {
 									if ($options['admin'] == true) {
 										if (strstr($attr['module'], 'admin') == false) {
@@ -1556,47 +1580,54 @@ class Template_model extends CI_Model {
 								$is_admin = is_admin();
 
 								if ($is_admin == true) {
-									$try_file1 = $try_filefront;
-									$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
+									$try_file1 = $try_file1;
+
+									$try_config_file = MODULES_DIR . '' . $attr['module'] . DS . 'config.php';
+									if (is_file($try_config_file) == false) {
+										$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
+
+									}
 
 									$dir = dirname($try_file1);
 									if (is_dir($dir) == false) {
 										mkdir_recursive($dir);
 									}
-
-									//print ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
-									//var_dump( $try_file, $try_file1);
-									//exit ( "Modile file not found in $try_file1. Please create it!" );
-									//if (! copy ( $try_file, $try_file1 )) {
-									//echo "failed to copy $file...\n";
-									//}
-
-									$error = true;
-								} else {
-									//print ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
-									$error = true;
 								}
-							} else {
-								$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
 
-							}
-							if ($error == true) {
-								$try_file1 = MODULES_DIR . 'non_existing.php';
+								//print ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
+								//var_dump( $try_file, $try_file1);
+								//exit ( "Modile file not found in $try_file1. Please create it!" );
+								//if (! copy ( $try_file, $try_file1 )) {
+								//echo "failed to copy $file...\n";
+								//}
+
+								//$error = true;
+							} else {
+								//print ( "You are trying to call module that doesnt exist in $try_file1.$try_file Please create it!" );
 								$error = false;
 							}
-							//	p($try_file1);
-
-							if (($attr['module_id']) == true) {
-								$mod_id = $attr['module_id'];
-							} else {
-								//$mod_id = false;
-								$mod_id = $attr['module'];
-								$mod_id = str_replace('/', '_', $mod_id);
-								$mod_id = str_replace('\\', '_', $mod_id);
-								$mod_id = str_replace('-', '_', $mod_id);
-								$mod_id = $mod_id . '_' . date("YmdHis") . rand(1, 100);
-								$attr['module_id'] = $mod_id;
+						} else {
+							$try_config_file = MODULES_DIR . '' . $attr['module'] . DS . 'config.php';
+							if (is_file($try_config_file) == false) {
+								$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
 							}
+						}
+						if ($error == true) {
+							$try_file1 = MODULES_DIR . 'non_existing.php';
+							$error = false;
+						}
+						//p($try_file1);
+
+						if (($attr['module_id']) == true) {
+							$mod_id = $attr['module_id'];
+						} else {
+							//$mod_id = false;
+							$mod_id = $attr['module'];
+							$mod_id = str_replace('/', '_', $mod_id);
+							$mod_id = str_replace('\\', '_', $mod_id);
+							$mod_id = str_replace('-', '_', $mod_id);
+							$mod_id = $mod_id . '_' . date("YmdHis") . rand(1, 100);
+							$attr['module_id'] = $mod_id;
 
 							if (is_file($try_file1) == true and $error == false) {
 								$arrts = array();
