@@ -852,7 +852,7 @@ window.mw_text_edit_started = true;
 			
 			if(window.mw_drag_started == false){
 			//$(".row").find(".mw-sorthandle").hide();
-			  $(".mw-sorthandle", '.edit').hide();
+			//  $(".mw-sorthandle", '.edit').hide();
 			
 			//$(this).children(".mw-sorthandle-row").show();
             $has = $(this).children(":first").hasClass("mw-sorthandle-row");
@@ -879,7 +879,7 @@ window.mw_text_edit_started = true;
 			
 			
 				if(window.mw_drag_started == false){
-						 $(".mw-sorthandle-col", '.edit').hide();
+					//	 $(".mw-sorthandle-col", '.edit').hide();
 
 		//  $(".mw-sorthandle-row", '.edit').hide();
 					  $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
