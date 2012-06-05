@@ -107,20 +107,9 @@ mw.reload_module = function($module_name) {
 			if ($module_name != undefined) { 
 			//	$("div.module").each(
 				//$("div.module[mw_params_module='"+$module_name+"']").each(
-				if ($("#mercury_iframe").length>0) {
-  
-  
-  $mods = $("#mercury_iframe").contents().find("div.module");
-  
-  
-				}	else {
-					
-					  $mods = $("div.module");
-
-				}
-					
+			//  $mods = $("div.module");
 				 
-					
+					$mods = $("div.module[mw_params_module='"+$module_name+"']", '.edit')
 					
 				$mods.each(
  								function() {

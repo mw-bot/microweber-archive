@@ -1203,24 +1203,64 @@ class Template_model extends CI_Model {
 	}
 
 	function getModuleTemplates($module_name) {
+		if (trim($module_name) == '') {
+			return false;
+		}
 
-		$config = false;
-		$params['module_info'] = $module_name;
-		if ($params['module_info']) {
-			$params['module_info'] = str_replace('..', '', $params['module_info']);
-			$try_config_file = MODULES_DIR . '' . $params['module_info'] . '_config.php';
-			if (is_file($try_config_file)) {
-				include ($try_config_file);
-				if ($config['icon'] == false) {
-					$config['icon'] = MODULES_DIR . '' . $params['module_info'] . '.png';
+		$d = MODULES_DIR . '' . $module_name . DS . 'templates' . DS;
+		$d = normalize_path($d, true);
+		$dir = rglob('*.php', 0, $d);
+		$termplates = array();
+		if (!empty($dir)) {
+			$configs = array();
+			foreach ($dir as $key => $value) {
+				$filename = $value = normalize_path($value, false);
+				$fin = cache_file_memory_storage($filename);
 
-					$config['icon'] = pathToURL($config['icon']);
+				$template_file = str_ireplace($d, '', $filename);
+				$icon_file = str_ireplace('.php', '', $template_file);
+				$icon_file_path = $d . $icon_file . '.png';
+				$icon_file_path_jpg = $d . $icon_file . '.jpg';
+
+				//	p($icon_file_path);
+				$opts = array();
+
+				if (preg_match('/type:.+/', $fin, $regs)) {
+					$result = $regs[0];
+					$result = str_ireplace('type:', '', $result);
+					$type = trim($result);
+					$opts['type'] = $type;
+				}
+
+				if (is_file($icon_file_path)) {
+					$opts['thumbnail'] = pathToURL($icon_file_path);
+				} else {
+					if (is_file($icon_file_path_jpg)) {
+						$opts['thumbnail'] = pathToURL($icon_file_path_jpg);
+					}
+				}
+
+				if ($type == 'template') {
+					if (preg_match('/name:.+/', $fin, $regs)) {
+						$result = $regs[0];
+						$result = str_ireplace('name:', '', $result);
+						$name = trim($result);
+						$opts['name'] = $name;
+					}
+
+					if (preg_match('/description:.+/', $fin, $regs)) {
+						$result = $regs[0];
+						$result = str_ireplace('description:', '', $result);
+						$description = trim($result);
+						$opts['description'] = $description;
+					}
+					$opts['template'] = $template_file;
+					$termplates[] = $opts;
 				}
 
 			}
-			return $config;
 		}
-
+		return $termplates;
 	}
 
 	function getModuleConfig($module_name) {
@@ -1528,7 +1568,7 @@ class Template_model extends CI_Model {
 								}
 
 							}
-
+$module_view = false;
 							//$a = is_file ( $try_file1 );
 							if ($attr['file']) {
 								$attr['view'] = $attr['file'];
@@ -1545,7 +1585,7 @@ class Template_model extends CI_Model {
 								$module_view_file = MODULES_DIR . $attr['module'] . DS . $v;
 								$module_view_file = normalize_path($module_view_file, false);
 								if (is_file($module_view_file)) {
-									
+$module_view = $v;
 									$try_file1 = $module_view_file;
 								} else {
 									$module_view_file = ACTIVE_TEMPLATE_DIR . $v;
@@ -1557,7 +1597,7 @@ class Template_model extends CI_Model {
 								if (is_file($module_view_file) == false) {
 									if ($is_admin == true) {
 
-										$try_config_file = MODULES_DIR . '' . $attr['module'] .DS. 'config.php';
+										$try_config_file = MODULES_DIR . '' . $attr['module'] . DS . 'config.php';
 
 										$dir = dirname($module_view_file);
 										if (is_dir($dir) == false) {
@@ -1574,7 +1614,7 @@ class Template_model extends CI_Model {
 								}
 
 							}
- 
+
 							if (is_file($try_file1) == false) {
 
 								if (is_file($try_file) == true) {
@@ -1621,7 +1661,7 @@ class Template_model extends CI_Model {
 								$error = false;
 							}
 						} else {
-							
+
 						}
 						if ($error == true) {
 							$try_file1 = MODULES_DIR . 'non_existing.php';
@@ -1630,166 +1670,204 @@ class Template_model extends CI_Model {
 
 						if (($attr['module_id']) == true) {
 							$mod_id = $attr['module_id'];
-						} 
-							//$mod_id = false;
-							
-							$try_config_file = MODULES_DIR . '' . $attr['module'] . DS . 'config.php';
-							if (is_file($try_config_file) == false) {
-								$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
-							}
-							
+						}
+
+						//$mod_id = false;
+
+						$try_config_file = MODULES_DIR . '' . $attr['module'] . DS . 'config.php';
+						if (is_file($try_config_file) == false) {
+							$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
+						}
+						if (($attr['module_id']) == false) {
 							$mod_id = $attr['module'];
 							$mod_id = str_replace('/', '_', $mod_id);
 							$mod_id = str_replace('\\', '_', $mod_id);
 							$mod_id = str_replace('-', '_', $mod_id);
 							$mod_id = $mod_id . '_' . date("YmdHis") . rand(1, 100);
+
 							$attr['module_id'] = $mod_id;
- 
-							if (is_file($try_file1) == true and $error == false) {
-								$arrts = array();
-								foreach ($attr as $att => $at) {
-									// $this -> template[$att] = ($at);
-									//$this->template [$att] = mw_get_var($at);
-									// $this->load-> vars(array($att => $at));
-									$arrts[$att] = ($at);
-								}
-								$this -> load -> vars($arrts);
-								$no_edit = false;
-								$no_admin = false;
-								$check2 = false;
-								$mem2_md5_1 = md5(serialize($m));
-								//$mem2_md5_2 = md5 ( serialize ( $arrts ) );
-								$temp2 = false;
-								$check2 = $mem2_md5_1;
-								$check2 = strval($check2);
+						}
+
+						//p($try_file1);
+						if (is_file($try_file1) == true and $error == false) {
+							$arrts = array();
+							foreach ($attr as $att => $at) {
+								// $this -> template[$att] = ($at);
+								//$this->template [$att] = mw_get_var($at);
+								// $this->load-> vars(array($att => $at));
+								$arrts[$att] = ($at);
+							}
+							$this -> load -> vars($arrts);
+							$no_edit = false;
+							$no_admin = false;
+							$check2 = false;
+							$mem2_md5_1 = md5(serialize($m));
+							//$mem2_md5_2 = md5 ( serialize ( $arrts ) );
+							$temp2 = false;
+							$check2 = $mem2_md5_1;
+							$check2 = strval($check2);
+							//
+							$temp1 = parse_memory_storage($check2);
+
+							if ($temp1 != false) {
+								//var_dump ( $temp1 );
+								$module_file = $temp1;
+							} else {
 								//
-								$temp1 = parse_memory_storage($check2);
+								$try_config_file = normalize_path($try_config_file);
+								$try_config_file = rtrim($try_config_file, '\\');
 
-								if ($temp1 != false) {
-									//var_dump ( $temp1 );
-									$module_file = $temp1;
-								} else {
-									//
-									$try_config_file = normalize_path($try_config_file);
-									$try_config_file = rtrim($try_config_file, '\\');
-
-									$cache_this = true;
-									$force_cache_this = false;
+								$cache_this = true;
+								$force_cache_this = false;
 
 								//	p($try_config_file);
-									$config = false;
+								$config = false;
 
-									if (!is_file($try_config_file)) {
-										$try_config_file = str_replace('admin', '', $try_config_file);
-										$try_config_file = ltrim($try_config_file, '\\');
-									}
- 
-									if (is_file($try_config_file)) {
+								if (!is_file($try_config_file)) {
+									$try_config_file = str_replace('admin', '', $try_config_file);
+									$try_config_file = ltrim($try_config_file, '\\');
+								}
 
-										include ($try_config_file);
+								if (is_file($try_config_file)) {
 
-										if (!empty($config)) {
-											$check_icon = MODULES_DIR . '' . $attr['module'] . '.png';
-											$icon = pathToURL($check_icon);
-											//p($config);
+									include ($try_config_file);
 
-											$config['icon'] = $icon;
+									if (!empty($config)) {
+										$check_icon = MODULES_DIR . '' . $attr['module'] . '.png';
+										$icon = pathToURL($check_icon);
+										//p($config);
 
-											if (!empty($config['options'])) {
-												$this -> setup_module_options($config['options']);
+										$config['icon'] = $icon;
 
-											}
-											$cache_for_session = false;
-											if ($config['no_cache'] == true) {
-												$cache_this = false;
-												$do_not_cache_whole_block = true;
-												$cache_for_session = true;
-											}
+										if (!empty($config['options'])) {
+											$this -> setup_module_options($config['options']);
 
-											if ($config['cache'] == true) {
-												$force_cache_this = true;
-
-												$cache_for_session = true;
-											}
-
-											if ($config['no_edit'] == true) {
-												$no_edit = true;
-
-											}
-
-											if ($config['no_admin'] == true) {
-												$no_admin = true;
-
-											}
 										}
-
-									}
-									$config['module_admin'] = ('' . $attr['module']);
-									$config['module'] = str_ireplace('admin/', '', $attr['module']);
-
-									$config['url_to_module'] = (MODULES_DIR . '' . $attr['module'] . '.php');
-									$config['path_to_module'] = normalize_path((dirname($config['url_to_module'])) . '/', true);
-									$config['url_to_module'] = pathToURL(dirname($config['url_to_module'])) . '/';
-
-									$config['path_to_module_front'] = normalize_path(str_ireplace('admin', '', $config['path_to_module']), true);
-									$config['url_to_module_front'] = str_ireplace('admin', '', $config['url_to_module']);
-									//p($config);
-									// $this -> template['config'] = $config;
-									$this -> load -> vars(array('config' => $config));
-
-									if ($arrts['no_cache'] == true) {
-										$cache_this = false;
-									}
-
-									if ($options['no_cache'] == true) {
-										$cache_this = false;
-									}
-									if ($config['no_cache'] == true) {
-										$cache_this = false;
-									}
-									$mod_title = '';
-									if ($config['name'] == true) {
-										$mod_title = $config['name'];
-									}
-
-									if ($force_cache_this == false) {
-										if (strstr($attr['module'], 'admin/') == true) {
+										$cache_for_session = false;
+										if ($config['no_cache'] == true) {
 											$cache_this = false;
+											$do_not_cache_whole_block = true;
+											$cache_for_session = true;
+										}
+
+										if ($config['cache'] == true) {
+											$force_cache_this = true;
+
+											$cache_for_session = true;
+										}
+
+										if ($config['no_edit'] == true) {
+											$no_edit = true;
+
+										}
+
+										if ($config['no_admin'] == true) {
+											$no_admin = true;
 
 										}
 									}
 
-									if ($options['admin'] == true) {
+								}
+								$config['module_admin'] = ('' . $attr['module']);
+								$config['module'] = str_ireplace('admin/', '', $attr['module']);
+
+								$config['url_to_module'] = $try_file1;
+								$config['path_to_module'] = normalize_path((dirname($config['url_to_module'])) . '/', true);
+								$config['url_to_module'] = pathToURL(dirname($config['url_to_module'])) . '/';
+
+								$config['path_to_module_front'] = normalize_path(str_ireplace('admin', '', $config['path_to_module']), true);
+								$config['url_to_module_front'] = str_ireplace('admin', '', $config['url_to_module']);
+								//p($config);
+								// $this -> template['config'] = $config;
+								$this -> load -> vars(array('config' => $config));
+
+								if ($arrts['no_cache'] == true) {
+									$cache_this = false;
+								}
+
+								if ($options['no_cache'] == true) {
+									$cache_this = false;
+								}
+								if ($config['no_cache'] == true) {
+									$cache_this = false;
+								}
+								$mod_title = '';
+								if ($config['name'] == true) {
+									$mod_title = $config['name'];
+								}
+
+								if ($force_cache_this == false) {
+									if (strstr($attr['module'], 'admin/') == true) {
 										$cache_this = false;
+
 									}
-									$params_encoded = false;
+								}
 
-									if ($force_cache_this == true) {
-										$cache_this = true;
-									}
-									//var_dump($force_cache_this);
+								if ($options['admin'] == true) {
+									$cache_this = false;
+								}
+								$params_encoded = false;
 
-									$is_admin = is_admin();
+								if ($force_cache_this == true) {
+									$cache_this = true;
+								}
+								//var_dump($force_cache_this);
 
-									if ($arrt['view']) {
+								$is_admin = is_admin();
 
-										$copy_to = TEMPLATE_DIR . $arrt['view'];
-										if (is_file($try_file1) and !is_file($copy_to)) {
-											if ($is_admin == true) {
+								if ($arrt['view']) {
 
-												$src_to_copy = $try_file1;
-												copy($src_to_copy, $copy_to);
-												$try_file1 = $copy_to;
-											}
-										}
+									$copy_to = TEMPLATE_DIR . $arrt['view'];
+									if (is_file($try_file1) and !is_file($copy_to)) {
+										if ($is_admin == true) {
 
-										if (is_file($copy_to)) {
-
+											$src_to_copy = $try_file1;
+											copy($src_to_copy, $copy_to);
 											$try_file1 = $copy_to;
-
 										}
+									}
+
+									if (is_file($copy_to)) {
+
+										$try_file1 = $copy_to;
 
 									}
+
+								}
+								$module_file = '';
+								$custom_markup = false;
+								$module_template = option_get('template', $mod_id);
+ 
+								if ($module_view != 'settings.php') {
+									if ($module_template != false) {
+										$d = MODULES_DIR . '' . $attr['module'] . DS . 'templates' . DS;
+										$d = normalize_path($d, true);
+
+										$module_template_file = $d . $module_template;
+										if (is_file($module_template_file)) {
+											$module_file .= $this -> load -> file($module_template_file, true);
+
+											$fin = cache_file_memory_storage($module_template_file);
+
+											if (preg_match('/custom_markup:.+/', $fin, $regs)) {
+												$resultz = $regs[0];
+												$resultz = str_ireplace('custom_markup:', '', $resultz);
+												$custom_markup = trim($resultz);
+												if ($custom_markup == 'false') {
+													$custom_markup = false;
+												} else {
+													$custom_markup = (bool)$custom_markup;
+												}
+
+												//	p($custom_markup);
+												//p($custom_markup);
+											}
+
+											//p($skip_view);
+										}
+									}
+								}
+								if ($custom_markup == false) {
 
 									if ($cache_this == true) {
 										$cache_id = md5($try_file1) . md5(serialize($arrts));
@@ -1808,7 +1886,7 @@ class Template_model extends CI_Model {
 
 										if (($cache_content) != false) {
 											//var_dump($cache_content);
-											$module_file = $cache_content;
+											$module_file .= $cache_content;
 
 										} else {
 											//	p($arrts);
@@ -1819,7 +1897,7 @@ class Template_model extends CI_Model {
 
 											//$module_file = $this->load->file ( $try_file1, true );
 
-											$module_file = $this -> load -> file($try_file1, true);
+											$module_file .= $this -> load -> file($try_file1, true);
 
 											//$this->core_model->cacheWriteAndEncode ( $module_file, $cache_id, $cache_group );
 										}
@@ -1831,136 +1909,137 @@ class Template_model extends CI_Model {
 
 										//p($this->template);
 										//$module_file = $this->load->file ( $try_file1, true );
-										$module_file = $this -> load -> file($try_file1, true);
+										$module_file .= $this -> load -> file($try_file1, true);
 									}
+
 									//$params_encoded = encode_var ( $arrts );
 
 									$params_encoded = 'edit_tag';
 									$params_module = codeClean($arrts['module']);
 
 								}
-								//if (($attr ['module'] != 'header') and ($attr ['module'] != 'footer')) {
+							}
+							//if (($attr ['module'] != 'header') and ($attr ['module'] != 'footer')) {
 
-								//
-								$more_attrs2 = '';
-								if (!empty($arrts)) {
+							//
 
-									foreach ($arrts as $arrts_k => $arrts_v) {
+							$more_attrs2 = '';
+							if (!empty($arrts)) {
 
-										if (strstr($arrts['module'], 'admin')) {
-											if ((strtolower($arrts_k) != 'class') && (strtolower($arrts_k) != 'contenteditable') && (strtolower($arrts_k) != 'style')) {
-												$more_attrs2 .= " {$arrts_k}='{$arrts_v}' ";
-											} else {
+								foreach ($arrts as $arrts_k => $arrts_v) {
 
-											}
-										} else {
-											if ((strtolower($arrts_k) != 'class') && (strtolower($arrts_k) != 'contenteditable')) {
-												$more_attrs2 .= " {$arrts_k}='{$arrts_v}' ";
-											} else {
-
-											}
-										}
-
-									}
-
-								} else {
-
-								}
-								if ($mod_id == true) {
-									$mod_id_tag = ' module_id="' . $mod_id . '"   name="' . $mod_id . '" ';
-								} else {
-									//	$mod_id_tag = '';
-									$mod_id_tag = ' module_id="default"  name="default" ';
-
-								}
-								if ($mod_title != '') {
-									$mod_id_tag .= ' data-module-title="' . $mod_title . '" ';
-								}
-								if ($editmode = true) {
-									//	p($m);
-									//p( $arrts);
-
-									if ($no_admin == true) {
-										$no_admin_tag = ' no_admin="true" ';
-									} else {
-										$no_admin_tag = '';
-									}
-									$params_module_clean = str_replace('/', '__', $params_module);
-									$params_module_clean = str_replace('/', '-', $params_module_clean);
-									$params_module_clean = str_replace(' ', '-', $params_module_clean);
-									//$edtid_hash = base64_encode ( $m ['full_tag'] );
-									$edtid_hash = 'edit_tag';
-
-									$more_attrs = '';
-
-									$more_attrs = " class='module' ";
-
-									//$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
-
-									$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
-
-									//  p($more_attrs2);
-									//
-
-									//
-									if (strval($module_file) != '') {
-
-										if ($options['do_not_wrap'] == true) {
-											$module_file = $module_file;
-
+									if (strstr($arrts['module'], 'admin')) {
+										if ((strtolower($arrts_k) != 'class') && (strtolower($arrts_k) != 'contenteditable') && (strtolower($arrts_k) != 'style')) {
+											$more_attrs2 .= " {$arrts_k}='{$arrts_v}' ";
 										} else {
 
-											if ($no_edit == false) {
-												//$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
-												$module_file = '<div ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
-
-												//$module_file = '<div data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
-
-											} else {
-												$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
-
-											}
 										}
-
 									} else {
-										$module_file = false;
+										if ((strtolower($arrts_k) != 'class') && (strtolower($arrts_k) != 'contenteditable')) {
+											$more_attrs2 .= " {$arrts_k}='{$arrts_v}' ";
+										} else {
+
+										}
 									}
 
-									//	p($m ['full_tag']);
-
-								} else {
-									if (strval($module_file) != '') {
-										$module_file = '<div ' . $more_attrs2 . ' class="module" ' . $mod_id_tag . '  data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
-									}
-								}
-								//}  ++
-
-								$module_file = str_replace('<mw', '<microweber', $module_file);
-
-								if (strstr($params_module, 'source_code') == false and $error == false) {
-									if (strstr($module_file, '<microweber') == true and $error == false) {
-										$module_file = $this -> parseMicrwoberTags($module_file, $options);
-									}
 								}
 
-								//	$layout = str_replace_count ( $m ['full_tag'],htmlentities($m ['full_tag']). $module_file, $layout, 1 );
-								$layout = str_replace_count($m['full_tag'], $module_file, $layout, 1);
-								$layout = $this -> core_model -> replace_in_long_text($m['full_tag'], $module_file, $layout, $use_normal_replace = true);
-
-								//$layout = str_replace ( $m ['full_tag'], $module_file, $layout );
-								//$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
-								//	$layout = str_replace_count ( '</mw>', '', $layout, 1 );
-								//$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
-								//$layout = str_replace ( '</mw>', '', $layout );
-								//$layout = str_replace ( '</microweber>', '', $layout );
-
-								//parse_memory_storage ( $check2, $layout );
+							} else {
 
 							}
+							if ($mod_id == true) {
+								$mod_id_tag = ' module_id="' . $mod_id . '"   name="' . $mod_id . '" ';
+							} else {
+								//	$mod_id_tag = '';
+								$mod_id_tag = ' module_id="default"  name="default" ';
+
+							}
+							if ($mod_title != '') {
+								$mod_id_tag .= ' data-module-title="' . $mod_title . '" ';
+							}
+							if ($editmode = true) {
+								//	p($m);
+								//p( $arrts);
+
+								if ($no_admin == true) {
+									$no_admin_tag = ' no_admin="true" ';
+								} else {
+									$no_admin_tag = '';
+								}
+								$params_module_clean = str_replace('/', '__', $params_module);
+								$params_module_clean = str_replace('/', '-', $params_module_clean);
+								$params_module_clean = str_replace(' ', '-', $params_module_clean);
+								//$edtid_hash = base64_encode ( $m ['full_tag'] );
+								$edtid_hash = 'edit_tag';
+
+								$more_attrs = '';
+
+								$more_attrs = " class='module' ";
+
+								//$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
+
+								$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
+
+								//  p($more_attrs2);
+								//
+
+								//
+								if (strval($module_file) != '') {
+
+									if ($options['do_not_wrap'] == true) {
+										$module_file = $module_file;
+
+									} else {
+
+										if ($no_edit == false) {
+											//$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+											$module_file = '<div ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+
+											//$module_file = '<div data-params-encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+
+										} else {
+											$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
+
+										}
+									}
+
+								} else {
+									$module_file = false;
+								}
+
+								//	p($m ['full_tag']);
+
+							} else {
+								if (strval($module_file) != '') {
+									$module_file = '<div ' . $more_attrs2 . ' class="module" ' . $mod_id_tag . '  data-params-encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
+								}
+							}
+							//}  ++
+
+							$module_file = str_replace('<mw', '<microweber', $module_file);
+
+							if (strstr($params_module, 'source_code') == false and $error == false) {
+								if (strstr($module_file, '<microweber') == true and $error == false) {
+									$module_file = $this -> parseMicrwoberTags($module_file, $options);
+								}
+							}
+
+							//	$layout = str_replace_count ( $m ['full_tag'],htmlentities($m ['full_tag']). $module_file, $layout, 1 );
+							$layout = str_replace_count($m['full_tag'], $module_file, $layout, 1);
+							$layout = $this -> core_model -> replace_in_long_text($m['full_tag'], $module_file, $layout, $use_normal_replace = true);
+
+							//$layout = str_replace ( $m ['full_tag'], $module_file, $layout );
+							//$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
+							//	$layout = str_replace_count ( '</mw>', '', $layout, 1 );
+							//$layout = str_replace_count ( '</microweber>', '', $layout, 1 );
+							//$layout = str_replace ( '</mw>', '', $layout );
+							//$layout = str_replace ( '</microweber>', '', $layout );
+
+							//parse_memory_storage ( $check2, $layout );
 
 						}
 
-					
+					}
 
 				}
 

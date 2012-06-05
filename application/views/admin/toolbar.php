@@ -408,18 +408,13 @@ $(".mw_option_field").live("change blur", function(){
 		
 		if(refresh_modules11 != undefined && refresh_modules11 != ''){
 			refresh_modules11 = refresh_modules11.toString()
-			
-//alert(refresh_modules11);
+ 
   if(window.mw != undefined){
 			if(window.mw.reload_module != undefined){
 				window.mw.reload_module(refresh_modules11);
 			}
   }
-			  if(parent.mw != undefined){
-			if(parent.mw.reload_module != undefined){
-				parent.mw.reload_module(refresh_modules11);
-			}
-			  }
+			 
 		/*		*/
 			
 			
