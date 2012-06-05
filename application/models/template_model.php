@@ -1485,12 +1485,12 @@ class Template_model extends CI_Model {
 							$attr['module'] = reduce_double_slashes($attr['module']);
 							$attr['module'] = rtrim($attr['module'], '\\');
 							$attr['module'] = rtrim($attr['module'], '/');
- 
+
 							$try_file1 = MODULES_DIR . DS . $attr['module'] . DS . 'index.php';
 							$try_file1 = normalize_path($try_file1, false);
-						//	p($try_file1);
+							//	p($try_file1);
 							if (is_file($try_file1) == false) {
-								
+
 								$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
 								$try_file1 = normalize_path($try_file1, false);
 								$try_file = MODULES_DIR . 'modules' . DS . $attr['module'] . '.php';
@@ -1506,9 +1506,9 @@ class Template_model extends CI_Model {
 							$try_file1 = normalize_path($try_file1, false);
 							$try_file = normalize_path($try_file, false);
 
-							if (is_file($try_file_db_file) == true) {
-								//$this->init_model->db_setup_from_file ( $try_file_db_file );
-							}
+							//	if (is_file($try_file_db_file) == true) {
+							//$this->init_model->db_setup_from_file ( $try_file_db_file );
+							//}
 
 							if ($options['admin'] == true) {
 
@@ -1528,39 +1528,53 @@ class Template_model extends CI_Model {
 								}
 
 							}
- 
+
 							//$a = is_file ( $try_file1 );
 							if ($attr['file']) {
 								$attr['view'] = $attr['file'];
 							}
 
-							/*
-							 if ($attr['view']) {
-							 $module_view_file = ACTIVE_TEMPLATE_DIR . $attr['view'];
-							 $module_view_file = normalize_path($module_view_file, false);
-							 // p($module_view_file);
-							 $is_admin = is_admin();
-							 if (is_file($module_view_file) == false) {
-							 if ($is_admin == true) {
+							if ($attr['view']) {
 
-							 $try_config_file = MODULES_DIR . '' . $attr['module'] . 'config.php';
+								$v = $attr['view'];
+								$ext = substr($v, -4);
+								if (strtolower($ext) != '.php') {
+									$v = $v . '.php';
+								}
 
-							 $dir = dirname($module_view_file);
-							 if (is_dir($dir) == false) {
-							 mkdir_recursive($dir);
-							 }
+								$module_view_file = MODULES_DIR . $attr['module'] . DS . $v;
+								$module_view_file = normalize_path($module_view_file, false);
+								if (is_file($module_view_file)) {
+									
+									$try_file1 = $module_view_file;
+								} else {
+									$module_view_file = ACTIVE_TEMPLATE_DIR . $v;
+									$module_view_file = normalize_path($module_view_file, false);
 
-							 if (copy($try_file1, $module_view_file)) {
-							 $try_file1 = $module_view_file;
-							 }
+								}
 
-							 }
-							 } else {
-							 $try_file1 = $module_view_file;
-							 }
+								$is_admin = is_admin();
+								if (is_file($module_view_file) == false) {
+									if ($is_admin == true) {
 
-							 }*/
+										$try_config_file = MODULES_DIR . '' . $attr['module'] .DS. 'config.php';
 
+										$dir = dirname($module_view_file);
+										if (is_dir($dir) == false) {
+											mkdir_recursive($dir);
+										}
+
+										if (copy($try_file1, $module_view_file)) {
+											$try_file1 = $module_view_file;
+										}
+
+									}
+								} else {
+									$try_file1 = $module_view_file;
+								}
+
+							}
+ 
 							if (is_file($try_file1) == false) {
 
 								if (is_file($try_file) == true) {
@@ -1616,11 +1630,10 @@ class Template_model extends CI_Model {
 							$try_file1 = MODULES_DIR . 'non_existing.php';
 							$error = false;
 						}
-						//p($try_file1);
 
 						if (($attr['module_id']) == true) {
 							$mod_id = $attr['module_id'];
-						} else {
+						} 
 							//$mod_id = false;
 							$mod_id = $attr['module'];
 							$mod_id = str_replace('/', '_', $mod_id);
@@ -1628,7 +1641,7 @@ class Template_model extends CI_Model {
 							$mod_id = str_replace('-', '_', $mod_id);
 							$mod_id = $mod_id . '_' . date("YmdHis") . rand(1, 100);
 							$attr['module_id'] = $mod_id;
-
+ 
 							if (is_file($try_file1) == true and $error == false) {
 								$arrts = array();
 								foreach ($attr as $att => $at) {
@@ -1944,7 +1957,7 @@ class Template_model extends CI_Model {
 
 						}
 
-					}
+					
 
 				}
 

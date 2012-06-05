@@ -141,7 +141,8 @@ $module_title = $module.attr('data-module-title');
 
 
 data1 = {}
-   data1.module = 'admin/'+$module_name;
+   data1.module = ''+$module_name;
+    data1.view = 'settings';
     data1.module_id =$module_id;
    data1.page_id = '<? print intval(PAGE_ID) ?>';
    data1.post_id = '<? print intval(POST_ID) ?>';
