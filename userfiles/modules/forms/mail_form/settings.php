@@ -70,7 +70,7 @@
   <div id="mw_email_form_editor<? print $rand_id ?>tabs-2">
        
         <? //p($config); ?>
-       <microweber module="admin/modules/templates" module_id="<? print $params['module_id'] ?>"   module_name="<? print $config['module'] ?>" />
+       <microweber module="admin/modules/templates" module_id="<? print $params['module_id'] ?>"  for_module_id="<? print $params['module_id'] ?>"   module_name="<? print $config['module'] ?>" />
   </div>
   <div id="mw_email_form_editor<? print $rand_id ?>tabs-3">
    <table border="0" cellspacing="5" cellpadding="0" >

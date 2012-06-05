@@ -14,7 +14,7 @@
       });
     </script>
     -->
-    
+   
 
 <script type="text/javascript">
                 $(document).ready(function(){
@@ -52,7 +52,8 @@
   <form method="post" action="" id="contact_form<? print  $params['module_id'] ?>" class="uniForm"> 
   
   <div class="uniForm_header">
-        <h2><?php print option_get('form_title', $params['module_id']) ?></h2>
+        <h2> <?php print option_get('template', $params['module_id']) ?> <?php print option_get('form_title', $params['module_id']) ?></h2>
+		
         <p><?php print option_get('form_description', $params['module_id']) ?></p>
       </div>
       
