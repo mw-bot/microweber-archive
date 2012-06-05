@@ -1621,10 +1621,7 @@ class Template_model extends CI_Model {
 								$error = false;
 							}
 						} else {
-							$try_config_file = MODULES_DIR . '' . $attr['module'] . DS . 'config.php';
-							if (is_file($try_config_file) == false) {
-								$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
-							}
+							
 						}
 						if ($error == true) {
 							$try_file1 = MODULES_DIR . 'non_existing.php';
@@ -1635,6 +1632,12 @@ class Template_model extends CI_Model {
 							$mod_id = $attr['module_id'];
 						} 
 							//$mod_id = false;
+							
+							$try_config_file = MODULES_DIR . '' . $attr['module'] . DS . 'config.php';
+							if (is_file($try_config_file) == false) {
+								$try_config_file = MODULES_DIR . '' . $attr['module'] . '_config.php';
+							}
+							
 							$mod_id = $attr['module'];
 							$mod_id = str_replace('/', '_', $mod_id);
 							$mod_id = str_replace('\\', '_', $mod_id);
@@ -1673,14 +1676,14 @@ class Template_model extends CI_Model {
 									$cache_this = true;
 									$force_cache_this = false;
 
-									//p($try_config_file);
+								//	p($try_config_file);
 									$config = false;
 
 									if (!is_file($try_config_file)) {
 										$try_config_file = str_replace('admin', '', $try_config_file);
 										$try_config_file = ltrim($try_config_file, '\\');
 									}
-
+ 
 									if (is_file($try_config_file)) {
 
 										include ($try_config_file);
