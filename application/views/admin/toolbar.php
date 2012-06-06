@@ -12,6 +12,33 @@
    //alert(admin_panel);
    
    
+  
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
  </script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-ui-1.8.20.custom.min.js" type="text/javascript"></script>
@@ -30,6 +57,59 @@
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/farbtastic/farbtastic.js" type="text/javascript"></script>
 <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/freshereditor.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+
+
+ 
+   (function(window,undefined){
+	
+	// Load Helpers
+	var
+		intervalScript, intervalJquery,
+		loadScript = function(scriptUrl){
+			var e = document.createElement('script');
+			e.setAttribute('src',scriptUrl);
+			window.document.body.appendChild(e);
+			return e;
+		};
+	
+	// Load In Basic Dependencies
+	if ( typeof window.jQuery === 'undefined' || /^1\.[0-3]/.test(window.jQuery.fn.jquery) ) {
+		//loadScript('<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.min.js');
+	}
+
+	// Load In Advanced Dependencies
+	intervalJquery = setInterval(function(){
+		if ( typeof window.jQuery !== 'undefined' ) {
+			clearInterval(intervalJquery);
+			loadScript('http://balupton.github.com/history.js/scripts/bundled/html4+html5/jquery.history.js');
+			loadScript('https://raw.github.com/balupton/jquery-scrollto/master/scripts/jquery.scrollto.min.js');
+		}
+	},500);
+	
+	// Load In Script
+	intervalScript = setInterval(function(){
+		if ( typeof window.jQuery !== 'undefined' && typeof window.History !== 'undefined' && typeof window.History.initHtml4 !== 'undefined' ) {
+			if ( window.console ) {
+				//window.console.log('Loading in script');
+			}
+			$(loadScript('https://raw.github.com/gist/854622/ajaxify-html5.js')).bind('load',function(){
+				if ( typeof window.historyjsitNoAlert === 'undefined' ) {
+					//alert('History.js It! Is ready for action!');
+				}
+			});
+			clearInterval(intervalScript);
+		}
+		else if ( window.console ) {
+			window.console.log('Loading...');
+		}
+	},500);
+	
+})(window);
+   
+
+
+
 	$(document).ready(function() {
 		$('.edit').freshereditor({toolbar_selector: "#mw-layout-edit-site-text-editor"});
 	// $(".edit").freshereditor("edit", true);
@@ -359,10 +439,45 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
 	 $( "#mw_toolbar_tabs" ).tabs("select", "#mw_css_editor");
   }
  
+ 
+ 
+ function mw_preview_page_template_change($layout_file){
+	 
+	
+
+	// Prepare
+	var History = window.History; // Note: We are using a capital H instead of a lower h
+	if ( !History.enabled ) {
+		 // History.js is disabled for this browser.
+		 // This is because we can optionally choose to support HTML4 browsers or not.
+		return false;
+	}
+
+	// Bind to StateChange Event
+	History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+		var State = History.getState(); // Note: We are using History.getState() instead of event.state
+		History.log(State.data, State.title, State.url);
+	});
+
+	// Change our States
+	History.pushState({state:1}, "Preview template change", "<? print url($skip_ajax = false, $skip_param = 'preview_template'); ?>/preview_template:"+$layout_file); // logs {state:1}, "State 1", "?state=1"
+	//History.pushState(null, null, "?state=4"); // logs {}, '', "?state=4"
+	History.go(1); // logs {state:3}, "State 3", "?state=3"
+
+
+ 
+ }
+ 
   </script> 
 <script type="text/javascript">
  
 $(document).ready(function(){
+	$("#mw_layoutsList").live("change", function(){
+	
+	$v =  $(this).val();
+	mw_preview_page_template_change($v)
+	
+	});
 $(".mw_option_field").live("change blur", function(){
 
  
@@ -709,34 +824,6 @@ if (window.console != undefined) {
 		})
 	
 		}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
  }
 
