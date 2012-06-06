@@ -647,25 +647,33 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		// DISABLING EDITMODE till its finished
 		//	$editmode = false;
+		$no_toolbar = false;
+		if (isset($_POST['no_toolbar'])) {
+			$no_toolbar = true;
+		}
+		if ((url_param('no_toolbar') == true)) {
+			$no_toolbar = true;
+		}
+		
+		if ($no_toolbar == false) {
+			if ($editmode == true) {
+				$is_admin = is_admin();
+				if ($is_admin == true) {
+					//$layout = $this->template_model->addTransparentBackgroudToFlash ( $layout );
+					$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
+					if ($layout_toolbar != '') {
+						$layout = str_replace('<body>', '<body>' . $layout_toolbar, $layout);
+						//$layout = str_replace('</ body>', $layout_toolbar . '</ body>', $layout);
+						//some developers put spaces
+						//$layout = str_replace('</  body>', $layout_toolbar . '</  body>', $layout);
+						//some developers put moooore spaces
 
-		if ($editmode == true) {
-			$is_admin = is_admin();
-			if ($is_admin == true) {
-				//$layout = $this->template_model->addTransparentBackgroudToFlash ( $layout );
-				$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
-				if ($layout_toolbar != '') {
-					$layout = str_replace('<body>', '<body>' . $layout_toolbar, $layout);
-					//$layout = str_replace('</ body>', $layout_toolbar . '</ body>', $layout);
-					//some developers put spaces
-					//$layout = str_replace('</  body>', $layout_toolbar . '</  body>', $layout);
-					//some developers put moooore spaces
+					}
 
 				}
 
 			}
-
 		}
-
 		if (!empty($stylesheets_to_add)) {
 			$layout = str_replace('</ head>', '</head>', $layout);
 

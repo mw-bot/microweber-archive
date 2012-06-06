@@ -1,3 +1,53 @@
+
+   (function(window,undefined){
+	
+	// Load Helpers
+	var
+		intervalScript, intervalJquery,
+		loadScript = function(scriptUrl){
+			var e = document.createElement('script');
+			e.setAttribute('src',scriptUrl);
+			window.document.body.appendChild(e);
+			return e;
+		};
+	
+	// Load In Basic Dependencies
+	if ( typeof window.jQuery === 'undefined' || /^1\.[0-3]/.test(window.jQuery.fn.jquery) ) {
+		//loadScript('<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.min.js');
+	}
+
+	// Load In Advanced Dependencies
+	intervalJquery = setInterval(function(){
+		if ( typeof window.jQuery !== 'undefined' ) {
+			clearInterval(intervalJquery);
+			loadScript('<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/history/jquery.history.js');
+			//loadScript('https://raw.github.com/balupton/jquery-scrollto/master/scripts/jquery.scrollto.min.js');
+		}
+	},500);
+	
+	// Load In Script
+	intervalScript = setInterval(function(){
+		if ( typeof window.jQuery !== 'undefined' && typeof window.History !== 'undefined' && typeof window.History.initHtml4 !== 'undefined' ) {
+			if ( window.console ) {
+				//window.console.log('Loading in script');
+			}
+			$(loadScript('<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/history/ajaxify-html5.js')).bind('load',function(){
+				if ( typeof window.historyjsitNoAlert === 'undefined' ) {
+					//alert('History.js It! Is ready for action!');
+				}
+			});
+			clearInterval(intervalScript);
+		}
+		else if ( window.console ) {
+			window.console.log('Loading...');
+		}
+	},500);
+	
+})(window);
+
+
+
+
 // https://gist.github.com/854622
 (function(window,undefined){
 	
@@ -111,67 +161,19 @@
 			$content.animate({opacity:0},800);
 			
 			// Ajax Request the Traditional Page
+			//$("html").load(url, function(data, status, xhr) {
+  
+			//});
 			$.ajax({
 				url: url,
+				 context: document.body,
+				 method: 'post',
+				  data: { no_toolbar: "1", location: "Boston" },
 				success: function(data, textStatus, jqXHR){
-					// Prepare
-					var
-						$data = $(documentHtml(data)),
-						$dataBody = $data.find('.document-body:first'),
-						$dataContent = $dataBody.find(contentSelector).filter(':first'),
-						$menuChildren, contentHtml, $scripts;
-					
-					// Fetch the scripts
-					$scripts = $dataContent.find('.document-script');
-					if ( $scripts.length ) {
-						$scripts.detach();
-					}
+		 $body.fadeOut();
 
 					// Fetch the content
-					contentHtml = $dataContent.html()||$data.html();
-					if ( !contentHtml ) {
-						document.location.href = url;
-						return false;
-					}
-					
-					// Update the menu
-					$menuChildren = $menu.find(menuChildrenSelector);
-					$menuChildren.filter(activeSelector).removeClass(activeClass);
-					$menuChildren = $menuChildren.has('a[href^="'+relativeUrl+'"],a[href^="/'+relativeUrl+'"],a[href^="'+url+'"]');
-					if ( $menuChildren.length === 1 ) { $menuChildren.addClass(activeClass); }
-
-					// Update the content
-					$content.stop(true,true);
-					$content.html(contentHtml).ajaxify().css('opacity',100).show(); /* you could fade in here if you'd like */
-
-					// Update the title
-					document.title = $data.find('.document-title:first').text();
-					try {
-						document.getElementsByTagName('title')[0].innerHTML = document.title.replace('<','&lt;').replace('>','&gt;').replace(' & ',' &amp; ');
-					}
-					catch ( Exception ) { }
-					
-					// Add the scripts
-					$scripts.each(function(){
-						var $script = $(this), scriptText = $script.text(), scriptNode = document.createElement('script');
-						scriptNode.appendChild(document.createTextNode(scriptText));
-						contentNode.appendChild(scriptNode);
-					});
-
-					// Complete the change
-					if ( $body.ScrollTo||false ) { $body.ScrollTo(scrollOptions); } /* http://balupton.com/projects/jquery-scrollto */
-					$body.removeClass('loading');
-	
-					// Inform Google Analytics of the change
-					if ( typeof window.pageTracker !== 'undefined' ) {
-						window.pageTracker._trackPageview(relativeUrl);
-					}
-
-					// Inform ReInvigorate of a state change
-					if ( typeof window.reinvigorate !== 'undefined' && typeof window.reinvigorate.ajax_track !== 'undefined' ) {
-						reinvigorate.ajax_track(url);
-						// ^ we use the full url here as that is what reinvigorate supports
-					}
+					 
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					document.location.href = url;
