@@ -82,8 +82,8 @@
 	intervalJquery = setInterval(function(){
 		if ( typeof window.jQuery !== 'undefined' ) {
 			clearInterval(intervalJquery);
-			loadScript('http://balupton.github.com/history.js/scripts/bundled/html4+html5/jquery.history.js');
-			loadScript('https://raw.github.com/balupton/jquery-scrollto/master/scripts/jquery.scrollto.min.js');
+			loadScript('<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/history/jquery.history.js');
+			//loadScript('https://raw.github.com/balupton/jquery-scrollto/master/scripts/jquery.scrollto.min.js');
 		}
 	},500);
 	
@@ -93,7 +93,7 @@
 			if ( window.console ) {
 				//window.console.log('Loading in script');
 			}
-			$(loadScript('https://raw.github.com/gist/854622/ajaxify-html5.js')).bind('load',function(){
+			$(loadScript('<?php   print( ADMIN_STATIC_FILES_URL);  ?>freshereditor/history/ajaxify-html5.js')).bind('load',function(){
 				if ( typeof window.historyjsitNoAlert === 'undefined' ) {
 					//alert('History.js It! Is ready for action!');
 				}

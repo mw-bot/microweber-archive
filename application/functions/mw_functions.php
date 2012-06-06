@@ -7,7 +7,7 @@ function url_string($string) {
 
 }
 
-function url($skip_ajax = false) {
+function url($skip_ajax = false, $skip_param = false) {
 	if ($skip_ajax == false) {
 		$is_ajax = isAjax ();
 		
@@ -43,6 +43,9 @@ function url($skip_ajax = false) {
 		
 		$pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
 	
+	}
+	if($skip_param != false){
+	$pageURL  = url_param_unset($skip_param, $pageURL );
 	}
 	
 	return $pageURL;
