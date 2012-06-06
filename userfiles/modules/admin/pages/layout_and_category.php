@@ -1,7 +1,11 @@
 <?
  $id = $params['id'];
-
-
+if(intval($id) == 0){
+	if(defined('PAGE_ID')){
+	$id = PAGE_ID;
+	}
+}
+//p($id);
 if(intval($id) > 0){
 $form_values = get_page($id);
 }
@@ -198,10 +202,17 @@ $(document).ready(function () {
 </script>
 
 
-   <div class="formitem" >
-  <label>Layout</label>
-  <span class="formfield">
- <? 
+
+
+
+
+
+<fieldset>
+  <div class="control-group">
+    <label class="control-label" for="mw_layoutsList">Layout</label>
+    <div class="controls">
+      <div class="input-append">
+        <? 
 
 $template_options = array();
 //p($params);
@@ -214,67 +225,48 @@ $template_options['site_template'] = $template_dir;
 }
 
 ?>
-<? $layouts = $this->template_model->layoutsList($template_options);  
+        <? $layouts = $this->template_model->layoutsList($template_options);  
 
 //p( $layouts);
 
 ?>
- 
-
-<? if(!empty($layouts)): ?>
-<select name="layoutsList" id="mw_layoutsList"  onchange="set_layout(this.value, '<? print $layout['layout_name'] ?>')" >
-  <option value="inherit"  onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')" >Inherit</option>
-  <? foreach($layouts as $layout): ?>
-  <? if($layout['screenshot']): ?>
-  <!-- <a href="<? print $layout['screenshot'] ?>"> <img src="<? print $layout['screenshot'] ?>" height="100" /></a>-->
-  <? else: ?>
- <? $screen_class = ''?>
-  <? endif; ?>
-  
-  
- 
-  
-  
-  
-  <option  onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')"    onmouseover="set_layout_icon('<? print $layout['screenshot'] ?>')"       <? if($form_values['content_layout_name'] == $layout['layout_name']): ?>   selected="selected"  <? endif; ?>   layout_name="<? print $layout['layout_name'] ?>" value="<? print $layout['filename'] ?>"><? print $layout['name'] ?> (<? print $layout['layout_name'] ?>)</option>
-  
-  <? endforeach; ?>
-</select>
-<? endif; ?>
- 
-  </span> </div>
-
-<a href="javascript:toggle_change_layout()" class="underline"><small>advanced</small></a>
- 
+        <? if(!empty($layouts)): ?>
+        <select name="layoutsList" class="span2" id="mw_layoutsList"  onchange="set_layout(this.value, '<? print $layout['layout_name'] ?>')" >
+          <option value="inherit"  onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')" >Inherit</option>
+          <? foreach($layouts as $layout): ?>
+          <? if($layout['screenshot']): ?>
+          <!-- <a href="<? print $layout['screenshot'] ?>"> <img src="<? print $layout['screenshot'] ?>" height="100" /></a>-->
+          <? else: ?>
+          <? $screen_class = ''?>
+          <? endif; ?>
+          <option  onclick="set_layout(this.value, '<? print $layout['layout_name'] ?>')"    onmouseover="set_layout_icon('<? print $layout['screenshot'] ?>')"       <? if($form_values['content_layout_name'] == $layout['layout_name']): ?>   selected="selected"  <? endif; ?>   layout_name="<? print $layout['layout_name'] ?>" value="<? print $layout['filename'] ?>"><? print $layout['name'] ?> (<? print $layout['layout_name'] ?>)</option>
+          <? endforeach; ?>
+        </select>
+        <button class="btn" type="button" onclick="toggle_change_layout()">advanced</button>
+         <? endif; ?>
+      </div>
+    </div>
+  </div>
+</fieldset>
 
 
 
-  
-  
+
+
+
+
  <div id="change_layout_settings" style="display:none">
-
-
-<h3>Layout dir</h3>
- <input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" />
-
-<label>Filename</label>
-<input name="content_filename" type="text" value="<? print $form_values['content_filename'] ?>" />
-<!--<legend>Content sub type</legend>-->
-<div class="formitem">
-  <label>Page File</label>
-  <div class="formfield">
-    <input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" />
+  <h3>Layout dir</h3>
+  <input name="content_layout_name" type="text" id="content_layout_name" value="<? print $form_values['content_layout_name'] ?>" />
+  <label>Filename</label>
+  <input name="content_filename" type="text" value="<? print $form_values['content_filename'] ?>" />
+  <!--<legend>Content sub type</legend>-->
+  <div class="formitem">
+    <label>Page File</label>
+    <div class="formfield">
+      <input name="content_layout_file" type="text" id="content_layout_file" value="<? print $form_values['content_layout_file'] ?>" />
+    </div>
   </div>
-
+  <div id="layout_config_module_placeholder"></div>
 </div>
-
-
-
-<div id="layout_config_module_placeholder"></div>
-
-  </div>
-
-  
-  
-
 <div class="c">&nbsp;</div>

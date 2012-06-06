@@ -3,20 +3,20 @@
 
 <div  id="mw_html_css_editor"  class="mw_editor_accordeon">
   <ul>
-   <li><a href="#mw-css-editor-tab-style">Styles</a></li>
+    <li><a href="#mw-css-editor-tab-style">Styles</a></li>
     <li><a href="#mw-css-editor-tab-size">Size & Fonts</a></li>
     <li><a href="#mw-css-editor-tab-border">Border & Background</a></li>
-     <li><a href="#mw-css-editor-tab-effects">Effects</a></li>
+    <li><a href="#mw-css-editor-tab-effects">Effects</a></li>
   </ul>
-  
   <div id="mw-css-editor-tab-style">
-  <microweber module="admin/modules/list_styles" />
+    <microweber module="admin/modules/list_styles" />
   </div>
   <div id="mw-css-editor-tab-size">
     <div class="css_editor_tab_float">
       <div class="css_editor_tab_float">
-      
-        <div class="mw_tag_editor_label_wide">Align  <input name="mw_css_editor_element_id" id="mw_css_editor_element_id" value="" type="text" /></div>
+        <div class="mw_tag_editor_label_wide">Align
+          <input name="mw_css_editor_element_id" id="mw_css_editor_element_id" value="" type="text" />
+        </div>
         <select class="css_property mw_tag_editor_input mw_tag_editor_input_wide" name="float">
           <option value="">None</option>
           <option value="left">Left</option>
@@ -62,24 +62,21 @@
               <option value="none">none</option>
             </select>--> 
     </div>
-    
-  <div class="css_editor_tab_float">
-            <table border="0" cellspacing="0" cellpadding="0">
-          <tr valign="middle">
-            <td><input  name="font-family" class="mw_ac_fonts css_property mw_tag_editor_input mw_tag_editor_input_select_font"  type="text" /></td>
-            <td><select name="font-size" dimensions="px" class="mw_ac_sizes css_property mw_tag_editor_input mw_tag_editor_input_select_font_size" type="text" onchange="mw_html_tag_editor_apply_styles()">
-                <option value="">Size</option>
-                <? for ($i = 1; $i <= 100 ; $i++) : ?>
-                <option value="<? print $i ?>"><? print $i ?> px</option>
-                <? endfor; ?>
-              </select></td>
-          </tr>
-        </table>
-    </div> 
+    <div class="css_editor_tab_float">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr valign="middle">
+          <td><input  name="font-family" class="mw_ac_fonts css_property mw_tag_editor_input mw_tag_editor_input_select_font"  type="text" /></td>
+          <td><select name="font-size" dimensions="px" class="mw_ac_sizes css_property mw_tag_editor_input mw_tag_editor_input_select_font_size" type="text" onchange="mw_html_tag_editor_apply_styles()">
+              <option value="">Size</option>
+              <? for ($i = 1; $i <= 100 ; $i++) : ?>
+              <option value="<? print $i ?>"><? print $i ?> px</option>
+              <? endfor; ?>
+            </select></td>
+        </tr>
+      </table>
+    </div>
     <div class="css_editor_tab_float">
       <div class="<? print $text_block_classes ?>">
-
-       
         <table border="0" cellpadding="5" cellspacing="5" id="mw_toolbar_text_edit_sidebar">
           <tr>
             <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-weight', 'bold', 'normal')"  class="mw_tag_editor_font_style_btns"  css_name="font-weight" css_value_active="bold"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/bold.png"  /></a></td>
@@ -172,10 +169,6 @@
         </tr>
       </table>
     </div>
-    
-    
-    
-    
   </div>
   <div id="mw-css-editor-tab-border">
     <div  class="css_editor_tab_border_inside css_editor_tab_float">
@@ -216,7 +209,6 @@
         </table>
       </div>
     </div>
-    
     <div class="css_editor_tab_background_inside css_editor_tab_float">
       <div class="mw_tag_editor_item_holder css_editor_tab_float">
         <table border="0" cellspacing="5" cellpadding="0" >
@@ -289,14 +281,8 @@
           </tr>
         </table>
       </div>
-     
     </div>
-    
-    
-    
-    
   </div>
-  
   <div id="mw-css-editor-tab-effects">
     <div class="css_editor_tab_effects_inside">
       <div class="mw_tag_editor_item_holder">
@@ -320,46 +306,35 @@
         <input name="skew2-input" id="skew2-input" onchange="setTransform()" class="mw_slider css_property" size="3" value="0" type="text">
         <span class="size_class">deg</span> </div>
     </div>
-    
-    
-    
-    
     <div class="css_editor_tab_text_inside">
-     <div class="css_editor_tab_float">
-     
-        <a  href="javascript:mw_html_tag_remove_styles()"><img  border="0" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/clear_style.png"  /></a>
+      <div class="css_editor_tab_float"> <a  href="javascript:mw_html_tag_remove_styles()"><img  border="0" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/clear_style.png"  /></a> </div>
+      <div class="css_editor_tab_float">
+        <table width="100%" border="0" cellspacing="4" cellpadding="0">
+          <tr>
+            <td><label>Link</label></td>
+            <td><input name="mw_edit_link" id="mw_edit_link" class="mw_tag_editor_input"  /></td>
+          </tr>
+          <tr>
+            <td><label>Target</label></td>
+            <td><input name="mw_edit_link_window" id="mw_edit_link_window" class="mw_tag_editor_input"  /></td>
+          </tr>
+        </table>
       </div>
-    <div class="css_editor_tab_float">
-  
-      
-      <table width="100%" border="0" cellspacing="4" cellpadding="0">
-        <tr>
-          <td><label>Link</label></td>
-          <td><input name="mw_edit_link" id="mw_edit_link" class="mw_tag_editor_input"  /></td>
-        </tr>
-        <tr>
-          <td><label>Target</label></td>
-          <td><input name="mw_edit_link_window" id="mw_edit_link_window" class="mw_tag_editor_input"  /></td>
-        </tr>
-      </table>
-      </div>
-      
-      
-       <div class="css_editor_tab_float">
-       <table width="100%" border="0" cellspacing="4" cellpadding="0">
-        <tr>
-          <td  ><img id="image_editor_holder_src" width="100" />         <td  >   <form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
-            <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
-            <input type="file" name="file" onchange="mw_do_the_image_upload();">
-            </form>
-            </td>
-          <td  >  <label>Thumbnail size</label>            <input id="mw_img_size_set" class="mw_img_size mw_tag_editor_input"  type="text" /></td>
-          <td  >  <label>Image link</label>            <input name="mw_edit_image_link" id="mw_edit_image_link" class="mw_tag_editor_input"  /></td>
-        </tr>
+      <div class="css_editor_tab_float">
+        <table width="100%" border="0" cellspacing="4" cellpadding="0">
+          <tr>
+            <td  ><img id="image_editor_holder_src" width="100" />
+            <td  ><form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
+                <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
+                <input type="file" name="file" onchange="mw_do_the_image_upload();">
+              </form></td>
+            <td  ><label>Thumbnail size</label>
+              <input id="mw_img_size_set" class="mw_img_size mw_tag_editor_input"  type="text" /></td>
+            <td  ><label>Image link</label>
+              <input name="mw_edit_image_link" id="mw_edit_image_link" class="mw_tag_editor_input"  /></td>
+          </tr>
         </table>
       </div>
     </div>
-    
-    
   </div>
 </div>
