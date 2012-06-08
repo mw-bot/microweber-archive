@@ -45,8 +45,9 @@ function url($skip_ajax = false, $skip_param = false) {
 	
 	}
 	if($skip_param != false){
-	$pageURL  = url_param_unset($skip_param, $pageURL );
+	$pageURL  = url_param_unset($skip_param );
 	}
+	//$pageURL  = rtrim('index.php', $pageURL );
 	
 	return $pageURL;
 
@@ -2289,3 +2290,6 @@ require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');
+
+
+

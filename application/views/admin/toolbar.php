@@ -397,10 +397,13 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
  
  
  function mw_preview_page_template_change($layout_file){
-	 
+	 if($layout_file == undefined){
+		return false; 
+	 }
 	
-				 
-document.location.href = "<? print url($skip_ajax = false, $skip_param = 'preview_template'); ?>/preview_template:"+$layout_file+"";
+		$layout_file = $layout_file.replace("/",'__');		 
+	//	alert($layout_file);
+document.location.href = "<? print url($skip_ajax = false, $skip_param = 'preview_layout'); ?>/preview_layout:"+$layout_file+"";
  
  }
  
