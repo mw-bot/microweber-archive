@@ -884,25 +884,19 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 	</script>
       <div id="mw_toolbar_tabs">
         <ul>
-          <li><a href="#mw_toolbar_tabs-1">Elements</a></li>
           <li><a href="#mw_toolbar_tabs-2">Modules</a></li>
           <li><a href="#mw_toolbar_tabs-3">Layouts</a></li> 
-          <li><a href="#mw_toolbar_tabs-4">Pages</a></li>
-          <li><a href="#mw_toolbar_tabs-5">Templates</a></li>
-          <li><a href="#mw_toolbar_tabs-6">Settings</a></li>
+           <li><a href="#mw_toolbar_tabs-5">Page settings</a></li>
           <li><a href="#mw_toolbar_tabs-7">Help</a></li> 
           <li><a href="#mw_css_editor">Style editor</a></li>
             
         </ul>
-        <div id="mw_toolbar_tabs-1"></div>
         <div id="mw_toolbar_tabs-2">
         
           <microweber module="admin/modules/list" />
         </div>
         <div id="mw_toolbar_tabs-3"><microweber module="admin/modules/list_elements" /></div>
-        <div id="mw_toolbar_tabs-4">Pages</div>
-        <div id="mw_toolbar_tabs-5"><div class="mw_module_settings row"><div class="span5"><microweber module="admin/pages/layout_and_category" /></div><div class="span5"><microweber module="admin/pages/choose_category" /></div></div></div>
-        <div id="mw_toolbar_tabs-6">Settings</div>
+         <div id="mw_toolbar_tabs-5"><div class="mw_module_settings row"><div class="span5"><microweber module="admin/pages/layout_and_category" /></div><div class="span5"><microweber module="admin/pages/choose_category" /></div></div></div>
         <div id="mw_toolbar_tabs-7">Help</div> 
         <div id="mw_css_editor"> 
 <? include('toolbar_tag_editor.php') ; ?>

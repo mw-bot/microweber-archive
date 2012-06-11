@@ -366,8 +366,10 @@ opacity: 1;
 	list-style-position: inside;
 	list-style-image: none;
 	list-style-type: none;
-	width:3000px;
-	;
+	width:100%;
+	overflow:scroll;
+	height: 50px;
+	 
 }
 .modules-list img {
 	border: 0 none;

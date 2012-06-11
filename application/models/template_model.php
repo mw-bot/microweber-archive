@@ -182,6 +182,27 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function templatesList($options = false) {
+
+		$args = func_get_args();
+
+		foreach ($args as $k => $v) {
+
+			$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+
+		}
+
+		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
+
+		$cache_group = 'templates';
+
+		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+
+		if (($cache_content) != false) {
+
+			return $cache_content;
+
+		}
+
 		$this -> load -> helper('directory');
 		//$path = BASEPATH . 'content/templates/';
 
@@ -240,6 +261,8 @@ class Template_model extends CI_Model {
 			//p($filename);
 
 		}
+		$this -> core_model -> cacheWriteAndEncode($to_return, $function_cache_id, $cache_group);
+
 		return $to_return;
 	}
 
@@ -252,6 +275,27 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function layoutsList($options = false) {
+
+		$args = func_get_args();
+
+		foreach ($args as $k => $v) {
+
+			$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+
+		}
+
+		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
+
+		$cache_group = 'templates';
+
+		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+
+		if (($cache_content) != false) {
+
+			return $cache_content;
+
+		}
+
 		$this -> load -> helper('directory');
 		//$path = BASEPATH . 'content/templates/';
 
@@ -426,6 +470,8 @@ class Template_model extends CI_Model {
 			}
 
 		}
+		$this -> core_model -> cacheWriteAndEncode($to_return, $function_cache_id, $cache_group);
+
 		return $to_return;
 	}
 
@@ -1207,6 +1253,26 @@ class Template_model extends CI_Model {
 			return false;
 		}
 
+		$args = func_get_args();
+
+		foreach ($args as $k => $v) {
+
+			$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+
+		}
+
+		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
+
+		$cache_group = 'templates';
+
+		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+
+		if (($cache_content) != false) {
+
+			return $cache_content;
+
+		}
+
 		$d = MODULES_DIR . '' . $module_name . DS . 'templates' . DS;
 		$d = normalize_path($d, true);
 		$dir = rglob('*.php', 0, $d);
@@ -1260,6 +1326,8 @@ class Template_model extends CI_Model {
 
 			}
 		}
+		$this -> core_model -> cacheWriteAndEncode($termplates, $function_cache_id, $cache_group);
+
 		return $termplates;
 	}
 
@@ -1568,7 +1636,7 @@ class Template_model extends CI_Model {
 								}
 
 							}
-$module_view = false;
+							$module_view = false;
 							//$a = is_file ( $try_file1 );
 							if ($attr['file']) {
 								$attr['view'] = $attr['file'];
@@ -1585,7 +1653,7 @@ $module_view = false;
 								$module_view_file = MODULES_DIR . $attr['module'] . DS . $v;
 								$module_view_file = normalize_path($module_view_file, false);
 								if (is_file($module_view_file)) {
-$module_view = $v;
+									$module_view = $v;
 									$try_file1 = $module_view_file;
 								} else {
 									$module_view_file = ACTIVE_TEMPLATE_DIR . $v;
@@ -1837,7 +1905,7 @@ $module_view = $v;
 								$module_file = '';
 								$custom_markup = false;
 								$module_template = option_get('template', $mod_id);
- 
+
 								if ($module_view != 'settings.php') {
 									if ($module_template != false) {
 										$d = MODULES_DIR . '' . $attr['module'] . DS . 'templates' . DS;

@@ -790,8 +790,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
             window.mw_element_id = $el_id;
             mw_make_css_editor($el_id)
 window.mw_text_edit_started = true;
-            $(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
-			 $(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+            $(this).freshereditor("edit", true);
             // e.stopPropagation();
         });
  //$(".mw-sorthandle").die('mousedown');
