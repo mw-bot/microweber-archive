@@ -465,3 +465,7 @@ padding:0px !important;
 	list-style:none !important;	
 	list-style-type:none !important;	
 }
+
+.box_content {
+ overflow-y: scroll;
+}

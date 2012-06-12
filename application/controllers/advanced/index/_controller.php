@@ -320,6 +320,18 @@ if (defined('INTERNAL_API_CALL') == true) {
 			}
 
 		}
+		$is_preview_layout = url_param('preview_layout');
+		if ($is_preview_layout != false) {
+			$is_admin = is_admin();
+			if ($is_admin == true) {
+				$is_preview_layout = str_replace('__', '/', $is_preview_layout);
+				$is_preview_layout = str_replace('..', '', $is_preview_layout);
+				$content['content_layout_file'] = $is_preview_layout;
+				//p($is_preview_layout,1);
+				 
+			}
+		}
+
 		if ($content['content_layout_file'] != '') {
 
 			//$this->template ['title'] = 'adasdsad';
@@ -654,7 +666,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 		if ((url_param('no_toolbar') == true)) {
 			$no_toolbar = true;
 		}
-		
+
 		if ($no_toolbar == false) {
 			if ($editmode == true) {
 				$is_admin = is_admin();
@@ -712,7 +724,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 			$layout = str_replace('</body>', $stats_js . '</body>', $layout);
 		}
 
-		//<script type="text/javascript" src="http://google.com/jsapi"></script>
+	 
 		$this -> benchmark -> mark('parsing_template_tags_start');
 		//$this-> load -> model('Template_model', 'template_model');
 		// $layout = $this-> template_model -> parseMicrwoberTags($layout);

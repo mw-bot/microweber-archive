@@ -199,6 +199,38 @@ data1 = {}
 
 
 }
+
+
+function mw_page_settings($page_id){
+
+ 
+
+data1 = {}
+   data1.module = 'admin/pages/edit';
+    data1.page_id = $page_id;
+    data1.id =$page_id;
+    data1.post_id = '<? print intval(POST_ID) ?>';
+   data1.category_id = '<? print intval(CATEGORY_ID) ?>';
+   
+   
+    Boxy.DEFAULTS.title = 'Edit page';
+ Boxy.DEFAULTS.fixed = false;
+  Boxy.DEFAULTS.draggable = false;
+  Boxy.DEFAULTS.modal = false;
+ Boxy.DEFAULTS.unloadOnHide = false;
+ 
+ 
+   
+	Boxy.load2("<? print site_url('api/module') ?>", data1);
+
+
+
+
+
+}
+
+
+
 function openKCFinder(field) {
     window.KCFinder = {
         callBack: function(url) {
@@ -896,7 +928,21 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
           <microweber module="admin/modules/list" />
         </div>
         <div id="mw_toolbar_tabs-3"><microweber module="admin/modules/list_elements" /></div>
-         <div id="mw_toolbar_tabs-5"><div class="mw_module_settings row"><div class="span5"><microweber module="admin/pages/layout_and_category" /></div><div class="span5"><microweber module="admin/pages/choose_category" /></div></div></div>
+         <div id="mw_toolbar_tabs-5"><div class="mw_module_settings row"><div class="span5"><microweber module="admin/pages/layout_and_category" /></div><div class="span5"><microweber module="admin/pages/choose_category" /></div>
+         
+         
+         
+         
+         
+         
+         <div class="span5">
+         
+         <button class="btn btn-primary" onclick="mw_page_settings(<? print PAGE_ID ?>)">Page sessings</button>
+          </div>
+         
+         
+         
+         </div></div>
         <div id="mw_toolbar_tabs-7">Help</div> 
         <div id="mw_css_editor"> 
 <? include('toolbar_tag_editor.php') ; ?>
