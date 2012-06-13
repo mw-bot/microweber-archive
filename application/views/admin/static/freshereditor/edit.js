@@ -469,7 +469,7 @@ function init_sortables() {
 
 $sort_opts = {
             // items: '.row:not(.disabled),.col',
-            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
+            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit),.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
            // forceHelperSize: true,
@@ -792,8 +792,8 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 
 
         $(".element", '.edit').die('mousedown');
-		$("> *", '.element:not([contenteditable=true])').die('mousedown');
-        $("> *:not(.ui-sortable)", '.element:not([contenteditable=true])').live('mousedown', function (e) {
+		$(">*", '.element:not([contenteditable=true])').die('mousedown');
+        $(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').live('mousedown', function (e) {
 			
 			$is_this_module = 	$(this).hasClass('mw-module-wrap');
 if(window.mw_drag_started == false && $is_this_module == false){
@@ -828,6 +828,7 @@ if(window.mw_drag_started == false && $is_this_module == false){
 }
 	   
 	    });
+		 $(".module", '.edit').die('mousedown');
  //$(".mw-sorthandle").die('mousedown');
 
 
@@ -963,6 +964,13 @@ $('.column', '.row').live('mouseout', function (e) {
    $(this).resizable("disable");  
 })*/;
 
+ $('.mw-sorthandle', '.edit').die('click');
+$('.mw-sorthandle', '.edit').live('click', function (e) {
+    if(window.mw_sortables_created == false){
+		init_sortables()
+	}
+	 
+});
 
  $('.mw-sorthandle', '.edit').die('dblclick');
 $('.mw-sorthandle', '.edit').live('dblclick', function (e) {
@@ -970,7 +978,9 @@ $('.mw-sorthandle', '.edit').live('dblclick', function (e) {
 	 $('#mw_css_editor_element_id').val( $id);
 	 $(this).parent().attr('mw_tag_edit', $id)
 	mw_show_css_editor()
-	 
+	   if(window.mw_sortables_created == false){
+		init_sortables()
+	}
 });
 
 
