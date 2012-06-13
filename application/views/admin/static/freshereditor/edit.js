@@ -8,6 +8,7 @@ window.mw_row_id = false;
 window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>';
 window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here</span></div>';
 window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 2</span></div>';
+window.mw_empty_column_placeholder2 = '';
 window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here 3</span></div>';
 
 
@@ -469,13 +470,13 @@ function init_sortables() {
 
 $sort_opts = {
             // items: '.row:not(.disabled),.col',
-            items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit),.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
+            items: '.element:not(.edit):not(.empty-element),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit),.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
            // forceHelperSize: true,
             greedy: true,
             tolerance: 'pointer',
-            //  cancel: 'div.edit',
+             cancel: 'div.empty-element',
              cursorAt: {
                 top: 1,
                 left:1
@@ -554,6 +555,23 @@ $sort_opts = {
             stop: function (event, ui) {
             //    $('.empty').remove();
                 window.mw_drag_started = false;
+				
+				
+				
+				
+				
+				var $contents = $("center > *")
+    .clone(true)   // not sure if this is needed
+    .appendTo(
+         $("<div></div>").insertBefore("center")
+    )
+;
+$("center").remove();
+				
+				
+				
+				
+			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
                 $('.ui-state-highlight').remove();
 				$('.empty-element').hide();
