@@ -912,6 +912,13 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
       <script>
 	$(function() {
 		$( "#mw_toolbar_tabs" ).tabs();
+		
+		$('#mw_toolbar_tabs-2').live('mouseenter', function (e) {
+		///	alert(1);
+	init_sortables()
+		}); 
+
+
 	});
 	</script>
       <div id="mw_toolbar_tabs">
