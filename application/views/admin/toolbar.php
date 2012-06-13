@@ -40,8 +40,8 @@
    
    
  </script>
-<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.min.js" type="text/javascript"></script>
-<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-ui-1.8.20.custom.min.js" type="text/javascript"></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.js" type="text/javascript"></script>
+<script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
 <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/css/smoothness/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
  // $.noConflict();

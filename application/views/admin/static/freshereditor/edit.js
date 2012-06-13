@@ -467,11 +467,7 @@ function init_sortables() {
 
         $drop_areas = '.edit,.edit .column';
 
-
-
-
-        //test $($drop_areas).addClass('ui-state-highlight2');
-        $($drop_areas).sortable({
+$sort_opts = {
             // items: '.row:not(.disabled),.col',
             items: '.element:not(.edit),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
             dropOnEmpty: true,
@@ -481,12 +477,12 @@ function init_sortables() {
             tolerance: 'pointer',
             //  cancel: 'div.edit',
              cursorAt: {
-                top: -2,
-                left: -2
+                top: 1,
+                left:1
             },
-              distance:15,
+              distance:5,
             scrollSensitivity: 40,
-               delay: 5,
+               delay: 2,
             scroll: true,
  
             handle: '.mw-sorthandle-col,.mw-sorthandle-row',
@@ -497,15 +493,15 @@ function init_sortables() {
 			},
             placeholder: "ui-state-highlight",
             //placeholder: "empty",
-            connectWith: '.edit,.row>.column,.element,.element p,' + $drop_areas,
+            connectWith: '.edit,.row>.column,.element,.element>*,' + $drop_areas,
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
 				
-				    ui.placeholder.height(ui.helper.height());
+				  //  ui.placeholder.height(ui.helper.height());
 
 
-               	$('.empty-element').hide();
+             //  	$('.empty-element').hide();
               //  $('.column', '.edit').resizable("destroy");
   /*              $('.ui-resizable').resizable("destroy");
 				 $('.ui-resizable').resizable("destroy");
@@ -516,8 +512,8 @@ function init_sortables() {
 					$('.-autohide').removeClass('-autohide');
 					$('.ui-resizable').removeClass('ui-resizable');*/
     window.mw_text_edit_started = false;
-
-                $('[contenteditable=true]').attr("contenteditable", false);
+ $('.element:not([contenteditable=false])', '.edit').freshereditor("edit", false);
+            //    $('[contenteditable=true]').attr("contenteditable", false);
 
 // $(".column").putPlaceholdersInEmptyColumns()
  // $('.empty-column').show();
@@ -598,7 +594,7 @@ function init_sortables() {
 				
 				
 
-  $(this).sortable('refreshPositions')
+   $(this).sortable('refreshPositions')
             },
 
  sorasdasdt: function (event, ui) {
@@ -733,7 +729,7 @@ function init_sortables() {
 			create: function (en, ui) {
 				mw_make_handles()
                $(".column").putPlaceholdersInEmptyColumns()
-                $(this).sortable('refreshPositions')
+             $(this).sortable('refreshPositions')
             },
 			
             activate: function (en, ui) {
@@ -750,17 +746,18 @@ function init_sortables() {
 
 
 
-        });
+        }
+
+
+        //test $($drop_areas).addClass('ui-state-highlight2');
+        $($drop_areas).sortable(  $sort_opts  );
 
 
 $('.element', '.edit').sortable('destroy');
-$('.element', '.edit').sortable( {
-	handle: '.mw-sorthandle-col,.mw-sorthandle-row',
-	connectWith: '.edit,.row>.column,.element,.element p' + $drop_areas,
-	 start: function(event, ui) { 
-			 $('.element:not([contenteditable=false])', '.edit').freshereditor("edit", false);
-			   }
-	});
+
+$sort_opts2 = $sort_opts;
+delete $sort_opts2.items; 
+$('.element', '.edit').sortable($sort_opts2);
 $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
        
        $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable({
@@ -795,26 +792,42 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 
 
         $(".element", '.edit').die('mousedown');
-        $(".element>:not([contenteditable=true])", '.edit').live('mousedown', function (e) {
-
-            $el_id = $(this).attr('id');
-            if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-element-' + new Date().getTime()+Math.floor(Math.random()*101);
-                $(this).attr('id', $el_id);
-            }
+		$("> *", '.element:not([contenteditable=true])').die('mousedown');
+        $("> *:not(.ui-sortable)", '.element:not([contenteditable=true])').live('mousedown', function (e) {
 			
-			$('.column').height('auto');
-            window.mw_element_id = $el_id;
-            mw_make_css_editor($el_id)
-			
-			window.mw_sortables_created = false;
-			
-			
-window.mw_text_edit_started = true;
-            $(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
-			 $(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+			$is_this_module = 	$(this).hasClass('mw-module-wrap');
+if(window.mw_drag_started == false && $is_this_module == false){
+	
+	
+	
+							$el_id = $(this).attr('id');
+							if ($el_id == undefined || $el_id == 'undefined') {
+								$el_id = 'mw-element-' + new Date().getTime()+Math.floor(Math.random()*101);
+								$(this).attr('id', $el_id);
+							}
+							
+							$('.column').height('auto');
+							window.mw_element_id = $el_id;
+							mw_make_css_editor($el_id)
+							
+							window.mw_sortables_created = false;
+							
+								if (window.console != undefined) {
+						console.log('contenteditable started on element id: ' + $el_id);
+					}
+							
+							
+							
+							$(this).parent('.element').sortable('destroy');
+							$(this).parent('.column').sortable('destroy');
+				window.mw_text_edit_started = true;
+							$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
+							 $(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
             // e.stopPropagation();
-        });
+       
+}
+	   
+	    });
  //$(".mw-sorthandle").die('mousedown');
 
 
