@@ -5,9 +5,9 @@ window.mw_text_edit_started = false;
 window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
-window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>';
-window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here</span></div>';
-window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 2</span></div>';
+window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
+window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here 2</span></div>';
+window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 3</span></div>';
 window.mw_empty_column_placeholder2 = '';
 window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here 3</span></div>';
 
@@ -457,6 +457,8 @@ function init_sortables() {
         $('.column').sortable('destroy');
         $('.row').sortable('destroy');
         $('.modules-list').sortable('destroy');
+		
+$('.element', '.edit').sortable('destroy');
  $(".column").putPlaceholdersInEmptyColumns()
  
    $('.row').equalHeights()
@@ -466,11 +468,13 @@ function init_sortables() {
 
         $($spans).addClass('column');
 
-        $drop_areas = '.edit,.edit .column';
+        $drop_areas = '.edit, .column';
 
 $sort_opts = {
             // items: '.row:not(.disabled),.col',
-            items: '.element:not(.edit):not(.empty-element),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit),.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
+            itemasdasds: '.element:not(.edit):not(.empty-element),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row,.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
+			    iasaaaaaaatems: '.element,li.module-item:not(.edit),.row>.column>.row:not(.edit),.row,.element>.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
+			items: 'li.module-item,.row,.edit>.element,.empty',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
            // forceHelperSize: true,
@@ -478,8 +482,8 @@ $sort_opts = {
             tolerance: 'pointer',
              cancel: 'div.empty-element',
              cursorAt: {
-                top: 1,
-                left:1
+                top: -1,
+                left:-1
             },
               distance:5,
             scrollSensitivity: 40,
@@ -494,7 +498,7 @@ $sort_opts = {
 			},
             placeholder: "ui-state-highlight",
             //placeholder: "empty",
-            connectWith: '.edit,.row>.column,.element,.element>*,' + $drop_areas,
+            connectWith: '.edit,.row>.column,.column,.element,.element>*,' + $drop_areas,
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
@@ -557,23 +561,14 @@ $sort_opts = {
                 window.mw_drag_started = false;
 				
 				
-				
-				
-				
-				var $contents = $("center > *")
-    .clone(true)   // not sure if this is needed
-    .appendTo(
-         $("<div></div>").insertBefore("center")
-    )
-;
-$("center").remove();
+ 
 				
 				
 				
 				
 			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
-                $('.ui-state-highlight').remove();
+              //  $('.ui-state-highlight').remove();
 				$('.empty-element').hide();
 	$('.column').height('auto');
 		$('.row').height('auto');
@@ -768,10 +763,15 @@ $("center").remove();
 
 
         //test $($drop_areas).addClass('ui-state-highlight2');
-        $($drop_areas).sortable(  $sort_opts  );
+       // $($drop_areas).sortable(  $sort_opts  );
+    $('.edit').sortable(  $sort_opts  );
+   //$('.column','.row').sortable(  $sort_opts  );
+$sort_opts_elements = $sort_opts;
+$sort_opts_elements.items = '.element,.columnn>.row,.element>.row';
+$sort_opts_elements.handle= '.mw-sorthandle-col',
+$('.column','.row').sortable(  $sort_opts_elements );
 
 
-$('.element', '.edit').sortable('destroy');
 
 $sort_opts2 = $sort_opts;
 delete $sort_opts2.items; 
@@ -814,7 +814,8 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
         $(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').live('mousedown', function (e) {
 			
 			$is_this_module = 	$(this).hasClass('mw-module-wrap');
-if(window.mw_drag_started == false && $is_this_module == false){
+				$is_this_row = 	$(this).hasClass('row');
+if(window.mw_drag_started == false && $is_this_module == false && $is_this_row == false){
 	
 	
 	
