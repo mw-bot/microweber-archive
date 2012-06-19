@@ -474,7 +474,7 @@ $sort_opts = {
             // items: '.row:not(.disabled),.col',
             itemasdasds: '.element:not(.edit):not(.empty-element),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row,.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
 			    iasaaaaaaatems: '.element,li.module-item:not(.edit),.row>.column>.row:not(.edit),.row,.element>.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
-			items: 'li.module-item,.row,.empty,.edit>.row',
+			items: 'li.module-item,.row,.empty,.edit>.row, .element>.row',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
            //  forceHelperSize: true,
@@ -496,9 +496,9 @@ $sort_opts = {
 		   helasdasper: function( event ) {
 				return $( "<div class='ui-state-highlight'> </div>" );
 			},
-            placeholder: "ui-sortable-placeholder",
+            placeholder: "ui-sortable-placeholder",  
             //placeholder: "empty",
-            connectWith: '.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*,' + $drop_areas,
+            connectWith: '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*,' + $drop_areas,
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
@@ -612,8 +612,8 @@ $sort_opts = {
 				
 			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
-              $('.ui-state-highlight').remove();
-			   $('.ui-sortable-placeholder').remove();
+              $('.ui-state-highlight').hide();
+			   $('.ui-sortable-placeholder').hide();
 			  
 				$('.empty-element').hide();
 	$('.column').height('auto');
@@ -817,8 +817,10 @@ $sort_opts = {
    //$('.column','.row').sortable(  $sort_opts  );
 $sort_opts_elements = $sort_opts;
 $sort_opts_elements.items = '.element,.element>.row';
+//$sort_opts_elements.items = '.element, .row';
 //$sort_opts_elements.items = '.element';
 $sort_opts_elements.handle= '.mw-sorthandle-col, .mw-sorthandle-row'
+//$sort_opts_elements.handle= '.mw-sorthandle-col'
 //$('.row', '.edit').sortable(  $sort_opts_elements );
 
 
@@ -826,6 +828,7 @@ $sort_opts_elements.handle= '.mw-sorthandle-col, .mw-sorthandle-row'
 
 $sort_opts2 = $sort_opts;
 delete $sort_opts2.items; 
+//$('.element', '.edit').sortable($sort_opts2);
 $('.element', '.edit').sortable($sort_opts2);
 $('.column','.row').sortable(  $sort_opts_elements );
 $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
@@ -845,6 +848,8 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			   stop: function(event, ui) { 
 			    
 			   mw_load_new_dropped_modules();
+			     $(".edit").sortable("refresh"); 
+   $(".element").sortable("refresh"); 
 			    },
 
 			grid: [20, 20],
