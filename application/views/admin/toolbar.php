@@ -271,7 +271,7 @@ function mw_load_history_module(){
  //  alert(data1);
   //$("#mercury_iframe").contents().find(".url_finder")
  // $(".mercury-toolbar-container").contents().find(".mercury-panel-pane").load('<? print site_url('api/module') ?>',data1);
- parent.$('.mercury-history-panel').load('<? print site_url('api/module') ?>',data1);
+  $('#mw-history-panel').load('<? print site_url('api/module') ?>',data1);
 /*   $.ajax({
   url: "<? print site_url('api/module') ?>",
    type: "POST",
@@ -352,7 +352,7 @@ parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel")
    $(document).ready(function() {
     
 	 	
- 
+ mw_load_history_module()
 	   
 	   $("#link_external_url").live("keyup", function(){
 			$viz =  $('.mw_finder_list').is(":visible");
@@ -877,6 +877,9 @@ function load_field_from_history_file($id, $base64fle){
 
 if($id != undefined && $base64fle != undefined){
   
+  
+  
+  
 	$.ajax({
 		  type: 'POST',
 		  url: '<? print site_url("api/content/load_history_file") ?>', 
@@ -886,8 +889,8 @@ if($id != undefined && $base64fle != undefined){
 			 //  $("#"+$id).html(data); 
 			 // var item = jQuery.parseJSON(data)
 			    $.each(data, function(i, d) {
-$("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_element_content);
-			   // 	$("#"+this.page_element_id).html(this.page_element_content);
+//$("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_element_content);
+			    	$("#"+this.page_element_id).html(this.page_element_content);
 
 			    }); 
 
@@ -976,6 +979,7 @@ $("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_el
 </div>
 <div id="mw-temp"> </div>
 <div id="ContentSave"> 
+<div id="mw-history-panel"></div>
   <!--<button  onclick="mw_load_history_module()">mw_load_history_module()</button>
  -->
   <? if(url_param('layout_editor') != 'yes'): ?>
