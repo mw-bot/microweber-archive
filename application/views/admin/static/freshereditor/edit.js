@@ -5,7 +5,7 @@ window.mw_text_edit_started = false;
 window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
-window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
+window.mw_empty_column_placeholder = '<div class="element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
 window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here 2</span></div>';
 window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 3</span></div>';
 window.mw_empty_column_placeholder2 = '';
@@ -477,7 +477,7 @@ $sort_opts = {
 			items: 'li.module-item,.row,.empty,.edit>.row',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
-           // forceHelperSize: true,
+           //  forceHelperSize: true,
             greedy: true,
             tolerance: 'pointer',
              cancel: 'div.empty-element',
@@ -496,7 +496,7 @@ $sort_opts = {
 		   helasdasper: function( event ) {
 				return $( "<div class='ui-state-highlight'> </div>" );
 			},
-            placeholder: "ui-state-highlight",
+            placeholder: "ui-sortable-placeholder",
             //placeholder: "empty",
             connectWith: '.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*,' + $drop_areas,
             //	 connectWith: '.row>.column',
@@ -612,7 +612,9 @@ $sort_opts = {
 				
 			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
-              //  $('.ui-state-highlight').remove();
+              $('.ui-state-highlight').remove();
+			   $('.ui-sortable-placeholder').remove();
+			  
 				$('.empty-element').hide();
 	$('.column').height('auto');
 		$('.row').height('auto');
@@ -816,7 +818,7 @@ $sort_opts = {
 $sort_opts_elements = $sort_opts;
 $sort_opts_elements.items = '.element,.element>.row';
 //$sort_opts_elements.items = '.element';
-$sort_opts_elements.handle= '.mw-sorthandle-col'
+$sort_opts_elements.handle= '.mw-sorthandle-col, .mw-sorthandle-row'
 //$('.row', '.edit').sortable(  $sort_opts_elements );
 
 

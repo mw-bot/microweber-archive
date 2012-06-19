@@ -4,10 +4,10 @@ body {
 	margin-bottom:30px;
 }
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
-	  padding-top:15px;
-		    padding-bottom:15px;
-		 margin-top:10px;
-		 margin-bottom:10px; 
+	  padding-top:5px;
+		    padding-bottom:5px;
+		 margin-top:20px;
+		 margin-bottom:20px; 
 		  
  
 	background-image: url(images/drop.png);
@@ -24,7 +24,7 @@ body {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height:  50px;
+	height:  90px;
 	min-height:  50px;
 	
 	
