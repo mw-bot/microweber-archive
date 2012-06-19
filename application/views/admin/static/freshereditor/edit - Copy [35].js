@@ -5,9 +5,9 @@ window.mw_text_edit_started = false;
 window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
-window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
-window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here 2</span></div>';
-window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 3</span></div>';
+window.mw_empty_column_placeholder = '<div class="empty ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>';
+window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here</span></div>';
+window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 2</span></div>';
 window.mw_empty_column_placeholder2 = '';
 window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here 3</span></div>';
 
@@ -457,8 +457,6 @@ function init_sortables() {
         $('.column').sortable('destroy');
         $('.row').sortable('destroy');
         $('.modules-list').sortable('destroy');
-		
-$('.element', '.edit').sortable('destroy');
  $(".column").putPlaceholdersInEmptyColumns()
  
    $('.row').equalHeights()
@@ -468,13 +466,11 @@ $('.element', '.edit').sortable('destroy');
 
         $($spans).addClass('column');
 
-        $drop_areas = '.edit, .column';
+        $drop_areas = '.edit,.edit .column';
 
 $sort_opts = {
             // items: '.row:not(.disabled),.col',
-            itemasdasds: '.element:not(.edit):not(.empty-element),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row,.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
-			    iasaaaaaaatems: '.element,li.module-item:not(.edit),.row>.column>.row:not(.edit),.row,.element>.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
-			items: 'li.module-item,.row,.empty,.edit>.row',
+            items: '.element:not(.edit):not(.empty-element),li.module-item:not(.edit),.row>.column>.row:not(.edit),.row:not(.edit),.element.row:not(.edit), .empty:not(.edit), .ui-state-highlight:not(.edit),.empty-column:not(.edit)',
             dropOnEmpty: true,
             forcePlaceholderSize: true,
            // forceHelperSize: true,
@@ -482,15 +478,15 @@ $sort_opts = {
             tolerance: 'pointer',
              cancel: 'div.empty-element',
              cursorAt: {
-                top: -2,
-                left:-2
+                top: 1,
+                left:1
             },
               distance:5,
-            scrollSensitivity: 50,
+            scrollSensitivity: 40,
                delay: 2,
             scroll: true,
  
-            handle: '.mw-sorthandle-row',
+            handle: '.mw-sorthandle-col,.mw-sorthandle-row',
             revert: true,
            //  helper: 'clone',
 		   helasdasper: function( event ) {
@@ -498,16 +494,12 @@ $sort_opts = {
 			},
             placeholder: "ui-state-highlight",
             //placeholder: "empty",
-            connectWith: '.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*,' + $drop_areas,
+            connectWith: '.edit,.row>.column,.element,.element>*,' + $drop_areas,
             //	 connectWith: '.row>.column',
             start: function (event, ui) {
                 //var place2 = $('<div class="empty ui-state-highlight"><span>Please drag items here</span></div>');
 				
 				  //  ui.placeholder.height(ui.helper.height());
-
-
- 
-
 
 
              //  	$('.empty-element').hide();
@@ -560,65 +552,34 @@ $sort_opts = {
 	   // $(ui.placeholder).slide(100);
     },
 
-
- beforeStop: function(e,ui){
-          //   phTop = ui.placeholder.position().top;
-           // container = ui.placeholder.parent('.element');
-           // indx = ui.placeholder.index();
-        },
-		
             stop: function (event, ui) {
             //    $('.empty').remove();
                 window.mw_drag_started = false;
 				
-				 
-		 
-			$('.eleasdasdasdament', '.edasdasdadit').each(function(index, value){
-    var ielement = $(this).first().hasClass('row');
-	 var ielement_id = $(this).first().attr('id');
-	var ielement_par_id = $(this).parent('.column').attr('id');
-    if (ielement != false && ielement_par_id != undefined) 
-    {
-		$('#'+ielement_id).moveTo('#'+ielement_par_id);
-		 if (window.console && window.console.log) {
-                window.console.log(' moving rows ' + ielement_id + ' to ' + ielement_par_id);
-            }
-    }
-	
-	   var ielement = $(this).first().hasClass('element');
-	   
-	   
-	   
-	 var ielement_id = $(this).first().attr('id'); 
-	var ielement_par_id = $(this).parent('.column').attr('id');
-    if (ielement != false && ielement_par_id != undefined) 
-    {
-		
-		   if (window.console && window.console.log) {
-                window.console.log(' moving ' + ielement_id + ' to ' + ielement_par_id);
-            }
-			
-			
-		$('#'+ielement_id).moveTo('#'+ielement_par_id);
-    }
-	
-	
-	
-	
-});
-			
-			
+				
+				
+				
+				
+				var $contents = $("center > *")
+    .clone(true)   // not sure if this is needed
+    .appendTo(
+         $("<div></div>").insertBefore("center")
+    )
+;
+$("center").remove();
+				
+				
 				
 				
 			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
-              //  $('.ui-state-highlight').remove();
+                $('.ui-state-highlight').remove();
 				$('.empty-element').hide();
 	$('.column').height('auto');
 		$('.row').height('auto');
 				mw_z_index_fix();
 				
- 			//	 $(".column").putPlaceholdersInEmptyColumns()
+ 				 $(".column").putPlaceholdersInEmptyColumns()
 
 
   $(".element").css({	width:  "auto"});
@@ -652,9 +613,6 @@ $sort_opts = {
 				
 
    $(this).sortable('refreshPositions')
-   $(".edit").sortable("refresh"); 
-   $(".element").sortable("refresh"); 
- 
             },
 
  sorasdasdt: function (event, ui) {
@@ -810,22 +768,14 @@ $sort_opts = {
 
 
         //test $($drop_areas).addClass('ui-state-highlight2');
-       // $($drop_areas).sortable(  $sort_opts  );
-    $('.edit').sortable(  $sort_opts  );
-   //$('.column','.row').sortable(  $sort_opts  );
-$sort_opts_elements = $sort_opts;
-$sort_opts_elements.items = '.element,.element>.row';
-//$sort_opts_elements.items = '.element';
-$sort_opts_elements.handle= '.mw-sorthandle-col'
-//$('.row', '.edit').sortable(  $sort_opts_elements );
+        $($drop_areas).sortable(  $sort_opts  );
 
 
-
+$('.element', '.edit').sortable('destroy');
 
 $sort_opts2 = $sort_opts;
 delete $sort_opts2.items; 
 $('.element', '.edit').sortable($sort_opts2);
-$('.column','.row').sortable(  $sort_opts_elements );
 $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
        
        $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable({
@@ -864,8 +814,7 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
         $(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').live('mousedown', function (e) {
 			
 			$is_this_module = 	$(this).hasClass('mw-module-wrap');
-				$is_this_row = 	$(this).hasClass('row');
-if(window.mw_drag_started == false && $is_this_module == false && $is_this_row == false){
+if(window.mw_drag_started == false && $is_this_module == false){
 	
 	
 	
@@ -1314,14 +1263,3 @@ function closestToOffset(offset) {
     });
     return el;
 }
-
-
-(function($){
-    $.fn.moveTo = function(selector){
-        return this.each(function(){
-            var cl = $(this).clone();
-            $(cl).appendTo(selector);
-            $(this).remove();
-        });
-    }
-})(jQuery);
