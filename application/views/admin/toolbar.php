@@ -267,27 +267,9 @@ function mw_load_history_module(){
    
    
     
-   
- //  alert(data1);
-  //$("#mercury_iframe").contents().find(".url_finder")
- // $(".mercury-toolbar-container").contents().find(".mercury-panel-pane").load('<? print site_url('api/module') ?>',data1);
-  $('#mw-history-panel').load('<? print site_url('api/module') ?>',data1);
-/*   $.ajax({
-  url: "<? print site_url('api/module') ?>",
-   type: "POST",
-      data: data1,
-
-      async:true,
-
-  success: function(resp) {
-parent.$(".mercury-toolbar-container").contents().find(".mercury-history-panel").html(resp);
-    
  
-
-
-
-  }
-    }); */
+  $('#mw-history-panel').load('<? print site_url('api/module') ?>',data1);
+ 
 	 
 	
 }
@@ -888,9 +870,20 @@ if($id != undefined && $base64fle != undefined){
 		  success: function(data) {
 			 //  $("#"+$id).html(data); 
 			 // var item = jQuery.parseJSON(data)
+			 
+			 	  if (window.console && window.console.log) {
+                window.console.log('  Rasdasd ' +  data);
+            }
+			 
 			    $.each(data, function(i, d) {
 //$("#mercury_iframe").contents().find("#"+this.page_element_id).html(this.page_element_content);
-			    	$("#"+this.page_element_id).html(this.page_element_content);
+			    
+				  if (window.console && window.console.log) {
+                window.console.log('  Replacing from history - element id: ' +  this.page_element_id + '  - Content: ' + this.page_element_content);
+            }
+				
+				
+					$("#"+this.page_element_id).html(this.page_element_content);
 
 			    }); 
 

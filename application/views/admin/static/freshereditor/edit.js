@@ -5,7 +5,7 @@ window.mw_text_edit_started = false;
 window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
-window.mw_empty_column_placeholder = '<div class="element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
+window.mw_empty_column_placeholder = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
 window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here 2</span></div>';
 window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 3</span></div>';
 window.mw_empty_column_placeholder2 = '';
@@ -612,10 +612,10 @@ $sort_opts = {
 				
 			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
-              $('.ui-state-highlight').hide();
-			   $('.ui-sortable-placeholder').hide();
+              $('.ui-state-highlight').remove();
+			   $('.ui-sortable-placeholder').remove();
 			  
-				$('.empty-element').hide();
+				$('.empty-element').remove();
 	$('.column').height('auto');
 		$('.row').height('auto');
 				mw_z_index_fix();
@@ -659,10 +659,7 @@ $sort_opts = {
  
             },
 
- sorasdasdt: function (event, ui) {
-	 window.mw_drag_started = true;
-	  $(ui.placeholder).closest('.column').height('auto');
- },
+ 
             sort: function (event, ui) {
                
 			   
@@ -763,19 +760,12 @@ $sort_opts = {
 	 
 	 
 	 
-	    $(ui.helper).css({
-                    "width": $(ui.placeholder).width()
-					 
-                });
-                $(ui.item).css({
-                    "width": $(ui.placeholder).width()
-					
-                });
+ 
 	 
 	 
             },
 
-            out: function (event, ui) {
+            osut: function (event, ui) {
             	//$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
@@ -794,7 +784,7 @@ $sort_opts = {
              $(this).sortable('refreshPositions')
             },
 			
-            activate: function (en, ui) {
+            actisssssvate: function (en, ui) {
                $(".column").putPlaceholdersInEmptyColumns()
                 $(this).sortable('refreshPositions')
             },

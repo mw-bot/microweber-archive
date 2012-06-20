@@ -4,14 +4,12 @@ body {
 	margin-bottom:30px;
 }
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
-	  padding-top:5px;
-		    padding-bottom:5px;
-		 margin-top:20px;
-		 margin-bottom:20px; 
-		  
- 
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-top:20px;
+	margin-bottom:20px;
 	background-image: url(images/drop.png);
-	background-color:#FFFF93 !important;
+	background-color:#FFFFB9 !important;
 	background-repeat: no-repeat;
 	background-position: center center;
 	outline: 1px dashed #a5b3ac;
@@ -26,8 +24,7 @@ body {
 	text-transform: none;
 	height:  90px;
 	min-height:  50px;
-	
-	
+	width:100%;	
 	/*padding-right: 3%;
 	padding-left: 3%;    */     
 }

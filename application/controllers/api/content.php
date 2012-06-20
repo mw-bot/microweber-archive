@@ -2756,7 +2756,7 @@ class Content extends CI_Controller {
 				$history_file = file_get_contents($history_file);
 				//$for_history = base64_decode ( $history_file );
 				//$for_history = unserialize ( $for_history );
-
+ 
 				//$history_file = $this->template_model->parseMicrwoberTags ( $history_file );
 				header('Cache-Control: no-cache, must-revalidate');
 				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
