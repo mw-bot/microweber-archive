@@ -5,7 +5,7 @@ window.mw_text_edit_started = false;
 window.mw_sortables_created = false;
 window.mw_drag_started = false;
 window.mw_row_id = false;
-window.mw_empty_column_placeholder = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
+window.mw_empty_column_placeholder = '<div class="element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
 window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here 2</span></div>';
 window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 3</span></div>';
 window.mw_empty_column_placeholder2 = '';
@@ -528,16 +528,6 @@ $sort_opts = {
  // $('.empty-column').show();
   // $(this).sortable('refreshPositions')
                 window.mw_drag_started = true;
-				
-				
-				$('.row', '.edit').each(function(){
-				$rh =  $(this).height();
-			  $(this).children('.column').height($rh);
-		
-			});
-				
-				  $(this).sortable('refreshPositions')
- 
                 //$(this).append(window.mw_empty_column_placeholder);
 
  //$(ui.placeholder).hide(300);
@@ -547,11 +537,11 @@ $sort_opts = {
     change: function (e,ui){
 	
 		   $(ui.placeholder).show();
-		  
+		   
 			  // $(ui.placeholder).parent('.row').equalHeights();
-			 //  $rh = $(ui.placeholder).parent('.row').height();
-			     //$(ui.placeholder).parent('.row').children('.column').height($rh);
-				 // $(ui.placeholder).parent('.column').resizable("destroy");
+			   $rh = $(ui.placeholder).parent('.row').height();
+			     $(ui.placeholder).parent('.row').children('.column').height($rh);
+				  $(ui.placeholder).parent('.column').resizable("destroy");
 				  //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
  
 			    $(ui.helper).css({
@@ -622,11 +612,11 @@ $sort_opts = {
 				
 			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
-              $('.ui-state-highlight').remove();
-			   $('.ui-sortable-placeholder').remove();
+              $('.ui-state-highlight').hide();
+			   $('.ui-sortable-placeholder').hide();
 			  
-				$('.empty-element').remove();
- $('.column').height('auto');
+				$('.empty-element').hide();
+	$('.column').height('auto');
 		$('.row').height('auto');
 				mw_z_index_fix();
 				
@@ -643,20 +633,18 @@ $sort_opts = {
                 mw_load_new_dropped_modules();
 
                 $('.row').equalWidths();
- 
-			/*	$('.column' , '.row').each(function(){
-				$rh =  $(this).parent('.row').height();
+               // $('.column').height('auto');
+				
+				$('.column' , '.row').each(function(){
+					
+					   $rh =  $(this).parent('.row').height();
 			  $(this).height($rh );
-		
-			});*/
-			
-			
-					$('.row').each(function(){
-				$rh =  $(this).height();
-			  $(this).children('.column').height($rh);
-		
+			 
+		 				// shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
+
 			});
-		 	
+			
+			
 			
 				
 				  
@@ -671,7 +659,10 @@ $sort_opts = {
  
             },
 
- 
+ sorasdasdt: function (event, ui) {
+	 window.mw_drag_started = true;
+	  $(ui.placeholder).closest('.column').height('auto');
+ },
             sort: function (event, ui) {
                
 			   
@@ -733,19 +724,22 @@ $sort_opts = {
                 // $('.empty', '.edit').remove();
              
 				
-		/*		 		 $(ui.placeholder).parent('.row').each(function(){
-				$rh =  $(this).height();
-			  $(this).children('.column').height($rh);
-		
-			});
-				*/
+				 
+				
 				
 				
 			//	 $(ui.placeholder).parent('.row').equalHeights();
 				 //  $(ui.placeholder).parent('.column').parent('.row').children('.column').height('auto');
 				 
 				   
- 
+				   $col_s = $(ui.placeholder).parent('.column').children('.element').size();
+				   if($col_s  > 0){
+				   $(ui.placeholder).parent('.column').height('auto');
+				   } else {
+					    $rh = $(ui.placeholder).parent('.row').height();
+					$(ui.placeholder).height($rh);   
+				   }
+				   
 				   
 				   
 				//   $rh = $(ui.placeholder).parent('.row').height();
@@ -769,12 +763,19 @@ $sort_opts = {
 	 
 	 
 	 
- 
+	    $(ui.helper).css({
+                    "width": $(ui.placeholder).width()
+					 
+                });
+                $(ui.item).css({
+                    "width": $(ui.placeholder).width()
+					
+                });
 	 
 	 
             },
 
-            osut: function (event, ui) {
+            out: function (event, ui) {
             	//$(this).children('.empty-element').fadeOut();
 				//$(this).parent('.row').putPlaceholdersInEmptyColumns();
 				$('.row').equalHeights()
@@ -793,7 +794,7 @@ $sort_opts = {
              $(this).sortable('refreshPositions')
             },
 			
-            actisssssvate: function (en, ui) {
+            activate: function (en, ui) {
                $(".column").putPlaceholdersInEmptyColumns()
                 $(this).sortable('refreshPositions')
             },

@@ -1534,7 +1534,7 @@ class Core_model extends CI_Model {
 				$value = html_entity_decode ( $value );
 				
 				//$data = mb_convert_encoding ( $value, 'UTF-8', 'OLD-ENCODING' );
-				file_put_contents ( $hf, $data );
+				file_put_contents ( $hf, $value );
 				
 				// file_put_contents ( $hf, $value );
 			} else {
