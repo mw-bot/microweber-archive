@@ -509,7 +509,6 @@ $sort_opts = {
  
 
 
-
              //  	$('.empty-element').hide();
               //  $('.column', '.edit').resizable("destroy");
   /*              $('.ui-resizable').resizable("destroy");
@@ -617,8 +616,7 @@ $sort_opts = {
 	
 });
 			
-			
-				
+
 				
 			//	$(".element").unwrap('.empty-element');
                 $('.column').removeClass('column-outline');
@@ -762,8 +760,8 @@ $sort_opts = {
 			//   $(ui.placeholder).parent('.column').height($rh );
 				   
 				   
-   $('.row').children(".column").addClass("mw-outline-column");
-           $('.row').children(".mw-sorthandle-row:first").show();
+  // $('.row').children(".column").addClass("mw-outline-column");
+        //   $('.row').children(".mw-sorthandle-row:first").show();
   window.mw_drag_started = true;
 	 
 	 
@@ -958,12 +956,14 @@ if(window.mw_drag_started == false && $is_this_module == false && $is_this_row =
 			}
         })
 
-        $(".row", '.edit').die('mouseenter');
-        $(".row", '.edit').mouseenter(function () {
-			
-			if(window.mw_drag_started == false){
+        $(".row", '.edit').die('hover');
+		
+		
+					$(".row", '.edit').hover(function (e) {
+						
+						if(window.mw_drag_started == false){
 			//$(".row").find(".mw-sorthandle").hide();
-			//  $(".mw-sorthandle", '.edit').hide();
+			 $(".mw-sorthandle", '.edit').hide();
 			
 			//$(this).children(".mw-sorthandle-row").show();
             $has = $(this).children(":first").hasClass("mw-sorthandle-row");
@@ -976,9 +976,48 @@ if(window.mw_drag_started == false && $is_this_module == false && $is_this_row =
 
            // $(this).children(".column").addClass("mw-outline-column");
             $(this).children(".mw-sorthandle").show();
+			 // $(this).find(".mw-sorthandle-col").show();
+			e.stopPropagation()
 			}
-
-        })
+			
+			
+				  }, 
+				  
+				  
+				  
+				  function () {
+					  if(window.mw_drag_started == false){
+					$(this).find(".mw-sorthandle").hide();
+					$(this).find(".ui-resizable-handle:visible").hide();
+					
+					}
+				  }
+				);
+						
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	 
 
 
 
@@ -993,12 +1032,11 @@ if(window.mw_drag_started == false && $is_this_module == false && $is_this_row =
 					//	 $(".mw-sorthandle-col", '.edit').hide();
 
 		//  $(".mw-sorthandle-row", '.edit').hide();
-					  $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
-					  $(this).parent(".row").children(".mw-sorthandle-row").show();
-
-			
+					//  $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
+					//  $(this).parent(".row").children(".mw-sorthandle-row").show();
+	
             
-		 $(this).children(".mw-sorthandle-col:first").show();
+		 $(this).children(".mw-sorthandle-col:hidden").show();
 		 
 		 
 		 

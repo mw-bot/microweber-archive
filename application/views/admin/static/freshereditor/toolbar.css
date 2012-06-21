@@ -61,7 +61,7 @@ body {
 	margin-left: 0px !important;
 	min-height:40x;
 }
-.row:hover {
+.1row:hover {
 	outline: 2px solid #d0d0d0;
 }
 .ui-state-highlight2, .also-resize {
@@ -237,7 +237,7 @@ opacity: 1;
 .element {
 	word-wrap: break-word;
 }
-.element:hover {
+.eleme1nt:hover {
 	outline: 2px solid #e8e8e8;
 }
 .mw-sorthandle-row {
