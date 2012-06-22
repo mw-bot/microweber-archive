@@ -831,26 +831,29 @@ $('.column','.row').sortable(  $sort_opts_elements );
 $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
        
        $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable({
-			connectToSortable: '.element,.column,.edit',
-            helper: "clone",
-			snap: ".element>*,.column,.edit", 
+		//	connectToSortable: '.element,.column,.edit',
+		connectToSortable: '.edit,.column,.element',
+			//connectToSortable: '.edit',
+             helper: 'clone',		 
 			 cursorAt: {
                 top: -2,
                 left: -2
             },
-			  
+			snapMode: "inner",
+			  refreshPositions: true,
 			 start: function(event, ui) { 
+			   window.mw_drag_started = true;
 			 $('.element:not([contenteditable=false])', '.edit').freshereditor("edit", false);
 			   },
 			   stop: function(event, ui) { 
-			    
+			      window.mw_drag_started = false;
 			   mw_load_new_dropped_modules();
 			     $(".edit").sortable("refresh"); 
    $(".element").sortable("refresh"); 
 			    },
 
-			grid: [20, 20],
-			snapMode: "inner", 
+			 
+			 
             revert: "invalid" 
 			
         });
@@ -936,6 +939,22 @@ if(window.mw_drag_started == false && $is_this_module == false && $is_this_row =
         });
 		
 		
+		$(".mw-sorthandle", '.edit').die('hover');
+		$(".mw-sorthandle", '.edit').hover(
+    function(){
+		if(window.mw_drag_started == false){
+			 $('.mw-outline').removeClass('mw-outline');
+		 $(this).parent().addClass('mw-outline');
+		}
+         
+    },
+    function(){
+       $(this).parent().removeClass('mw-outline');
+    }
+);
+
+
+
 		$(".mw-sorthandle", '.edit').die('mouseenter');
         $(".mw-sorthandle", '.edit').mouseenter(function () {
 			
@@ -1024,8 +1043,8 @@ if(window.mw_drag_started == false && $is_this_module == false && $is_this_row =
 
 
 
-        $(".element", '.edit').die('mouseenter');
-        $(".element", '.edit').mouseenter(function () {
+        $(".element", '.edit').die('mouseover');
+        $(".element", '.edit').mouseover(function () {
 			
 			
 				if(window.mw_drag_started == false){
