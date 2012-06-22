@@ -6,8 +6,8 @@ body {
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
 	padding-top:5px;
 	padding-bottom:5px;
-	margin-top:20px;
-	margin-bottom:20px;
+	margin-top:30px;
+	margin-bottom:30px;
 	background-image: url(images/drop.png);
 	background-color:#FFFFB9 !important;
 	background-repeat: no-repeat;
@@ -22,7 +22,7 @@ body {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height:  90px;
+	height:  95px;
 	min-height:  50px;
 	width:100%;	
 	/*padding-right: 3%;
