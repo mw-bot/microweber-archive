@@ -227,9 +227,15 @@ function mw_load_new_dropped_modules() {
         $name = $(this).attr("data-element-name");
         if ($name && $name != 'undefined' && $name != false && $name != '') {
             $el_id_new = 'mw-layout-element-' + new Date().getTime()+Math.floor(Math.random()*101);
-            $(this).after("<div  id='" + $el_id_new + "'></div>");
+            $(this).after("<div class='mw-layout-holder' id='" + $el_id_new + "'></div>");
             //  $(this).attr('id', $el_id_column);	
             mw.load_layout_element($name, '#' + $el_id_new);
+			
+			$('#' + $el_id_new).children(':first').unwrap('.mw-layout-holder');
+
+			
+			
+			
             $(this).fadeOut().remove();
         }
 
