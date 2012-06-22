@@ -206,7 +206,10 @@ function mw_make_row_editor($el_id) {
 function mw_load_new_dropped_modules() {
     $need_re_init = false;
     $(".module_draggable", '.edit').each(function (c) {
-
+		
+		 $(this).unwrap(".module-item");
+		
+		
         $name = $(this).attr("data-module-name");
         if ($name && $name != 'undefined' && $name != false && $name != '') {
             $el_id_new = 'mw-col-' + new Date().getTime()+Math.floor(Math.random()*101);
@@ -215,6 +218,7 @@ function mw_load_new_dropped_modules() {
             mw.load_module($name, '#' + $el_id_new);
 		 
             $(this).fadeOut().remove();
+			
         }
 
 
@@ -842,7 +846,7 @@ delete $sort_opts2.items;
 $('.column','.edit').sortable(  $sort_opts_elements );
 $('.element', '.edit').sortable($sort_opts2);
   $('.edit').sortable("refresh"); 
-   
+   /*
 $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
        
        $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable({
@@ -871,7 +875,32 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 			 
             revert: "invalid" 
 			
-        });
+        });*/
+		
+		
+	
+ 
+	
+	
+ 
+$sort_opts_toolbar = $sort_opts;
+ 
+$sort_opts_toolbar.items = 'img';
+delete $sort_opts_toolbar.items; 
+//$sort_opts_elements.items = '.element';
+$sort_opts_toolbar.handle= '.module_draggable'
+$sort_opts_toolbar.remove= function(event, ui) {
+            $(ui.item).clone().appendTo(event.target);
+		   }
+		   
+		   
+		   
+		  $('.modules-list', '#mw_toolbar_tabs').sortable('destroy');	
+		  $('.modules-list', '#mw_toolbar_tabs').sortable($sort_opts_toolbar);
+	
+	
+	
+		
         $('.modules-list', '#mw_toolbar_tabs .modules-list').disableSelection();
 		 
 
