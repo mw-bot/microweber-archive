@@ -262,13 +262,20 @@ if(window.mw_drag_started == false){
  $('.column', '.edit').resizable("destroy");
         $('.ui-resizable').resizable("destroy");
 
-  
+  $('.edit').sortable('destroy');
+        $('.element').sortable('destroy');
+        $('.column').sortable('destroy');
+        $('.row').sortable('destroy');
+        $('.modules-list').sortable('destroy');
 
-       setTimeout("mw_make_handles()", 600)
-	   setTimeout("init_sortables()", 900)
+       setTimeout("mw_make_handles()", 200)
+	   window.mw_sortables_created = false;
+	   setTimeout("init_sortables()", 300)
  
 
- setTimeout("mw_fix_grid_sizes()", 900)
+ setTimeout("mw_fix_grid_sizes()", 500)
+  setTimeout("make_events()", 500)
+ 
       }
     
 		//mw_make_handles()
@@ -498,7 +505,7 @@ $sort_opts = {
                delay: 2,
             scroll: true,
  
-            handle: '.mw-sorthandle-row',
+            handle: '.mw-sorthandle-row:first',
             revert: true,
            //  helper: 'clone',
 		   helasdasper: function( event ) {
@@ -830,7 +837,7 @@ $sort_opts_elements.items = '.element';
 delete $sort_opts_elements.items; 
 //$sort_opts_elements.items = '.element, .row';
 //$sort_opts_elements.items = '.element';
-$sort_opts_elements.handle= '.mw-sorthandle-col, .mw-sorthandle-row'
+$sort_opts_elements.handle= '.mw-sorthandle-col:first,.mw-sorthandle-row:first'
 //$sort_opts_elements.handle= '.mw-sorthandle-col'
 
 //$sort_opts_elements.handle= '.mw-sorthandle-col'
@@ -908,15 +915,35 @@ $sort_opts_toolbar.remove= function(event, ui) {
 
         $(".mw-sorthandle", '.edit').disableSelection();
 
+make_events()
+
+        
 
 
-        $(".element", '.edit').die('mousedown');
-		$(">*", '.element:not([contenteditable=true])').die('mousedown');
+
+        $("#mw-layout-edit-site-top-bar-r").html("Drag and drop edit");
+        window.mw_sortables_created = true
+
+        window.mw_sortables_created = true
+
+    }
+
+
+
+
+}
+
+
+function make_events(){
+	
+$(".element", '.edit').die('mousedown');
+		$(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').die('mousedown');
         $(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').live('mousedown', function (e) {
 			
 			$is_this_module = 	$(this).hasClass('mw-module-wrap');
 				$is_this_row = 	$(this).hasClass('row');
-if(window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $is_this_module == false && $is_this_row == false){
+				$is_this_handle = 	$(this).hasClass('mw-sorthandle ');
+if($is_this_handle == false  && window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $is_this_module == false && $is_this_row == false){
 	
 	
 	
@@ -1060,33 +1087,6 @@ if(window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $
 				);
 						
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	 
-
-
-
-
 
 
         $(".element", '.edit').die('mouseover');
@@ -1108,24 +1108,8 @@ if(window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $
 				}
 		 
         })
-
-
-
-
-        $("#mw-layout-edit-site-top-bar-r").html("Drag and drop edit");
-        window.mw_sortables_created = true
-
-        window.mw_sortables_created = true
-
-    }
-
-
-
-
+	
 }
-
-
-
 
 
 $('.module', '.edit').die('mouseenter');
