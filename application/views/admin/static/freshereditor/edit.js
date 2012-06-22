@@ -184,10 +184,11 @@ function mw_make_row_editor($el_id) {
 
     $exisintg_num = $('#' + $el_id).children(".column").size();
 	 text = window.mw_sorthandle_row_columns_controlls
+	 if(text != undefined){
 	 text = text.replace(/ROW_ID/g, "'"+'' + $el_id+"'");
 	
 	$('#' + $el_id).children("div:first").find(".columns_set").html(text);
-
+		}
 	 text1 = window.mw_sorthandle_row_delete
 	 if(text1 != undefined){
 	 text1 = text1.replace(/ROW_ID/g, "'"+'' + $el_id+"'");
@@ -471,7 +472,7 @@ $('.element', '.edit').sortable('destroy');
 
         $($spans).addClass('column');
 
-        $drop_areas = '.edit,.column';
+        $drop_areas = '.edit,.column,.element>.row>.column,.element>.row>.column>.element';
 
 $sort_opts = {
             // items: '.row:not(.disabled),.col',
@@ -953,8 +954,8 @@ if(window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $
         });
 		
 		
-		$(".mw-sorthandle", '.edit').die('hover');
-		$(".mw-sorthandle", '.edit').hover(
+		$(".mw-sorthandle", '.edit').die('mouseover');
+		$(".mw-sorthandle", '.edit').mouseover(
     function(){
 		window.mw_sorthandle_hover = true;
 		if(window.mw_drag_started == false){
