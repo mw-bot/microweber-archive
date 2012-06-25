@@ -19,15 +19,15 @@ window.mw_sorthandle_row = "<div class='mw-sorthandle mw-sorthandle-row'><div cl
 
 window.mw_sorthandle_row_columns_controlls = 'row <a  href="javascript:mw_make_cols(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw_make_cols(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw_make_cols(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw_make_cols(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw_make_cols(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ';
   
-window.mw_sorthandle_row_delete = '<a  href="javascript:mw_delete_element(ROW_ID)">x</a> ';
+window.mw_sorthandle_row_delete = '<a class=\"mw_delete_element\" href="javascript:mw_delete_element(ROW_ID)">x</a> ';
 window.mw_sorthandle_delete_confirmation_text = "Are you sure you want to delete this element?";
 
   
   
 
-window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
+window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw_delete_element'><a class=\"mw_delete_element\" href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
-window.mw_sorthandle_module = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_module_settings(MODULE_ID)\">settings</a><a href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
+window.mw_sorthandle_module = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_module_settings(MODULE_ID)\">settings</a><a class=\"mw_delete_element\" href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
 
 
 
@@ -943,14 +943,15 @@ make_events()
 
 function make_events(){
 	
-$(".element", '.edit').die('mousedown');
-		$(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').die('mousedown');
-        $(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').live('mousedown', function (e) {
+$(".element", '.edit').die('click');
+		$(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').die('click');
+        $(">*:not(.ui-sortable):not(.mw-module-wrap):not(.module):not(.mw-sorthandle)", '.element:not([contenteditable=true])').live('click', function (e) {
 			
 			$is_this_module = 	$(this).hasClass('mw-module-wrap');
 				$is_this_row = 	$(this).hasClass('row');
-				$is_this_handle = 	$(this).hasClass('mw-sorthandle ');
-if($is_this_handle == false  && window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $is_this_module == false && $is_this_row == false){
+				$is_this_handle = 	$(this).hasClass('mw-sorthandle');
+				$is_mw_delete_element = $(this).hasClass('mw_delete_element');
+if($is_this_handle == false  && window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $is_this_module == false && $is_mw_delete_element == false  && $is_this_row == false){
 	
 	
 	
