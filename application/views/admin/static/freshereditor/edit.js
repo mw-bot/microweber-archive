@@ -954,8 +954,11 @@ $(".element", '.edit').die('click');
 if($is_this_handle == false  && window.mw_drag_started == false  && window.mw_sorthandle_hover == false  && $is_this_module == false && $is_mw_delete_element == false  && $is_this_row == false){
 	
 	
-	
-							$el_id = $(this).attr('id');
+							
+       	$(this).closest('.mw-sorthandle').show();
+
+							
+	$el_id = $(this).attr('id');
 							if ($el_id == undefined || $el_id == 'undefined') {
 								$el_id = 'mw-element-' + new Date().getTime()+Math.floor(Math.random()*101);
 								$(this).attr('id', $el_id);
