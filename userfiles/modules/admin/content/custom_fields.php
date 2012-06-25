@@ -45,7 +45,7 @@ if(intval($params['page_id']) != 0){
 	if($page["content_layout_file"] != ""){
 	$cf_files = TEMPLATE_DIR.DS.'layouts'.DS.$page["content_layout_file"];
 	} else {
-		$cf_files = TEMPLATE_DIR;
+		$cf_files = TEMPLATE_DIR; 
 	}
 	$cf_files = normalize_path($cf_files);
 	$cf_files = dirname($cf_files);
