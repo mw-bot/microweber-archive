@@ -489,7 +489,7 @@ $('.element', '.edit').sortable('destroy');
 
         $($spans).addClass('column');
 
-        $drop_areas = '.edit,.column,.element>.row>.column,.element>.row>.column>.element';
+        $drop_areas = '.edit,.column,.element>.row>.column,.element>.row>.column>.element,.element>*';
 
 $sort_opts = {
             // items: '.row:not(.disabled),.col',
