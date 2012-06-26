@@ -274,14 +274,14 @@ if(window.mw_drag_started == false){
         $('.row').sortable('destroy');
         $('.modules-list').sortable('destroy');
 
-       setTimeout("mw_make_handles()", 200)
+       
 	   window.mw_sortables_created = false;
 	   setTimeout("init_sortables()", 300)
  
 
  setTimeout("mw_fix_grid_sizes()", 500)
   setTimeout("make_events()", 500)
- 
+setTimeout("mw_make_handles()", 600) 
       }
     
 		//mw_make_handles()
@@ -1109,7 +1109,8 @@ if($is_this_handle == false  && window.mw_drag_started == false  && window.mw_so
 
         $(".element", '.edit').die('mouseover');
         $(".element", '.edit').mouseover(function () {
-			
+										
+     
 			
 				if(window.mw_drag_started == false){
 					//	 $(".mw-sorthandle-col", '.edit').hide();

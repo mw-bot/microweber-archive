@@ -55,11 +55,9 @@ if(intval($params['page_id']) != 0){
 }
 
 ?>
-<script type="text/javascript" src="<?php   print( $config["url_to_module"]);  ?>custom_fields/jquery.formbuilder.js.php?foo=1<? print $js_params   ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php   print( $config["url_to_module"]);  ?>custom_fields/jquery.formbuilder.css" />
-<div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>">
-  <ul class="custom-fields-form-builder custom-fields-form-builder-<? print $rand ?>">
-  </ul>
+ 
+<div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>">
+   
   <? 
   
 if(is_file($cf_files )){
@@ -69,17 +67,9 @@ include($cf_files);
 </div>
 <script type="text/javascript">
 			$(document).ready(function(){
-						 	 
-				$('.custom-fields-form-builder-<? print $rand ?>').formbuilder({
-					'save_url': '<? print site_url('api/content/cf_save') ?>/page_id:<? print $params['page_id']  ?><? print $cf_edit_params  ?><? print $cf_temp  ?>',
-					'load_url': '<? print site_url('api/content/cf_load') ?>/page_id:<? print $params['page_id']  ?><? print $cf_edit_params  ?><? print $cf_temp  ?>',
-					'del_url': '<? print site_url('api/content/delete_cf') ?>/page_id:<? print $params['page_id']  ?><? print $cf_edit_params  ?><? print $cf_temp  ?>/id:'
-				});
 				
- 
 				
-				$(function() {
-			    	$(".custom-fields-form-builder-<? print $rand ?>").sortable({ opacity: 0.6, cursor: 'move', items: 'li'});
-			    });
+				$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/load_custom_fields') ?>');
+		 
 			});
 </script>
