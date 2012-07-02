@@ -1651,6 +1651,67 @@ class Core_model extends CI_Model {
 		return $save;
 	
 	}
+
+
+
+function saveCustomField($data_to_save) {
+		
+		global $cms_db_tables;
+		
+		$table_custom_field = $cms_db_tables ['table_custom_fields'];
+		
+		if ($data_to_save ['for']) {
+			$data_to_save ['to_table'] = $this->guessDbTable ( $data_to_save ['for'] );
+		}
+		
+		// p($data_to_save);
+		
+		if (intval ( $data_to_save ['post_id'] ) != 0) {
+			if (($data_to_save ['param'])) {
+				
+				$q = " delete from  $table_custom_field where
+								 post_id = '{$data_to_save ['post_id']}'
+								 and param='{$data_to_save ['param']}'
+								   ";
+				
+				// p($q);
+				
+				// $q = $this->dbQ ( $q );
+			
+			}
+		}
+		
+		if (intval ( $data_to_save ['post_id'] ) != 0) {
+			if (($data_to_save ['id'])) {
+				$data_to_save ['id'] = intval ( $data_to_save ['id'] );
+				$q = " select * from  $table_custom_field where
+								 id = '{$data_to_save ['id']}'	   ";
+				
+				// p($q);
+				
+				$q = $this->dbQuery ( $q );
+				if (empty ( $q [0] )) {
+					
+					$q = " INSERT INTO  $table_custom_field set
+								 id = '{$data_to_save ['id']}'	   ";
+					
+					// p($q);
+					
+					$q = $this->dbQ ( $q );
+				}
+			
+			}
+		}
+		
+		$save = $this->saveData ( $table_custom_field, $data_to_save );
+		
+		cache_clean_group ( 'custom_fields' );
+		
+		return $save;
+	
+	}
+
+
 	
 	function getCustomFieldsConfig($get) {
 		

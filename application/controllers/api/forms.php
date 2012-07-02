@@ -24,16 +24,22 @@ class Forms extends CI_Controller {
 		exit ;
 	}
 
-
-
-
 	function save_field() {
+		$id = user_id();
+		if ($id == 0) {
+			exit('Error: not logged in.');
+		}
+		$id = is_admin();
+		if ($id == false) {
+			exit('Error: not logged in as admin.');
+		}
 
- 
-		p($_REQUEST);
+		$data = $_POST; 
+		$data =  	get_instance() -> core_model -> saveCustomField($data);
+
+		print ($data);
 		exit ;
 	}
-
 
 	function load_custom_fields() {
 
