@@ -946,19 +946,15 @@ $('.module_draggable', '#mw_toolbar_tabs .modules-list').draggable('destroy');
 function make_events() {
 
     $(".element", '.edit').die('mousedown');
-
-
   //  $(">*", '.element:not([contenteditable=true])').undelegate( "mousedown" );
    // $(">*", '.element:not([contenteditable=true])').die('mousedown');
   //  $(">*", '.element:not([contenteditable=true])').unbind('mousedown');
 
-
 //$('.element:not([contenteditable=true]) > *:not(.mw-sorthandle)').die('mousedown');
 //
     $(".element").children().die('mousedown');
-   $(">*", '.element:not([contenteditable=true])').die('mousedown');
+    $(">*", '.element:not([contenteditable=true])').die('mousedown');
     $(">*", '.element:not([contenteditable=true])').live('mousedown', function (e) {
-
 
 
 //$('.element:not([contenteditable=true]) > *:not(.mw-sorthandle)').live('mousedown', function (e) {
@@ -1189,7 +1185,18 @@ $('.column', '.row').live('mouseout', function (e) {
  
          $('.element[contenteditable=true]', '.edit').freshereditor("edit", false);
 	 
-	 
+
+
+	 $id = $(this).parent('.element').attr('id')
+    $('#mw_css_editor_element_id').val($id);
+    $(this).parent().attr('mw_tag_edit', $id)
+    mw_show_css_editor()
+    if (window.mw_sortables_created == false) {
+        init_sortables()
+    }
+
+
+
 	 e.preventDefault();
             //event.preventDefault(); // this prevents the original href of the link from being opened
   	  e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
