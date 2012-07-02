@@ -2290,6 +2290,7 @@ require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
 require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
 
 
 

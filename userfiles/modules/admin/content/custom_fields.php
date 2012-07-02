@@ -80,7 +80,7 @@ include($cf_files);
 
 
 function make_new_field(){
-					$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/make_field') ?>');
+					$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/make_field/settings:y') ?>');
 
 	
 }

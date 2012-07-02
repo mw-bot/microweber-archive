@@ -17,22 +17,23 @@ class Forms extends CI_Controller {
 
 	function make_field() {
 
-		$Form=new Form();
-echo $Form->group('Test',
-        new Text(array(
-            'name'=>'username',
-            'id'=>'username',
-            'placeholder'=>'username'
-        )),
-        new Password(array(
-            'placeholder'=>'password',
-            'class'=>'span2'
-        )),
-        new Help('test')
-    )
-    
-    ->render();
+		$settings = url_param('settings', true);
+
+		$field = make_field($field_type = 'text', $field_id, $settings);
+		print $field;
+		exit ;
 	}
+
+
+
+
+	function save_field() {
+
+ 
+		p($_REQUEST);
+		exit ;
+	}
+
 
 	function load_custom_fields() {
 
