@@ -110,15 +110,15 @@ $route ['webdav/(:any)'] = "webdav/index/$1";
 $route ['api/js'] = "api/js";
 $route ['api/js/(:any)'] = "api/js/index/$1";
 
+
+$route ['api/css'] = "api/api/css";
+$route ['api/css/(:any)'] = "api/api/css/$1";
+
 $route ['api/forms'] = "api/forms/index";
 $route ['api/forms/(:any)'] = "api/forms/$1";
 
 
 
-//$route ['admin/plugins'] = "admin/plugins/index";
-//$route ['page.php'] = "oldpage/index/$1";
-
-//page.php?n=26579
 $route ['userasdasdbase'] = "index/userbase/";
 $route ['useasdsarbase/(:any)'] = "index/userbase/$1";
 
