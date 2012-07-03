@@ -437,6 +437,18 @@ define ( 'ADMIN_STATIC_FILES_URL', SITEURL . '/' . $application_folder . '/views
 define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',   $application_folder . '/views/admin/static/' );
 
 
+
+
+
+
+
+
+define ( 'INCLUDES_PATH', APPPATH . '/includes/' ); //full filesystem path  
+define ( 'INCLUDES_URL', SITEURL . $application_folder. '/includes/' ); //full filesystem path  
+ 
+
+
+
 $media_url = SITEURL;
 
 $media_url = $media_url . USERFILES_DIRNAME . '/media/';

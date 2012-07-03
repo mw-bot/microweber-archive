@@ -6,19 +6,28 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
     window.onerror = function(err){alert(err)}
         merc_src = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>mercury";
         admin_panel = "<?php   print( ADMIN_URL);  ?>/";
+		
+		
+            window.page_id = '<? print intval(PAGE_ID) ?>';
+            window.post_id = '<? print intval(POST_ID) ?>';
+            window.category_id = '<? print intval(CATEGORY_ID) ?>';
+		
+		
+		
+		
         //alert(admin_panel);
     </script>
-    <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-1.7.2.js"
+    <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js"
     type="text/javascript"></script>
-    <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/js/jquery-ui-1.8.20.custom.js"
+    <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js"
     type="text/javascript"></script>
-    <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery-base/css/smoothness/jquery-ui-1.8.20.custom.css"
+    <link href="<?php   print( INCLUDES_URL);  ?>css/jquery-ui-smoothness/jquery-ui-1.8.20.custom.css"
     rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         // $.noConflict();
         // Code that uses other library's $ can follow here.
     </script>
-    <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/jQuery.equalHeights.js"
+    <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js"
     type="text/javascript"></script>
 
     <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/farbtastic/farbtastic.js"
@@ -76,7 +85,7 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
     rel="stylesheet" type="text/css" />
     <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/farbtastic/farbtastic.css"
     rel="stylesheet" type="text/css" />
-    <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/edit.js"
+    <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js"
     type="text/javascript"></script>
     <!--<script src="<?php print( ADMIN_STATIC_FILES_URL); ?>toolbar/html5sortable/jquery.sortable.js" type="text/javascript"></script>
 -->
