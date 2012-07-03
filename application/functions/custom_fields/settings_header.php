@@ -7,10 +7,6 @@ var_dump($form_values);
 
 
    ?>
-
-
-
- 
 <script type="text/javascript">
 
 
@@ -19,10 +15,6 @@ function save_cf_<? print $rand ?>(){
 	
 	var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?>").serializeArray();
 $.post("<? print site_url('api/forms/save_field') ?>",    serializedForm, function(data)         {
-	
-	
-	
-	
         });
 	
 	
@@ -30,8 +22,6 @@ $.post("<? print site_url('api/forms/save_field') ?>",    serializedForm, functi
 
 		 
 </script>
-
-
 
 <form class="form-horizontal" id="custom_fields_edit<? print $rand ?>"  >
 <fieldset>

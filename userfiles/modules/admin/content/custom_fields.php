@@ -1,5 +1,5 @@
 <?
-//p($params);
+// p($params);
 
 if(isset($params['post_id'])){
 $params['post_id'] = intval($params['post_id']);
@@ -80,7 +80,7 @@ include($cf_files);
 
 
 function make_new_field(){
-					$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/make_field/settings:y') ?>');
+					$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/make_field/settings:y/for_module_id:') ?><? print $params['for_module_id']; ?>');
 
 	
 }
@@ -88,7 +88,7 @@ function make_new_field(){
 			$(document).ready(function(){
 				
 				
-				$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/load_custom_fields') ?>');
+			make_new_field()
 		 
 			});
 </script>
