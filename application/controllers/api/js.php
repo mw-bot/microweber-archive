@@ -47,7 +47,7 @@ class js extends CI_Controller {
 		
 		
 	//	$editmode =$edit= false;
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $cache_id, $cache_group );
+	//	$cache_content = $this->core_model->cacheGetContentAndDecode ( $cache_id, $cache_group );
 		
 
 		if (($cache_content) != false) {

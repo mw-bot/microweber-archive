@@ -17,7 +17,7 @@ description: Home site layout
 ================================================== -->
 
 <section id="typography">
-  <editable rel="page" field="custom_field_sdfacdfgasdcr5s43erfs4df1">
+  <editable rel="page" field="custom_field_sdfacdasdasdasfgasdcr5s43erfs4df1">
     <div class="row">
       <div class="column">
         <div class="element">
@@ -27,7 +27,7 @@ description: Home site layout
       </div>
     </div>
   </editable>
-  <editable rel="page" field="custom_field_czdfegddff1sda1fdd1">
+  <editable rel="page" field="custom_field_czdfegddff1sdsdfsdfa1fdd1">
     <div class="row">
       <div class="column">
         <div class="element">
@@ -45,7 +45,7 @@ description: Home site layout
       </div>
     </div>
   </editable>
-  <editable rel="page" field="custom_field_xew1adssdf344h3a4dfgsd">
+  <editable rel="page" field="custom_field_xew1adssdf344h3a4dfsdfsdfgsd">
     <div class="row">
       <div class="column">
         <div class="element">
