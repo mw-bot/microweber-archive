@@ -1,39 +1,31 @@
-<? $exit_l_ed=url_param_unset( 'layout_editor',url());
-$enter_l_ed=$this->core_model->urlConstruct(url(), array('layout_editor' => 'yes'));
-$exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 'n')); //
-    ?>
+<?php
+  $exit_l_ed=url_param_unset( 'layout_editor',url());
+  $enter_l_ed=$this->core_model->urlConstruct(url(), array('layout_editor' => 'yes'));
+  $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 'n')); //
+?>
     <script type="text/javascript">
-    window.onerror = function(err){alert(err)}
-        merc_src = "<?php   print( ADMIN_STATIC_FILES_URL);  ?>mercury";
-        admin_panel = "<?php   print( ADMIN_URL);  ?>/";
-		
-		
-            window.page_id = '<? print intval(PAGE_ID) ?>';
-            window.post_id = '<? print intval(POST_ID) ?>';
-            window.category_id = '<? print intval(CATEGORY_ID) ?>';
-		
-		
-		
-		
-        //alert(admin_panel);
-    </script>
-    <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js"
-    type="text/javascript"></script>
-    <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js"
-    type="text/javascript"></script>
-    <link href="<?php   print( INCLUDES_URL);  ?>css/jquery-ui-smoothness/jquery-ui-1.8.20.custom.css"
-    rel="stylesheet" type="text/css" />
-    <script type="text/javascript">
-        // $.noConflict();
-        // Code that uses other library's $ can follow here.
-    </script>
-    <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js"
-    type="text/javascript"></script>
 
-    <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/farbtastic/farbtastic.js"
-    type="text/javascript"></script>
-    <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/freshereditor.js"
-    type="text/javascript"></script>
+        window.onerror = function(err){alert(err)}
+        admin_panel = "<?php   print( ADMIN_URL);  ?>/";
+        window.page_id = '<?php print intval(PAGE_ID) ?>';
+        window.post_id = '<?php print intval(POST_ID) ?>';
+        window.category_id = '<?php print intval(CATEGORY_ID) ?>';
+
+    </script>
+    <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
+    <link href="<?php   print( INCLUDES_URL);  ?>css/jquery-ui-smoothness/jquery-ui-1.8.20.custom.css"  rel="stylesheet" type="text/css" />
+    
+    
+    <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js"    type="text/javascript"></script>
+    <script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js"    type="text/javascript"></script>
+    <link href="<?php   print( INCLUDES_URL);  ?>>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
+    <script src="<?php   print( INCLUDES_URL);  ?>js/freshereditor.js"    type="text/javascript"></script>
+    <link href="<?php   print( INCLUDES_URL);  ?>js/freshereditor.css"   rel="stylesheet" type="text/css" />
+    <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css"    rel="stylesheet" type="text/css" />
+    <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js"    type="text/javascript"></script>
+
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('.edit').freshereditor({
@@ -55,7 +47,7 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
                 var s = document.createElement('script');
                 s.type = 'text/javascript';
                 s.async = true;
-                s.src = '<? print site_url('api/js'); ?>';
+                s.src = '<? print INCLUDES_URL; ?>js/api.js';
                 var x = document.getElementsByTagName('script')[0];
                 x.parentNode.insertBefore(s, x);
             }
@@ -79,42 +71,28 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
 
         })();
     </script>
-    <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/freshereditor.css"
-    rel="stylesheet" type="text/css" />
-    <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/toolbar.css"
-    rel="stylesheet" type="text/css" />
-    <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>toolbar/farbtastic/farbtastic.css"
-    rel="stylesheet" type="text/css" />
-    <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js"
-    type="text/javascript"></script>
-    <!--<script src="<?php print( ADMIN_STATIC_FILES_URL); ?>toolbar/html5sortable/jquery.sortable.js" type="text/javascript"></script>
--->
-    <!--<script src="<?php print( ADMIN_STATIC_FILES_URL); ?>toolbar/html5_sortable.js" type="text/javascript"></script>-->
+
+
+
+
+
+
+
+
+
+
+
+
     <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/javascripts/jquery.boxy.js"
     type="text/javascript"></script>
     <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/stylesheets/boxy.css"
     rel="stylesheet" type="text/css" />
     <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/color_picker/javascripts/mColorPicker.js"
     type="text/javascript"></script>
-    <script type="text/javascript">
-        /* Plugin to make variable height divs equal heights */
-        $.fn.sameHeights = function () {
-
-            $(this).each(function () {
-                var tallest = 0;
-
-                $(this).children().each(function (i) {
-                    if (tallest < $(this).height()) {
-                        tallest = $(this).height();
-                    }
-                });
-                $(this).children().css({
-                    'height': tallest
-                });
-            });
-            return this;
-        };
-    </script>
+    
+	
+	
+	
     <script type="text/javascript">
         Boxy.DEFAULTS.title = 'Title';
         Boxy.DEFAULTS.fixed = true;
@@ -122,20 +100,7 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
         Boxy.DEFAULTS.modal = false;
         Boxy.DEFAULTS.unloadOnHide = true;
 
-        function open_module_browser() {
-            data1 = {}
-            data1.module = 'admin/modules/list';
-
-            data1.page_id = '<? print intval(PAGE_ID) ?>';
-            data1.post_id = '<? print intval(POST_ID) ?>';
-            data1.category_id = '<? print intval(CATEGORY_ID) ?>';
-
-
-
-
-            Boxy.load2("<? print site_url('api/module') ?>", data1);
-
-        }
+ 
 
         function mw_module_settings($module_id) {
 
@@ -337,7 +302,6 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
         <div id="resizable_IMGS"></div>
     </div>
     <script type="text/javascript">
-        <!-- The sidebar event delegation is not registered "here"... -->
         $(document).ready(function () {
 
 
@@ -501,16 +465,7 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
 
 
 
-
-        function mercuryLoaded() {
-            window.Mercury = top.Mercury;
-            //  Mercury.trigger('initialize:frame');
-            // alert(1);
-            $('#mercury_iframe').load(function () {
-                //	init_sortables()
-            });
-
-        }
+ 
 
         function mw_save_all() {
             nic_save_all();
@@ -864,7 +819,7 @@ $exit_live_edit   = $this->core_model->urlConstruct(url(), array('?editmode' => 
 
                         $('#mw_toolbar_tabs-2').live('mouseenter', function (e) {
                             ///	alert(1);
-                            init_sortables()
+                            //init_sortables()
                         });
 
 

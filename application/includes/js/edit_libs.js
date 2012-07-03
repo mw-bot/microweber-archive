@@ -3,47 +3,15 @@
 ;(function($) {
 	$.fn.putPlaceholdersInEmptyColumns = function(options) {
 		return this.each(function() {
-			// Extend the options if any provided
 			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);
-			
-			
-			// $(this).add(window.mw_empty_column_placeholder);
-                  //  $(this).children('.empty').show()
-                    if ($("div.element", this).size() == 0) {
-						
-						 $(this).html(window.mw_empty_column_placeholder2);
-						
-						
-                        //		$(this).addClass('ui-state-highlight2');
-
-
-                        //	. $(this).html(window.mw_empty_column_placeholder);
-
-                        //  $(this).append(window.mw_empty_column_placeholder);
-
-                        // $(this).html(window.mw_empty_column_placeholder);
-                        //	 $(this).html('aaaaa');
-                    } else {
-						 $(this).children('.empty-column').remove()
-						
-                        //  $(this).children('.empty').show()
-                        // $('.empty').fadeIn('fast') 
-                    }
-			 
+            if ($("div.element", this).size() == 0) {
+                $(this).html(window.mw_empty_column_placeholder2);
+            } else {
+                $(this).children('.empty-column').remove()
+            }
 		});
 	};//End of Plugin
-	
-	 
 })(jQuery);
-
-
-
-
-
-
-
-
-
 
 /**
  * jQuery.equalHeights - Making an equal height panels.
@@ -59,36 +27,17 @@
 		return this.each(function() {
 			// Extend the options if any provided
 			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);
-			//Find the shortest height item
-			//  $('.hl1').removeClass('hl1');
-			 // $('.hl2').removeClass('hl2');
-			//$h = $(this).addClass('hl1');
-			//$h = $(this).outerHeight();
-			
-			//$this.children(o.itemsToEqualize).height($h)
-			
-			
-			//$this.children('.column' ).resizable('destroy');
-			//	$this.children('.column' ).addClass('hl2'); 
-			
+
 			 var shortestHeight = 10000;
 			 var biggestHeight = 0;
 			$this.children('.column' ).each(function(){
 				shortestHeight = $(this).height() < shortestHeight ? $(this).height() : shortestHeight;
-								biggestHeight = $(this).outerHeight() > biggestHeight ? $(this).outerHeight() : biggestHeight;
-
-		 				// shortestW = $(this).width() < shortestW ? $(this).width() : shortestW;
+				biggestHeight = $(this).outerHeight() > biggestHeight ? $(this).outerHeight() : biggestHeight;
 
 			});
 			$this.children('.column' ).height(biggestHeight);
-			//$('#ContentSave').html(shortestHeight+'   |   ' + biggestHeight );
- 			/*$this.children('.column' ).each(function(){
- 				if($(this).height()==shortestHeight) return;
- 			}); */
 		});
 	};//End of Plugin
-	
-	// Public: plugin defaults options
 	$.fn.equalHeights.defaults = {
 		itemsToEqualize : '.column' 
  	};
@@ -199,31 +148,9 @@
 	 				$a++;
 					}); 
 				
-			//	last_col_w  =last_col.width()/w_parent1*100;
-				
-				//last_col_w1 = last_col_w - child_count;
-				// last_col.css({
-						 	//width:  last_col_w1+"%",
-							//height: ui.element.height()/parent.height()*100+"%"
-						//});
-				
-				//$('#ContentSave').html(last_col_w1);
-				
-				
+	  
 				 
 			} else {
-				
-					
-						/*			if(window.mw_empty_column_placeholder != undefined){
-											 $(this).children('.column').each(function(index) {
-												$(this).html(window.mw_empty_column_placeholder);
-											});	
-											 
-									}*/
-						
-									
-				//if no cols add placeholder
-				
 				
 				
 				

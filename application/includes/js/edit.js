@@ -77,36 +77,22 @@ function mw_make_cols($row_id, $numcols) {
         }
         $exisintg_num = parseInt($exisintg_num);
         $numcols = parseInt($numcols);
-
-
         if ($exisintg_num == 0) {
             $exisintg_num = 1;
         }
-
-
         if ($numcols != $exisintg_num) {
-
-
-
             if (window.console && window.console.log) {
                 window.console.log('  $exisintg_num ' + $exisintg_num + '       $numcols ' + $numcols);
             }
-
             if ($numcols > $exisintg_num) {
-
                 for (i = $exisintg_num; i < $numcols; i++) {
                     $('<div class="column">' + window.mw_empty_column_placeholder + '</div>').appendTo('#' + $el_id);
                 }
-
             } else {
-
-
                 $cols_to_remove = $exisintg_num - $numcols;
                 if (window.console && window.console.log) {
                     window.console.log('$cols_to_remove' + $cols_to_remove);
                 }
-
-
                 if ($cols_to_remove > 0) {
 
                     for (i = $cols_to_remove; i > 0; i--) {
@@ -116,22 +102,11 @@ function mw_make_cols($row_id, $numcols) {
                             if (window.console && window.console.log) {
                                 window.console.log('$removinc child col' + '#' + $el_id + ">div.column:nth-child(" + $ch_n + ")");
                             }
-
                             $('#' + $el_id).children(".column:eq(" + $ch_n + ")").fadeOut('slow').remove();
-
                         }
-
-
                     }
-
-
                 }
             }
-
-
-
-
-
 
             $exisintg_num = $('#' + $el_id).children(".column").size();
 
@@ -145,28 +120,9 @@ function mw_make_cols($row_id, $numcols) {
             $('#' + $el_id).equalWidths().equalHeights();
             $('#' + $el_id).children('.column').height('auto');
 
-            init_sortables()
-
-
-
-
-
-
+            init_sortables();
         }
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
 }
 
 function mw_fix_grid_sizes() {
@@ -562,38 +518,7 @@ function init_sortables() {
                 window.mw_drag_started = false;
                 $(".column").removeClass('mw-outline-column');
 
-
-                $('.eleasdasdasdament', '.edasdasdadit').each(function (index, value) {
-                    var ielement = $(this).first().hasClass('row');
-                    var ielement_id = $(this).first().attr('id');
-                    var ielement_par_id = $(this).parent('.column').attr('id');
-                    if (ielement != false && ielement_par_id != undefined) {
-                        $('#' + ielement_id).moveTo('#' + ielement_par_id);
-                        if (window.console && window.console.log) {
-                            window.console.log(' moving rows ' + ielement_id + ' to ' + ielement_par_id);
-                        }
-                    }
-
-                    var ielement = $(this).first().hasClass('element');
-
-
-
-                    var ielement_id = $(this).first().attr('id');
-                    var ielement_par_id = $(this).parent('.column').attr('id');
-                    if (ielement != false && ielement_par_id != undefined) {
-
-                        if (window.console && window.console.log) {
-                            window.console.log(' moving ' + ielement_id + ' to ' + ielement_par_id);
-                        }
-
-
-                        $('#' + ielement_id).moveTo('#' + ielement_par_id);
-                    }
-
-
-
-
-                });
+ 
 
 
 
@@ -800,20 +725,12 @@ function make_events() {
                 console.log('contenteditable started on element id: ' + $el_id);
             }
 
-
-
-     //       $(this).parent('.element').sortable('destroy');
-          //  $(this).parent('.column').sortable('destroy');
+ 
             window.mw_text_edit_started = true;
             $(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
             $(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 setTimeout("window.mw_sorthandle_hover=false", 300);
-            //
-          //  e.preventDefault();
-	 //   e.stopPropagation();
-            //event.preventDefault(); // this prevents the original href of the link from being opened
-            // ..   e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
-            //   return false;
+ return false;
 
         } else {
      	window.mw_sorthandle_hover=true;
@@ -967,19 +884,17 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
 
 }
 
-
-$('.module', '.edit').die('mouseenter');
-$('.module', '.edit').live('mousenter', function (e) {
-    $(this).children('[draggable]').removeAttr('draggable')
-});
+ 
 
 
 
+ $(".mw-sorthandle", '.edit').die('mousedown');
+ $(".mw-sorthandle", '.edit').live('mousedown', function (e) {
+  
+  //alert(1);
+ 
 
-
- $(".mw-sorthandle,.mw-sorthandle>*", '.edit').die('mousedown');
- $(".mw-sorthandle,.mw-sorthandle>*", '.edit').live('mousedown', function (e) {
-    if (window.mw_sortables_created == false) {
+  if (window.mw_sortables_created == false) {
      //   init_sortables()3
  
          $('.element[contenteditable=true]', '.edit').freshereditor("edit", false);
@@ -994,11 +909,11 @@ $('.module', '.edit').live('mousenter', function (e) {
         init_sortables()
     }
 
+ 
 
-
-	 e.preventDefault();
+	  e.preventDefault();
             //event.preventDefault(); // this prevents the original href of the link from being opened
-  	  e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
+    e.stopPropagation(); // this prevents the click from triggering click events up the DOM from this element
           return false;
     }
 
