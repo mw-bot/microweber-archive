@@ -371,8 +371,10 @@ mw.edit = {
 			$sort_opts = {
 			//	items : 'li.module-item,.row,.empty,.edit>.row,.element>.row,.column>.element>.row,.element>*,.element>.row,.column>.row,.column>.element>.row,.row,.row>.column>.row',
 
-items : '.row,.edit>.element,.edit>.element>.row,.edit>.row',
-	handle : '.mw-sorthandle-row,.edit>.element>.mw-sorthandle-col',
+iatems : '.row,.edit>.element,.edit>.element>.row,.edit>.row',
+//items : '.row,.edit>.element',
+
+	handle : '.mw-sorthandle-row,.mw-sorthandle',
 
 				dropOnEmpty : true,
 				forcePlaceholderSize : true,
@@ -460,6 +462,8 @@ if ($(this).parents('.row').length === 0)  {
 					mw.edit.fix_zindex();
 					$(this).sortable('refreshPositions')
 //$('.row:not(.ui-sortable)','.edit').addClass("ui-sortable").sortable(mw.edit.sortable_options).sortable( "refreshPositions" );	
+//
+$('.edit').children('.row:not(.ui-sortable)').addClass("ui-sortable").sortable(mw.edit.sortable_options)
 $('.edit').sortable( "refreshPositions" );	
 					$('.edit').sortable( "refresh" );
 					$('.edit').sortable( "enable" );
