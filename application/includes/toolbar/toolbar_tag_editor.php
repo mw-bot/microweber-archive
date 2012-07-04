@@ -193,7 +193,7 @@
         <table border="0" cellspacing="5" cellpadding="0" >
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Border color</div></td>
-            <td><input  class="mw_color css_property"  name="border-color"    type="color"  data-hex="true"   /></td>
+            <td><input  class="mw_color css_property"  name="border-color" type="color"  data-hex="true"   /></td>
           </tr>
         </table>
       </div>
@@ -203,7 +203,7 @@
         <table border="0" cellspacing="5" cellpadding="0" >
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Background color</div></td>
-            <td><input  class="mw_color css_property"  name="background-color"    type="color"  data-hex="true"    /></td>
+            <td><input  class="mw_color css_property"  name="background-color" type="color"  data-hex="true"    /></td>
           </tr>
         </table>
       </div>
@@ -266,7 +266,7 @@
           <tr valign="middle">
             <td><div class="mw_tag_editor_label_wide">Shadow color</div></td>
             <td><input  class="css_property css_fx"  name="box-shadow-spread"  dimensions="px"  type="hidden"      />
-              <input  class="css_property css_fx mw_color"  name="box-shadow-color"    type="color"  data-hex="true"      /></td>
+              <input  class="css_property css_fx mw_color"  name="box-shadow-color" type="color"  data-hex="true"      /></td>
           </tr>
         </table>
       </div>

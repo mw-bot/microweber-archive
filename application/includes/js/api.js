@@ -1,8 +1,4 @@
-
-/*var mw_edit = document.createElement("edit");
- var mw_module = document.createElement("module");
- var mw_moduleedit = document.createElement("moduleedit");
- var mw_editblock = document.createElement("editblock");*/
+ 
 
 if (window.console != undefined) {
 	console.log('Microweber Javascript Framework Loaded');

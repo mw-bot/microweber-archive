@@ -1238,11 +1238,10 @@ function mw_html_tag_editor_apply_styles(){
 	
 //	$shadow = box_shadow_horizontal+'px '+box_shadow_vertical+'px '+box_shadow_blur+'px '+box_shadow_spread+'px ' + box_shadow_color ;
 	if($shadow != ''){
-		 	mw_remove_editables();
-	cssstr= cssstr+ ' '+'"-webkit-box-shadow"'+':"'+$shadow+ '",';
-	cssstr= cssstr+ ' '+'"-moz-box-shadow"'+':"'+$shadow+ '",';
-	cssstr= cssstr+ ' '+'"box-shadow"'+':"'+$shadow+ '",';
-	cssstr= cssstr.replace(/pxpx/gi, "px")
+    	cssstr= cssstr+ ' '+'"-webkit-box-shadow"'+':"'+$shadow+ '",';
+    	cssstr= cssstr+ ' '+'"-moz-box-shadow"'+':"'+$shadow+ '",';
+    	cssstr= cssstr+ ' '+'"box-shadow"'+':"'+$shadow+ '",';
+    	cssstr= cssstr.replace(/pxpx/gi, "px")
 	}
  
  }

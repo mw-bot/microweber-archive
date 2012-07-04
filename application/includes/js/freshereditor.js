@@ -290,8 +290,8 @@ Improvments by Quan Nguyen (github.com/mquan):
 					
 				
 					 if ((cmd == 'save')) {
-					 nic_save_all()
-					 init_sortables();
+					 mw.edit.save()
+					 mw.edit.init_sortables();
 					 } else if ((cmd == 'open_module_browser')) {
 				 
 					 }	 else {

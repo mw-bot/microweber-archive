@@ -1,7 +1,7 @@
 <? $v = ( url_param('action', true) );?>
 <? if($v) {
 	 
-	 include("snippets/".$v.'.php'); 
+	 include("snippets/".$v.'.php');
 	 
 	 
  }  else { ?>
