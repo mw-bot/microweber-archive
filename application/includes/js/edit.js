@@ -193,6 +193,32 @@ mw.edit = {
 	},
 
 	/**
+	 * Loads module settings in lightbox
+	 *
+	 * @method mw.edit.module_settings()
+	 */
+	module_settings : function($module_id) {
+
+		$module = $('div.module[module_id="' + $module_id + '"]:first', '.edit');
+		//alert($module_id);
+		$module_name = $module.attr('module');
+		$module_title = $module.attr('data-module-title');
+
+		data1 = {}
+		data1.module = '' + $module_name;
+		data1.view = 'settings';
+		data1.module_id = $module_id;
+		data1.page_id = window.page_id;
+		data1.post_id = window.post_id;
+		data1.category_id = window.category_id;
+
+		// use juqery .load   - here mw.settings.site_url + "api/module"
+
+		alert('Alex should load in the settings in lightbox ')
+
+	},
+
+	/**
 	 * Loads new dropped layouts
 	 *
 	 * @method mw.edit.load_layout_element()
@@ -247,12 +273,27 @@ mw.edit = {
 				$('.modules-list').sortable('destroy');
 				mw.settings.sortables_created = false;
 				setTimeout("mw.edit.init_sortables()", 300)
-				setTimeout("", 500)
+				setTimeout("mw.edit.fix_sizes()", 500)
 				setTimeout("mw.edit.make_events()", 500)
 				setTimeout("mw.edit.init_element_handles()", 600)
+				
+				
+			 
+				
+				
+				
+				
 			}
 		}
 	},
+
+
+ 
+	fix_sizes : function() {
+	 $('.row').equalHeights();
+	},
+
+
 
 	/**
 	 * Fix z-Index for the sort handles
@@ -331,9 +372,10 @@ mw.edit = {
 			$(".column").putPlaceholdersInEmptyColumns()
 
 			$('.row').equalHeights();
-			$spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit div.column';
-			$($spans).addClass('column');
+		//	$spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit div.column';
+			//$($spans).addClass('column');
 
+        $drop_areas = '.edit,.column,.element>.row>.column,.element>.row>.column>.element,.element>*';
 			$sort_opts = {
 				items : 'li.module-item,.row,.empty,.edit>.row,.element>.row,.column>.element>.row,.element>*,.element>.row,.column>.row,.column>.element>.row,.row,.row>.column>.row',
 				dropOnEmpty : true,
@@ -352,7 +394,10 @@ mw.edit = {
 				handle : '.mw-sorthandle-row:first',
 				revert : true,
 				placeholder : "ui-sortable-placeholder",
-				connectWith : '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*',
+				//connectWith : '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*' + $drop_areas,
+				connectWith : '.element,.edit,.column,.edit .element>*',
+				
+				
 				start : function(event, ui) {
 					mw.settings.text_edit_started = false;
 					$('.element:not([contenteditable=false])', '.edit').freshereditor("edit", false);
@@ -414,7 +459,7 @@ mw.edit = {
 			}
 			$('.edit').sortable($sort_opts);
 			$sort_opts_elements = $sort_opts;
-			$sort_opts_elements.items = '.element';
+			//$sort_opts_elements.items = '.element';
 			delete $sort_opts_elements.items;
 
 			$sort_opts_elements.handle = '.mw-sorthandle-col:first,.mw-sorthandle-row:first'
@@ -433,20 +478,18 @@ mw.edit = {
 			$sort_opts_toolbar.remove = function(event, ui) {
 				$(ui.item).clone().appendTo(event.target);
 			}
+			
+			
+			
 
-			$('.modules-list', '#mw_toolbar_tabs').sortable('destroy');
-			$('.modules-list', '#mw_toolbar_tabs').sortable($sort_opts_toolbar);
-
-			$('.modules-list', '#mw_toolbar_tabs .modules-list').disableSelection();
-
+			$('.modules-list', '.mw').sortable('destroy');
+			$('.modules-list',  '.mw').sortable($sort_opts_toolbar);
+			//$('.modules-list', '#mw_tab_layouts').sortable($sort_opts_toolbar);
+			$('.modules-list', '#modules_bar .modules-list').disableSelection();
 			$(".mw-sorthandle", '.edit').disableSelection();
-
 			mw.edit.make_events();
-
-			$("#mw-layout-edit-site-top-bar-r").html("Drag and drop edit");
-			mw.settings.sortables_created = true;
-			mw.settings.sortables_created = true;
-		}
+ 			mw.settings.sortables_created = true;
+ 		}
 	},
 
 	/**
@@ -483,7 +526,7 @@ mw.edit = {
 				}
 				mw.settings.text_edit_started = true;
 				$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
-				$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+				//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 				setTimeout("mw.settings.sorthandle_hover=false", 300);
 				return false;
 			} else {

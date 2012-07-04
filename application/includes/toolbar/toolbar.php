@@ -6,6 +6,7 @@
 
     mw.settings = {
         site_url:'<?php print site_url(); ?>',
+
         page_id : '<?php print intval(PAGE_ID) ?>',
         post_id : '<?php print intval(POST_ID) ?>',
         category_id : '<?php print intval(CATEGORY_ID) ?>',
@@ -24,13 +25,12 @@
     	sorthandle_row_delete : '<a class=\"mw.edit.delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)">x</a> ',
     	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
     	sorthandle_col:"<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw.edit.delete_element'><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>",
-    	sorthandle_module:"<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw.edit.delete_element'><a href=\"javascript:mw_module_settings(MODULE_ID)\">settings</a><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>"
+    	sorthandle_module:"<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw.edit.delete_element'><a href=\"javascript:mw.edit.module_settings(MODULE_ID)\">settings</a><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>"
     }
 
 </script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
-<link href="<?php   print( INCLUDES_URL);  ?>css/jquery-ui-smoothness/jquery-ui-1.8.20.custom.css"  rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js" type="text/javascript"></script>
 <link href="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
@@ -56,11 +56,11 @@
                 toolbar_selector: "#mw-text-editor"
             });
             mw.edit.init_sortables();
-			$("#mw_toolbar_tabs").tabs();
 
             mw.history.init();
-            mw.module_selector.init();
+            mw.tools.module_slider.init();
             mw.tools.dropdown();
+            mw.tools.toolbar_tabs.init();
         });
         (function () {
             function async_load() {
@@ -80,17 +80,18 @@
         })();
     </script>
 <div class="mw">
-    <a href="javascript:;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a>
-    <div id="mw_toolbar_tabs">
-      <ul>
-        <li> <a href="#mw_toolbar_tabs-2">Modules</a> </li>
-        <li> <a href="#mw_toolbar_tabs-3">Layouts</a> </li>
-        <li> <a href="#mw_toolbar_tabs-5">Design</a> </li>
-        <li> <a href="#mw_toolbar_tabs-7">Help</a> </li>
-        <li> <a href="#mw_css_editor">Style editor</a> </li>
-      </ul>
-      <div id="mw_toolbar_tabs-2">
-
+      <div id="mw_toolbar_nav">
+          <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
+          <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a>
+          <ul id="mw_tabs">
+            <li> <a href="#mw_tab_modules">Modules</a> </li>
+            <li> <a href="#mw_tab_layouts">Layouts</a> </li>
+            <li> <a href="#mw_tab_design">Design</a> </li>
+            <li> <a href="#mw_tab_help">Help</a> </li>
+            <li> <a href="#mw_tab_style_editor">Style editor</a> </li>
+          </ul>
+      </div>
+      <div id="tab_modules" class="mw_toolbar_tab">
          <div class="mw_dropdown left" id="module_category_selector">
             <span class="mw_dropdown_val">Recommended</span>
             <div class="mw_dropdown_fields">
@@ -108,15 +109,19 @@
             </div>
          </div>
 
-        <div id="modules_bar">
-            <microweber module="admin/modules/list" />
+        <div id="modules_bar_slider">
+          <div id="modules_bar">
+              <microweber module="admin/modules/list" />
+          </div>
+          <span id="modules_bar_slide_left">&nbsp;</span>
+          <span id="modules_bar_slide_right">&nbsp;</span>
         </div>
         <div class="mw_clear">&nbsp;</div>
       </div>
-      <div id="mw_toolbar_tabs-3">
+      <div id="tab_layouts" class="mw_toolbar_tab">
         <microweber module="admin/modules/list_elements" />
       </div>
-      <div id="mw_toolbar_tabs-5">
+      <div id="tab_design" class="mw_toolbar_tab">
         <div class="mw_module_settings row">
           <div class="span5">
             <microweber module="admin/pages/layout_and_category" />
@@ -127,11 +132,10 @@
           <div class="span5"> </div>
         </div>
       </div>
-      <div id="mw_toolbar_tabs-7">Help</div>
-      <div id="mw_css_editor">
+      <div id="tab_help" class="mw_toolbar_tab">Help</div>
+      <div id="tab_style_editor" class="mw_toolbar_tab">
         <? include( 'toolbar_tag_editor.php') ; ?>
       </div>
-    </div>
     <div id="mw-text-editor"></div>
     <div id="mw-history-panel"></div>
 
