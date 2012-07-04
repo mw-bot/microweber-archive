@@ -48,6 +48,9 @@ mw.tools = {
     },
     change:function(){
        var hash = mw.tools.toolbar_tabs.get_active();
+       $("#mw_tabs a").removeClass("active");
+       var xdiez =hash.replace("#", "");
+       $("#mw_tabs a[href*='"+xdiez+"']").addClass("active");
        $(".mw_tab_active").removeClass("mw_tab_active");
        $(hash).addClass("mw_tab_active");
     },

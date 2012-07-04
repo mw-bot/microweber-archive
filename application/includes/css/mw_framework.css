@@ -69,7 +69,6 @@ body:-webkit-full-screen {
     background-image:linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
     background-image:-o-linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
     background-image:-webkit-gradient(linear, right top, right bottom, color-stop(0%,#E7E7E7), color-stop(100%,#D7D7D7));
-
 }
 
 #mw_tabs{
@@ -80,8 +79,16 @@ body:-webkit-full-screen {
 #mw_tabs li{
   float: left;
 }
-##mw_tabs li a{
+#mw_tabs li a{
   display: block;
+  padding:16px 20px;
+  text-decoration: none;
+  outline: none;
+}
+
+#mw_tabs li a.active{
+  box-shadow:inset 1px 1px 1px #CBCBCB;
+  background:#E8E8E8;
 }
 
 #mw_toolbar_logo{

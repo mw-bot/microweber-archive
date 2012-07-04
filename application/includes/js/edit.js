@@ -276,24 +276,14 @@ mw.edit = {
 				setTimeout("mw.edit.fix_sizes()", 500)
 				setTimeout("mw.edit.make_events()", 500)
 				setTimeout("mw.edit.init_element_handles()", 600)
-				
-				
-			 
-				
-				
-				
-				
+
 			}
 		}
 	},
 
-
- 
 	fix_sizes : function() {
-	 $('.row').equalHeights();
+		$('.row').equalHeights();
 	},
-
-
 
 	/**
 	 * Fix z-Index for the sort handles
@@ -372,10 +362,10 @@ mw.edit = {
 			$(".column").putPlaceholdersInEmptyColumns()
 
 			$('.row').equalHeights();
-		//	$spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit div.column';
+			//	$spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit div.column';
 			//$($spans).addClass('column');
 
-        $drop_areas = '.edit,.column,.element>.row>.column,.element>.row>.column>.element,.element>*';
+			$drop_areas = '.edit,.column,.element>.row>.column,.element>.row>.column>.element,.element>*';
 			$sort_opts = {
 				items : 'li.module-item,.row,.empty,.edit>.row,.element>.row,.column>.element>.row,.element>*,.element>.row,.column>.row,.column>.element>.row,.row,.row>.column>.row',
 				dropOnEmpty : true,
@@ -396,8 +386,7 @@ mw.edit = {
 				placeholder : "ui-sortable-placeholder",
 				//connectWith : '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*' + $drop_areas,
 				connectWith : '.element,.edit,.column,.edit .element>*',
-				
-				
+
 				start : function(event, ui) {
 					mw.settings.text_edit_started = false;
 					$('.element:not([contenteditable=false])', '.edit').freshereditor("edit", false);
@@ -478,18 +467,15 @@ mw.edit = {
 			$sort_opts_toolbar.remove = function(event, ui) {
 				$(ui.item).clone().appendTo(event.target);
 			}
-			
-			
-			
 
 			$('.modules-list', '.mw').sortable('destroy');
-			$('.modules-list',  '.mw').sortable($sort_opts_toolbar);
+			$('.modules-list', '.mw').sortable($sort_opts_toolbar);
 			//$('.modules-list', '#mw_tab_layouts').sortable($sort_opts_toolbar);
 			$('.modules-list', '#modules_bar .modules-list').disableSelection();
 			$(".mw-sorthandle", '.edit').disableSelection();
 			mw.edit.make_events();
- 			mw.settings.sortables_created = true;
- 		}
+			mw.settings.sortables_created = true;
+		}
 	},
 
 	/**
@@ -525,9 +511,24 @@ mw.edit = {
 					console.log('contenteditable started on element id: ' + $el_id);
 				}
 				mw.settings.text_edit_started = true;
+
+				$is_this_element = $(this).hasClass('.element');
+				if ($is_this_element == true) {
+					//$(this).freshereditor("edit", true);
+ 
+				} else {
+					//$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
+
+				}
+//$('#'+$el_id).freshereditor("edit", true);
+
+
+
 				$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
-				//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+				$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 				setTimeout("mw.settings.sorthandle_hover=false", 300);
+				e.preventDefault();
+					e.stopPropagation();
 				return false;
 			} else {
 				mw.settings.sorthandle_hover = true;
