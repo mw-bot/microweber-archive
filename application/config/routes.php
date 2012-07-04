@@ -115,14 +115,11 @@ $route ['api/forms'] = "api/forms/index";
 $route ['api/forms/(:any)'] = "api/forms/$1";
 
 
-
-$route ['userasdasdbase'] = "index/userbase/";
-$route ['useasdsarbase/(:any)'] = "index/userbase/$1";
+ 
 
 $route ['users'] = "index/users/";
 $route ['users/(:any)'] = "index/users/$1";
-$route ['dasaahboard'] = "index/dashboard/";
-$route ['dashaaboard/(:any)'] = "index/dashboard/$1";
+ 
 //$route['(:any)'] = "index/index/$1";  
 
 $route ['login'] = "login/index";

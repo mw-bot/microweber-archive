@@ -1395,13 +1395,13 @@ function mw_html_tag_editor_apply_styles(){
 		$( ".mColorPickerTrigger" ).hide();
 		
 		
-	 	$('.mw_color').mColorPicker({
+/*	 	$('.mw_color').mColorPicker({
                imageFolder: '<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/color_picker/images/'
 			   
-           });
+           });*/
 	 
 	 
-	  $('.mw_color').addClass('mColorPickerTrigger');
+	  //$('.mw_color').addClass('mColorPickerTrigger');
 	  $('.mw_color').show();
 	  $( ".mw_tag_editor_input_font_color" ).hide(); 
 	 

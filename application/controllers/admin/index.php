@@ -36,19 +36,7 @@ class Index extends CI_Controller {
 	}
 	
 	
-		function mercury() {
-		$is_admin = is_admin ();
-		if ($is_admin == false) {
-			$go = site_url ( 'login' );
-			safe_redirect ( $go );
-		}
-		
-		$layout =$this->load->view ( 'admin/mercury', true, true );
-		
-		$layout = $this->template_model->parseMicrwoberTags ( $layout );
-		$this->output->set_output ( $layout );
-	}
-	
+ 
 	function toolbar() {
 		$is_admin = is_admin ();
 		if ($is_admin == false) {
@@ -56,25 +44,24 @@ class Index extends CI_Controller {
 			safe_redirect ( $go );
 		}
 		
-		$layout =$this->load->view ( 'admin/toolbar', true, true );
+		//$layout =$this->load->view ( 'admin/toolbar', true, true );
+		
+		$tb = INCLUDES_DIR.DS.'toolbar'.DS.'toolbar.php';
+					
+		$layout = $this->load->file ( $tb, true );
+		
+		
+		
+		//$tb = INCLUDES_DIR.DS.'toolbar'.DS.'toolbar.php';
+		//var_dump($tb );
+		//$layout = $this->load->file ( INCV . 'affiliate_site_1/default_layout.php', true );
+		//$layout =$this->load->view ( 'admin/toolbar', true, true );
 		
 		//$layout = $this->template_model->parseMicrwoberTags ( $layout );
 		$this->output->set_output ( $layout );
 	}
 	
-	function edit() {
-		//$this->session->set_userdata ( 'editmode', false );
-		$is_admin = is_admin (); 
-		if ($is_admin == false) {
-			$go = site_url ( 'login' );
-			safe_redirect ( $go );
-		}
-		
-		$layout =$this->load->view ( 'admin/iframe', true, true );
-		$layout = $this->template_model->parseMicrwoberTags ( $layout );
-		//$layout = $this->template_model->parseMicrwoberTags ( $layout );
-		$this->output->set_output ( $layout );
-	}
+	 
 }
 
 /* End of file welcome.php */

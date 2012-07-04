@@ -5,7 +5,7 @@
 		return this.each(function() {
 			var o = $.extend({}, $.fn.equalHeights.defaults, options), $this = $(this);
             if ($("div.element", this).size() == 0) {
-                $(this).html(window.mw_empty_column_placeholder2);
+                $(this).html(mw.settings.empty_column_placeholder2);
             } else {
                 $(this).children('.empty-column').remove()
             }
@@ -98,11 +98,11 @@
 								$(this).children('.column').each(function(index) {
 									
 									
-									if(window.mw_empty_column_placeholder != undefined){
+									if(mw.settings.empty_column_placeholder != undefined){
 											var col_size = $(this).children().size();
 											
 											if(col_size == 0){
-												$(this).html(window.mw_empty_column_placeholder);
+												$(this).html(mw.settings.empty_column_placeholder);
 												
 											}
 									}

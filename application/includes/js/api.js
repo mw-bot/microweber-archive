@@ -17,33 +17,8 @@ if (window.console != undefined) {
  */
 
 window.mw = window.mw ? window.mw : {};
-MW = window.mw;
-mw = window.mw;
 
-mw.ready = function(elem, callback) {
 
-	$(document).ready(function() {
-		$(elem).each(function() {
-			var el = $(this);
-			if (!el.hasClass("exec")) {
-				el.addClass("exec");
-				callback.call(el);
-			}
-		});
-
-		$(document.body).ajaxStop(function() {
-			$(elem).each(function() {
-				var el = $(this);
-				if (!el.hasClass("exec")) {
-					el.addClass("exec");
-					callback.call(el);
-				}
-			});
-		});
-
-	});
-
-}
 
 mw.module = function($vars, $update_element) {
 
@@ -72,7 +47,7 @@ mw.load_module = function($module_name, $update_element) {
 	 
 	 url1= '{SITE_URL}api/module';
 	 $($update_element).load(url1,attributes,function() {
-	 window.mw_sortables_created = false;
+	 mw.settings.sortables_created = false;
 	 }); 
  
  
@@ -85,7 +60,7 @@ mw.load_layout_element = function($layout_element_name, $update_element) {
 	 
 	 url1= '{SITE_URL}api/content/load_layout_element';
 	 $($update_element).load(url1,attributes,function() {
-	 window.mw_sortables_created = false;
+	 mw.settings.sortables_created = false;
 	 }); 
 }
 
@@ -157,7 +132,7 @@ mw.reload_module = function($module_name) {
 								 
 										 url1= '{SITE_URL}api/module/index/reload_module:' + encoded;
 										 elem.load(url1,$all_attr,function() {
-											 window.mw_sortables_created = false;
+											 mw.settings.sortables_created = false;
 										 }); 
 										 
 										 
@@ -171,7 +146,7 @@ mw.reload_module = function($module_name) {
 
 		}
 		 if(typeof init_edits == 'function') { 
-		//	 window.mw_sortables_created = false;
+		//	 mw.settings.sortables_created = false;
 			// init_edits(); 
 			 }
 		 

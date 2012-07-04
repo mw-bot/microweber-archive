@@ -290,7 +290,7 @@ Improvments by Quan Nguyen (github.com/mquan):
 					
 				
 					 if ((cmd == 'save')) {
-					 mw_save_all()
+					 nic_save_all()
 					 init_sortables();
 					 } else if ((cmd == 'open_module_browser')) {
 				 
@@ -355,7 +355,7 @@ Improvments by Quan Nguyen (github.com/mquan):
 				{ keys: 'Ctrl+m', method: function () { document.execCommand("removeFormat", false, null); } },
 				{ keys: 'Ctrl+u', method: function () { document.execCommand('underline', false, null); } },
 				{ keys: 'tab', method: function () { 
-				if(    window.mw_text_edit_started == true){
+				if(    mw.settings.text_edit_started == true){
 				document.execCommand('indent', false, null); 
 				}
 				} },

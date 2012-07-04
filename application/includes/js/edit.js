@@ -1,325 +1,247 @@
-window.mw_editables_created = false;
-window.mw_element_id = false;
 
-window.mw_text_edit_started = false;
-window.mw_sortables_created = false;
-window.mw_drag_started = false;
-window.mw_sorthandle_hover = false;
-window.mw_row_id = false;
-window.mw_empty_column_placeholder = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>';
-window.mw_empty_column_placehoerferlder = '';
-window.mw_empty_column_placeholder11 = '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drop items here 2</span></div>';
-window.mw_empty_column_placeholder2 = '<div class="element empty-element"><span>Please drag items here 3</span></div>';
-window.mw_empty_column_placeholder2 = '';
-window.mw_empty_column_placeholder3 = '<div class="empty-column empty-column-big"><span>Please drag items here 3</span></div>';
+window.mw = window.mw ? window.mw : {};
 
-
-
-window.mw_sorthandle_row = "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw_row_delete mw_delete_element'>&nbsp;</div></div>";
-
-window.mw_sorthandle_row_columns_controlls = 'row <a  href="javascript:mw_make_cols(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw_make_cols(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw_make_cols(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw_make_cols(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw_make_cols(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ';
-
-window.mw_sorthandle_row_delete = '<a class=\"mw_delete_element\" href="javascript:mw_delete_element(ROW_ID)">x</a> ';
-window.mw_sorthandle_delete_confirmation_text = "Are you sure you want to delete this element?";
-
-
-
-
-window.mw_sorthandle_col = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw_delete_element'><a class=\"mw_delete_element\" href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
-
-window.mw_sorthandle_module = "<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw_delete_element'><a href=\"javascript:mw_module_settings(MODULE_ID)\">settings</a><a class=\"mw_delete_element\" href=\"javascript:mw_delete_element(ELEMENT_ID)\">x</a></span></div>";
-
-
-
-
-
-
-function mw_delete_element($el_id) {
-    var r = confirm(window.mw_sorthandle_delete_confirmation_text);
-    if (r == true) {
-        if ($el_id == undefined || $el_id == 'undefined') {
-            $el_id = window.mw_element_id;
-        }
-        //	alert($el_id);
-        $($el_id).remove();
-        $('#' + $el_id).remove();
-        $(".column").putPlaceholdersInEmptyColumns()
-        mw_fix_grid_sizes()
-
-    }
+mw.settings = {
+	editables_created : false,
+	element_id : false,
+	text_edit_started : false,
+	sortables_created : false,
+	drag_started : false,
+	sorthandle_hover : false,
+	row_id : false,
+	empty_column_placeholder : '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>',
+	//handles
+	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div></div>",
+	sorthandle_row_columns_controlls : 'row <a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
+	sorthandle_row_delete : '<a class=\"mw.edit.delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)">x</a> ',
+	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
+	sorthandle_col:"<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>element</div><div class='mw_col_delete mw.edit.delete_element'><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>",
+	sorthandle_module:"<div class='mw-sorthandle mw-sorthandle-col'><div class='columns_set'>MODULE_NAME</div><div class='mw_col_delete mw.edit.delete_element'><a href=\"javascript:mw_module_settings(MODULE_ID)\">settings</a><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>"
 }
 
-function mw_make_cols($row_id, $numcols) {
 
 
 
-    $('.column').resizable("destroy");
-    $('.ui-resizable').resizable("destroy");
-
-
-    if ($row_id != undefined && $row_id != false && $row_id != 'undefined') {
-        $el_id = $row_id;
-
-    } else {
-        $el_id = window.mw_row_id;
-
-    }
-
-
-    if ($el_id != undefined && $el_id != false && $el_id != 'undefined') {
-        window.mw_sortables_created = false;
-        // $('#'+$el_id).columnize({ columns: $numcols, target:'#'+$el_id, buildOnce:true  });
-        $exisintg_num = $('#' + $el_id).children(".column").size();
-
-
-        if ($numcols == 0) {
-            $numcols = 1;
-        }
-        $exisintg_num = parseInt($exisintg_num);
-        $numcols = parseInt($numcols);
-        if ($exisintg_num == 0) {
-            $exisintg_num = 1;
-        }
-        if ($numcols != $exisintg_num) {
-            if (window.console && window.console.log) {
-                window.console.log('  $exisintg_num ' + $exisintg_num + '       $numcols ' + $numcols);
+mw.edit = {
+	delete_element:	function($el_id){
+        var r = confirm(mw.settings.sorthandle_delete_confirmation_text);
+        if (r == true) {
+            if ($el_id == undefined || $el_id == 'undefined') {
+                $el_id = mw.settings.element_id;
             }
-            if ($numcols > $exisintg_num) {
-                for (i = $exisintg_num; i < $numcols; i++) {
-                    $('<div class="column">' + window.mw_empty_column_placeholder + '</div>').appendTo('#' + $el_id);
-                }
-            } else {
-                $cols_to_remove = $exisintg_num - $numcols;
-                if (window.console && window.console.log) {
-                    window.console.log('$cols_to_remove' + $cols_to_remove);
-                }
-                if ($cols_to_remove > 0) {
+            //	alert($el_id);
+            $($el_id).remove();
+            $('#' + $el_id).remove();
+            $(".column").putPlaceholdersInEmptyColumns()
+            
 
-                    for (i = $cols_to_remove; i > 0; i--) {
-                        //for (i=0;i<=$cols_to_remove;i++){
-                        $ch_n = parseInt($exisintg_num) - parseInt(i);
-                        if ($cols_to_remove >= 1) {
-                            if (window.console && window.console.log) {
-                                window.console.log('$removinc child col' + '#' + $el_id + ">div.column:nth-child(" + $ch_n + ")");
+        }
+	},
+    create_columns:function($row_id, $numcols){
+        $('.column').resizable("destroy");
+        $('.ui-resizable').resizable("destroy");
+
+        if ($row_id != undefined && $row_id != false && $row_id != 'undefined') {
+            $el_id = $row_id;
+
+        } else {
+            $el_id = mw.settings.row_id;
+
+        }
+
+        if ($el_id != undefined && $el_id != false && $el_id != 'undefined') {
+            mw.settings.sortables_created = false;
+            $exisintg_num = $('#' + $el_id).children(".column").size();
+
+            if ($numcols == 0) {
+                $numcols = 1;
+            }
+            $exisintg_num = parseInt($exisintg_num);
+            $numcols = parseInt($numcols);
+            if ($exisintg_num == 0) {
+                $exisintg_num = 1;
+            }
+            if ($numcols != $exisintg_num) {
+                if (window.console && window.console.log) {
+                    window.console.log('  $exisintg_num ' + $exisintg_num + '       $numcols ' + $numcols);
+                }
+                if ($numcols > $exisintg_num) {
+                    for (i = $exisintg_num; i < $numcols; i++) {
+                        $('<div class="column">' + mw.settings.empty_column_placeholder + '</div>').appendTo('#' + $el_id);
+                    }
+                } else {
+                    $cols_to_remove = $exisintg_num - $numcols;
+                    if (window.console && window.console.log) {
+                        window.console.log('$cols_to_remove' + $cols_to_remove);
+                    }
+                    if ($cols_to_remove > 0) {
+
+                        for (i = $cols_to_remove; i > 0; i--) {
+                            //for (i=0;i<=$cols_to_remove;i++){
+                            $ch_n = parseInt($exisintg_num) - parseInt(i);
+                            if ($cols_to_remove >= 1) {
+                                if (window.console && window.console.log) {
+                                    window.console.log('$removinc child col' + '#' + $el_id + ">div.column:nth-child(" + $ch_n + ")");
+                                }
+                                $('#' + $el_id).children(".column:eq(" + $ch_n + ")").fadeOut('slow').remove();
                             }
-                            $('#' + $el_id).children(".column:eq(" + $ch_n + ")").fadeOut('slow').remove();
                         }
                     }
                 }
+
+                $exisintg_num = $('#' + $el_id).children(".column").size();
+
+                $eq_w = 100 / $exisintg_num;
+                $pad = 1;
+                $eq_w1 = $eq_w - $pad;
+                $('#' + $el_id).children(".column").width($eq_w1 + '%');
+                $('#' + $el_id).children(".column").css('float', 'left');
+                $('#' + $el_id).children(".column").css('padding-right', $pad + '%');
+
+                $('#' + $el_id).equalWidths().equalHeights();
+                $('#' + $el_id).children('.column').height('auto');
+
+                init_sortables();
             }
+        }
+    },
+    init_row_handles:function($el_id){
+        if ($el_id == undefined || $el_id == 'undefined') {
+            $el_id = mw.settings.row_id;
+        } else {
+            mw.settings.row_id = $el_id;
+        }
+        $(".mw-layout-edit-curent-row-element").html($el_id);
+        $exisintg_num = $('#' + $el_id).children(".column").size();
+        text = mw.settings.sorthandle_row_columns_controlls
+        if (text != undefined) {
+            text = text.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
+            $('#' + $el_id).children("div:first").find(".columns_set").html(text);
+        }
+        text1 = mw.settings.sorthandle_row_delete
+        if (text1 != undefined) {
+            text1 = text1.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
+            $('#' + $el_id).children("div:first").find(".mw_row_delete").html(text1);
 
-            $exisintg_num = $('#' + $el_id).children(".column").size();
+        }
+        $(".mw-make-cols", '#' + $el_id).removeClass('active');
+        $(".mw-make-cols-" + $exisintg_num, '#' + $el_id).addClass('active');
+    },
+    init_element_handles:function(){
+          if (mw.settings.drag_started == false) {
+              $('.row', '.edit').each(function (index) {
+                  $has = $(this).children("div:first").hasClass("mw-sorthandle-row");
+                  if ($has == false) {
+                      $(this).prepend(mw.settings.sorthandle_row);
+                  }
 
-            $eq_w = 100 / $exisintg_num;
-            $pad = 1;
-            $eq_w1 = $eq_w - $pad;
-            $('#' + $el_id).children(".column").width($eq_w1 + '%');
-            $('#' + $el_id).children(".column").css('float', 'left');
-            $('#' + $el_id).children(".column").css('padding-right', $pad + '%');
+                  $el_id = $(this).attr('id');
+                  if ($el_id == undefined || $el_id == 'undefined') {
+                      $el_id = 'mw-row-' + new Date().getTime() + Math.floor(Math.random() * 101);
+                      $(this).attr('id', $el_id);
+                  }
 
-            $('#' + $el_id).equalWidths().equalHeights();
-            $('#' + $el_id).children('.column').height('auto');
 
-            init_sortables();
+                  mw.edit.init_row_handles($el_id)
+              })
+
+
+
+              $('.element:not(.empty-element)').each(function (index) {
+
+                  $el_id = $(this).attr('id');
+                  if ($el_id == undefined || $el_id == 'undefined') {
+                      $el_id = 'mw-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
+                      $(this).attr('id', $el_id);
+                  }
+
+                  $has = $(this).children(":first").hasClass("mw-sorthandle-col");
+                  if ($has == false) {
+                      $has_module = $(this).children(".module").size();
+
+
+
+                      if ($has_module == false) {
+                          text = mw.settings.sorthandle_col
+                      } else {
+                          $m_name = $(this).children(".module").attr('data-module-title');
+
+                          $m_id = $(this).children(".module").attr('module_id');
+                          text = mw.settings.sorthandle_module
+                          text = text.replace(/MODULE_NAME/g, "" + '' + $m_name + "");
+                          text = text.replace(/MODULE_ID/g, "'" + $m_id + "'");
+
+
+                      }
+                      text = text.replace(/ELEMENT_ID/g, "'" + '' + $el_id + "'");
+
+
+                      $(this).prepend(text);
+                  } else {
+
+
+                  }
+
+
+
+
+
+
+              })
+              mw_z_index_fix();
+
+
+
+          }
+    },
+    load_new_modules:function(){
+          $need_re_init = false;
+          $(".module_draggable", '.edit').each(function (c) {
+              $(this).unwrap(".module-item");
+              $name = $(this).attr("data-module-name");
+              if ($name && $name != 'undefined' && $name != false && $name != '') {
+                  $el_id_new = 'mw-col-' + new Date().getTime() + Math.floor(Math.random() * 101);
+                  $(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
+                  mw.load_module($name, '#' + $el_id_new);
+                  $(this).fadeOut().remove();
+              }
+              $name = $(this).attr("data-element-name");
+              if ($name && $name != 'undefined' && $name != false && $name != '') {
+                  $el_id_new = 'mw-layout-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
+                  $(this).after("<div class='mw-layout-holder' id='" + $el_id_new + "'></div>");
+                  mw.load_layout_element($name, '#' + $el_id_new);
+                  $('#' + $el_id_new).children(':first').unwrap('.mw-layout-holder');
+                  $(this).fadeOut().remove();
+              }
+              $need_re_init = true;
+          });
+
+          if ($need_re_init == true) {
+              if (mw.settings.drag_started == false) {
+                  $('.column', '.edit').resizable("destroy");
+                  $('.ui-resizable').resizable("destroy");
+
+                  $('.edit').sortable('destroy');
+                  $('.element').sortable('destroy');
+                  $('.column').sortable('destroy');
+                  $('.row').sortable('destroy');
+                  $('.modules-list').sortable('destroy');
+                  mw.settings.sortables_created = false;
+                  setTimeout("init_sortables()", 300)
+                  setTimeout("", 500)
+                  setTimeout("make_events()", 500)
+                  setTimeout("mw_make_handles()", 600)
+              }
         }
     }
 }
 
-function mw_fix_grid_sizes() {
-
-    $('.row').equalWidths();
-    $('.column').height('auto');
-}
-
-function mw_make_row_editor($el_id) {
-
-    if ($el_id == undefined || $el_id == 'undefined') {
-        $el_id = window.mw_row_id;
-    } else {
-        window.mw_row_id = $el_id;
-    }
-    $(".mw-layout-edit-curent-row-element").html($el_id);
-
-    $exisintg_num = $('#' + $el_id).children(".column").size();
-    text = window.mw_sorthandle_row_columns_controlls
-    if (text != undefined) {
-        text = text.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-
-        $('#' + $el_id).children("div:first").find(".columns_set").html(text);
-    }
-    text1 = window.mw_sorthandle_row_delete
-    if (text1 != undefined) {
-        text1 = text1.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
-        $('#' + $el_id).children("div:first").find(".mw_row_delete").html(text1);
-
-    }
 
 
-    $(".mw-make-cols", '#' + $el_id).removeClass('active');
-    $(".mw-make-cols-" + $exisintg_num, '#' + $el_id).addClass('active');
-
-    // alert($exisintg_num);
-}
-
-function mw_load_new_dropped_modules() {
-    $need_re_init = false;
-    $(".module_draggable", '.edit').each(function (c) {
-
-        $(this).unwrap(".module-item");
-
-
-        $name = $(this).attr("data-module-name");
-        if ($name && $name != 'undefined' && $name != false && $name != '') {
-            $el_id_new = 'mw-col-' + new Date().getTime() + Math.floor(Math.random() * 101);
-            $(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
-            //  $(this).attr('id', $el_id_column);	
-            mw.load_module($name, '#' + $el_id_new);
-
-            $(this).fadeOut().remove();
-
-        }
-
-
-
-
-        $name = $(this).attr("data-element-name");
-        if ($name && $name != 'undefined' && $name != false && $name != '') {
-            $el_id_new = 'mw-layout-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
-            $(this).after("<div class='mw-layout-holder' id='" + $el_id_new + "'></div>");
-            //  $(this).attr('id', $el_id_column);	
-            mw.load_layout_element($name, '#' + $el_id_new);
-
-            $('#' + $el_id_new).children(':first').unwrap('.mw-layout-holder');
-
-
-
-
-            $(this).fadeOut().remove();
-        }
-
-
-
-
-
-
-
-
-        $need_re_init = true;
-
-    })
-
-
-
-
-
-
-
-
-
-
-
-
-
-    if ($need_re_init == true) {
-
-        if (window.mw_drag_started == false) {
-            $('.column', '.edit').resizable("destroy");
-            $('.ui-resizable').resizable("destroy");
-
-            $('.edit').sortable('destroy');
-            $('.element').sortable('destroy');
-            $('.column').sortable('destroy');
-            $('.row').sortable('destroy');
-            $('.modules-list').sortable('destroy');
-
-
-            window.mw_sortables_created = false;
-            setTimeout("init_sortables()", 300)
-
-
-            setTimeout("mw_fix_grid_sizes()", 500)
-            setTimeout("make_events()", 500)
-            setTimeout("mw_make_handles()", 600)
-        }
-
-        //mw_make_handles()
-    }
-}
 
 
 function mw_make_handles() {
 
-    if (window.mw_drag_started == false) {
-
-        $('.row', '.edit').each(function (index) {
-
-
-
-
-
-            $has = $(this).children("div:first").hasClass("mw-sorthandle-row");
-            if ($has == false) {
-                $(this).prepend(window.mw_sorthandle_row);
-            }
-
-            $el_id = $(this).attr('id');
-            if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-row-' + new Date().getTime() + Math.floor(Math.random() * 101);
-                $(this).attr('id', $el_id);
-            }
-
-
-            mw_make_row_editor($el_id)
-        })
-
-
-
-        $('.element:not(.empty-element)').each(function (index) {
-
-            $el_id = $(this).attr('id');
-            if ($el_id == undefined || $el_id == 'undefined') {
-                $el_id = 'mw-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
-                $(this).attr('id', $el_id);
-            }
-
-            $has = $(this).children(":first").hasClass("mw-sorthandle-col");
-            if ($has == false) {
-                $has_module = $(this).children(".module").size();
-
-
-
-                if ($has_module == false) {
-                    text = window.mw_sorthandle_col
-                } else {
-                    $m_name = $(this).children(".module").attr('data-module-title');
-
-                    $m_id = $(this).children(".module").attr('module_id');
-                    text = window.mw_sorthandle_module
-                    text = text.replace(/MODULE_NAME/g, "" + '' + $m_name + "");
-                    text = text.replace(/MODULE_ID/g, "'" + $m_id + "'");
-
-
-                }
-                text = text.replace(/ELEMENT_ID/g, "'" + '' + $el_id + "'");
-
-
-                $(this).prepend(text);
-            } else {
-
-
-            }
-
-
-
-
-
-
-        })
-        mw_z_index_fix();
-
-
-
-    }
 
 }
 
@@ -356,9 +278,9 @@ function mw_z_index_fix() {
 
 function mw_make_css_editor($el_id) {
     if ($el_id == undefined || $el_id == 'undefined') {
-        $el_id = window.mw_element_id;
+        $el_id = mw.settings.element_id;
     } else {
-        window.mw_element_id = $el_id;
+        mw.settings.element_id = $el_id;
     }
     $(".mw-layout-edit-curent-element").html($el_id);
 }
@@ -369,9 +291,9 @@ function mw_make_editables() {
 
 
 
-    if (window.mw_drag_started == false && window.mw_handle_hover != true) {
-        window.mw_sortables_created = false;
-        if (window.mw_editables_created == false) {
+    if (mw.settings.drag_started == false && window.mw_handle_hover != true) {
+        mw.settings.sortables_created = false;
+        if (mw.settings.editables_created == false) {
             $(".edit [draggable='true']").unbind();
             $(".edit [draggable='true']").removeAttr('draggable');
 
@@ -386,7 +308,7 @@ function mw_make_editables() {
 
 
             $(".edit").freshereditor("edit", true);
-            window.mw_editables_created = true
+            mw.settings.editables_created = true
             $("#mw-layout-edit-site-top-bar-r").html("Text edit");
 
         }
@@ -403,8 +325,8 @@ function mw_make_editables() {
 
 function mw_remove_editables() {
 
-    window.mw_text_edit_started = false;
-    window.mw_editables_created = false;
+    mw.settings.text_edit_started = false;
+    mw.settings.editables_created = false;
     $(".edit").freshereditor("edit", false);
 
 }
@@ -418,12 +340,12 @@ function init_sortables() {
 
     mw_remove_editables()
 
-    if (window.mw_sortables_created == false) {
+    if (mw.settings.sortables_created == false) {
 
         $('.element:not([contenteditable=false])').freshereditor("edit", false);
 
-        var place1 = window.mw_empty_column_placeholder;
-        var place2 = window.mw_empty_column_placeholder;
+        var place1 = mw.settings.empty_column_placeholder;
+        var place2 = mw.settings.empty_column_placeholder;
         $(".column", '.edit').each(function (c) {
             if ($("div", this).size() == 0) {
                 //     $(this).html(place2);
@@ -473,13 +395,13 @@ function init_sortables() {
             connectWith: '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*,' + $drop_areas,
             start: function (event, ui) {
 
-                window.mw_text_edit_started = false;
+                mw.settings.text_edit_started = false;
                 $('.element:not([contenteditable=false])', '.edit').freshereditor("edit", false);
 
 
                 $(".column").addClass('mw-outline-column');
 
-                window.mw_drag_started = true;
+                mw.settings.drag_started = true;
 
 
                 $('.row', '.edit').each(function () {
@@ -515,7 +437,7 @@ function init_sortables() {
 
             stop: function (event, ui) {
 
-                window.mw_drag_started = false;
+                mw.settings.drag_started = false;
                 $(".column").removeClass('mw-outline-column');
 
  
@@ -538,7 +460,7 @@ function init_sortables() {
 
 
 
-                mw_load_new_dropped_modules();
+                mw.edit.load_new_modules();
 
                 $('.row').equalWidths();
 
@@ -567,7 +489,7 @@ function init_sortables() {
             sort: function (event, ui) {
 
 
-                window.mw_drag_started = true;
+                mw.settings.drag_started = true;
 
 
             },
@@ -579,7 +501,7 @@ function init_sortables() {
                 $(this).children('.empty-element').show();
 
 
-                window.mw_drag_started = true;
+                mw.settings.drag_started = true;
 
 
 
@@ -599,7 +521,7 @@ function init_sortables() {
 
 
             deactivate: function (en, ui) {
-                window.mw_drag_started = false;
+                mw.settings.drag_started = false;
                 $('.empty-element').hide();
                 $(this).css('min-height', '10px');
             }
@@ -661,9 +583,9 @@ function init_sortables() {
 
 
         $("#mw-layout-edit-site-top-bar-r").html("Drag and drop edit");
-        window.mw_sortables_created = true
+        mw.settings.sortables_created = true
 
-        window.mw_sortables_created = true
+        mw.settings.sortables_created = true
 
     }
 
@@ -692,7 +614,7 @@ function make_events() {
         $is_this_module = $(this).hasClass('mw-module-wrap');
         $is_this_row = $(this).hasClass('row');
         $is_this_handle = $(this).hasClass('mw-sorthandle');
-        $is_mw_delete_element = $(this).hasClass('mw_delete_element');
+        $is_mw_delete_element = $(this).hasClass('mw.edit.delete_element');
 	$columns_set =  $(this).hasClass('columns_set');
 	
 
@@ -702,7 +624,7 @@ function make_events() {
 
 
 
-        if ($is_this_handle == false && $columns_set == false && window.mw_drag_started == false && window.mw_sorthandle_hover == false && $is_this_module == false && $is_mw_delete_element == false && $is_this_row == false) {
+        if ($is_this_handle == false && $columns_set == false && mw.settings.drag_started == false && mw.settings.sorthandle_hover == false && $is_this_module == false && $is_mw_delete_element == false && $is_this_row == false) {
 
 
 
@@ -716,25 +638,25 @@ function make_events() {
             }
 
             $('.column').height('auto');
-            window.mw_element_id = $el_id;
+            mw.settings.element_id = $el_id;
             mw_make_css_editor($el_id)
 
-            window.mw_sortables_created = false;
+            mw.settings.sortables_created = false;
 
             if (window.console != undefined) {
                 console.log('contenteditable started on element id: ' + $el_id);
             }
 
  
-            window.mw_text_edit_started = true;
+            mw.settings.text_edit_started = true;
             $(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
             $(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
-setTimeout("window.mw_sorthandle_hover=false", 300);
+setTimeout("mw.settings.sorthandle_hover=false", 300);
  return false;
 
         } else {
-     	window.mw_sorthandle_hover=true;
-      //  setTimeout("window.mw_sorthandle_hover=false", 300);
+     	mw.settings.sorthandle_hover=true;
+      //  setTimeout("mw.settings.sorthandle_hover=false", 300);
 
 	}
 
@@ -753,8 +675,8 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
             $el_id = 'mw-row-' + new Date().getTime() + Math.floor(Math.random() * 101);
             $(this).attr('id', $el_id);
         }
-        window.mw_row_id = $el_id;
-        mw_make_row_editor($el_id)
+        mw.settings.row_id = $el_id;
+        mw.edit.init_row_handles($el_id)
         $exisintg_num = $('#' + $el_id).children(".column").size();
         if ($exisintg_num > 0) {
             a = 0;
@@ -778,8 +700,8 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
     $(".mw-sorthandle,.mw-sorthandle>*", '.edit').mouseover(
 
     function () {
-        window.mw_sorthandle_hover = true;
-        if (window.mw_drag_started == false) {
+        mw.settings.sorthandle_hover = true;
+        if (mw.settings.drag_started == false) {
             $('.mw-outline').removeClass('mw-outline');
             $(this).parent().addClass('mw-outline');
 
@@ -791,7 +713,7 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
 
 
 
-        setTimeout("window.mw_sorthandle_hover=false", 500);
+        setTimeout("mw.settings.sorthandle_hover=false", 500);
 
 
 
@@ -811,7 +733,7 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
     $(".row:not(.mw-sorthandle)", '.edit').die('mouseleave');
     $(".row:not(.mw-sorthandle)", '.edit').mouseleave(function () {
 
-        if (window.mw_drag_started == false) {
+        if (mw.settings.drag_started == false) {
 
 
             //$(this).find(".empty-element").hide();
@@ -826,14 +748,14 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
 
     $(".row", '.edit').hover(function (e) {
 
-        if (window.mw_drag_started == false) {
+        if (mw.settings.drag_started == false) {
             //$(".row").find(".mw-sorthandle").hide();
             $(".mw-sorthandle", '.edit').hide();
 
             //$(this).children(".mw-sorthandle-row").show();
             $has = $(this).children(":first").hasClass("mw-sorthandle-row");
             if ($has == false) {
-                $(this).prepend(window.mw_sorthandle_row);
+                $(this).prepend(mw.settings.sorthandle_row);
             }
             $(this).equalHeights();
 
@@ -851,7 +773,7 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
 
 
     function () {
-        if (window.mw_drag_started == false) {
+        if (mw.settings.drag_started == false) {
             $(this).find(".mw-sorthandle").hide();
             $(this).find(".ui-resizable-handle:visible").hide();
 
@@ -866,7 +788,7 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
 
 
 
-        if (window.mw_drag_started == false) {
+        if (mw.settings.drag_started == false) {
             //	 $(".mw-sorthandle-col", '.edit').hide();
 
             //  $(".mw-sorthandle-row", '.edit').hide();
@@ -894,7 +816,7 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
   //alert(1);
  
 
-  if (window.mw_sortables_created == false) {
+  if (mw.settings.sortables_created == false) {
      //   init_sortables()3
  
          $('.element[contenteditable=true]', '.edit').freshereditor("edit", false);
@@ -905,7 +827,7 @@ setTimeout("window.mw_sorthandle_hover=false", 300);
     $('#mw_css_editor_element_id').val($id);
     $(this).parent().attr('mw_tag_edit', $id)
     mw_show_css_editor()
-    if (window.mw_sortables_created == false) {
+    if (mw.settings.sortables_created == false) {
         init_sortables()
     }
 
@@ -925,7 +847,7 @@ $('.mw-sorthandle', '.edit').live('dblclick', function (e) {
     $('#mw_css_editor_element_id').val($id);
     $(this).parent().attr('mw_tag_edit', $id)
     mw_show_css_editor()
-    if (window.mw_sortables_created == false) {
+    if (mw.settings.sortables_created == false) {
         init_sortables()
     }
 });
@@ -936,7 +858,7 @@ $('.column', '.row').die('hover');
 $('.column', '.row').live('hover', function (e) {
 
 
-    if (window.mw_drag_started == false) {
+    if (mw.settings.drag_started == false) {
 
         $(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
 
@@ -956,7 +878,7 @@ $('.column', '.row').live('hover', function (e) {
 
 
         $is_done = $(this).hasClass('ui-resizable')
-        $ds = window.mw_drag_started;
+        $ds = mw.settings.drag_started;
         if ($is_done == false && $ds == false) {
             // $('.also-resize').removeClass('also-resize');
             //  $('.also-resize-inner').removeClass('also-resize-inner');

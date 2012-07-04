@@ -10,7 +10,9 @@
         window.page_id = '<?php print intval(PAGE_ID) ?>';
         window.post_id = '<?php print intval(POST_ID) ?>';
         window.category_id = '<?php print intval(CATEGORY_ID) ?>';
-
+		window.content_id = '<?php print intval(CONTENT_ID) ?>';
+		
+ 
     </script>
     <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js" type="text/javascript"></script>
     <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
@@ -19,7 +21,7 @@
     
     <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js"    type="text/javascript"></script>
     <script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js"    type="text/javascript"></script>
-    <link href="<?php   print( INCLUDES_URL);  ?>>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
+    <link href="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
     <script src="<?php   print( INCLUDES_URL);  ?>js/freshereditor.js"    type="text/javascript"></script>
     <link href="<?php   print( INCLUDES_URL);  ?>js/freshereditor.css"   rel="stylesheet" type="text/css" />
     <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css"    rel="stylesheet" type="text/css" />
@@ -31,11 +33,7 @@
             $('.edit').freshereditor({
                 toolbar_selector: "#mw-layout-edit-site-text-editor"
             });
-            // $(".edit").freshereditor("edit", true);
-
-            $(".edit").on('change', function () {
-                mw_save_all()
-            });
+   
 
 
         });
@@ -87,8 +85,7 @@
     type="text/javascript"></script>
     <link href="<?php   print( ADMIN_STATIC_FILES_URL);  ?>boxy/src/stylesheets/boxy.css"
     rel="stylesheet" type="text/css" />
-    <script src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>jquery/color_picker/javascripts/mColorPicker.js"
-    type="text/javascript"></script>
+ 
     
 	
 	
@@ -114,9 +111,12 @@
             data1.module = '' + $module_name;
             data1.view = 'settings';
             data1.module_id = $module_id;
-            data1.page_id = '<? print intval(PAGE_ID) ?>';
-            data1.post_id = '<? print intval(POST_ID) ?>';
-            data1.category_id = '<? print intval(CATEGORY_ID) ?>';
+            data1.page_id = window.page_id;
+            data1.post_id = window.post_id;
+            data1.category_id = window.category_id;
+			
+			
+		 
 
 
             Boxy.DEFAULTS.title = $module_title;
@@ -144,8 +144,9 @@
             data1.module = 'admin/pages/edit';
             data1.page_id = $page_id;
             data1.id = $page_id;
-            data1.post_id = '<? print intval(POST_ID) ?>';
-            data1.category_id = '<? print intval(CATEGORY_ID) ?>';
+           data1.page_id = window.page_id;
+            data1.post_id = window.post_id;
+            data1.category_id = window.category_id;
 
 
             Boxy.DEFAULTS.title = 'Edit page';
@@ -310,27 +311,7 @@
 
 
         });
-
-        /*$(".edit").dblclick( function () {
-			if(window.mw_editables_created == false){
-			 mw_make_editables()
-				 }
-
-	});*/
-
-
-        $(".mw-sorthandle").dblclick(function () {
-            if (window.mw_editables_created == true) {
-                mw_remove_editables()
-            }
-            init_sortables()
-
-
-        });
-
-
-
-
+ 
         function mw_show_css_editor() {
             $("#mw_toolbar_tabs").tabs("select", "#mw_css_editor");
         }
@@ -357,18 +338,7 @@
 
             });
             $(".mw_option_field").live("change blur", function () {
-
-
-
-
-
                 var refresh_modules11 = this.getAttribute("refresh_modules");
-                // var refresh_modules11 =   $(this).attr('refresh_modules')
-                // alert(refresh_modules11);
-
-
-
-
                 $.ajax({
 
                     type: "POST",
@@ -421,48 +391,9 @@
             });
         });
 
-        $(document).ready(function () {
-            //	$('.edit').aloha();
+ 
 
-            <?
-            if (url_param('layout_editor') != 'yes'): ?> $('.mw_layout').addClass('edit');
-            $('.edit').addClass('mercury-region');
-            $('.edit').attr("data-type", 'editable');
-            $('div[rel="layout"]').removeClass("mercury-region"); <?
-            else : ?>
-            //$('div[rel="layout"]').addClass('edit');
-            $('div[rel="layout"]').attr("data-type", 'editable');
-
-            <? endif; ?>
-
-
-
-
-
-
-        });
-
-        function load_new_layout_elements() {
-
-            $('div[rel="layout"]').find('.mw_load_element').each(function (index) {
-                $el_f = $(this).attr("element");
-                if ($el_f != '') {
-                    urlz1 = '<? print site_url('api/content/load_layout_element') ?>';
-                    $(this).load(urlz1, {
-                        element: $el_f
-                    }, function () {
-                        $el_f = $(this).attr("element", '');
-                    });
-
-                }
-                // alert(index + ': ' +$el_f );
-            });
-
-
-
-
-        }
-
+ 
 
 
  
@@ -510,10 +441,10 @@
                 custom_styles.unique();
                 $styles_join = custom_styles.join(',');
                 $sav = {};
-                $sav['content_id'] = '<? print CONTENT_ID; ?>';
+                $sav['content_id'] = window.content_id;
                 $sav['save_field_content_layout_style'] = $styles_join;
 
-
+ 
 
 
                 $.ajax({
@@ -816,13 +747,7 @@
                 <script>
                     $(function () {
                         $("#mw_toolbar_tabs").tabs();
-
-                        $('#mw_toolbar_tabs-2').live('mouseenter', function (e) {
-                            ///	alert(1);
-                            //init_sortables()
-                        });
-
-
+   
                     });
                 </script>
                 <div id="mw_toolbar_tabs">

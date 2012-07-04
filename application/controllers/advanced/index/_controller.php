@@ -672,7 +672,15 @@ if (defined('INTERNAL_API_CALL') == true) {
 				$is_admin = is_admin();
 				if ($is_admin == true) {
 					//$layout = $this->template_model->addTransparentBackgroudToFlash ( $layout );
-					$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
+					//$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
+					
+					$tb = INCLUDES_DIR.DS.'toolbar'.DS.'toolbar.php';
+					
+		$layout_toolbar = $this->load->file ( $tb, true );
+		// $layout =$this->load->view ( 'admin/toolbar', true, true );
+					
+					
+					
 					if ($layout_toolbar != '') {
 						$layout = str_replace('<body>', '<body>' . $layout_toolbar, $layout);
 						//$layout = str_replace('</ body>', $layout_toolbar . '</ body>', $layout);
