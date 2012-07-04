@@ -380,6 +380,7 @@ mw.edit = {
 				distance : 5,
 				scrollSensitivity : 50,
 				delay : 2,
+			//	cancel: "*:not("+$drop_areas+")",
 				scroll : true,
 				handle : '.mw-sorthandle-row:first',
 				revert : true,
@@ -408,6 +409,16 @@ mw.edit = {
 					});
 				},
 				stop : function(event, ui) {
+
+if ($(this).parents('.edit').length === 0)  {
+    $(ui.sender).sortable('cancel');
+  }
+
+
+ 
+
+
+
 					mw.settings.drag_started = false;
 					$(".column").removeClass('mw-outline-column');
 					$('.column').removeClass('column-outline');
@@ -430,6 +441,16 @@ mw.edit = {
 				},
 				sort : function(event, ui) {
 					mw.settings.drag_started = true;
+
+ 
+
+
+
+
+ 
+
+
+
 				},
 				over : function(event, ui) {
 					$(this).children('.empty-element').show();
@@ -515,20 +536,19 @@ mw.edit = {
 				$is_this_element = $(this).hasClass('.element');
 				if ($is_this_element == true) {
 					//$(this).freshereditor("edit", true);
- 
+
 				} else {
 					//$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
 
 				}
-//$('#'+$el_id).freshereditor("edit", true);
+				//$('#'+$el_id).freshereditor("edit", true);
 
-
-
+				$(this).freshereditor("edit", true);
 				$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
 				$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 				setTimeout("mw.settings.sorthandle_hover=false", 300);
 				e.preventDefault();
-					e.stopPropagation();
+				e.stopPropagation();
 				return false;
 			} else {
 				mw.settings.sorthandle_hover = true;
