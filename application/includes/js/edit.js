@@ -26,6 +26,8 @@ mw.edit = {
 		}
 	},
 
+	sortable_options : {},
+
 	/**
 	 * Creates columns of given row id
 	 *
@@ -367,7 +369,11 @@ mw.edit = {
 
 			$drop_areas = '.edit,.column,.element>.row>.column,.element>.row>.column>.element,.element>*';
 			$sort_opts = {
-				items : 'li.module-item,.row,.empty,.edit>.row,.element>.row,.column>.element>.row,.element>*,.element>.row,.column>.row,.column>.element>.row,.row,.row>.column>.row',
+			//	items : 'li.module-item,.row,.empty,.edit>.row,.element>.row,.column>.element>.row,.element>*,.element>.row,.column>.row,.column>.element>.row,.row,.row>.column>.row',
+
+items : '.row,.edit>.element,.edit>.row',
+
+
 				dropOnEmpty : true,
 				forcePlaceholderSize : true,
 				greedy : true,
@@ -377,11 +383,18 @@ mw.edit = {
 					top : -2,
 					left : -2
 				},
+
+ 
+
+
+
 				distance : 5,
 				scrollSensitivity : 50,
 				delay : 2,
+			//	cancel: "*:not("+$drop_areas+")",
 				scroll : true,
-				handle : '.mw-sorthandle-row:first',
+				handasdle : '.mw-sorthandle-row:first,.edit>.element>.mw-sorthandle',
+					handle : '.mw-sorthandle-row,.mw-sorthandle-col',
 				revert : true,
 				placeholder : "ui-sortable-placeholder",
 				//connectWith : '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*' + $drop_areas,
@@ -406,8 +419,27 @@ mw.edit = {
 					$(ui.item).css({
 						"width" : $(ui.placeholder).width()
 					});
+
+
+
+
+ 
+
+
 				},
 				stop : function(event, ui) {
+
+if ($(this).parents('.row').length === 0)  {
+	if ($(this).parents('.edit').length === 0)  {
+    $(ui.sender).sortable('cancel');
+	}
+  }
+
+
+ 
+
+
+
 					mw.settings.drag_started = false;
 					$(".column").removeClass('mw-outline-column');
 					$('.column').removeClass('column-outline');
@@ -427,9 +459,24 @@ mw.edit = {
 					});
 					mw.edit.fix_zindex();
 					$(this).sortable('refreshPositions')
+$('.row:not(.ui-sortable)','.edit').addClass("ui-sortable").sortable(mw.edit.sortable_options).sortable( "refreshPositions" );	
+//$('.edit').sortable('destroy');
+//	$('.edit').sortable(mw.edit.sortable_options);
+
+$('*[contenteditable=true]','.edit').attr("contenteditable", false);						
 				},
 				sort : function(event, ui) {
 					mw.settings.drag_started = true;
+
+ 
+
+
+
+
+ 
+
+
+
 				},
 				over : function(event, ui) {
 					$(this).children('.empty-element').show();
@@ -448,12 +495,17 @@ mw.edit = {
 			}
 			$('.edit').sortable($sort_opts);
 			$sort_opts_elements = $sort_opts;
+			mw.edit.sortable_options = $sort_opts;
 			//$sort_opts_elements.items = '.element';
 			delete $sort_opts_elements.items;
 
 			$sort_opts_elements.handle = '.mw-sorthandle-col:first,.mw-sorthandle-row:first'
 			$sort_opts2 = $sort_opts;
 			delete $sort_opts2.items;
+
+ 
+//	$sort_opts2.cancel = '.edit';
+
 
 			$('.column', '.edit').sortable($sort_opts_elements);
 			$('.element', '.edit').sortable($sort_opts2);
@@ -505,7 +557,7 @@ mw.edit = {
 				$('.column').height('auto');
 				mw.settings.element_id = $el_id;
 
-				mw.settings.sortables_created = false;
+				mw.settings.sortables_created = true;
 
 				if (window.console != undefined) {
 					console.log('contenteditable started on element id: ' + $el_id);
@@ -515,21 +567,20 @@ mw.edit = {
 				$is_this_element = $(this).hasClass('.element');
 				if ($is_this_element == true) {
 					//$(this).freshereditor("edit", true);
- 
+
 				} else {
 					//$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
 
 				}
-//$('#'+$el_id).freshereditor("edit", true);
+				//$('#'+$el_id).freshereditor("edit", true);
 
-
-
-				$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
+				$(this).freshereditor("edit", true);
+			//	$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
 				$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 				setTimeout("mw.settings.sorthandle_hover=false", 300);
-				e.preventDefault();
-					e.stopPropagation();
-				return false;
+			//	e.preventDefault();
+			//	e.stopPropagation();
+			//	return false;
 			} else {
 				mw.settings.sorthandle_hover = true;
 			}
@@ -591,8 +642,8 @@ mw.edit = {
 			$(this).show();
 		})
 
-		$(".mw-sorthandle>*", '.edit').die('mousedown');
-		$(".mw-sorthandle>*", '.edit').live('mousedown', function(e) {
+		$(".mw-sorthaasdndle>*", '.edit').die('mousedown');
+		$(".mw-sorthaasdndle>*", '.edit').live('mousedown', function(e) {
 
 			$columns_set = $(this).hasClass('columns_set');
 
