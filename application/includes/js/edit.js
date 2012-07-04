@@ -371,16 +371,17 @@ mw.edit = {
 			$sort_opts = {
 			//	items : 'li.module-item,.row,.empty,.edit>.row,.element>.row,.column>.element>.row,.element>*,.element>.row,.column>.row,.column>.element>.row,.row,.row>.column>.row',
 
-iatems : '.row,.edit>.element,.edit>.element>.row,.edit>.row',
+//items : '.row,.edit>.element,.edit>.element>.row,.edit>.row,.element>.row,.element>.row',
 //items : '.row,.edit>.element',
 
 	handle : '.mw-sorthandle-row,.mw-sorthandle',
+appendTo: ".edit",
 
 				dropOnEmpty : true,
 				forcePlaceholderSize : true,
 				greedy : true,
 				tolerance : 'pointer',
-				cancel : 'div.empty-element',
+				cancel : 'mw-non-sortable',
 				cursorAt : {
 					top : -2,
 					left : -2
@@ -433,7 +434,9 @@ iatems : '.row,.edit>.element,.edit>.element>.row,.edit>.row',
 
 if ($(this).parents('.row').length === 0)  {
 	if ($(this).parents('.edit').length === 0)  {
+			if ($(this).hasClass('.edit') == false)  {
     $(ui.sender).sortable('cancel');
+			}
 	}
   }
 
@@ -472,25 +475,30 @@ $('.edit').sortable( "refreshPositions" );
 
 $('*[contenteditable=true]','.edit').attr("contenteditable", false);						
 				},
+
+ 
+
+ 
+
 				sort : function(event, ui) {
 					mw.settings.drag_started = true;
 
- 
-
-
-
-
- 
-
-
-
 				},
+
+
+
+
 				over : function(event, ui) {
 					$(this).children('.empty-element').show();
 					mw.settings.drag_started = true;
 				},
 				create : function(en, ui) {
-					mw.edit.init_element_handles()
+					mw.edit.init_element_handles();
+	$(".edit").parents().addClass('mw-non-sortable');
+		$("body").children().not('edit').addClass('mw-non-sortable');
+		$(".edit").find('.mw-non-sortable').removeClass('mw-non-sortable');
+
+
 					$(".column").putPlaceholdersInEmptyColumns()
 					$(this).sortable('refreshPositions')
 				},
@@ -509,6 +517,7 @@ $('*[contenteditable=true]','.edit').attr("contenteditable", false);
 			$sort_opts_elements.handle = '.mw-sorthandle-col:first,.mw-sorthandle-row:first'
 			$sort_opts2 = $sort_opts;
 			delete $sort_opts2.items;
+				delete $sort_opts2.appendTo;
 
  
 //	$sort_opts2.cancel = '.edit';
