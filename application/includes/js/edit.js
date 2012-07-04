@@ -371,8 +371,8 @@ mw.edit = {
 			$sort_opts = {
 			//	items : 'li.module-item,.row,.empty,.edit>.row,.element>.row,.column>.element>.row,.element>*,.element>.row,.column>.row,.column>.element>.row,.row,.row>.column>.row',
 
-items : '.row,.edit>.element,.edit>.row',
-
+items : '.row,.edit>.element,.edit>.element>.row,.edit>.row',
+	handle : '.mw-sorthandle-row,.edit>.element>.mw-sorthandle-col',
 
 				dropOnEmpty : true,
 				forcePlaceholderSize : true,
@@ -394,7 +394,7 @@ items : '.row,.edit>.element,.edit>.row',
 			//	cancel: "*:not("+$drop_areas+")",
 				scroll : true,
 				handasdle : '.mw-sorthandle-row:first,.edit>.element>.mw-sorthandle',
-					handle : '.mw-sorthandle-row,.mw-sorthandle-col',
+				
 				revert : true,
 				placeholder : "ui-sortable-placeholder",
 				//connectWith : '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*' + $drop_areas,
@@ -459,8 +459,11 @@ if ($(this).parents('.row').length === 0)  {
 					});
 					mw.edit.fix_zindex();
 					$(this).sortable('refreshPositions')
-$('.row:not(.ui-sortable)','.edit').addClass("ui-sortable").sortable(mw.edit.sortable_options).sortable( "refreshPositions" );	
-//$('.edit').sortable('destroy');
+//$('.row:not(.ui-sortable)','.edit').addClass("ui-sortable").sortable(mw.edit.sortable_options).sortable( "refreshPositions" );	
+$('.edit').sortable( "refreshPositions" );	
+					$('.edit').sortable( "refresh" );
+					$('.edit').sortable( "enable" );
+
 //	$('.edit').sortable(mw.edit.sortable_options);
 
 $('*[contenteditable=true]','.edit').attr("contenteditable", false);						
