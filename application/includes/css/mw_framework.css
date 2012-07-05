@@ -4,11 +4,23 @@ body:-webkit-full-screen {
     position: absolute;
     top: 0;
     left: 0;
-  }
+}
 .mw{
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 12px;
+  line-height: normal;
   color: #212121;
+}
+.mw *{
+  line-height: normal;
+}
+
+.left{
+  float: left !important;
+}
+
+.right{
+  float: right !important;
 }
 
 
@@ -85,7 +97,7 @@ body:-webkit-full-screen {
       font-size: 12px;
       border: 1px solid #DCDCDC;
       border-top: none;
-      background: url(../img/dropdown.png) no-repeat right top;
+      background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
       padding: 8px 45px 7px 16px;
       -webkit-border-radius: 7px;
       -moz-border-radius: 7px;

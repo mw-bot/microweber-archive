@@ -17,6 +17,9 @@
     	sortables_created : false,
     	drag_started : false,
     	sorthandle_hover : false,
+		
+		sorthandle_click : false,
+		
     	row_id : false,
     //	empty_column_placeholder : '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>',
 		
@@ -66,6 +69,7 @@
             mw.tools.module_slider.init();
             mw.tools.dropdown();
             mw.tools.toolbar_tabs.init();
+            mw.tools.toolbar_slider.init();
         });
         (function () {
             function async_load() {
@@ -113,7 +117,6 @@
                 </ul>
             </div>
          </div>
-
         <div id="modules_bar_slider">
           <div id="modules_bar">
               <microweber module="admin/modules/list" />
@@ -124,6 +127,20 @@
         <div class="mw_clear">&nbsp;</div>
       </div>
       <div id="tab_layouts" class="mw_toolbar_tab">
+        <div class="mw_dropdown left" id="module_layout_selector">
+            <span class="mw_dropdown_val">Recommended</span>
+            <div class="mw_dropdown_fields">
+                <ul>
+                  <li><a href="#">Recommended</a></li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Portfolio</a></li>
+                  <li><a href="#">Gallery</a></li>
+                  <li><a href="#">Online Shop</a></li>
+                  <li><a href="#">Simple</a></li>
+                  <li><a href="#">Custom</a></li>
+                </ul>
+            </div>
+         </div>
         <microweber module="admin/modules/list_elements" />
       </div>
       <div id="tab_design" class="mw_toolbar_tab">

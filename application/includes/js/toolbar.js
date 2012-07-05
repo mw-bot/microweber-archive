@@ -17,6 +17,7 @@ mw.tools = {
       $(this).parents(".mw_dropdown_fields").hide();
       var html = $(this).html();
       $(this).parents(".mw_dropdown").find(".mw_dropdown_val").html(html);
+      return false;
     });
   },
   module_slider:{
@@ -60,6 +61,58 @@ mw.tools = {
         });
         mw.tools.toolbar_tabs.change();
     }
+  },
+  toolbar_slider:{
+    slide_left:function(){
+        mw.tools.toolbar_slider.ctrl_show_hide();
+        var left = $("#modules_bar").scrollLeft();
+        $("#modules_bar").stop().animate({scrollLeft:left-120}, function(){
+            mw.tools.toolbar_slider.ctrl_show_hide();
+        });
+    },
+    ctrl_show_hide:function(){
+      if($("#modules_bar").scrollLeft()==0){
+        $("#modules_bar_slide_left").hide();
+      }
+      else{
+        $("#modules_bar_slide_left").show();
+      }
+      var max = $("#modules_bar").width() + $("#modules_bar").scrollLeft();
+      var scrollWidth = $("#modules_bar")[0].scrollWidth;
+      if(max==scrollWidth){
+         $("#modules_bar_slide_right").hide();
+      }
+      else{
+         $("#modules_bar_slide_right").show();
+      }
+    },
+    ctrl_states:function(){
+       $("#modules_bar_slide_right,#modules_bar_slide_left").mousedown(function(){
+         $(this).addClass("active");
+       });
+       $("#modules_bar_slide_right,#modules_bar_slide_left").bind("mouseup mouseout",function(){
+         $(this).removeClass("active");
+       });
+    },
+    slide_right:function(){
+       mw.tools.toolbar_slider.ctrl_show_hide();
+       var left = $("#modules_bar").scrollLeft();
+       $("#modules_bar").stop().animate({scrollLeft:left+120}, function(){
+             mw.tools.toolbar_slider.ctrl_show_hide();
+       });
+    },
+    init:function(){
+        $("#modules_bar").scrollLeft(0);
+        $("#modules_bar_slide_left").hide();
+        $("#modules_bar_slide_left").click(function(){
+            mw.tools.toolbar_slider.slide_left();
+        }).disableSelection();
+
+        $("#modules_bar_slide_right").click(function(){
+            mw.tools.toolbar_slider.slide_right();
+        }).disableSelection();
+        mw.tools.toolbar_slider.ctrl_states();
+    }
   }
 }
 mw.extras = {
@@ -76,4 +129,5 @@ mw.extras = {
 
 $(window).resize(function(){
     mw.tools.module_slider.scale();
+    mw.tools.toolbar_slider.ctrl_show_hide();
 });

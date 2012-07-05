@@ -67,39 +67,40 @@ a.mw-make-cols.active {
 .edit {
 	position:relative;
 }
+.element:hover, .row:hover, .column:hover{
+  outline:1px solid #C2C2C2;
+}
+
 .mw-sorthandle {
 	width:100%;
 	position:absolute;
 	left: 0px;
-	background-repeat: repeat-x;
-	background-color:#CCCCCC;
-	background-image: url(images/col-handle.png);
-	background-repeat: repeat-x;
-	background-position:center center;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border: 0px solid #CCCCCC;
-	padding:1px;
-	padding-left:2px;
-	padding-right:2px;
-	height:12px;
+	border: none;
+	height:19px;
 	cursor:move;
-	font-family: Verdana, Geneva, sans-serif !important;
-	font-size: 9px !important;
-	font-style: normal;
-	line-height: 11px !important;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	color: #666;
-	text-decoration: none;
-	 
+    background-repeat:  no-repeat;
+    background-position: center center;
+    background-image: url(../img/handle_bg.gif), linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -o-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -moz-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -webkit-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -ms-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -webkit-gradient(
+    	linear,
+    	left bottom,
+    	left top,
+    	color-stop(0, rgb(215,215,215)),
+    	color-stop(0.55, rgb(233,233,233));
+    );
 }
+.mw-sorthandle-parent-outline:hover{
+
+    outline:1px solid #358BC3 ;
+}
+
 .mw-sorthandle:hover {
-opacity: 1;
-   -webkit-transition: opacity 1s linear;	
-  
+    background-image: url(../img/handle_bg.gif);
+    background-color: #D4E8F5;
 }
 .mw-sorthandle span {
 	width:100%;
@@ -155,17 +156,32 @@ opacity: 1;
 }
 .modules-list li {
 	float:left;
-	display:inline;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 11px;
 	text-decoration: none;
 	margin-right: 5px;
 	margin-left: 5px;
+    text-align: center;
+    line-height: normal;
+    cursor: move;
+    padding: 6px 12px;
+    margin-top: 8px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
-.modules-list span {
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 11px;
-	text-align:center;
+
+.module-item:hover{
+    background: #FFFFFF;
+    box-shadow:1px 1px 2px #ADADAD inset;
+}
+
+.module-item .module_name{
+  font-size: 11px;
+  text-align:center;
+  display: block;
+  clear: both;
+  padding-top: 4px;
 }
 #mw_css_editor  {
 	padding:0px !important;
@@ -252,6 +268,8 @@ padding:0px !important;
   position: relative;
   overflow: hidden;
   float: right;
+  height: 75px;
+  margin-top: -8px;
 }
   #modules_bar{
     overflow: hidden;
@@ -268,13 +286,20 @@ padding:0px !important;
     position: absolute;
     top: 0;
   }
-
+  #modules_bar_slide_left.active, #modules_bar_slide_right.active{
+    box-shadow:inset 0px 0px 4px #484848;
+  }
 #modules_bar_slide_right{
   background-position: 100% 0;
   right: 0;
 }
 #modules_bar_slide_left{
   left: 0;
+}
+
+#module_category_selector, #module_layout_selector{
+  clear: both;
+  margin:16px 20px;
 }
 
 #module_category_selector span{
@@ -288,7 +313,8 @@ padding:0px !important;
   position: absolute;
   top: -9999px;
   left: -9999px;
-  background:#E9E9E9; 
+  background:#E9E9E9;
+  height: 75px;
 }
 .mw_tab_active{
   position: static;
@@ -299,8 +325,9 @@ padding:0px !important;
 #mw_toolbar_nav{
     width: 100%;
     height:49px;
-    border-bottom: 1px solid #9B9B9B;
-    box-shadow:1px 0 2px #BDBDBD;
+    position: relative;
+    z-index: 2;
+    box-shadow:1px 0 4px #797979;
     background-color:#E7E7E7;
     background-image:-moz-linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
     background-image:-webkit-linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
@@ -329,7 +356,7 @@ padding:0px !important;
 }
 
 #mw_tabs li a.active{
-  box-shadow:inset 1px 1px 1px #CBCBCB;
+  box-shadow:0 1px 4px #909090 inset;
   background:#E8E8E8;
 }
 
@@ -341,6 +368,9 @@ padding:0px !important;
   width:159px;
   height: 29px;
   overflow: hidden;
+  margin: 14px 20px;
 }
+
+
 
 
