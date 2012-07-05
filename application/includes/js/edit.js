@@ -22,7 +22,7 @@ mw.edit = {
 			//	alert($el_id);
 			$($el_id).remove();
 			$('#' + $el_id).remove();
-			$(".column").putPlaceholdersInEmptyColumns();
+			mw.edit.put_placeholders()
 		}
 	},
 
@@ -341,6 +341,46 @@ mw.edit = {
 		$(".edit").freshereditor("edit", false);
 	},
 
+
+
+	/**
+	 * put_placeholders in the layout
+	 *
+	 * @method mw.edit.put_placeholders()
+	 */
+	put_placeholders : function() {
+	
+
+$('.column', '.edit' ).each(function(){
+			if ($(this).children('.element').size() == 0) {
+					if ($(this).children('.empty-element').size() == 0) {
+                $(this).html(mw.settings.empty_column_placeholder);
+					}
+            } else {
+                $(this).children('.empty-element').remove()
+            }
+			});
+
+
+				   
+
+
+  
+
+
+
+
+
+
+	},
+
+
+ 
+
+
+
+
+
 	/**
 	 * Starts the drag and drop functionality
 	 *
@@ -387,7 +427,7 @@ appendTo: ".edit",
 					left : -2
 				},
 
- 
+ //containment: 'body',
 
 
 
@@ -395,6 +435,8 @@ appendTo: ".edit",
 				scrollSensitivity : 50,
 				delay : 2,
 			//	cancel: "*:not("+$drop_areas+")",
+
+//cancel: "div.empty-element>*",
 				scroll : true,
 				handasdle : '.mw-sorthandle-row:first,.edit>.element>.mw-sorthandle',
 				
@@ -409,8 +451,12 @@ appendTo: ".edit",
 					$(".column").addClass('mw-outline-column');
 					mw.settings.drag_started = true;
 
-	$(".edit").append(mw.settings.edit_area_placeholder);
+	//$(".edit").append(mw.settings.edit_area_placeholder);
 
+
+
+
+	$(ui.item).children('.empty-element').remove();
 
 
 					$('.row', '.edit').each(function() {
@@ -448,7 +494,7 @@ if ($(this).parents('.row').length === 0)  {
 
  
 
-
+ mw.edit.put_placeholders()
 
 					mw.settings.drag_started = false;
 					$(".column").removeClass('mw-outline-column');
@@ -504,7 +550,8 @@ $('*[contenteditable=true]','.edit').attr("contenteditable", false);
 		$(".edit").find('.mw-non-sortable').removeClass('mw-non-sortable');
 
 
-					$(".column").putPlaceholdersInEmptyColumns()
+				 mw.edit.put_placeholders()
+					 	$('.column').height('auto');
 					$(this).sortable('refreshPositions')
 				},
 				deactivate : function(en, ui) {
