@@ -408,6 +408,11 @@ appendTo: ".edit",
 					$('.element:not([contenteditable=false])', '.edit').freshereditor("edit", false);
 					$(".column").addClass('mw-outline-column');
 					mw.settings.drag_started = true;
+
+	$(".edit").append(mw.settings.edit_area_placeholder);
+
+
+
 					$('.row', '.edit').each(function() {
 						$rh = $(this).height();
 						$(this).children('.column').height($rh);
