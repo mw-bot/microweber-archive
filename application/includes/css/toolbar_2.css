@@ -3,8 +3,8 @@
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
 	padding-top:5px;
 	padding-bottom:5px;
-	margin-top:40px;
-	margin-bottom:40px;
+	margin-top:10px;
+	margin-bottom:10px;
 	background-image: url(images/drop.png);
 	background-color:#FFFFB9 !important;
 	background-repeat: no-repeat;
@@ -19,7 +19,7 @@
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height:  95px;
+	height:  55px;
 	min-height:  50px;
 	width:100%;	
 	opacity:0.9;

@@ -103,3 +103,34 @@ body:-webkit-full-screen {
       -moz-border-radius: 7px;
       border-radius: 7px;
     }
+
+/* Image edit */
+
+.mw_image_settings{
+  position: absolute;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.image_close{
+  display: block;
+  position: absolute;
+  width:29px;
+  height: 22px;
+  background:url(../img/imgedit.jpg) no-repeat right top;
+  text-indent: -9999px;
+  cursor: pointer;
+  top: 0;
+  right: 0;
+}
+
+.image_change{
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  font-size: 10px;
+  right: 0;
+  bottom: 0;
+  padding: 7px 7px 7px 30px;
+  background:url(../img/imgedit.jpg) no-repeat left top;
+}

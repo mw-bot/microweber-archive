@@ -117,7 +117,7 @@
                 </ul>
             </div>
          </div>
-        <div id="modules_bar_slider">
+        <div id="modules_bar_slider" class="bar_slider">
           <div id="modules_bar">
               <microweber module="admin/modules/list" />
           </div>

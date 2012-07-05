@@ -36,7 +36,7 @@ $modules = $CI->template_model->getModules($modules_options );
     <? if($module2['icon']): ?>
     <img alt="<? print $module2['name'] ?>" title="<? print addslashes($module2['description']) ?>" class="module_draggable" data-module-name="<? print $module2['module'] ?>"  data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>" src="<? print $module2['icon'] ?>" height="32"  width="32" />
     <? endif; ?>
-    <span alt="<? print addslashes($module2['description']) ?>"><? print $module2['name'] ?></span> 
+    <span class="module_name" alt="<? print addslashes($module2['description']) ?>"><? print $module2['name'] ?></span>
     
     <!--    <div class="description"><? print $module2['description'] ?></div>--> 
   </li>
