@@ -459,11 +459,11 @@ appendTo: ".edit",
 	$(ui.item).children('.empty-element').remove();
 
 
-					$('.row', '.edit').each(function() {
+					$('.raaaaaow', '.edaaaait').each(function() {
 						$rh = $(this).height();
 						$(this).children('.column').height($rh);
 					});
-					$(this).sortable('refreshPositions')
+				//	$(this).sortable('refreshPositions')
 				},
 				change : function(e, ui) {
 					$(ui.placeholder).show();
@@ -494,7 +494,7 @@ if ($(this).parents('.row').length === 0)  {
 
  
 
- mw.edit.put_placeholders()
+					 mw.edit.put_placeholders()
 
 					mw.settings.drag_started = false;
 					$(".column").removeClass('mw-outline-column');
@@ -515,16 +515,16 @@ if ($(this).parents('.row').length === 0)  {
 					});
 					mw.edit.fix_zindex();
 					$(this).sortable('refreshPositions')
-//$('.row:not(.ui-sortable)','.edit').addClass("ui-sortable").sortable(mw.edit.sortable_options).sortable( "refreshPositions" );	
+					//$('.row:not(.ui-sortable)','.edit').addClass("ui-sortable").sortable(mw.edit.sortable_options).sortable( "refreshPositions" );	
 //
-$('.edit').children('.row:not(.ui-sortable)').addClass("ui-sortable").sortable(mw.edit.sortable_options)
-$('.edit').sortable( "refreshPositions" );	
+					$('.edit').children('.row:not(.ui-sortable)').addClass("ui-sortable").sortable(mw.edit.sortable_options)
+					$('.edit').sortable( "refreshPositions" );	
 					$('.edit').sortable( "refresh" );
 					$('.edit').sortable( "enable" );
 
 //	$('.edit').sortable(mw.edit.sortable_options);
 
-$('*[contenteditable=true]','.edit').attr("contenteditable", false);						
+					$('*[contenteditable=true]','.edit').attr("contenteditable", false);						
 				},
 
  

@@ -245,3 +245,102 @@ padding:0px !important;
 .box_content {
  overflow-y: scroll;
 }
+
+
+/*  modules slider */
+#modules_bar_slider{
+  position: relative;
+  overflow: hidden;
+  float: right;
+}
+  #modules_bar{
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+  }
+  #modules_bar_slide_left, #modules_bar_slide_right{
+    display: block;
+    width: 20px;
+    height: 75px;
+    background: url(../img/module_scrollbar.jpg) no-repeat;
+    overflow: hidden;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+  }
+
+#modules_bar_slide_right{
+  background-position: 100% 0;
+  right: 0;
+}
+#modules_bar_slide_left{
+  left: 0;
+}
+
+#module_category_selector span{
+  float: left;
+  width: 94px;
+  white-space: nowrap;
+}
+
+/* tabs */
+.mw_toolbar_tab{
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  background:#E9E9E9; 
+}
+.mw_tab_active{
+  position: static;
+}
+
+/* tabs navigation */
+
+#mw_toolbar_nav{
+    width: 100%;
+    height:49px;
+    border-bottom: 1px solid #9B9B9B;
+    box-shadow:1px 0 2px #BDBDBD;
+    background-color:#E7E7E7;
+    background-image:-moz-linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
+    background-image:-webkit-linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
+    background-image:-ms-linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
+    background-image:linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
+    background-image:-o-linear-gradient(top, #E7E7E7 0%, #D7D7D7 100%);
+    background-image:-webkit-gradient(linear, right top, right bottom, color-stop(0%,#E7E7E7), color-stop(100%,#D7D7D7));
+}
+
+
+
+
+#mw_tabs{
+  float: left;
+  list-style: none;
+}
+
+#mw_tabs li{
+  float: left;
+}
+#mw_tabs li a{
+  display: block;
+  padding:16px 20px;
+  text-decoration: none;
+  outline: none;
+}
+
+#mw_tabs li a.active{
+  box-shadow:inset 1px 1px 1px #CBCBCB;
+  background:#E8E8E8;
+}
+
+#mw_toolbar_logo{
+  display: block;
+  float: left;
+  text-indent: -9999px;
+  background: url(../img/mw_live.png) no-repeat;
+  width:159px;
+  height: 29px;
+  overflow: hidden;
+}
+
+
