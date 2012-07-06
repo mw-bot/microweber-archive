@@ -7,17 +7,17 @@ mw.tools = {
         + '<div class="mw_modal" id="'+id+'">'
           + '<div class="mw_modal_container">'
           + '</div>'
+          + '<span class="mw_modal_close" onclick="$(this).parent().remove();">Close</span>'
         + '</div>';
         return {html:html, id:id}
     },
     init:function(html, width, height, callback){
         var modal = mw.tools.modal.source();
-        document.body.appendChild(modal.html);
-        var modal_object = $(documend.getElementById(modal.id));
+        $(document.body).append(modal.html);
+        var modal_object = $(document.getElementById(modal.id));
         modal_object.width(width).height(height).find(".mw_modal_container").append(html);
-        modal_object.css({margin:height/2+" "+0+" "+0+" "+width/2});
+        modal_object.css({marginTop:-height/2,marginLeft:-width/2});
         modal_object.show();
-        alert(1);
         typeof callback!='undefined'?callback.call(modal_object):'';
     }
   },
@@ -187,6 +187,7 @@ mw.edit.image_settings={
        mw.edit.image_settings.scale(el, id);
 
        mw.edit.image_settings.del_init(id, el);
+       mw.edit.image_settings.change_init(id);
     },
     del_init:function(id, el){
        $("#"+id).find(".image_close").click(function(){
@@ -196,9 +197,9 @@ mw.edit.image_settings={
          }
        });
     },
-    change_init:function(){
+    change_init:function(id){
       $("#"+id).find(".image_change").click(function(){
-        mw.modal.init(":)", 200, 500);
+        mw.modal.init(":)", 400, 200);
       });
     }
 }

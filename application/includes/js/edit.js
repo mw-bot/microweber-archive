@@ -671,11 +671,12 @@ $(".element>*:not('.freshereditor'):not(.mw-sorthandle)").live('mousedown', func
 			}
 		});
 
+$('.column', '.edit').unbind('mouseover');
 		$('.column', '.edit').die('mouseenter');
 
 		$('.column', '.edit').live('mouseenter', function (e) {
-			if (mw.settings.drag_started == false) {
-				$(this).parent(".column").parent(".row").children(".mw-sorthandle-row:first").show();
+			if (mw.settings.drag_started == false && mw.settings.resize_started == false) {
+				$(this).parents(".column:first").parents(".row:first").children(".mw-sorthandle-row:first").show();
 				$el_id_column = $(this).attr('id');
 				if ($el_id_column == undefined || $el_id_column == 'undefined') {
 					$el_id_column = 'mw-column-' + new Date().getTime() + Math.floor(Math.random() * 101);
@@ -688,16 +689,37 @@ $(".element>*:not('.freshereditor'):not(.mw-sorthandle)").live('mousedown', func
 				});
 				$is_done = $(this).hasClass('ui-resizable')
 				$ds = mw.settings.drag_started;
+				$is_done = false;
 				if ($is_done == false && $ds == false) {
+				
+				
+				
+				
+				
+				
+				
 					$inner_column = $(this).children(".column:first");
 					$prow = $(this).parent('.row').attr('id');
 					$no_next = false;
+					
+					
+					
+					
+								
+					
+					
 					$also = $(this).next(".column");
 					$also_check_exist = $also.size();
 					if ($also_check_exist == 0) {
 						$no_next = true;
 						$also = $(this).prev(".column");
 					}
+					
+					
+					
+					
+					
+					
 					$also_el_id_column = $also.attr('id');
 					if ($also_el_id_column == undefined || $also_el_id_column == 'undefined' || $also_el_id_column == '') {
 						$also_el_id_column = 'mw-column-' + new Date().getTime() + Math.floor(Math.random() * 101);
@@ -717,17 +739,26 @@ $(".element>*:not('.freshereditor'):not(.mw-sorthandle)").live('mousedown', func
 					else {
 						$handles = 'none'
 					}
-$no_next = true;
+ 
+ 	$('.hl2').removeClass('hl2')
+	$('.hl').removeClass('hl')
+	
+	
+	$(this).addClass('hl')
+
+	
+ 
+   $('#'+$also_reverse_id).addClass('hl2');
 					if ($no_next == false) {
 						$(this).attr("data-also-rezise-item", $also_reverse_id)
 						$(this).resizable({
-							grid: [1, 10000],
+							//grid: [1, 10000],
 							handles: $handles,
 							containment: "parent",
 							//	 aspectRatio: true,
 							autoHide: true,
 							cancel: ".mw-sorthandle",
-
+minWidth: 30 ,
 							//alsoResizeReverse:'.also-resize' ,
 							alsoResizeReverse: '#' + $also_reverse_id,
 							//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,
@@ -735,11 +766,19 @@ $no_next = true;
 
 							// alsoResize:'.also-resize-inner'  ,
 							resize: function (event, ui) {
+								
+									mw.settings.resize_started= true;
+								
+								
 								$(this).css('height', 'auto');
-								ui.element.next().children(".row").equalWidths();
-								ui.element.children(".row").equalWidths();
-								ui.element.parent(".row").equalWidths();
-
+							 $next_w = '#' + $also_reverse_id;
+							 
+							 $next_w1= $($next_w).width();
+							 				 
+							  $($next_w).addClass('hl2');
+							 	if (window.console != undefined) {
+					console.log('next size : ' + $next_w1);
+				}
 								//$(this).parent(".row").equalHeights();
 
 							},
@@ -754,6 +793,10 @@ $no_next = true;
 									$(this).removeClass('selected');
 								});
 								ui.element.addClass('selected');
+								
+								mw.settings.resize_started= true;
+								
+								$('.hl2').removeClass('hl2')
 							},
 							stop: function (event, ui) {
 								var parent = ui.element.parent('.row');
@@ -761,9 +804,11 @@ $no_next = true;
 									width: ((ui.element.width() / parent.width()) - 1) * 100 + "%",
 									//      height: ui.element.height()/parent.height()*100+"%"
 								});
-								//$('.column').css('height', 'auto');
+								$('.column').css('height', 'auto');
+								$('.row').css('height', 'auto');
 								mw.edit.equal_height();
 								mw.edit.fix_zindex();
+								mw.settings.resize_started= false;
 							}
 						});
 					}

@@ -17,7 +17,7 @@
     	sortables_created : false,
     	drag_started : false,
     	sorthandle_hover : false,
-		
+		resize_started:false,
 		sorthandle_click : false,
 		
     	row_id : false,
