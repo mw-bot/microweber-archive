@@ -62,7 +62,7 @@
 				//	delay : 2,
 				//	cancel: "*:not("+$drop_areas+")",
 
-				cancel: ".empty-element,.empty-element>*,.ui-resizable-handle",
+				cancel: ".empty-element>*,.ui-resizable-handle",
 				scroll: true,
 			//	handasdle: '.mw-sorthandle-row:first,.edit>.element>.mw-sorthandle',
 
@@ -70,7 +70,7 @@
 				placeholder: "ui-sortable-placeholder",
 				//connectWith : '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*' + $drop_areas,
 			//	connectWith: '.element,.edit,.column,.edit .element>*',
-				connectWith: '.element,.edit,.column',
+				connectWith: '.element,.edit,.column,.element>.row>.column',
 				start: function (event, ui) {
 					mw.settings.text_edit_started = false;
 				 	//	$(".column").addClass('mw-outline-column');
@@ -78,7 +78,9 @@
 
 					//$(".edit").append(mw.settings.edit_area_placeholder);
 	mw.edit.put_placeholders()
-//$(".empty-element-edit-area").show();
+$(".mw-sorthandle-row").show();
+ 	$(".empty-element-column").show();
+	
 	mw.edit.remove_content_editable();
 
 				//	$(ui.item).children('.empty-element').remove();

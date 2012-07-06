@@ -432,7 +432,7 @@ $need_re_init = false;
 				}
 			}
 			else {
-				// $(this).children('.empty-element').remove()
+				  $(this).children('.empty-element').remove()
 			}
 		});
 		
@@ -440,15 +440,23 @@ $need_re_init = false;
 		$('.edit').each(function () {
 			 
 				if ($(this).children('.empty-element').size() == 0) {
+					if ($(this).children('.element').size() == 0) {
 					$(this).append(mw.settings.edit_area_placeholder);
-				}
+					}
+				}else {
+				  $(this).children('.empty-element').remove()
+			}
 		});
 		
 		$('.column').each(function () {
 			 
 				if ($(this).children('.empty-element').size() == 0) {
+					if ($(this).children('.element').size() == 0) {
 					$(this).append(mw.settings.empty_column_placeholder);
-				}
+					}
+				}else {
+				  $(this).children('.empty-element').remove()
+			}
 		});
 		
 		
