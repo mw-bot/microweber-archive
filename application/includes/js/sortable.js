@@ -85,7 +85,7 @@ $(".empty-element-edit-area").show();
   
 				},
 				change: function (e, ui) {
-					$(ui.placeholder).show();
+				//	$(ui.placeholder).show();
 					$(ui.helper).css({
 						"width": $(ui.placeholder).width()
 					});
