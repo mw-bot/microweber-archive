@@ -43,22 +43,12 @@ background-color:#00F;
 	margin-top:30px;
 	height: 150px;
 }
-.empaaaty-element {
-	font-size:11px;
-	background-color:#FFFF93 !important;
-	line-height: 28px;
-	color:#DEE0B6;
-	margin-top:10px;
-	margin-bottom:30px;
-	text-transform: none;
-	text-decoration: none;
-	height: 80px;
-	opacity:0.7;
  
-}
 
-.empty-element-edit-area {
-	 
+.empty-element-edit-area, .empty-element-column {
+	 background-color:#FF0000 !important;
+	display:none !important;
+	height:  15px !important;
 	visibility:hidden;
 	 
 }

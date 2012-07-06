@@ -25,7 +25,7 @@
 		
 		edit_area_placeholder : '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here - mw.settings.edit_area_placeholder</span></div>',
 		
-		empty_column_placeholder : '<div class="empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here - mw.settings.empty_column_placeholder</span></div>',
+		empty_column_placeholder : '<div class="empty-element empty-element-column ui-state-highlight ui-sortable-placeholder"><span>Please drag items here - mw.settings.empty_column_placeholder</span></div>',
 		
     	//handles
     	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div></div>",
@@ -119,12 +119,12 @@
                 </ul>
             </div>
          </div>
-        <div id="modules_bar_slider" class="bar_slider">
-          <div id="modules_bar">
+        <div class="modules_bar_slider bar_slider">
+          <div class="modules_bar">
               <microweber module="admin/modules/list" />
           </div>
-          <span id="modules_bar_slide_left">&nbsp;</span>
-          <span id="modules_bar_slide_right">&nbsp;</span>
+          <span class="modules_bar_slide_left">&nbsp;</span>
+          <span class="modules_bar_slide_right">&nbsp;</span>
         </div>
         <div class="mw_clear">&nbsp;</div>
       </div>

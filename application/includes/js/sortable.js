@@ -21,7 +21,7 @@
 
 			$('.element', '.edit').sortable('destroy');
 	mw.edit.unwrap_layout_holder()
-			mw.edit.put_placeholders()
+		//	mw.edit.put_placeholders()
 
 			mw.edit.equal_height();
 			//	$spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit div.column';
@@ -77,11 +77,11 @@
 					mw.settings.drag_started = true;
 
 					//$(".edit").append(mw.settings.edit_area_placeholder);
-
-
+	mw.edit.put_placeholders()
+$(".empty-element-edit-area").show();
 	mw.edit.remove_content_editable();
 
-					$(ui.item).children('.empty-element').remove();
+				//	$(ui.item).children('.empty-element').remove();
   
 				},
 				change: function (e, ui) {
@@ -173,7 +173,7 @@
 					$(".edit").find('.mw-non-sortable').removeClass('mw-non-sortable');
 
 
-					mw.edit.put_placeholders()
+				//	mw.edit.put_placeholders()
 					$('.column').height('auto');
 					$(this).sortable('refreshPositions')
 				},
