@@ -21,6 +21,7 @@
 			$('.modules-list').sortable('destroy');
 
 			$('.element', '.edit').sortable('destroy');
+	mw.edit.unwrap_layout_holder()
 			mw.edit.put_placeholders()
 
 			mw.edit.equal_height();
@@ -39,7 +40,7 @@
 
 			
 			
-				handle: '.mw-sorthandle',
+				handle: '.mw-sorthandle:not(.mw-sorthandle-row-in-element)',
 			//	appendTo: ".edit",
 
 				dropOnEmpty: false,
@@ -113,7 +114,10 @@
 
 					mw.settings.sorthandle_click = false;
 
-					mw.edit.make_events_for_content_editable()
+				
+
+//	mw.edit.unwrap_layout_holder()
+	mw.edit.make_events_for_content_editable()
 			 		mw.edit.put_placeholders()
 
 					mw.settings.drag_started = false;
@@ -130,7 +134,8 @@
 					mw.edit.load_new_modules();
 					$('.row').equalWidths();
 
-					mw.edit.fix_zindex();
+					mw.edit.init_element_handles();
+				setTimeout("mw.edit.init_element_handles()", 100);					
 					mw.edit.equal_height()
 					$(this).sortable('refreshPositions')
 					//$('.row:not(.ui-sortable)','.edit').addClass("ui-sortable").sortable(mw.edit.sortable_options).sortable( "refreshPositions" );	
@@ -202,6 +207,14 @@ $sort_opts_columns = $sort_opts_elements;
 
 			$('.column', '.edit').sortable($sort_opts_columns);
 			$('.element', '.edit').sortable($sort_opts_elements);
+ 
+
+
+
+
+
+
+
 			$('.edit').sortable("refresh");
 
 			$sort_opts_toolbar = $sort_opts;

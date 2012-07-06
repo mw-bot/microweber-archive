@@ -106,6 +106,10 @@ mw.edit = {
 		}
 	},
 
+
+
+
+
 	/**
 	 * Makes handles for given row
 	 *
@@ -142,6 +146,10 @@ mw.edit = {
 	 * @method mw.edit.init_element_handles()
 	 */
 	init_element_handles: function () {
+		
+	
+			 
+		
 		if (mw.settings.drag_started == false) {
 			$('.row', '.edit').each(function (index) {
 				$has = $(this).children("div:first").hasClass("mw-sorthandle-row");
@@ -180,6 +188,20 @@ mw.edit = {
 					$(this).prepend(text);
 				}
 			})
+			
+			
+		$('.mw-sorthandle-main-level', '.edit').removeClass('mw-sorthandle-main-level');
+		
+		$('.mw-sorthandle-row-in-column', '.edit').removeClass('mw-sorthandle-row-in-column');
+		$('.mw-sorthandle-row-in-element', '.edit').removeClass('mw-sorthandle-row-in-element');
+		
+		
+		$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
+		$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
+		
+		$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
+			
+			
 			mw.edit.fix_zindex();
 		}
 	},
@@ -240,7 +262,17 @@ mw.edit = {
 		$($update_element).load(url1, attributes, function () {
 			window.mw_sortables_created = false;
 		});
+			mw.edit.unwrap_layout_holder()
 	},
+	
+	
+	unwrap_layout_holder: function () {
+
+			$('.mw-layout-holder', '.edit').children().unwrap();
+	},
+	
+	
+
 
 	/**
 	 * Loads new dropped modules
@@ -249,6 +281,13 @@ mw.edit = {
 	 */
 	load_new_modules: function () {
 		$need_re_init = false;
+		
+		
+		
+		
+
+
+
 		$(".module_draggable", '.edit').each(function (c) {
 			//$(this).unwrap(".module-item");
 			$name = $(this).attr("data-module-name");
@@ -321,16 +360,7 @@ $need_re_init = false;
 			$(this).css('z-index', count);
 		});
 		
-		$('.mw-sorthandle').removeClass('mw-sorthandle-main-level');
-		
-		$('.mw-sorthandle').removeClass('mw-sorthandle-row-in-column');
-		$('.mw-sorthandle').removeClass('mw-sorthandle-row-in-column');
-		
-		
-		$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
-		$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
-		
-		$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
+	
 
 
 		
