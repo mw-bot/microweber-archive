@@ -1,3 +1,10 @@
+.hl {
+background-color:#C90;	
+}
+
+.hl2 {
+background-color:#00F;	
+}
 
 
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {

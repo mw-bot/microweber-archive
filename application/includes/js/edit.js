@@ -406,7 +406,11 @@ $need_re_init = false;
 	remove_content_editable: function () {
 		mw.settings.text_edit_started = false;
 		mw.settings.editables_created = false;
-		$(".edit").freshereditor("edit", false);
+		$('.freshereditor',".edit").freshereditor("edit", false);
+		$('.freshereditor',".edit").removeClass('freshereditor');
+		$('*[contenteditable]',".edit").removeAttr('contenteditable');
+		
+		
 	},
 
 
@@ -442,32 +446,47 @@ $need_re_init = false;
 	 */
 	make_events_for_content_editable: function () {
 
-		$(".element", '.edit').die('mousedown');
-		// $(".element").children().die('mousedown');
-		//$(">*", '.element:not([contenteditable=true])').die('mousedown');
-		$(".element>*", '.edit').die('mousedown');
-		$(".element>*", '.edit').live('mousedown', function (e) {
+		//$(".element", '.edit').die('mousedown');
+		//$(".element>*", '.edit').die('mousedown');
+		//$(".element>*:not('.freshereditor')", '.edit').live('mousedown', function (e) {
+			
+			
+//$(".element", '.edit').die('mousedown');
+$(".element>*", '.edit').die('mousedown');			
+			
+$(".element>*:not('.freshereditor'):not(.mw-sorthandle)").live('mousedown', function(e) {
+ 
 
-			$('*[contenteditable]', '.edit').removeAttr("contenteditable");
+		
+	
+	 
 
 
-			$el_id = $(this).attr('id');
+			$is_this_module = $(this).hasClass('mw-module-wrap');
+			$is_freshereditor = $(this).hasClass('freshereditor');
+			$is_this_row = $(this).hasClass('row');
+			$is_this_handle = $(this).hasClass('mw-sorthandle');
+			$is_mw_delete_element = $(this).hasClass('mw.edit.delete_element');
+			$columns_set = $(this).hasClass('columns_set');
+			
+			
+		
+
+			//if ($is_this_handle == false && $columns_set == false && $is_freshereditor == false && mw.settings.drag_started == false && mw.settings.sorthandle_hover == false && $is_this_module == false && $is_mw_delete_element == false && $is_this_row == false) {
+				if ($is_this_handle == false && $is_this_row == false && $columns_set == false && $is_freshereditor == false && mw.settings.drag_started == false ) {
+				$(this).closest('.mw-sorthandle').show();
+	if (window.console != undefined) {
+					console.log('mousedown on element : ' );
+				}
+
+
+	$el_id = $(this).attr('id');
 			if ($el_id == undefined || $el_id == 'undefined') {
 				$el_id = 'mw-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
 				$(this).attr('id', $el_id);
 			}
 
 
-
-
-			$is_this_module = $(this).hasClass('mw-module-wrap');
-			$is_this_row = $(this).hasClass('row');
-			$is_this_handle = $(this).hasClass('mw-sorthandle');
-			$is_mw_delete_element = $(this).hasClass('mw.edit.delete_element');
-			$columns_set = $(this).hasClass('columns_set');
-
-			if ($is_this_handle == false && $columns_set == false && mw.settings.drag_started == false && mw.settings.sorthandle_hover == false && $is_this_module == false && $is_mw_delete_element == false && $is_this_row == false) {
-				$(this).closest('.mw-sorthandle').show();
 
 				mw.settings.element_id = $el_id;
 
@@ -487,21 +506,28 @@ $need_re_init = false;
 					//$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
 
 				}
+				$(this).addClass('freshereditor');
 				//$('#'+$el_id).freshereditor("edit", true);
-				$(this).freshereditor("edit", false);
+				//$(this).freshereditor("edit", false);
 				$(this).freshereditor("edit", true);
+				//$(this).freshereditor("edit", false);
+			//	$(this).freshereditor("edit", true);
 
-				$(this).attr("contenteditable", "true");
+				//$(this).attr("contenteditable", "true");
 
 				//	$(this).parent('.element:not([contenteditable=true])').freshereditor("edit", true);
 				$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 				setTimeout("mw.settings.sorthandle_hover=false", 300);
-				e.preventDefault();
+			//	e.preventDefault();
 				e.stopPropagation();
-				return false;
+				//return false;
 			}
 			else {
 				mw.settings.sorthandle_hover = true;
+				
+				//e.preventDefault();
+				//e.stopPropagation();
+				// return false;
 			}
 
 
@@ -579,7 +605,7 @@ $need_re_init = false;
 
 		$(".mw-sorthandle", '.edit').die('dblclick');
 		$(".mw-sorthandle").live('dblclick', function (e) {
-			$('*[contenteditable=true]', '.edit').attr("contenteditable", false);
+		mw.edit.remove_content_editable();
 
 			mw.settings.sorthandle_click = true;
 			e.preventDefault();
@@ -590,8 +616,7 @@ $need_re_init = false;
 
 		$(".mw-sorthandle", '.edit').die('click');
 		$(".mw-sorthandle").live('click', function (e) {
-			//	$('*[contenteditable=true]','.edit').attr("contenteditable", false);			
-			if (mw.settings.sorthandle_click == false) {
+ 			if (mw.settings.sorthandle_click == false) {
 				mw.settings.sorthandle_click = true;
 
 				e.preventDefault();
@@ -692,7 +717,7 @@ $need_re_init = false;
 					else {
 						$handles = 'none'
 					}
-
+$no_next = true;
 					if ($no_next == false) {
 						$(this).attr("data-also-rezise-item", $also_reverse_id)
 						$(this).resizable({

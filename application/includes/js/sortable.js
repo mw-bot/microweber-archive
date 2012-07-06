@@ -10,7 +10,6 @@
 		mw.edit.remove_content_editable();
 		if (mw.settings.sortables_created == false) {
 
-			$('.element:not([contenteditable=false])').freshereditor("edit", false);
 
 			var place1 = mw.settings.empty_column_placeholder;
 			var place2 = mw.settings.empty_column_placeholder;
@@ -45,6 +44,7 @@
 
 				dropOnEmpty: false,
 				forcePlaceholderSize: true,
+				//	forceHeplerSize: true,
 				greedy: true,
 				tolerance: 'pointer',
 				cancel: '.mw-non-sortable',
@@ -73,14 +73,13 @@
 				connectWith: '.element,.edit,.column',
 				start: function (event, ui) {
 					mw.settings.text_edit_started = false;
-					$('*[contenteditable=true]', '.edit').attr("contenteditable", false);
-					//	$(".column").addClass('mw-outline-column');
+				 	//	$(".column").addClass('mw-outline-column');
 					mw.settings.drag_started = true;
 
 					//$(".edit").append(mw.settings.edit_area_placeholder);
 
 
-
+	mw.edit.remove_content_editable();
 
 					$(ui.item).children('.empty-element').remove();
   
@@ -110,7 +109,7 @@
 							}
 						}
 					}
-
+	mw.edit.remove_content_editable();
 
 					mw.settings.sorthandle_click = false;
 
@@ -147,7 +146,6 @@
 
 					//	$('.edit').sortable(mw.edit.sortable_options);
 
-					$('*[contenteditable=true]', '.edit').attr("contenteditable", false);
 				},
 
 

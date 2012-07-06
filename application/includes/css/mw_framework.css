@@ -134,3 +134,18 @@ body:-webkit-full-screen {
   padding: 7px 7px 7px 30px;
   background:url(../img/imgedit.jpg) no-repeat left top;
 }
+
+.mw_modal{
+  position: fixed;
+  z-index: 99;
+  display: none;
+  background: white;
+  box-shadow:2px 2px 3px #000;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.mw_modal_container{
+  padding: 15px;
+
+}

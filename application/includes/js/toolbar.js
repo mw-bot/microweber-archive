@@ -1,7 +1,25 @@
 
 mw.tools = {
-  modal:function(){
-
+  modal:{
+    source:function(){
+      var id = "modal_"+mw.random();
+      var html = ''
+        + '<div class="mw_modal" id="'+id+'">'
+          + '<div class="mw_modal_container">'
+          + '</div>'
+        + '</div>';
+        return {html:html, id:id}
+    },
+    init:function(html, width, height, callback){
+        var modal = mw.tools.modal.source();
+        document.body.appendChild(modal.html);
+        var modal_object = $(documend.getElementById(modal.id));
+        modal_object.width(width).height(height).find(".mw_modal_container").append(html);
+        modal_object.css({margin:height/2+" "+0+" "+0+" "+width/2});
+        modal_object.show();
+        alert(1);
+        typeof callback!='undefined'?callback.call(modal_object):'';
+    }
   },
   dropdown:function(callback){
     $(".mw_dropdown").hover(function(){
@@ -177,8 +195,17 @@ mw.edit.image_settings={
            $(el).slideUp(function(){$(this).remove();});
          }
        });
+    },
+    change_init:function(){
+      $("#"+id).find(".image_change").click(function(){
+        mw.modal.init(":)", 200, 500);
+      });
     }
 }
+
+mw.modal = mw.tools.modal;
+
+
 
 
 $(window).load(function(){
