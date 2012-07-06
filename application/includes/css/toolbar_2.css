@@ -39,18 +39,19 @@
 }
  
 
-.empty-element-edit-area, .empty-element-column {
+.empty-element-edit-area{
 	 background-color:#FF0000 !important;
 	display:none !important;
 	height:  15px !important;
 	visibility:hidden;
+	opacity:0.1;
 	 
 }
 
 
-.empty-element-edit-area:hover {
+.empty-element-edit-area:hover,.empty-element-column:hover {
 	 
-	visibility:visible;
+	 visibility:visible;
 	 
 }
 
