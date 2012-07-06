@@ -54,6 +54,8 @@
 
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js" type="text/javascript"></script>
+<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
+
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js" type="text/javascript"></script>
 <script type="text/javascript">
 
