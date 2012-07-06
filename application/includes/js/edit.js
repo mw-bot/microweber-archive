@@ -491,7 +491,7 @@ $(".element>*:not('.freshereditor'):not(.mw-sorthandle)").live('mousedown', func
 		
 
 			//if ($is_this_handle == false && $columns_set == false && $is_freshereditor == false && mw.settings.drag_started == false && mw.settings.sorthandle_hover == false && $is_this_module == false && $is_mw_delete_element == false && $is_this_row == false) {
-				if ($is_this_handle == false && $is_this_row == false && $columns_set == false && $is_freshereditor == false && mw.settings.drag_started == false ) {
+				if (mw.settings.sorthandle_hover == false && $is_this_handle == false && $is_this_row == false && $columns_set == false && $is_freshereditor == false && mw.settings.drag_started == false ) {
 				$(this).closest('.mw-sorthandle').show();
 	if (window.console != undefined) {
 					console.log('mousedown on element : ' );
@@ -611,12 +611,26 @@ $(".element>*:not('.freshereditor'):not(.mw-sorthandle)").live('mousedown', func
 
 		$(".mw-sorthandle", '.edit').die('mouseenter');
 		$(".mw-sorthandle", '.edit').die('mouseleave');
+		$(".mw-sorthandle", '.edit').die('mousedown');
 		$(".mw-sorthandle").live('mouseenter', function (e) {
+			mw.settings.sorthandle_hover = true;
+			
+			
 			$(this).parent().parent().addClass('mw-sorthandle-parent-outline');
 			$(this).show();
 		})
+		
+		
+		$(".mw-sorthandle").live('mousedown', function (e) {
+		 mw.edit.remove_content_editable();
+		})
+
+
+
+
 
 		$(".mw-sorthandle").live('mouseleave', function (e) {
+			mw.settings.sorthandle_hover = false;
 			$(this).parent().parent().removeClass('mw-sorthandle-parent-outline');
 
 		})
@@ -624,7 +638,7 @@ $(".element>*:not('.freshereditor'):not(.mw-sorthandle)").live('mousedown', func
 		$(".mw-sorthandle", '.edit').die('dblclick');
 		$(".mw-sorthandle").live('dblclick', function (e) {
 		mw.edit.remove_content_editable();
-
+mw.settings.sorthandle_hover = false;
 			mw.settings.sorthandle_click = true;
 			e.preventDefault();
 			e.stopPropagation();
