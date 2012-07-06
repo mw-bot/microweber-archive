@@ -78,7 +78,7 @@
 
 					//$(".edit").append(mw.settings.edit_area_placeholder);
 	mw.edit.put_placeholders()
-$(".empty-element-edit-area").show();
+//$(".empty-element-edit-area").show();
 	mw.edit.remove_content_editable();
 
 				//	$(ui.item).children('.empty-element').remove();

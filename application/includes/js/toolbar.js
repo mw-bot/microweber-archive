@@ -208,7 +208,7 @@ mw.modal = mw.tools.modal;
 
 
 $(window).load(function(){
-        $("#typography img").hover(function(){
+        $("#typography img").click(function(){
             mw.edit.image_settings.init(this);
        });
 });
