@@ -7,9 +7,7 @@
 	margin-left: 0px !important;
 	min-height:40x;
 }
-.1row:hover {
-	outline: 2px solid #d0d0d0;
-}
+ 
 .ui-state-highlight2, .also-resize {
 	background-color: #990099 !important;
 }
@@ -67,7 +65,7 @@ a.mw-make-cols.active {
 .edit {
 	position:relative;
 }
-.element:hover, .row:hover, .column:hover{
+.element:hover, .row:hover{
   outline:1px solid #C2C2C2;
 }
 
