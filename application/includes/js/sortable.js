@@ -35,9 +35,12 @@
 				//items : '.row,.edit>.element',
 
 			//	handle: '.mw-sorthandle-row,.mw-sorthandle',
-				handle: '.mw-sorthandle-row,.mw-sorthandle-col',
+			//	handle: '.mw-sorthandle-row,.mw-sorthandle-col',
 
-				appendTo: ".edit",
+			
+			
+				handle: '.mw-sorthandle',
+			//	appendTo: ".edit",
 
 				dropOnEmpty: false,
 				forcePlaceholderSize: true,
@@ -58,14 +61,14 @@
 				//	delay : 2,
 				//	cancel: "*:not("+$drop_areas+")",
 
-				cancel: "div.empty-element,.ui-resizable-handle",
+				cancel: ".empty-element,.empty-element>*,.ui-resizable-handle",
 				scroll: true,
-				handasdle: '.mw-sorthandle-row:first,.edit>.element>.mw-sorthandle',
+			//	handasdle: '.mw-sorthandle-row:first,.edit>.element>.mw-sorthandle',
 
 				revert: true,
 				placeholder: "ui-sortable-placeholder",
 				//connectWith : '.element,.edit,.row>.column,.element>.row>.column,.column,.element,.element>*,.element>.row>.column>.element>*' + $drop_areas,
-				connectWith: '.element,.edit,.column,.edit .element>*',
+			//	connectWith: '.element,.edit,.column,.edit .element>*',
 				connectWith: '.element,.edit,.column',
 				start: function (event, ui) {
 					mw.settings.text_edit_started = false;
@@ -111,7 +114,7 @@
 					mw.settings.sorthandle_click = false;
 
 					mw.edit.make_events_for_content_editable()
-					mw.edit.put_placeholders()
+			 		mw.edit.put_placeholders()
 
 					mw.settings.drag_started = false;
 					$(".column").removeClass('mw-outline-column');
@@ -185,7 +188,7 @@
 			delete $sort_opts_elements.items;
 
 		//	$sort_opts_elements.handle = '.mw-sorthandle-col:first,.mw-sorthandle-row:first'
-			$sort_opts_elements.handle = '.mw-sorthandle-col'
+			$sort_opts_elements.handle = '.mw-sorthandle-col,.mw-sorthandle-row-in-element'
 			$sort_opts2 = $sort_opts;
 			delete $sort_opts2.items;
 			delete $sort_opts2.appendTo;
@@ -193,9 +196,12 @@
 
 			//	$sort_opts2.cancel = '.edit';
 
+$sort_opts_columns = $sort_opts_elements;
+	$sort_opts_columns.handle = '.mw-sorthandle-col,.mw-sorthandle-row-in-column'
 
-			$('.column', '.edit').sortable($sort_opts_elements);
-			$('.element', '.edit').sortable($sort_opts2);
+
+			$('.column', '.edit').sortable($sort_opts_columns);
+			$('.element', '.edit').sortable($sort_opts_elements);
 			$('.edit').sortable("refresh");
 
 			$sort_opts_toolbar = $sort_opts;
