@@ -43,15 +43,20 @@ mw.tools = {
   },
   module_slider:{
     scale:function(){
-      $("#modules_bar").width($(window).width()-260);
-      $("#modules_bar_slider").width($(window).width()-220);
+      var window_width = $(window).width();
+      $(".modules_bar").each(function(){
+           $(this).width(window_width-260);
+           $(this).find(".modules_bar_slider").width(window_width-220);
+      });
     },
     prepare:function(){
-      var module_item_width = 0;
-      $("#modules_bar li").each(function(){
-        module_item_width += $(this).outerWidth(true);
+      $(".modules_bar").each(function(){
+          var module_item_width = 0;
+          $(this).find("li").each(function(){
+            module_item_width += $(this).outerWidth(true);
+          });
+          $(this).find("ul").width(module_item_width);
       });
-     $("#modules_bar ul").width(module_item_width);
     },
     init:function(){
         mw.tools.module_slider.prepare();
@@ -84,29 +89,33 @@ mw.tools = {
     }
   },
   toolbar_slider:{
-    slide_left:function(){
+    slide_left:function(item){
+       var item = $(item);
         mw.tools.toolbar_slider.ctrl_show_hide();
-        var left = $("#modules_bar").scrollLeft();
-        $("#modules_bar").stop().animate({scrollLeft:left-120}, function(){
+        var left = item.parent().find(".modules_bar").scrollLeft();
+       item.parent().find(".modules_bar").stop().animate({scrollLeft:left-120}, function(){
             mw.tools.toolbar_slider.ctrl_show_hide();
         });
     },
     ctrl_show_hide:function(){
-      if($(".modules_bar").scrollLeft()==0){
-        $(".modules_bar_slide_left").hide();
-      }
-      else{
-        $(".modules_bar_slide_left").show();
-      }
-      var max = $("#modules_bar").width() + $("#modules_bar").scrollLeft();
-      //var scrollWidth = $("#modules_bar")[0].scrollWidth;
-      scrollWidth = false;
-      if(max==scrollWidth){
-         $(".modules_bar_slide_right").hide();
-      }
-      else{
-         $(".modules_bar_slide_right").show();
-      }
+      $(".modules_bar").each(function(){
+          var el = $(this);
+          var parent = el.parent();
+          if(el.scrollLeft()==0){
+            parent.find(".modules_bar_slide_left").hide();
+          }
+          else{
+            parent.find(".modules_bar_slide_left").show();
+          }
+          var max = el.width() + el.scrollLeft();
+          if(max==this.scrollWidth){
+             parent.find(".modules_bar_slide_right").hide();
+          }
+          else{
+             parent.find(".modules_bar_slide_right").show();
+          }
+      });
+
     },
     ctrl_states:function(){
        $(".modules_bar_slide_right,.modules_bar_slide_left").mousedown(function(){
@@ -116,21 +125,22 @@ mw.tools = {
          $(this).removeClass("active");
        });
     },
-    slide_right:function(){
+    slide_right:function(item){
+      var item = $(item);
        mw.tools.toolbar_slider.ctrl_show_hide();
-       var left = $(".modules_bar").scrollLeft();
-       $(".modules_bar").stop().animate({scrollLeft:left+120}, function(){
+       var left = item.parent().find(".modules_bar").scrollLeft();
+       item.parent().find(".modules_bar").stop().animate({scrollLeft:left+120}, function(){
              mw.tools.toolbar_slider.ctrl_show_hide();
        });
     },
     init:function(){
         $(".modules_bar").scrollLeft(0);
-        $(".modules_bar_slide_left").hide();
+        mw.tools.toolbar_slider.ctrl_show_hide();
         $(".modules_bar_slide_left").click(function(){
-            mw.tools.toolbar_slider.slide_left();
+            mw.tools.toolbar_slider.slide_left(this);
         }).disableSelection();
         $(".modules_bar_slide_right").click(function(){
-            mw.tools.toolbar_slider.slide_right();
+            mw.tools.toolbar_slider.slide_right(this);
         }).disableSelection();
         mw.tools.toolbar_slider.ctrl_states();
     }
@@ -157,7 +167,7 @@ mw.edit.image_settings={
     html:function(){
         var id = 'image_'+mw.random();
         var html = ''
-        + '<div onmouseout="$(this).remove();" class="mw_image_settings" id="'+id+'">'
+        + '<div onmouseleave="$(this).remove();" class="mw_image_settings" id="'+id+'">'
           +  '<span class="image_close">Close</span>'
           +  '<span class="image_change">Change</span>'
         + '</div>';
@@ -185,7 +195,7 @@ mw.edit.image_settings={
        mw.edit.image_settings.scale(el, id);
 
        mw.edit.image_settings.del_init(id, el);
-       mw.edit.image_settings.change_init(id);
+       mw.edit.image_settings.change_init(id, el);
     },
     del_init:function(id, el){
        $("#"+id).find(".image_close").click(function(){
@@ -195,9 +205,13 @@ mw.edit.image_settings={
          }
        });
     },
-    change_init:function(id){
+    change_init:function(id, el){
       $("#"+id).find(".image_change").click(function(){
-        mw.modal.init(":)", 400, 200);
+        var w = $(window).width()-100;
+        var h = $(window).height()-100;
+        var save_img_url = '/Microweber/save.php';
+        var frame = "<iframe width='"+(w-30)+"' height='"+(h-30)+"' src='http://pixlr.com/express/?wmode=transparent&locktarget=true&target="+save_img_url+"&image=" + el.src + "' scrolling='no' frameborder='0'></iframe>";
+        mw.modal.init(frame, w, h);
       });
     }
 }

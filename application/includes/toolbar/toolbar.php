@@ -143,7 +143,16 @@
                 </ul>
             </div>
          </div>
-        <microweber module="admin/modules/list_elements" />
+        <div class="modules_bar_slider bar_slider">
+          <div class="modules_bar">
+            <microweber module="admin/modules/list_elements" />
+          </div>
+          <span class="modules_bar_slide_left">&nbsp;</span>
+          <span class="modules_bar_slide_right">&nbsp;</span>
+        </div>
+
+
+
       </div>
       <div id="tab_design" class="mw_toolbar_tab">
         <div class="mw_module_settings row">
