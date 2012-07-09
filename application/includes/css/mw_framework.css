@@ -37,10 +37,11 @@ body:-webkit-full-screen {
   display: inline-block;
   position: relative;
   cursor: pointer;
-  z-index: 10;
+  z-index: 10002;
 }
   .mw_dropdown_fields{
     position: absolute;
+    z-index: 9;
     top: 30px;
     left: 0;
     width: 100%;

@@ -38,7 +38,7 @@
 
 </script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js" type="text/javascript"></script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js" type="text/javascript"></script>
 <link href="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
@@ -48,13 +48,12 @@
 
 
 
-<script src="<?php   print( INCLUDES_URL);  ?>js/bootstrap.js" type="text/javascript"></script>
-
+ 
 
 
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js" type="text/javascript"></script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
+ <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
 
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js" type="text/javascript"></script>
 <script type="text/javascript">

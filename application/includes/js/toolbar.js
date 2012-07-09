@@ -1,5 +1,15 @@
 
 mw.tools = {
+  preloader:function(init, element){
+    if(init=='stop'){$("#preloader").hide()}
+    else{
+      var el = $("#element");
+      var offset = el.offset();
+      var w = el.width();
+      var h = el.height();
+
+    }
+  },
   modal:{
     source:function(){
       var id = "modal_"+mw.random();
@@ -18,7 +28,9 @@ mw.tools = {
         modal_object.width(width).height(height).find(".mw_modal_container").append(html);
         modal_object.css({marginTop:-height/2,marginLeft:-width/2});
         modal_object.show();
-        typeof callback!='undefined'?callback.call(modal_object):'';
+        var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
+        typeof callback!='undefined'?callback.call(modal_return):'';
+        return modal_return;
     }
   },
   dropdown:function(callback){
@@ -210,21 +222,51 @@ mw.edit.image_settings={
         var w = $(window).width()-100;
         var h = $(window).height()-100;
         var save_img_url = '/Microweber/save.php';
-        var frame = "<iframe width='"+(w-30)+"' height='"+(h-30)+"' src='http://pixlr.com/express/?wmode=transparent&locktarget=true&target="+save_img_url+"&image=" + el.src + "' scrolling='no' frameborder='0'></iframe>";
-        mw.modal.init(frame, w, h);
+        //var frame = "<iframe width='"+(w-30)+"' height='"+(h-30)+"' src='http://pixlr.com/express/?wmode=transparent&locktarget=true&target="+save_img_url+"&image=" + el.src + "' scrolling='no' frameborder='0'></iframe>";
+        var frame = ":)";
+        mw.modal(frame, w, h);
       });
+    },
+    image_resize:function(selector){
+      //chrome, opera, safari
+
+      if($.browser.safari || $.browser.chrome || $.browser.opera || true){
+        $(selector).each(function(){
+          if(!$(this).parent().hasClass("image_resizer")){
+              var w = $(this).width();
+              var h = $(this).height();
+              $(this).wrap("<span class='image_resizer' style='width:"+w+"px;height:"+h+"px'></span>");
+          }
+        });
+        $(".image_resizer").resizable({
+           resize: function(event, ui){
+            var w = $(this).width();
+            var h = $(this).height();
+            $(this).find("img").attr("width",w).attr("height",h).width(w).height(h);
+           }
+        });
+        $("#typography img").attr("contentEditable", false);
+      }
     }
 }
 
-mw.modal = mw.tools.modal;
+//prefixes
+mw.modal = mw.tools.modal.init;
 
 
+
+mw.modal.prototype.auto = function(){
+  alert(1);
+}
 
 
 $(window).load(function(){
         $("#typography img").click(function(){
             mw.edit.image_settings.init(this);
        });
+
+
+
 });
 
 
