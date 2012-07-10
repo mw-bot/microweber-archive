@@ -16,8 +16,9 @@
 mw.edit.init_sortables = function () {
     mw.edit.remove_content_editable();
     $(".mw-sorthandle").show();
-     mw.edit.put_placeholders()
-     mw.edit.equal_height();
+     mw.drag.fix_placeholders()
+	  mw.drag.fixes()
+    // mw.edit.equal_height();
 
     mw.edit.init_element_handles();
 
@@ -46,6 +47,7 @@ mw.drag = {
             start:function(){
                mw.isDrag = true;
                mw.dragCurrent = this;
+			   
                $(this).addClass("mw_drag_started");
             },
             stop:function(){
@@ -58,6 +60,7 @@ mw.drag = {
               if($(mw.dragCurrent).hasClass("module-item")){
                 setTimeout(function(){
                   mw.drag.load_new_modules();
+				//   mw.drag.fix_placeholders()
                 }, 50);
               }
 
@@ -84,7 +87,7 @@ mw.drag = {
               if($(".mw_dropable_hover").length==0){
                  mw.drag.destroy_dropables();
               }
-            }, 0);
+            }, 37); //must have setTimeout cause of the droppable hover
 
 
              if (window.console != undefined) {
@@ -106,6 +109,7 @@ mw.drag = {
                     $(".mw_dropable").replaceWith(mw.dragCurrent);
                     $(mw.dragCurrent).fadeIn('slow');
                     mw.drag.fixes();
+					  mw.drag.fix_placeholders()
                     event.stopPropagation();
                 }, 37);
               }
@@ -118,6 +122,7 @@ mw.drag = {
         $(dropable).hover(function(){$(this).addClass("mw_dropable_hover")}, function(){$(this).removeClass("mw_dropable_hover")});
         var w = $(elem).width();
         $(dropable).width(w);
+		 $(dropable).addClass('mw_dropable_hover');
         return dropable;
     },
     destroy_dropables:function(){
@@ -131,18 +136,65 @@ mw.drag = {
         $(drop_bottom).fadeIn(200);
     },
     fixes:function(){
-      $(".column, .element, .row").height('auto');
+      $(".column, .element, .row", '.edit').height('auto');
+	  $('.row', '.edit').equalWidths();
       $(mw.dragCurrent).removeAttr('style');
-      $(".element").removeAttr('style');
+      $(".element", '.edit').removeAttr('style');
 
-      $(".column").each(function(){
+      $(".column", '.edit').each(function(){
         var el = $(this);
         if(el.children().length==0){
+			
+			
+			
+			
             el.height(el.parent().height());
         }
       });
 
     },
+
+
+	/**
+	 * fix_placeholders in the layout
+	 *
+	 * @method mw.drag.fix_placeholders()
+	 */
+	fix_placeholders: function () {
+
+ 
+
+
+
+$('.column').each(function() {
+			 $this = $(this);
+			 
+            if ($("div.element", this).size() == 0) {
+				
+				 
+				text = mw.settings.empty_column_placeholder.toString();
+				
+				     
+				$some_el_id = 'mw-placeholder-'+mw.random();
+				text = text.replace(/_ID_/g,$some_el_id );
+
+				
+                $(this).html(text);
+				mw.drag.sort('#'+$some_el_id);
+				 
+            } else {
+                $(this).children('.empty-element').remove()
+            }
+		});
+
+
+		 
+		
+		
+	 
+		
+		
+	},
 
 
 

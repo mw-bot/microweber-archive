@@ -25,7 +25,7 @@
 		
 		edit_area_placeholder : '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here - mw.settings.edit_area_placeholder</span></div>',
 		
-		empty_column_placeholder : '<div class="empty-element empty-element-column ui-state-highlight ui-sortable-placeholder"><span>Please drag items here - mw.settings.empty_column_placeholder</span></div>',
+		empty_column_placeholder : '<div id="_ID_" class="empty-element empty-element-column">Please drag items here - mw.settings.empty_column_placeholder</div>',
 		
     	//handles
     	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div></div>",
