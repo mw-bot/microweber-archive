@@ -450,6 +450,14 @@ background-image: -webkit-gradient(
 }
 
 
+#mw_history_files {
+
+ display: none;
+ 
+
+}
+
+
 .image_resizer{
   display: inline-block !important;
 }
@@ -459,10 +467,37 @@ background-image: -webkit-gradient(
 }
 
 .image_resizer .ui-resizable-se{
-  display: block !important;
-  background: url("jquery-ui-smoothness/images/ui-icons_454545_256x240.png") no-repeat -64px -224px;
+    display: block !important;
+    background: url("jquery-ui-smoothness/images/ui-icons_454545_256x240.png") no-repeat -64px -224px;
     height: 16px;
     width: 16px;
+}
+
+.mw_dropable{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    color: #D0D0D0;
+    font-size: 25px;
+    padding: 20px 0;
+    height: 10px;
+    background: #FCF1A7;
+    border: 2px dashed #D0D0D0;
+}
+.mw_dropable:hover{
+    border-color:#B4B4B4;
+}
+
+.drop_top{
+  top: 7px;
+}
+.drop_bottom{
+  top:-7px;
+}
+.mw_drag_started{
+  padding:20px;
+  background:white;
+  box-shadow:0 0 8px #000;
 }
 
 

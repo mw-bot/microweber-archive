@@ -30,6 +30,11 @@ mw.tools = {
         modal_object.show();
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback!='undefined'?callback.call(modal_return):'';
+
+        this.prototype.auto = function(){
+          alert(this);
+        }
+
         return modal_return;
     }
   },
@@ -158,6 +163,22 @@ mw.tools = {
     }
   }
 }
+
+
+
+
+
+//prefixes
+mw.modal = mw.tools.modal.init;
+
+
+
+
+
+
+
+
+
 mw.extras = {
   fullscreen:function(el){
       if (el.webkitRequestFullScreen) {
@@ -250,14 +271,13 @@ mw.edit.image_settings={
     }
 }
 
-//prefixes
-mw.modal = mw.tools.modal.init;
 
 
 
-mw.modal.prototype.auto = function(){
-  alert(1);
-}
+
+
+
+
 
 
 $(window).load(function(){

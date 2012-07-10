@@ -263,30 +263,15 @@ mw.edit = {
 
 	},
 
-	/**
-	 * Loads new dropped layouts
-	 *
-	 * @method mw.edit.load_layout_element()
-	 */
-	load_layout_element: function ($layout_element_name, $update_element) {
 
-		var attributes = {};
-		attributes.element = $layout_element_name;
 
-		url1 = mw.settings.site_url + 'api/content/load_layout_element';
-		$($update_element).load(url1, attributes, function () {
-			window.mw_sortables_created = false;
-		});
-			mw.edit.unwrap_layout_holder()
-	},
-	
 	
 	unwrap_layout_holder: function () {
 
-			$('.mw-layout-holder', '.edit').children().unwrap();
+		   //	$('.mw-layout-holder', '.edit').children().unwrap();
 	},
 	
-	
+
 
 
 	/**
@@ -296,46 +281,25 @@ mw.edit = {
 	 */
 	load_new_modules: function () {
 		$need_re_init = false;
-		
-
-		
-
-
-
-
 		$(".module_draggable", '.edit').each(function (c) {
 			//$(this).unwrap(".module-item");
 			$name = $(this).attr("data-module-name");
 			if ($name && $name != 'undefined' && $name != false && $name != '') {
-				$el_id_new = 'mw-col-' + new Date().getTime() + Math.floor(Math.random() * 101);
+				$el_id_new = 'mw-col-' + mw.random();
 				$(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
+                mw.edit.load_module($name, '#' + $el_id_new);
 
-
-
-            mw.edit.load_module($name, '#' + $el_id_new);
-			  
 			}
 			$name = $(this).attr("data-element-name");
 			if ($name && $name != 'undefined' && $name != false && $name != '') {
 				$el_id_new = 'mw-layout-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
 				$(this).after("<div class='mw-layout-holder' id='" + $el_id_new + "'></div>");
 				mw.edit.load_layout_element($name, '#' + $el_id_new);
-                			//    $('#' + $el_id_new).children().unwrap();
-
-				//$('#' + $el_id_new).children().unwrap('.mw-layout-holder');
-				//	$(this).fadeOut().remove();
 			}
 			$need_re_init = true;
 		});
-		
 		if ($need_re_init == true) {
-			//$('.module-item','.edit').remove();
-			               	$('.module-item','.edit').remove();
-
-				//setTimeout("mw.edit.fix_sizes()", 500)
-			//	setTimeout("mw.edit.make_events()", 500)
 				setTimeout("mw.edit.init_element_handles()", 600)
-			
 		}
 		//
 $need_re_init = false;
@@ -369,6 +333,7 @@ $need_re_init = false;
 	 * @method mw.edit.equal_height()
 	 */
 	equal_height: function (selector) {
+	  return false;
 		var selector = selector == undefined ? ".row" : selector;
 		$(selector).each(function () { //each rows
 
