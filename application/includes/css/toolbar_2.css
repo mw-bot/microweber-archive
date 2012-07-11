@@ -1,4 +1,4 @@
- 
+
 
 
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
@@ -56,35 +56,24 @@
 }
 
 .empty-element {
-	padding-top:5px;
-	padding-bottom:5px;
-	margin-top:10px;
-	margin-bottom:10px;
 	background-image: url(images/drop.png);
 	background-color:#FFFFB9 !important;
 	background-repeat: no-repeat;
 	background-position: center center;
 	outline: 1px dashed #a5b3ac;
-	font-family: Verdana, Geneva, sans-serif;
 	font-size: 11px;
-	color: #000;
-	text-decoration: none;
 	font-style: normal;
 	line-height: 11px;
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	height:  55px;
 	min-height:  50px;
 	width:100%;	
-	opacity:0.9;
-	 
-	/*padding-right: 3%;
-	padding-left: 3%;    */     
+	opacity:0.3;
 }
 
 .empty-element:hover {
-	opacity:0.3;
+	opacity:0.9;
 	 
 	 
 }
