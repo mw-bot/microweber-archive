@@ -143,10 +143,8 @@ body:-webkit-full-screen {
   left: 50%;
   display: none;
   background: white;
-  box-shadow:0 0 5px #555555;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px  ;
-  border-radius: 5px;
+  border:1px solid #C4C4C4;
+  /*box-shadow:0 0 5px #555555;*/
 }
 .mw_modal_container{
   padding: 15px;

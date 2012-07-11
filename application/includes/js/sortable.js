@@ -26,7 +26,7 @@ mw.edit.init_sortables = function () {
 
 
 mw.isDrag = false;
-
+mw.resizable_row_width = false;
 mw.dragCurrent = null;
 
 mw.drag = {
@@ -370,18 +370,13 @@ mw.drag = {
 
 
 
-
-
-
-
-
 		$(selector).unbind('mousedown.edit');
 		$(selector).bind("mousedown.edit", function (e) {
 			if (!mw.isDrag) {
 
 
 
-				$is_this_module = $(this).hasClass('mw-module-wrap');
+				$is_this_module = ($(this).hasClass('mw-module-wrap') && $(this).parents(".element:first").hasClass('mw-module-wrap'));
 				$is_freshereditor = $(this).hasClass('freshereditor');
 				$is_this_row = $(this).hasClass('row');
 				$is_this_handle = $(this).hasClass('mw-sorthandle');
@@ -393,13 +388,15 @@ mw.drag = {
 					console.log('mousedown on element : ' + this.tagName);
 				}
 
-				if ($is_freshereditor == false) {
+				if (!$is_freshereditor && !$is_this_module) {
 					$(this).closest('.mw-sorthandle').show();
 
 					$el_id = $(this).attr('id');
 					if ($el_id == undefined || $el_id == 'undefined') {
 						$el_id = 'mw-element-' + mw.random();
 						$(this).attr('id', $el_id);
+
+
 					}
 					mw.settings.element_id = $el_id;
 					mw.settings.sortables_created = true;
@@ -414,6 +411,14 @@ mw.drag = {
 					$(this).parent('.element').freshereditor("edit", true);
 					$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 					$(this).parent('.element').children().removeAttr("contenteditable");
+
+
+
+                    $("img").each(function(){
+                       
+                    });
+
+                    	$('.element.mw-module-wrap').attr("contenteditable", false);
 					//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 					setTimeout("mw.settings.sorthandle_hover=false", 300);
 					e.stopPropagation();
@@ -462,9 +467,10 @@ mw.drag = {
 			//$(this).unwrap(".module-item");
 			$name = $(this).attr("data-module-name");
 			if ($name && $name != 'undefined' && $name != false && $name != '') {
-				$el_id_new = 'mw-col-' + mw.random();
+				$el_id_new = 'mw-module-' + mw.random();
 				$(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
 				mw.drag.load_module($name, '#' + $el_id_new);
+                $(this).remove();
 
 			}
 			$name = $(this).attr("data-element-name");
@@ -472,7 +478,10 @@ mw.drag = {
 				$el_id_new = 'mw-layout-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
 				$(this).after("<div class='mw-layout-holder' id='" + $el_id_new + "'></div>");
 				mw.drag.load_layout_element($name, '#' + $el_id_new);
-			}
+                $(this).remove();
+
+
+            }
 			$need_re_init = true;
 		});
 
@@ -484,6 +493,8 @@ mw.drag = {
 				setTimeout(function () {
 					mw.drag.fix_handles();
 					mw.drag.fixes();
+
+
 				}, 100);
 
 				setTimeout("mw.edit.init_sortables()", 300);
@@ -540,9 +551,7 @@ mw.resizable_columns=function(){
 
 
 
-                         $('.column').each(function () {
-
-
+$('.column').each(function () {
 
 
 				$el_id_column = $(this).attr('id');
@@ -550,6 +559,7 @@ mw.resizable_columns=function(){
 					$el_id_column = 'mw-column-' + new Date().getTime() + Math.floor(Math.random() * 101);
 					$(this).attr('id', $el_id_column);
  				}
+                this_col_id = 	$el_id_column;
 				var parent1 = $(this).parent('.row');
 				$(this).css({
 					width: $(this).width() / parent1.width() * 100 + "%"
@@ -561,18 +571,9 @@ mw.resizable_columns=function(){
 
 
 
-
-
-
-
 					$inner_column = $(this).children(".column:first");
 					$prow = $(this).parent('.row').attr('id');
 					$no_next = false;
-
-
-
-
-
 
 
 					$also = $(this).next(".column");
@@ -581,10 +582,6 @@ mw.resizable_columns=function(){
 						$no_next = true;
 						$also = $(this).prev(".column");
 					}
-
-
-
-
 
 
 
@@ -609,8 +606,6 @@ mw.resizable_columns=function(){
 					}
 
 
-
-
 					if ($no_next == false) {
 						$(this).attr("data-also-rezise-item", $also_reverse_id)
 						$(this).resizable({
@@ -620,87 +615,89 @@ mw.resizable_columns=function(){
 							//	 aspectRatio: true,
 							autoHide: true,
 							cancel: ".mw-sorthandle",
-minWidth: 30 ,
-							//alsoResizeReverse:'.also-resize' ,
-							alsoResizeReverse: '#' + $also_reverse_id,
+                            minWidth:150,
+						  	alsoResizeReverse: '#' + $also_reverse_id,
 							//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,
 							alsoResize: '#' + $also_inner_items,
-
 							// alsoResize:'.also-resize-inner'  ,
 							resize: function (event, ui) {
-
-									mw.settings.resize_started= true;
-
-
-
-                            //here
-
-
-                           
-
-
+							    mw.settings.resize_started= true;
 								$(this).css('height', 'auto');
+
+
+
+var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) );
+var wRight = 100-w;
+w += "%";
+wRight += "%";
+var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) );
+h += "%";
+$(this).css("width" , w);
+$("#rightDiv").css("width", wRight);
+
+
+
+
+
+                             //  $r = $(this).parent('.row');
+                              // $last_c = $(this).parent('.row').children('.column').last().width();;
+                              // $other_cols_w = $(this).parent('.row').children('.column').not('#'+this_col_id).width();;
+
+
+                               //$cols_w = $r.children('.column').width();
+                              // $max_w = mw.resizable_row_width -  $other_cols_w-20;
+
+
+
+
+
 
 							},
 							create: function (event, ui) {
 								$(".row").equalWidths();
 								mw.edit.equal_height();
 
-
 							},
 							start: function (event, ui) {
 								$(".column").each(function () {
 									$(this).removeClass('selected');
 								});
+
+
+                                          $r = $(this).parent('.row');
+
+                                $row_w = $r.width();
+                                        mw.resizable_row_width =    $row_w;
+
+
  								ui.element.addClass('selected');
-
 								mw.settings.resize_started= true;
-
  							},
 							stop: function (event, ui) {
 								var parent = ui.element.parent('.row');
 								ui.element.css({
-									width: ((ui.element.width() / parent.width()) - 1) * 100 + "%",
+									width: ((ui.element.width() / parent.width()) - 1) * 100 + "%"
 									//      height: ui.element.height()/parent.height()*100+"%"
 								});
 								$('.column').css('height', 'auto');
 								$('.row').css('height', 'auto');
-								mw.edit.equal_height();
+
+
+
+
+
+
+
+
+
+                                mw.edit.equal_height();
 								mw.edit.fix_zindex();
-								mw.settings.resize_started= false;
+								mw.settings.resize_started = false;
 							}
 						});
 					}
 				}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                	});
+});
 
 
 

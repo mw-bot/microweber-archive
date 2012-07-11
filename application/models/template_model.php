@@ -1454,7 +1454,7 @@ class Template_model extends CI_Model {
 	 * @since Version 1.0
 	 */
 	function parseMicrwoberTags($layout, $options = false) {
-
+return parse_micrwober_tags($layout, $options);
 		if (!defined('PAGE_ID')) {
 
 			if (intval(PAGE_ID) == 0) {
@@ -1581,7 +1581,7 @@ class Template_model extends CI_Model {
 								//	$attr ['module'] = false;
 							}
 						}
-
+ 
 						if (($attr['module']) == '') {
 							$attr['module'] = 'non_existing';
 						}
@@ -1731,7 +1731,9 @@ class Template_model extends CI_Model {
 						} else {
 
 						}
+						
 						if ($error == true) {
+							
 							$try_file1 = MODULES_DIR . 'non_existing.php';
 							$error = false;
 						}
@@ -2046,7 +2048,7 @@ class Template_model extends CI_Model {
 
 								//$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
 
-								$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
+								$more_attrs2 .= " data-module='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
 
 								//  p($more_attrs2);
 								//

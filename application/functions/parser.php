@@ -128,6 +128,50 @@ global $CI ;
 						$attr['module'] = str_replace('\\', '/', $attr['module']);
 						$attr['module'] = reduce_double_slashes($attr['module']);
 
+						
+						
+						
+						
+						$attr['module'] = trim($attr['module']);
+							$attr['module'] = str_replace('\\', '/', $attr['module']);
+							$attr['module'] = reduce_double_slashes($attr['module']);
+							$attr['module'] = rtrim($attr['module'], '\\');
+							$attr['module'] = rtrim($attr['module'], '/');
+
+							$try_file1 = MODULES_DIR . DS . $attr['module'] . DS . 'index.php';
+							$try_file1 = normalize_path($try_file1, false);
+							//	p($try_file1);
+							if (is_file($try_file1) == false) {
+
+								$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
+								$try_file1 = normalize_path($try_file1, false);
+								$try_file = MODULES_DIR . 'modules' . DS . $attr['module'] . '.php';
+
+							} else {
+								$try_file = $try_file1;
+								//$try_file = normalize_path($try_file, false);
+
+							}
+
+							$try_file_db_file = MODULES_DIR . $attr['module'] . '_db.php';
+							$try_file_db_file = normalize_path($try_file_db_file, false);
+							$try_file1 = normalize_path($try_file1, false);
+							$try_file = normalize_path($try_file, false);
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						if (is_file($try_file1) == false) {
+						
 						$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
 
 						$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
@@ -151,7 +195,12 @@ global $CI ;
 							}
 
 						}
+						}
 						$try_file1 = normalize_path($try_file1, false);
+						
+						
+						
+						
 						//$a = is_file ( $try_file1 );
 						if ($attr['file']) {
 							$attr['view'] = $attr['file'];
