@@ -412,13 +412,19 @@ mw.drag = {
 					$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 					$(this).parent('.element').children().removeAttr("contenteditable");
 
+                    if($.browser.msie){
+                      $("img, .element p").each(function(){
+                        this.oncontrolselect = function(){return false}
+                        //$(this).wrap("<T contentEditable=false></T>");
+                      });
+
+                    }
 
 
 
-                         //$('img').wrap("<T contentEditable=false></T>");
 
 
-                    $.browser.msie?$("img").bind("controlselect",function(){return false;}):'';
+
 
                     	$('.element.mw-module-wrap').attr("contenteditable", false);
 					//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
