@@ -151,4 +151,8 @@ body:-webkit-full-screen {
 
 }
 
+img{
+    behavior:url(http://pecata/Microweber/application/includes/css/image_resize.htc);
+}
+
 

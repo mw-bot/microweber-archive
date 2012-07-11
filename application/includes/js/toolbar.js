@@ -31,10 +31,7 @@ mw.tools = {
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback!='undefined'?callback.call(modal_return):'';
 
-        this.prototype.auto = function(){
-          alert(this);
-        }
-
+        
         return modal_return;
     }
   },

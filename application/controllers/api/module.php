@@ -206,6 +206,9 @@ class Module extends CI_Controller {
 		//p ( $tags );
 		//exit; 
 		$opts = array ();
+		if($_POST){
+			$opts = $_POST;
+		}
 		$opts ['admin'] = $admin;
 		
 		if (($base64 != false) or $is_iframe != false) {

@@ -259,7 +259,7 @@ mw.edit = {
 
         mw.modal("", 600, 450, function(){
             $(this.container).load(mw.settings.site_url + "api/module", data1);
-        }).auto();
+        });
 
 	},
 

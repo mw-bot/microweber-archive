@@ -1,3 +1,3 @@
-
+NON EXISTING MODULE!!!!
 <? p($config); ?>
-<? p($params); ?>NON EXISTING MODULE!!!!
+<? p($params); ?>

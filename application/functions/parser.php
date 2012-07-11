@@ -11,13 +11,13 @@
  * @since Version 1.0
  */
 function parse_micrwober_tags($layout, $options = false) {
-global $CI ;
+	global $CI;
 	if (!defined('PAGE_ID')) {
 
 		if (intval(PAGE_ID) == 0) {
 
 			$p = url($skip_ajax = false);
-			$page = $CI-> content_model -> getPageByURLAndCache($p);
+			$page = $CI -> content_model -> getPageByURLAndCache($p);
 
 			define("PAGE_ID", $page['id']);
 
@@ -25,8 +25,8 @@ global $CI ;
 
 	}
 
- 	//	$this->core_model->cacheWriteAndEncode ( $layout, $function_cache_id, $cache_group );
- 
+	//	$this->core_model->cacheWriteAndEncode ( $layout, $function_cache_id, $cache_group );
+
 	//echo memory_get_usage() . "\n"; // 36640
 	/*$cache_id =  md5 ( $layout ) . md5 ( serialize ( $options ) );
 	 $cache_group = 'blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
@@ -69,7 +69,7 @@ global $CI ;
 
 	if (strstr($layout, '<nomw') == true) {
 		$relations = array();
-		$tags = $CI-> core_model -> extractTags($layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+		$tags = $CI -> core_model -> extractTags($layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 		//	p($tags);
 		$matches = $tags;
 		$txt_to_replace_back = array();
@@ -90,10 +90,10 @@ global $CI ;
 
 	if (strstr($layout, '<microweber') == true) {
 
-		$editmode = $CI-> core_model -> is_editmode();
+		$editmode = $CI -> core_model -> is_editmode();
 
 		$relations = array();
-		$tags = $CI-> core_model -> extractTags($layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
+		$tags = $CI -> core_model -> extractTags($layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
 		//	p($tags);
 		$matches = $tags;
 		if (!empty($matches)) {
@@ -128,85 +128,69 @@ global $CI ;
 						$attr['module'] = str_replace('\\', '/', $attr['module']);
 						$attr['module'] = reduce_double_slashes($attr['module']);
 
-						
-						
-						
-						
 						$attr['module'] = trim($attr['module']);
-							$attr['module'] = str_replace('\\', '/', $attr['module']);
-							$attr['module'] = reduce_double_slashes($attr['module']);
-							$attr['module'] = rtrim($attr['module'], '\\');
-							$attr['module'] = rtrim($attr['module'], '/');
+						$attr['module'] = str_replace('\\', '/', $attr['module']);
+						$attr['module'] = reduce_double_slashes($attr['module']);
+						$attr['module'] = rtrim($attr['module'], '\\');
+						$attr['module'] = rtrim($attr['module'], '/');
 
-							$try_file1 = MODULES_DIR . DS . $attr['module'] . DS . 'index.php';
+						$try_file1 = MODULES_DIR . DS . $attr['module'] . DS . 'index.php';
+						$try_file1 = normalize_path($try_file1, false);
+						//	p($try_file1);
+						if (is_file($try_file1) == false) {
+
+							$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
 							$try_file1 = normalize_path($try_file1, false);
-							//	p($try_file1);
-							if (is_file($try_file1) == false) {
+							$try_file = MODULES_DIR . 'modules' . DS . $attr['module'] . '.php';
 
-								$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
-								$try_file1 = normalize_path($try_file1, false);
-								$try_file = MODULES_DIR . 'modules' . DS . $attr['module'] . '.php';
-
-							} else {
-								$try_file = $try_file1;
-								//$try_file = normalize_path($try_file, false);
+						} else {
+							$try_file = $try_file1;
+							//p($try_file);
+							if ($options['view'] == true) {
+								$options['view'] = str_replace('..', '', $options['view']);
+								$try_file = MODULES_DIR . '' . DS . $attr['module'] . DS . $options['view'] . '.php';
 
 							}
 
-							$try_file_db_file = MODULES_DIR . $attr['module'] . '_db.php';
-							$try_file_db_file = normalize_path($try_file_db_file, false);
-							$try_file1 = normalize_path($try_file1, false);
-							$try_file = normalize_path($try_file, false);
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						if (is_file($try_file1) == false) {
-						
-						$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
+							if ($options['admin'] == true) {
+								//$try_file1 = MODULES_DIR . '' . 'settings.php';
+								$try_file = MODULES_DIR . '' . DS . $attr['module'] . DS . 'settings.php';
 
-						$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
+							}
+
+							$try_file = normalize_path($try_file, false);
+							$try_file1 = $try_file;
+
+						}
 
 						$try_file_db_file = MODULES_DIR . $attr['module'] . '_db.php';
 						$try_file_db_file = normalize_path($try_file_db_file, false);
-						//p($try_file_db_file);
-						if (is_file($try_file_db_file) == true) {
-							//$this->init_model->db_setup_from_file ( $try_file_db_file );
-						}
+						$try_file1 = normalize_path($try_file1, false);
+						$try_file = normalize_path($try_file, false);
 
-						if ($options['admin'] == true) {
-							$try_file1 = MODULES_DIR . 'admin/' . $attr['module'] . '.php';
-							$try_filefront = MODULES_DIR . '' . $attr['module'] . '.php';
+						if (is_file($try_file1) == false) {
 
-							if (strstr($attr['module'], 'admin') == false) {
+							$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
 
-								$try_file1 = MODULES_DIR . 'admin/' . $attr['module'] . '.php';
-							} else {
-								$try_file1 = MODULES_DIR . '' . $attr['module'] . '.php';
+							$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
+
+							$try_file_db_file = MODULES_DIR . $attr['module'] . '_db.php';
+							$try_file_db_file = normalize_path($try_file_db_file, false);
+							//p($try_file_db_file);
+							if (is_file($try_file_db_file) == true) {
+								//$this->init_model->db_setup_from_file ( $try_file_db_file );
 							}
 
 						}
-						}
+
 						$try_file1 = normalize_path($try_file1, false);
-						
-						
-						
-						
+
 						//$a = is_file ( $try_file1 );
 						if ($attr['file']) {
-							$attr['view'] = $attr['file'];
+							//$attr['view'] = $attr['file'];
 						}
 
-						if ($attr['view']) {
+						if ($attr['visdfsdfsew']) {
 							$module_view_file = ACTIVE_TEMPLATE_DIR . $attr['view'];
 							$module_view_file = normalize_path($module_view_file, false);
 							// p($module_view_file);
@@ -300,7 +284,7 @@ global $CI ;
 								// $this->load-> vars(array($att => $at));
 								$arrts[$att] = ($at);
 							}
-							$CI-> load -> vars($arrts);
+							$CI -> load -> vars($arrts);
 							$no_edit = false;
 							$no_admin = false;
 							$check2 = false;
@@ -343,7 +327,7 @@ global $CI ;
 										$config['icon'] = $icon;
 
 										if (!empty($config['options'])) {
-											$CI-> setup_module_options($config['options']);
+											$CI -> setup_module_options($config['options']);
 
 										}
 										$cache_for_session = false;
@@ -380,7 +364,7 @@ global $CI ;
 								$config['url_to_module_front'] = str_ireplace('admin', '', $config['url_to_module']);
 								//p($config);
 								// $CI-> template['config'] = $config;
-								$CI-> load -> vars(array('config' => $config));
+								$CI -> load -> vars(array('config' => $config));
 
 								if ($arrts['no_cache'] == true) {
 									$cache_this = false;
@@ -460,23 +444,23 @@ global $CI ;
 
 										// $CI-> template['params'] = $arrts;
 
-										$CI-> load -> vars(array('params' => $arrts));
+										$CI -> load -> vars(array('params' => $arrts));
 
 										//$module_file = $this->load->file ( $try_file1, true );
 
-										$module_file = $CI-> load -> file($try_file1, true);
+										$module_file = $CI -> load -> file($try_file1, true);
 
 										//$this->core_model->cacheWriteAndEncode ( $module_file, $cache_id, $cache_group );
 									}
 
 								} else {
-									$CI-> load -> vars(array('params' => $arrts));
+									$CI -> load -> vars(array('params' => $arrts));
 
 									// // $CI-> template['params'] = $arrts;
 
 									//p($this->template);
 									//$module_file = $this->load->file ( $try_file1, true );
-									$module_file = $CI-> load -> file($try_file1, true);
+									$module_file = $CI -> load -> file($try_file1, true);
 								}
 								//$params_encoded = encode_var ( $arrts );
 
@@ -614,7 +598,7 @@ global $CI ;
 
 	if (strstr($layout, '<editable') == true and $error == false) {
 
-		$editmode = $CI-> core_model -> is_editmode();
+		$editmode = $CI -> core_model -> is_editmode();
 		//p($editmode);
 		require_once (LIBSPATH . "simplehtmldom/simple_html_dom.php");
 
@@ -687,7 +671,7 @@ global $CI ;
 
 			if ($get_global == true) {
 
-				$field_content = $CI-> core_model -> optionsGetByKey($attr['field'], $return_full = false, $orderby = false);
+				$field_content = $CI -> core_model -> optionsGetByKey($attr['field'], $return_full = false, $orderby = false);
 
 			} else {
 				if (strstr($attr['field'], 'custom_field_') == true) {
@@ -780,11 +764,10 @@ global $CI ;
 
 	}
 
-	 
 	$site_url = site_url();
 	$layout = replace_in_long_text('{SITE_URL}', $site_url, $layout, true);
 	$layout = replace_in_long_text('{SITEURL}', $site_url, $layout, true);
-	 
+
 	if (defined('POST_ID') == true) {
 		//$layout = str_replace ( '{POST_ID}', POST_ID, $layout );
 		$layout = replace_in_long_text('{POST_ID}', POST_ID, $layout, true);
@@ -823,14 +806,14 @@ global $CI ;
 		} elseif ($is_content['content_title']) {
 			$content_meta_title = codeClean($is_content['content_title']);
 		} else {
-			$content_meta_title = $CI-> core_model -> optionsGetByKey('content_meta_title');
+			$content_meta_title = $CI -> core_model -> optionsGetByKey('content_meta_title');
 		}
 		$layout = str_replace('{content_meta_title}', $content_meta_title, $layout);
 
 		if ($is_content['content_meta_keywords']) {
 			$content_meta_title = $is_content['content_meta_keywords'];
 		} else {
-			$content_meta_title = $CI-> core_model -> optionsGetByKey('content_meta_keywords');
+			$content_meta_title = $CI -> core_model -> optionsGetByKey('content_meta_keywords');
 		}
 		$layout = str_replace('{content_meta_keywords}', $content_meta_title, $layout);
 
@@ -841,7 +824,7 @@ global $CI ;
 		} elseif ($is_content['content_body']) {
 			$content_meta_title = codeClean($is_content['content_body']);
 		} else {
-			$content_meta_title = $CI-> core_model -> optionsGetByKey('content_meta_title');
+			$content_meta_title = $CI -> core_model -> optionsGetByKey('content_meta_title');
 		}
 		$layout = str_replace('{content_description}', $content_meta_title, $layout);
 
@@ -893,92 +876,95 @@ global $CI ;
 	//p($relations);
 }
 
-
-
-
-
 /**
-	 *
-	 * @author Peter Ivanov
-	 *        
-	 *         function groupsSave($data) {
-	 *         $table = $table = TABLE_PREFIX . 'groups';
-	 *         $criteria = $this->input->xss_clean ( $data );
-	 *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
-	 *         $data );
-	 *         $save = $this->core_model->saveData ( $table, $criteria );
-	 *         return $save;
-	 *         }
-	 */
-	
-	function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false) {
-		$function_cache_id = false;
-		
-		$test_for_long = strlen ( $sVeryLongText );
-		if ($test_for_long > 1000) {
-			
-			$args = func_get_args ();
-			$i = 0;
-			foreach ( $args as $k => $v ) {
-				if ($i != 2) {
-					$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-				} else {
-				
-				}
-				$i ++;
+ *
+ * @author Peter Ivanov
+ *
+ *         function groupsSave($data) {
+ *         $table = $table = TABLE_PREFIX . 'groups';
+ *         $criteria = $this->input->xss_clean ( $data );
+ *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
+ *         $data );
+ *         $save = $this->core_model->saveData ( $table, $criteria );
+ *         return $save;
+ *         }
+ */
+
+function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false) {
+	$function_cache_id = false;
+
+	$test_for_long = strlen($sVeryLongText);
+	if ($test_for_long > 1000) {
+
+		$args = func_get_args();
+		$i = 0;
+		foreach ($args as $k => $v) {
+			if ($i != 2) {
+				$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+			} else {
+
 			}
-			
-			$function_cache_id = __FUNCTION__ . md5 ( $sVeryLongText ) . md5 ( $function_cache_id );
-			
-			$cache_group = 'extract_tags';
-			
-			//$cache_content = $this->cacheGetContent ( $function_cache_id, $cache_group );
-			
-			if (($cache_content) != false) {
-				
+			$i++;
+		}
+
+		$function_cache_id = __FUNCTION__ . md5($sVeryLongText) . md5($function_cache_id);
+
+		$cache_group = 'extract_tags';
+
+		//$cache_content = $this->cacheGetContent ( $function_cache_id, $cache_group );
+
+		if (($cache_content) != false) {
+
 			//	return $cache_content;
-			
-			}
+
 		}
-		
-		if ($normal_replace == false) {
-			$iSet = 0; // Count how many times we increase the limit
-			while ( $iSet < 10 ) { // If the default limit is 100'000 characters
-			                       // the highest new limit will be 250'000
-			                       // characters
-				$sNewText = preg_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText ); // Try
-				                                                                                   // to
-				                                                                                   // use
-				                                                                                   // PREG
-				
-				if (preg_last_error () == PREG_BACKTRACK_LIMIT_ERROR) { // Only
-				                                                        // check on
-				                                                        // backtrack
-				                                                        // limit
-				                                                        // failure
-					ini_set ( 'pcre.backtrack_limit', ( int ) ini_get ( 'pcre.backtrack_limit' ) + 15000 ); // Get
-					                                                                                        // current
-					                                                                                        // limit
-					                                                                                        // and
-					                                                                                        // increase
-					$iSet ++; // Do not overkill the server
-				} else { // No fail
-					$sVeryLongText = $sNewText; // On failure $sNewText would be NULL
-					break; // Exit loop
-				}
-			}
-		
-		} else {
-			$sNewText = str_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText );
-			
-			// $sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement,
-			// $sVeryLongText);
-		
-		}
-		 
-		return $sNewText;
-	
 	}
+
+	if ($normal_replace == false) {
+		$iSet = 0;
+		// Count how many times we increase the limit
+		while ($iSet < 10) {// If the default limit is 100'000 characters
+			// the highest new limit will be 250'000
+			// characters
+			$sNewText = preg_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
+			// Try
+			// to
+			// use
+			// PREG
+
+			if (preg_last_error() == PREG_BACKTRACK_LIMIT_ERROR) {// Only
+				// check on
+				// backtrack
+				// limit
+				// failure
+				ini_set('pcre.backtrack_limit', ( int ) ini_get('pcre.backtrack_limit') + 15000);
+				// Get
+				// current
+				// limit
+				// and
+				// increase
+				$iSet++;
+				// Do not overkill the server
+			} else {// No fail
+				$sVeryLongText = $sNewText;
+				// On failure $sNewText would be NULL
+				break;
+				// Exit loop
+			}
+		}
+
+	} else {
+		$sNewText = str_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
+
+		// $sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement,
+		// $sVeryLongText);
+
+	}
+
+	return $sNewText;
+
+}
+
 function parse_memory_storage($id = false, $content = false) {
 
 	static $parse_mem = array();

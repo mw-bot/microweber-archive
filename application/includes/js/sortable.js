@@ -414,9 +414,11 @@ mw.drag = {
 
 
 
-                    $("img").each(function(){
-                       
-                    });
+
+                         //$('img').wrap("<T contentEditable=false></T>");
+
+
+                    $.browser.msie?$("img").bind("controlselect",function(){return false;}):'';
 
                     	$('.element.mw-module-wrap').attr("contenteditable", false);
 					//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
