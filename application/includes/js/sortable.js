@@ -19,6 +19,8 @@ mw.edit.init_sortables = function () {
 	mw.drag.sort(".element > *,.edit,.column > *");
 	mw.drag.edit(".element > *");
  mw.drag.fix_handles();
+
+ mw.resizable_columns();
 };
 
 
@@ -35,7 +37,7 @@ mw.drag = {
 				top: -20,
 				left: -20
 			},
-            containment: "#typography",
+           // containment: "#typography",
 			helper: 'original',
 			start: function () {
 				mw.isDrag = true;
@@ -132,8 +134,6 @@ mw.drag = {
 
 	},
 	the_drop: function (selector) {
-
-
         $(selector).unbind("mouseup");
 		$(selector).bind("mouseup", function (event) {
 			if (mw.isDrag) {
@@ -270,23 +270,10 @@ mw.drag = {
 
 				$(this).append(text);
 				mw.drag.sort('#' + $some_el_id);
-
-
-
                  emptyHeight =  colHeight - chHeight;
-
-
-
                  emptyHeight>20?$this.children(".empty-element:first").height(emptyHeight):$this.children(".empty-element:first").remove();
 
-
-                      // colHeight_new  =   emptyHeight +     colHeight;
-
-                              //  col.height(colHeight_new)
-
-
                  }
-
 			}
 		});
 
@@ -543,7 +530,196 @@ mw.drag = {
 			window.mw_sortables_created = false;
 		});
 
-	},
+	}
+
+
+}
+
+
+mw.resizable_columns=function(){
+
+
+
+                         $('.column').each(function () {
+
+
+
+
+				$el_id_column = $(this).attr('id');
+				if ($el_id_column == undefined || $el_id_column == 'undefined') {
+					$el_id_column = 'mw-column-' + new Date().getTime() + Math.floor(Math.random() * 101);
+					$(this).attr('id', $el_id_column);
+ 				}
+				var parent1 = $(this).parent('.row');
+				$(this).css({
+					width: $(this).width() / parent1.width() * 100 + "%"
+				});
+				$is_done = $(this).hasClass('ui-resizable')
+				$ds = mw.settings.drag_started;
+				$is_done = false;
+				if ($is_done == false ) {
+
+
+
+
+
+
+
+					$inner_column = $(this).children(".column:first");
+					$prow = $(this).parent('.row').attr('id');
+					$no_next = false;
+
+
+
+
+
+
+
+					$also = $(this).next(".column");
+					$also_check_exist = $also.size();
+					if ($also_check_exist == 0) {
+						$no_next = true;
+						$also = $(this).prev(".column");
+					}
+
+
+
+
+
+
+
+					$also_el_id_column = $also.attr('id');
+					if ($also_el_id_column == undefined || $also_el_id_column == 'undefined' || $also_el_id_column == '') {
+						$also_el_id_column = 'mw-column-' + new Date().getTime() + Math.floor(Math.random() * 101);
+						$also.attr('id', $also_el_id_column);
+					}
+					$also_reverse_id = $also_el_id_column;
+
+					$also_inner_items = $inner_column.attr('id');
+
+					//   $inner_column.addClass('also-resize-inner');
+					$(this).parent(".column").resizable("destroy")
+					$(this).children(".column").resizable("destroy")
+
+					if ($no_next == false) {
+						$handles = 'e'
+					}
+					else {
+						$handles = 'none'
+					}
+
+
+
+
+					if ($no_next == false) {
+						$(this).attr("data-also-rezise-item", $also_reverse_id)
+						$(this).resizable({
+							//grid: [1, 10000],
+							handles: $handles,
+							containment: "parent",
+							//	 aspectRatio: true,
+							autoHide: true,
+							cancel: ".mw-sorthandle",
+minWidth: 30 ,
+							//alsoResizeReverse:'.also-resize' ,
+							alsoResizeReverse: '#' + $also_reverse_id,
+							//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,
+							alsoResize: '#' + $also_inner_items,
+
+							// alsoResize:'.also-resize-inner'  ,
+							resize: function (event, ui) {
+
+									mw.settings.resize_started= true;
+
+
+
+                            //here
+
+
+                           
+
+
+								$(this).css('height', 'auto');
+
+							},
+							create: function (event, ui) {
+								$(".row").equalWidths();
+								mw.edit.equal_height();
+
+
+							},
+							start: function (event, ui) {
+								$(".column").each(function () {
+									$(this).removeClass('selected');
+								});
+ 								ui.element.addClass('selected');
+
+								mw.settings.resize_started= true;
+
+ 							},
+							stop: function (event, ui) {
+								var parent = ui.element.parent('.row');
+								ui.element.css({
+									width: ((ui.element.width() / parent.width()) - 1) * 100 + "%",
+									//      height: ui.element.height()/parent.height()*100+"%"
+								});
+								$('.column').css('height', 'auto');
+								$('.row').css('height', 'auto');
+								mw.edit.equal_height();
+								mw.edit.fix_zindex();
+								mw.settings.resize_started= false;
+							}
+						});
+					}
+				}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -554,3 +730,5 @@ mw.drag = {
 
 
 }
+
+
