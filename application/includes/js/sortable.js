@@ -4,41 +4,12 @@
  * @method mw.edit.init_sortables()
  */
 mw.edit.init_sortables = function () {
-	mw.edit.remove_content_editable();
-	$(".mw-sorthandle").show();
-	mw.drag.fix_placeholders()
-	mw.drag.fixes()
-	// mw.edit.equal_height();
 
-	mw.drag.init(".element,.row");
-	mw.drag.init(".module-item");
-	mw.drag.sort(".element > *,.edit,.column > *");
-	mw.drag.edit(".element > *");
-    mw.drag.fix_handles();
-    mw.resizable_columns();
-
- 
+ mw.drag.create()
 
 };  
 
-$(window).load(function(){
-
-
-             $('div.element').bind("mouseenter", function(event){
-                 setTimeout(function(){  $(this).addClass("mw-element-hover")}, 200);
-             });
-             $('div.element').bind("mouseleave", function(event){
-                  setTimeout(function(){$(this).removeClass("mw-element-hover")}, 200);
-             });
-
-
-
-
-
-
-
-});
-
+ 
 
 
 
@@ -46,11 +17,32 @@ $(window).load(function(){
 
 mw.isDrag = false;
 mw.resizable_row_width = false;
+mw.mouse_over_handle = false;
 mw.dragCurrent = null;
 
 mw.drag = {
+
+	create: function () {
+		mw.edit.remove_content_editable();
+
+		mw.drag.fix_placeholders()
+		mw.drag.fixes()
+		// mw.edit.equal_height();
+
+		mw.drag.init(".element,.row");
+		mw.drag.init(".module-item");
+		mw.drag.sort(".element > *,.edit,.column > *");
+		mw.drag.edit(".element > *");
+	    	mw.drag.fix_handles();
+	    	mw.resizable_columns();
+
+
+	    	
+	},
+
+
 	init: function (selector, callback) {
-		$(selector).not(".ui-draggable").draggable({
+		$(selector, '.edit').not(".ui-draggable").draggable({
 			handle: ".mw-sorthandle",
 			cursorAt: {
 				top: -20,
@@ -112,6 +104,14 @@ mw.drag = {
 		});
 
 
+	
+
+
+		
+
+	
+
+
 
 
 	},	
@@ -120,7 +120,9 @@ mw.drag = {
 
 
 		$(selector).unbind('mouseenter mouseleave');
-		$(selector).bind("mouseenter", function (event) {
+
+
+ 		$(selector).bind("mouseenter", function (event) {
 			if (mw.isDrag) {
 				mw.drag.destroy_dropables();
 				mw.drag.display_dropables(this);
@@ -130,19 +132,16 @@ mw.drag = {
 				}
 			} else {
 
-				$('.hl2').removeClass('hl2');
-				$(this).addClass('hl2');
-
+			var el = $(this);
 				
-				var el = $(this);
-				if(el.hasClass("element")){
-					$(this).addClass("mw-element-hover");					
+			if(el.hasClass("element")){alert(el)
+					
+					el.children(".mw-sorthandle").css("visibility", "hidden");					
 				}
 				else{
-					$(this).parents(".element:first").addClass("mw-element-hover");
-				}
+					el.parents(".element:first").children(".mw-sorthandle").css("visibility", "hidden");
 				
-				
+				}				
 			}
              event.stopPropagation();
 		});
@@ -161,8 +160,29 @@ mw.drag = {
 				}
 			}
 
-             event.stopPropagation();
+			var el = $(this);
+
+			
+				if(el.hasClass("element")){
+					
+					el.children(".mw-sorthandle").css("visibility", "hidden");					
+				}
+				else{
+					el.parents(".element:first").children(".mw-sorthandle").css("visibility", "hidden");
+				
+				}
+			
+
+
+             	event.stopPropagation();
 		});
+
+
+
+
+
+
+
 
 		mw.drag.the_drop(selector);
 
@@ -224,8 +244,22 @@ mw.drag = {
 		$(selector).after(drop_bottom);
 		$(drop_bottom).fadeIn(200);
 	},
+
+
+
+
+	/**
+	 * Various fixes
+	 *
+	 * @method mw.drag.fixes()
+	 */
 	fixes: function () {
+
+
+		$("img[data-module-name]", '.edit').remove();
+
 		$(".column, .element, .row", '.edit').height('auto');
+		
 		$('.row', '.edit').equalWidths();
 		$(mw.dragCurrent).removeAttr('style');
 		$(".element", '.edit').removeAttr('style');
@@ -257,11 +291,11 @@ mw.drag = {
 	fix_placeholders: function () {
 
 
-        $(".empty-element").remove();
+        $(".empty-element", '.edit').remove();
                	$(".column, .element, .row", '.edit').height('auto');
 
 
-		$('.column').each(function () {
+		$('.column', '.edit').each(function () {
 			$this =   el= $(this);
                      el.height(el.parent('.row').height());
 			if ($("div.element", this).size() == 0) {
@@ -350,7 +384,7 @@ mw.drag = {
 				mw.edit.init_row_handles($el_id);
 			});
 
-			$('.element:not(.empty-element)').each(function (index) {
+			$('.element:not(.empty-element)', '.edit').each(function (index) {
 				$el_id = $(this).attr('id');
 				if ($el_id == undefined || $el_id == 'undefined') {
 					$el_id = 'mw-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
@@ -527,9 +561,9 @@ mw.drag = {
 				mw.drag.load_layout_element($name, '#' + $el_id_new);
                 $(this).remove();
 
-
+ 
             }
-			$need_re_init = true;
+			$need_re_init = true; 
 		});
 
 		//
@@ -544,7 +578,7 @@ mw.drag = {
 
 				}, 100);
 
-				setTimeout("mw.edit.init_sortables()", 300);
+				setTimeout("mw.drag.create()", 300);
 
 
 
@@ -737,7 +771,7 @@ $('.column', '.edit').each(function () {
 
 
 
-                               					 mw.edit.equal_height();
+                               					// mw.edit.equal_height();
 								mw.edit.fix_zindex();
 								mw.settings.resize_started = false;
 							}
