@@ -76,6 +76,7 @@
 
 .mw-sorthandle {
 	width:100%;
+    visibility: hidden;
 	position:absolute;
 	left: 0px;
 	border: none;
@@ -453,7 +454,7 @@ background-image: -webkit-gradient(
 #mw_history_files {
 
  display: none;
- 
+
 
 }
 
@@ -498,6 +499,10 @@ background-image: -webkit-gradient(
   padding:20px;
   background:white;
   box-shadow:0 0 8px #000;
+}
+
+.mw-element-hover .mw-sorthandle{
+    visibility: visible;
 }
 
 

@@ -10,18 +10,37 @@ mw.edit.init_sortables = function () {
 	mw.drag.fixes()
 	// mw.edit.equal_height();
 
-	
-
-
-
 	mw.drag.init(".element,.row");
 	mw.drag.init(".module-item");
 	mw.drag.sort(".element > *,.edit,.column > *");
 	mw.drag.edit(".element > *");
- mw.drag.fix_handles();
+    mw.drag.fix_handles();
+    mw.resizable_columns();
 
- mw.resizable_columns();
-};
+ 
+
+};  
+
+$(window).load(function(){
+
+
+             $('div.element').bind("mouseenter", function(event){
+                 setTimeout(function(){  $(this).addClass("mw-element-hover")}, 200);
+             });
+             $('div.element').bind("mouseleave", function(event){
+                  setTimeout(function(){$(this).removeClass("mw-element-hover")}, 200);
+             });
+
+
+
+
+
+
+
+});
+
+
+
 
 
 
@@ -91,6 +110,10 @@ mw.drag = {
                 mw.drag.edit_remove();
 			}
 		});
+
+
+
+
 	},	
 
 	sort: function (selector) {
@@ -105,8 +128,23 @@ mw.drag = {
 				if (window.console != undefined) {
 					console.log('mouseenter while dragging ');
 				}
+			} else {
+
+				$('.hl2').removeClass('hl2');
+				$(this).addClass('hl2');
+
+				
+				var el = $(this);
+				if(el.hasClass("element")){
+					$(this).addClass("mw-element-hover");					
+				}
+				else{
+					$(this).parents(".element:first").addClass("mw-element-hover");
+				}
+				
+				
 			}
-            event.stopPropagation();
+             event.stopPropagation();
 		});
 		$(selector).bind("mouseleave", function (event) {
 
@@ -122,7 +160,8 @@ mw.drag = {
 					console.log('mouseleave while dragging ');
 				}
 			}
-            event.stopPropagation();
+
+             event.stopPropagation();
 		});
 
 		mw.drag.the_drop(selector);
@@ -370,8 +409,8 @@ mw.drag = {
 
 
 
-		$(selector).unbind('mousedown.edit');
-		$(selector).bind("mousedown.edit", function (e) {
+		$(selector, '.edit').unbind('mousedown.edit');
+		$(selector, '.edit').bind("mousedown.edit", function (e) {
 			if (!mw.isDrag) {
 
 
@@ -424,7 +463,7 @@ mw.drag = {
 
 
 
-
+			$('img').attr("contenteditable", false);
 
                     	$('.element.mw-module-wrap').attr("contenteditable", false);
 					//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
@@ -559,7 +598,7 @@ mw.resizable_columns=function(){
 
 
 
-$('.column').each(function () {
+$('.column', '.edit').each(function () {
 
 
 				$el_id_column = $(this).attr('id');
@@ -634,14 +673,14 @@ $('.column').each(function () {
 
 
 
-var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) );
-var wRight = 100-w;
-w += "%";
-wRight += "%";
-var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) );
-h += "%";
-$(this).css("width" , w);
-$("#rightDiv").css("width", wRight);
+							var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) );
+							var wRight = 100-w;
+							w += "%";
+							wRight += "%";
+							var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) );
+							h += "%";
+							$(this).css("width" , w);
+							$("#rightDiv").css("width", wRight);
 
 
 
@@ -662,12 +701,12 @@ $("#rightDiv").css("width", wRight);
 
 							},
 							create: function (event, ui) {
-								$(".row").equalWidths();
+								$(".row", '.edit').equalWidths();
 								mw.edit.equal_height();
 
 							},
 							start: function (event, ui) {
-								$(".column").each(function () {
+								$(".column", '.edit').each(function () {
 									$(this).removeClass('selected');
 								});
 
@@ -687,8 +726,8 @@ $("#rightDiv").css("width", wRight);
 									width: ((ui.element.width() / parent.width()) - 1) * 100 + "%"
 									//      height: ui.element.height()/parent.height()*100+"%"
 								});
-								$('.column').css('height', 'auto');
-								$('.row').css('height', 'auto');
+								$('.column', '.edit').css('height', 'auto');
+								$('.row', '.edit').css('height', 'auto');
 
 
 
@@ -698,7 +737,7 @@ $("#rightDiv").css("width", wRight);
 
 
 
-                                mw.edit.equal_height();
+                               					 mw.edit.equal_height();
 								mw.edit.fix_zindex();
 								mw.settings.resize_started = false;
 							}
