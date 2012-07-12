@@ -240,6 +240,8 @@ mw.drag = {
 
 
 					$(mw.dragCurrent).fadeIn('slow');
+
+					
 					mw.drag.fixes();
 					mw.drag.fix_placeholders();
 					mw.resizable_columns()
@@ -318,7 +320,7 @@ mw.drag = {
 	 */
 	fix_placeholders: function () {
 
-
+ 
 		$(".empty-element", '.edit').remove();
 		$(".column, .element, .row", '.edit').height('auto');
 
@@ -346,10 +348,78 @@ mw.drag = {
 
 			}
 			else {
+ 
+
+				chHeight = 0;
+				colHeight = $(this).height();;
+				col = $(this);
+				//$(this).children(":first")
+
+				$check = $(this).children().last().hasClass('empty-element');
+$some_el_id = false;
+				 if($check == false){
+
+text = mw.settings.empty_column_placeholder.toString();
+
+
+					$some_el_id = 'mw-placeholder-' + mw.random();
+					text = text.replace(/_ID_/g, $some_el_id);
+ 
+
+					col.append(text);
+					mw.drag.sort('#' + $some_el_id);
 
 
 
 
+
+
+
+
+				 }
+emptyHeight = 0;
+	 			$(this).children().each(function () {
+					if ($(this).hasClass('empty-element') == false) {
+						var h = $(this).outerHeight();
+						chHeight += h;
+					}
+				});
+
+ 
+//chHeight = $(this).children().not('.empty-element').height();;
+	if (chHeight > 0) {
+
+
+				emptyHeight = colHeight - chHeight;
+
+				col.children(".empty-element").height(emptyHeight) ; 
+				if($some_el_id != false){
+				$('#' + $some_el_id).height(emptyHeight) ; 
+
+
+if (window.console != undefined) {
+					console.log('empty_placeholder : ' + '#' + $some_el_id + ' emptyHeight   ' + emptyHeight);
+				}
+				
+
+				}
+
+
+
+
+
+
+				
+
+					
+					//emptyHeight > 20 ? col.children(".empty-element").height(emptyHeight) : col.children(".empty-element").remove();
+
+				}
+
+			
+
+
+/*
 
 				chHeight = 0;
 				colHeight = $(this).height();;
@@ -357,6 +427,7 @@ mw.drag = {
 				//$(this).children(":first")
 
 				$(this).children(".empty-element:first").remove();
+				 
 
 				$(this).children().each(function () {
 					if (!$(this).hasClass('empty-element')) {
@@ -377,7 +448,7 @@ mw.drag = {
 					$(this).append(text);
 					mw.drag.sort('#' + $some_el_id);
 					emptyHeight = colHeight - chHeight;
-					emptyHeight > 20 ? $this.children(".empty-element:first").height(emptyHeight) : $this.children(".empty-element:first").remove();
+					emptyHeight > 20 ? $this.children(".empty-element:last").height(emptyHeight) : $this.children(".empty-element:last").remove();
 
 				}
 
@@ -386,9 +457,14 @@ mw.drag = {
 
 
 
-
+*/
 
 			}
+
+
+
+
+			
 		});
 
 
@@ -736,34 +812,44 @@ mw.resizable_columns = function () {
 			}
 
 
-			if ($no_next == false) {
+			if ($no_next == false ) {
 
 				$last_c_w = $(this).parent('.row').children('.column').last().width();
 				$row_max_w = $(this).parent('.row').width();
 
 
-				$(this).attr("data-also-rezise-item", $also_reverse_id)
+				$(this).attr("data-also-rezise-item", $also_reverse_id);
+
+
+mw.global_resizes = {
+  next:'',
+  sum:0
+}
+				
 				$(this).resizable({
-					//grid: [1, 10000],
+					
 					handles: $handles,
+					ghost:false,
 					containment: "parent",
-					//	 aspectRatio: true,
-					//autoHide: true,
+					
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
 					maxWidth: $row_max_w - $last_c_w,
-					alsoResizeReverse: '#' + $also_reverse_id,
-					//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,
+					
 					alsoResize: '#' + $also_inner_items,
-					// alsoResize:'.also-resize-inner'  ,
+					 
 					resize: function (event, ui) {
+
+					
+						
+						
+
+
+						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width));
+
 						mw.settings.resize_started = true;
 						var el = $(this);
 						el.css('height', 'auto');
-
-
-
-
 
 
 						var w = (100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")));
@@ -790,6 +876,7 @@ mw.resizable_columns = function () {
 
 
 
+						
 
 
 					},
@@ -816,6 +903,9 @@ mw.resizable_columns = function () {
 							$(this).removeClass('selected');
 						});
 
+						mw.global_resizes.next = $(this).next().length>0?$(this).next():$(this).prev();
+
+						mw.global_resizes.sum = ui.size.width + mw.global_resizes.next.width();
 
 						$r = $(this).parent('.row');
 
@@ -837,7 +927,7 @@ mw.resizable_columns = function () {
 						mw.edit.fix_zindex();
 						mw.settings.resize_started = false;
 						mw.drag.fixes()
-						mw.drag.fix_placeholders()
+						//mw.drag.fix_placeholders()
 					}
 				});
 			}

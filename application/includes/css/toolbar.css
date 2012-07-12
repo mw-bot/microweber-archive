@@ -71,7 +71,7 @@
 	position:relative;
 }
 .element:hover, .row:hover{
-  outline:1px solid #C2C2C2;
+  outline:1px solid #358BC3;
 }
 
 .mw-sorthandle {
@@ -97,15 +97,36 @@
     	color-stop(0.55, rgb(233,233,233));
     );
 }
-.mw-sorthandle-parent-outline:hover{
+.mw-sorthandle-parent-outline{
 
     outline:1px solid #358BC3 ;
 }
 
-.mw-sorthandle:hover {
+
+
+
+.mw-sorthandle {
     background-image: url(../img/handle_bg.gif);
     background-color: #D4E8F5;
 }
+.mw-sorthandle.mw-sorthandle-row{
+    background-repeat:  no-repeat;
+    background-position: center center;
+    background-image: url(../img/handle_bg.gif), linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -o-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -moz-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -webkit-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -ms-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
+    background-image: url(../img/handle_bg.gif), -webkit-gradient(
+    	linear,
+    	left bottom,
+    	left top,
+    	color-stop(0, rgb(215,215,215)),
+    	color-stop(0.55, rgb(233,233,233));
+    );
+}
+
+
 .mw-sorthandle span {
 	width:100%;
 }
@@ -391,7 +412,7 @@ padding:0px !important;
 
 .columns_set{
   padding: 9px;
-  visibility: hidden;
+  display: none;
   display: inline-block;
   top: -30px;
   left: 0;
@@ -405,7 +426,7 @@ padding:0px !important;
   border-radius: 5px;
 }
 .mw-sorthandle-row:hover .columns_set{
-  visibility: visible;
+  display: block;
 }
 
 .columns_set a{
@@ -503,6 +524,20 @@ background-image: -webkit-gradient(
 
 .mw-element-hover .mw-sorthandle{
     visibility: visible;
+}
+
+.mw-element-name-handle{
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 0 10px;
+    text-transform: capitalize;
+    float: left;
+}
+
+div.mw_col_delete{
+  float: left;
+  white-space: nowrap;
 }
 
 
