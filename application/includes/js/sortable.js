@@ -834,7 +834,7 @@ mw.global_resizes = {
 					
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
-					maxWidth: $row_max_w - $last_c_w,
+					//maxWidth: $row_max_w - $last_c_w,
 					
 					alsoResize: '#' + $also_inner_items,
 					 
@@ -881,7 +881,7 @@ mw.global_resizes = {
 
 					},
 					create: function (event, ui) {
-						$(".row", '.edit').equalWidths();
+						//$(".row", '.edit').equalWidths();
 						mw.edit.equal_height();
 
 
