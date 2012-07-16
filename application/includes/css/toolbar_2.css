@@ -67,7 +67,6 @@
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	min-height:  50px;
 	width:100%;	
 	opacity:0.3;
 }
@@ -123,7 +122,7 @@
 .ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0; }
 .ui-resizable-e {
 	cursor: e-resize;
-	width: 19px;
+	width: 20px;
 	right: 0;
 	top: 0;
 	height: 100%;

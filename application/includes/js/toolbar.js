@@ -14,10 +14,13 @@ mw.tools = {
     source:function(){
       var id = "modal_"+mw.random();
       var html = ''
-        + '<div class="mw_modal" id="'+id+'">'
+        + '<div class="mw_modal mw_modal_maximized" id="'+id+'">'
+          + '<div class="mw_modal_toolbar">'
+            + '<span class="mw_modal_close" onclick="$(document.getElementById(\''+id+'\')).remove();">Close</span>'
+            + '<span class="mw_modal_minimize" onclick="mw.tools.modal.minimax(\''+id+'\');">Minimize</span>'
+          + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
-          + '<span class="mw_modal_close" onclick="$(this).parent().remove();">Close</span>'
         + '</div>';
         return {html:html, id:id}
     },
@@ -29,10 +32,31 @@ mw.tools = {
         modal_object.css({marginTop:-height/2,marginLeft:-width/2});
         modal_object.show();
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
-        typeof callback!='undefined'?callback.call(modal_return):'';
-
-        
+        typeof callback==='function'?callback.call(modal_return):'';
         return modal_return;
+    },
+    minimize:function(id){
+        var modal = $("#"+id);
+        var window_h = $(window).height();
+        var window_w = $(window).width();
+        var modal_width = modal.width();
+        modal.animate({
+            top:window_h-10,
+            left:window_w-modal_width-10,
+            height:20
+        });
+    },
+    maximize:function(id){
+
+    },
+    minimax:function(id){
+      //check the state of the modal and toggle it;
+
+      mw.tools.modal.minimize(id)
+    },
+    settings_window:function(callback){
+        var modal = mw.modal("");
+        return modal;
     }
   },
   dropdown:function(callback){

@@ -151,6 +151,13 @@ body:-webkit-full-screen {
 
 }
 
+.empty-element{
+  height: 0;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  width: 100%;
+}
 
 
 
