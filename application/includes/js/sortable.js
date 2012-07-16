@@ -223,6 +223,7 @@ mw.drag = {
 				setTimeout(function () {
 
 					$(mw.dragCurrent).hide();
+
 					if(isTop){
                         $(".drop_top").replaceWith(mw.dragCurrent);
   					    mw.drag.destroy_dropables();
