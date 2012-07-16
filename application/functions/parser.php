@@ -610,6 +610,22 @@ function parse_micrwober_tags($layout, $options = false) {
 
 			}
 
+			if ($attr['rel'] == '') {
+
+				$attr['rel'] = 'page';
+			}
+
+			if ($attr['field'] == '') {
+				$f = false;
+				if (strstr($attr['id'], 'custom_field_') != true) {
+
+					$f = 'custom_field_' . $attr['id'];
+				} else {
+					$f = $attr['id'];
+				}
+				$attr['field'] = $f;
+			}
+
 			if ($attr['rel'] == 'global') {
 				$attr['global'] = true;
 				$get_global = true;
@@ -698,7 +714,7 @@ function parse_micrwober_tags($layout, $options = false) {
 					foreach ($attr as $at_key => $at_value) {
 						////if ($at_key != 'field') {
 
-						//} 
+						//}
 
 						if ($at_key == 'class') {
 							if (!stristr($at_value, 'edit')) {

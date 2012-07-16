@@ -17,8 +17,9 @@ description: Home site layout
   
   <!-- Masthead
 ================================================== -->
-  <header class="jumbotron subhead edit" id="overview">
-    <h1>Spacelab</h1>
+  <header class="jumbotron subhead edit" id="overviewsdfsdf">
+    <div class="element">
+	<h1>Spacelab</h1>
     <p class="lead">A preview of changes in this swatch.</p>
     <div class="subnav">
       <ul class="nav nav-pills">
@@ -28,20 +29,21 @@ description: Home site layout
         <li><a href="#forms">Forms</a></li>
         <li><a href="#miscellaneous">Miscellaneous</a></li>
       </ul>
-    </div>
+    
+	</div></div>
   </header>
   
   <!-- Typography
 ================================================== -->
-  <section id="typography">
-    <div class="page-header edit" id="typo_head">
+  <section id="typogrzszzaphy" class="edit">
+    <div class="page-header element" id="typo_head">
       <h1>Typography</h1>
     </div>
     
     <!-- Headings & Paragraph Copy -->
     <div class="row">
-      <div class="span4">
-        <div class="well">
+      <div class="span4 column">
+        <div class="well element"> 
           <h1>h1. Heading 1</h1>
           <h2>h2. Heading 2</h2>
           <h3>h3. Heading 3</h3>
@@ -50,12 +52,12 @@ description: Home site layout
           <h6>h6. Heading 6</h6>
         </div>
       </div>
-      <div class="span4">
+      <div class="span4 column">
         <h3>Example body text</h3>
         <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
         <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec sed odio dui.</p>
       </div>
-      <div class="span4">
+      <div class="span3 column">
         <h3>Example addresses</h3>
         <address>
         <strong>Twitter, Inc.</strong><br>

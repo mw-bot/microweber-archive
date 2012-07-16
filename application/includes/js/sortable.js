@@ -4,7 +4,7 @@
  * @method mw.edit.init_sortables()
  */ 
 mw.edit.init_sortables = function () {
-
+     
 	mw.drag.create()
 
 }; 
@@ -19,7 +19,7 @@ mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
 mw.dragCurrent = null;
-
+mw.dragOriginal = null;
 mw.drag = {
 
 	create: function () {
@@ -33,24 +33,32 @@ mw.drag = {
 		mw.drag.init(".module-item");
 		mw.drag.sort(".element > *,.edit,.column > *");
 		//mw.drag.edit("");
-		mw.drag.edit(".edit, .element > *");
+		mw.drag.edit(".element > *");
+		
 		mw.drag.fix_handles();
 		mw.resizable_columns();
 
 
 
     $(".row").mouseleave(function(event){
+    mw.drag.destroy_dropables();
         if(mw.isDrag){
             var el = $(this);
             var offset = el.offset();
             if(event.pageY<offset.top){
-              var dropa = mw.drag.display_dropables(document.body, true);
-              $(dropa).css({
-                position:'absolute',
-                top:offset.top-40
-              })
+              var dropa = mw.drag.display_dropables(this, true);
+              mw.drag.the_drop(dropa);
             }
         }
+    });
+
+
+
+    $(document.body).mouseup(function(){
+	if(mw.isDrag && document.getElementsByClassName("mw_dropable").length==0){
+		$(".ui-draggable-dragging").animate({top:0,left:0});
+	}
+
     });
 
 
@@ -71,10 +79,9 @@ mw.drag = {
 				mw.dragCurrent = this;
 				mw.drag.edit_remove();
 				$(this).addClass("mw_drag_started");
-
-				mw.drag.fixes();
-
-
+mw.dragOriginal = $(this);
+				//mw.drag.fixes();
+ 
 
 			},
 			stop: function (event, ui) {
@@ -96,6 +103,7 @@ mw.drag = {
 				setTimeout(function () {
 
 					mw.drag.edit_remove();
+					mw.drag.fixes();
 					mw.drag.fix_placeholders()
 				}, 500);
 
@@ -136,11 +144,12 @@ mw.drag = {
 
 
 		$(selector).unbind('mouseenter mouseleave');
-
+ 
 
 		$(selector).bind("mouseenter", function (event) {
+			mw.drag.destroy_dropables();
 			if (mw.isDrag) {
-				mw.drag.destroy_dropables();
+				
 				mw.drag.display_dropables(this);
 
 				if (window.console != undefined) {
@@ -190,11 +199,18 @@ mw.drag = {
 					if ($(".mw_dropable_hover").length == 0) {
 						mw.drag.destroy_dropables();
 					}
+
+
+				//mw.drag.display_dropables(mw.dragOriginal);
 				}, 37); //must have setTimeout cause of the droppable hover
 
 
+ 
+         
+
+
 				if (window.console != undefined) {
-					console.log('mouseleave while dragging ');
+					console.log('mouseleave while dragging');
 				}
 			}
 			else {
@@ -241,18 +257,37 @@ mw.drag = {
 				setTimeout(function () {
 					$(mw.dragCurrent).hide();
 
-					if ($(".mw_dropable").parents('.element:first').children().last().hasClass('mw_dropable')) {
-						$(".mw_dropable").parents('.element:last').before(mw.dragCurrent);
-						mw.drag.destroy_dropables();
-					}
-					else if ($(".mw_dropable").parents('.element:first').children().not('.mw-sorthandle').first().hasClass('mw_dropable')) {
-						$(".mw_dropable").parents('.element:last').after(mw.dragCurrent);
-						mw.drag.destroy_dropables();
-					}
-					else {
-						$(".mw_dropable").replaceWith(mw.dragCurrent);
-					}
+					var dropable = $(".mw_dropable");
 
+					if(dropable.hasClass("absolute-dropable")){
+						var rel = dropable.data("dropable-rel");
+						$("#"+rel).before(mw.dragCurrent);
+						
+						mw.drag.destroy_dropables();
+					}
+					else{
+						if (dropable.parents('.element:first').children().last().hasClass('mw_dropable')) {
+							dropable.parents('.element:last').before(mw.dragCurrent);
+
+
+
+							
+							mw.drag.destroy_dropables();
+						}
+						else if (dropable.parents('.element:first').children().not('.mw-sorthandle').first().hasClass('mw_dropable')) {
+							dropable.parents('.element:last').after(mw.dragCurrent);
+							mw.drag.destroy_dropables();
+
+
+
+
+							
+						}
+						else {
+						//console.log('replaceWith')
+							dropable.replaceWith(mw.dragCurrent);
+						}
+					}
 
 					$(mw.dragCurrent).fadeIn('slow');
 
@@ -286,19 +321,26 @@ mw.drag = {
 	destroy_dropables: function () {
 		$(".mw_dropable").remove();
 	},
-	display_dropables: function (selector, isBefore) {
-		var drop_bottom = mw.drag.create_dropable(selector);
-		drop_bottom.style.display = 'none';
-		$(drop_bottom).addClass("drop_bottom");
-        if(isBefore){
-          $(selector).before(drop_bottom);
-        }
-        else{
-          $(selector).after(drop_bottom);
-        }
-		$(drop_bottom).fadeIn(200);
+	display_dropables: function (selector, isAbsolute) {
+		var drop = mw.drag.create_dropable(selector);
+		drop.style.display = 'none';
+		$(drop).addClass("drop_bottom");
+		if(isAbsolute){
+			var offset = $(selector).offset();
+			document.body.appendChild(drop);
+			$(drop).css({
+				position:'absolute',
+				top:offset.top-50,
+				left:offset.left,
+				zIndex:10000
+			}).addClass("absolute-dropable").data("dropable-rel", $(selector).attr("id"));		  
+		}
+		else{
+		  $(selector).after(drop);
+		}
+		$(drop).fadeIn(200);
 
-        return drop_bottom;
+        	return drop;
 	},
 
 
@@ -344,11 +386,17 @@ mw.drag = {
 	 *
 	 * @method mw.drag.fix_placeholders()
 	 */
-	fix_placeholders: function () {
+	fix_placeholders: function (selector) {
 
  
 		$(".empty-element", '.edit').remove();
 		$(".column, .element, .row", '.edit').height('auto');
+
+
+
+		if(selector == undefined){
+		selector = '.column';
+		}
 
 
 		$('.column', '.edit').each(function () {
@@ -424,7 +472,7 @@ emptyHeight = 0;
 
 
 if (window.console != undefined) {
-					console.log('empty_placeholder : ' + '#' + $some_el_id + ' emptyHeight   ' + emptyHeight);
+					console.log('fix_placeholders : ' + '#' + $some_el_id);
 				}
 				
 
@@ -557,7 +605,7 @@ if (window.console != undefined) {
 			$('.mw-sorthandle-row-in-column', '.edit').removeClass('mw-sorthandle-row-in-column');
 			$('.mw-sorthandle-row-in-element', '.edit').removeClass('mw-sorthandle-row-in-element');
 			$('.mw-sorthandle-img-in-element', '.edit').removeClass('mw-sorthandle-img-in-element');
-			$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
+			$('.edit>.row').children('.mw-sorthandle').addClass('mw-sorthandle-main-level');
 			$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
 			$('.element').find('img').addClass('mw-sorthandle-img-in-element');
 			$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
@@ -592,69 +640,69 @@ if (window.console != undefined) {
  
 				if (window.console != undefined) {
 					console.log('mousedown on element : ' + this.tagName);
-			 
+			 }
 		
-			if (!mw.isDrag) {
+					if (!mw.isDrag) {
 
 
 
-				$is_this_module = ($(this).hasClass('mw-module-wrap') && $(this).parents(".element:first").hasClass('mw-module-wrap'));
-				$is_freshereditor = $(this).hasClass('freshereditor');
-				$is_this_row = $(this).hasClass('row');
-				$is_this_handle = $(this).hasClass('mw-sorthandle');
-				$is_mw_delete_element = $(this).hasClass('mw.edit.delete_element');
-				$columns_set = $(this).hasClass('columns_set');
+						$is_this_module = ($(this).hasClass('mw-module-wrap') && $(this).parents(".element:first").hasClass('mw-module-wrap'));
+						$is_freshereditor = $(this).hasClass('freshereditor');
+						$is_this_row = $(this).hasClass('row');
+						$is_this_handle = $(this).hasClass('mw-sorthandle');
+						$is_mw_delete_element = $(this).hasClass('mw.edit.delete_element');
+						$columns_set = $(this).hasClass('columns_set');
 
-				is_image = this.tagName == 'IMG' ? true : false;
-				if (window.console != undefined) {
-					console.log('mousedown on element : ' + this.tagName);
-				}
- 
-				if (!$is_freshereditor && !$is_this_module) {
-					$(this).closest('.mw-sorthandle').show();
+						is_image = this.tagName == 'IMG' ? true : false;
+						 
+		 
+							 if (!$is_freshereditor && !$is_this_module) {
+						$(this).closest('.mw-sorthandle').show();
 
-					$el_id = $(this).attr('id');
-					if ($el_id == undefined || $el_id == 'undefined') {
-						$el_id = 'mw-element-' + mw.random();
-						$(this).attr('id', $el_id);
+						$el_id = $(this).attr('id');
+						if ($el_id == undefined || $el_id == 'undefined') {
+							$el_id = 'mw-element-' + mw.random();
+							$(this).attr('id', $el_id);
+						}
+						mw.settings.element_id = $el_id;
+						mw.settings.sortables_created = true;
+	 
+			 
+
+					  
+						mw.settings.text_edit_started = true;
+
+						$is_this_element = $(this).hasClass('.element');
+						$(this).addClass('freshereditor');
+						is_in_el = $(this).parent('.element').size();
+				 
+						$(this).parent('.element').freshereditor("edit", true);
+						$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+						$(this).parent('.element').children().removeAttr("contenteditable");
+
+						if ($.browser.msie) {
+							$("img, .element p").each(function () {
+								this.oncontrolselect = function () {
+									return false
+								}
+							});
+						}
+
+
+
+
+
+						$('img').attr("contenteditable", false);
+
+						$('.element.mw-module-wrap').attr("contenteditable", false);
+						//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+						setTimeout("mw.settings.sorthandle_hover=false", 300);
+						e.stopPropagation();
+				
 					}
-					mw.settings.element_id = $el_id;
-					mw.settings.sortables_created = true;
-					if (window.console != undefined) {
-						console.log('contenteditable started on element id: ' + $el_id);
-					}
-					mw.settings.text_edit_started = true;
-
-					$is_this_element = $(this).hasClass('.element');
-					$(this).addClass('freshereditor');
-					$(this).parent('.element').freshereditor("edit", true);
-					$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
-					$(this).parent('.element').children().removeAttr("contenteditable");
-
-					if ($.browser.msie) {
-						$("img, .element p").each(function () {
-							this.oncontrolselect = function () {
-								return false
-							}
-						});
-					}
-
-
-
-
-
-					$('img').attr("contenteditable", false);
-
-					$('.element.mw-module-wrap').attr("contenteditable", false);
-					//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
-					setTimeout("mw.settings.sorthandle_hover=false", 300);
-					e.stopPropagation();
-				}
-				else {
-					mw.settings.sorthandle_hover = true;
-				}
-			} }
-		});
+			
+				} 
+		}); 
 	},
 
 	/**
