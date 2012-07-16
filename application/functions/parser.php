@@ -11,13 +11,13 @@
  * @since Version 1.0
  */
 function parse_micrwober_tags($layout, $options = false) {
-global $CI ;
+	global $CI;
 	if (!defined('PAGE_ID')) {
 
 		if (intval(PAGE_ID) == 0) {
 
 			$p = url($skip_ajax = false);
-			$page = $CI-> content_model -> getPageByURLAndCache($p);
+			$page = $CI -> content_model -> getPageByURLAndCache($p);
 
 			define("PAGE_ID", $page['id']);
 
@@ -25,8 +25,8 @@ global $CI ;
 
 	}
 
- 	//	$this->core_model->cacheWriteAndEncode ( $layout, $function_cache_id, $cache_group );
- 
+	//	$this->core_model->cacheWriteAndEncode ( $layout, $function_cache_id, $cache_group );
+
 	//echo memory_get_usage() . "\n"; // 36640
 	/*$cache_id =  md5 ( $layout ) . md5 ( serialize ( $options ) );
 	 $cache_group = 'blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
@@ -69,7 +69,7 @@ global $CI ;
 
 	if (strstr($layout, '<nomw') == true) {
 		$relations = array();
-		$tags = $CI-> core_model -> extractTags($layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+		$tags = $CI -> core_model -> extractTags($layout, 'nomw', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
 		//	p($tags);
 		$matches = $tags;
 		$txt_to_replace_back = array();
@@ -90,10 +90,10 @@ global $CI ;
 
 	if (strstr($layout, '<microweber') == true) {
 
-		$editmode = $CI-> core_model -> is_editmode();
+		$editmode = $CI -> core_model -> is_editmode();
 
 		$relations = array();
-		$tags = $CI-> core_model -> extractTags($layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
+		$tags = $CI -> core_model -> extractTags($layout, 'microweber', $selfclosing = true, $return_the_entire_tag = true, $charset = 'UTF-8');
 		//	p($tags);
 		$matches = $tags;
 		if (!empty($matches)) {
@@ -251,7 +251,7 @@ global $CI ;
 								// $this->load-> vars(array($att => $at));
 								$arrts[$att] = ($at);
 							}
-							$CI-> load -> vars($arrts);
+							$CI -> load -> vars($arrts);
 							$no_edit = false;
 							$no_admin = false;
 							$check2 = false;
@@ -294,7 +294,7 @@ global $CI ;
 										$config['icon'] = $icon;
 
 										if (!empty($config['options'])) {
-											$CI-> setup_module_options($config['options']);
+											$CI -> setup_module_options($config['options']);
 
 										}
 										$cache_for_session = false;
@@ -331,7 +331,7 @@ global $CI ;
 								$config['url_to_module_front'] = str_ireplace('admin', '', $config['url_to_module']);
 								//p($config);
 								// $CI-> template['config'] = $config;
-								$CI-> load -> vars(array('config' => $config));
+								$CI -> load -> vars(array('config' => $config));
 
 								if ($arrts['no_cache'] == true) {
 									$cache_this = false;
@@ -411,23 +411,23 @@ global $CI ;
 
 										// $CI-> template['params'] = $arrts;
 
-										$CI-> load -> vars(array('params' => $arrts));
+										$CI -> load -> vars(array('params' => $arrts));
 
 										//$module_file = $this->load->file ( $try_file1, true );
 
-										$module_file = $CI-> load -> file($try_file1, true);
+										$module_file = $CI -> load -> file($try_file1, true);
 
 										//$this->core_model->cacheWriteAndEncode ( $module_file, $cache_id, $cache_group );
 									}
 
 								} else {
-									$CI-> load -> vars(array('params' => $arrts));
+									$CI -> load -> vars(array('params' => $arrts));
 
 									// // $CI-> template['params'] = $arrts;
 
 									//p($this->template);
 									//$module_file = $this->load->file ( $try_file1, true );
-									$module_file = $CI-> load -> file($try_file1, true);
+									$module_file = $CI -> load -> file($try_file1, true);
 								}
 								//$params_encoded = encode_var ( $arrts );
 
@@ -562,22 +562,49 @@ global $CI ;
 		}
 
 	}
+	require_once (LIBSPATH . "simplehtmldom/simple_html_dom.php");
+
+	//	if (strstr($layout, '.edit') == true and $error == false) {
+	if ($options2['skip_edit_class'] != true) {
+
+		$html = str_get_html($layout);
+
+		foreach ($html->find ( '.edit' ) as $m) {
+			$ats = $m -> attr;
+			$attrs_to_append = false;
+			foreach ($ats as $at_key => $at_value) {
+				//if ($at_key != 'field') {
+				$attrs_to_append .= "$at_key='$at_value' ";
+
+				//}
+			}
+			$in = $m -> innertext;
+			$tag_n = $m -> tag;
+			//p($m ,1);
+			$in = "<editable tag='{$tag_n}'  {$attrs_to_append}>" . $in . '</editable>';
+			$m -> outertext = $in;
+
+			$layout = $html -> save();
+
+		}
+
+	}
+	//}
 
 	if (strstr($layout, '<editable') == true and $error == false) {
 
-		$editmode = $CI-> core_model -> is_editmode();
-		//p($editmode);
-		require_once (LIBSPATH . "simplehtmldom/simple_html_dom.php");
+		$editmode = $CI -> core_model -> is_editmode();
 
 		$html = str_get_html($layout);
 
 		foreach ($html->find ( 'editable' ) as $m) {
+			$attr_orig = $m -> attr;
 
-			$attr = array();
+			$attr = $attr_orig;
 
-			$attr['rel'] = $m -> rel;
-			$attr['field'] = $m -> field;
-
+			//$attr['rel'] = $m -> rel;
+			//$attr['field'] = $m -> field;
+			$attr['tag'] = $attr_orig['tag'];
 			$get_global = false;
 			if ($editmode == true) {
 
@@ -638,7 +665,7 @@ global $CI ;
 
 			if ($get_global == true) {
 
-				$field_content = $CI-> core_model -> optionsGetByKey($attr['field'], $return_full = false, $orderby = false);
+				$field_content = $CI -> core_model -> optionsGetByKey($attr['field'], $return_full = false, $orderby = false);
 
 			} else {
 				if (strstr($attr['field'], 'custom_field_') == true) {
@@ -652,90 +679,88 @@ global $CI ;
 			}
 			//p( $attr ['field']);
 			if (strstr($attr['field'], 'source_code') == false) {
-
 				if (trim($field_content) == '') {
 					$field_content = $m -> innertext;
-
-					//	$field_content = $m ['contents'];
 				} else {
 					//$quote_style = ENT_COMPAT [, string $charset = 'UTF-8' ]]
 					$field_content = htmlspecialchars_decode($field_content);
 
-					//$field_content = html_entity_decode ( $field_content, $quote_style = ENT_COMPAT, $charset = 'UTF-8' );
 				}
-				//	$field_content = html_entity_decode ( $field_content );
 				$field_content = htmlspecialchars_decode($field_content);
-				//	$field_content = $this->template_model->parse_micrwober_tags ( $field_content, $options );
+				$tag_name = 'div';
+				if ($attr['class'] == '') {
+					$attr['class'] = 'edit';
+				}
+				$editmode_force = true;
+				if ($editmode_force == true or $editmode == true) {
 
-				//												$check_divs = strstr ( '<div', $field_content );
-				//												if ($check_divs == false) {
-				//													$field_content = '<div>' . $field_content . '</div>';
-				//												}
-
-				//print htmlspecialchars ( $field_content );
-				if ($editmode == true) {
 					$attrs_to_append = false;
 					foreach ($attr as $at_key => $at_value) {
-						if ($at_key != 'field') {
-							$attrs_to_append .= "$at_key='$at_value' ";
+						////if ($at_key != 'field') {
 
+						//} 
+
+						if ($at_key == 'class') {
+							if (!stristr($at_value, 'edit')) {
+								$at_value_e = explode(' ', $at_value);
+								$at_value_e[] = 'edit';
+								$at_value = explode(' ', $at_value_e);
+							}
 						}
+
+						if ($at_key == 'tag') {
+							if ($at_value != '') {
+								$tag_name = $at_value;
+								//p($tag_name);
+								//$attrs_to_append .= "$at_key='$at_value' ";
+							}
+						} else {
+							$attrs_to_append .= "$at_key='$at_value' ";
+						}
+
 					}
-					//		p($attrs_to_append);
-					//	$in = $m->innertext;
 
-					$in = "<div id='{$attr['field']}' field='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>';
+					//	$in = "<{$tag_name} id='{$attr['field']}' field='{$attr['field']}'  {$attrs_to_append}>" . $field_content . '</{$tag_name}>';
+
+					$in = "<{$tag_name} {$attrs_to_append}>" . $field_content . "</{$tag_name}>";
 
 					$m -> outertext = $in;
 
 					$layout = $html -> save();
 
-					// clean up memory
-					//$html->clear ();
-					//unset ( $html );
+					//	$in = "<{$tag_name} id='{$attr['field']}' field='{$attr['field']}' {$attrs_to_append}>" . $field_content . '</{$tag_name}>';
 
-					//p($attrs_to_append);
-					//$layout = $this->core_model->replace_in_long_text ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, $use_normal_replace = true );
+					$in = "<{$tag_name} {$attrs_to_append}>" . $field_content . "</{$tag_name}>";
 
-					//$layout = str_replace_count ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit' {$attrs_to_append}>" . $field_content . '</div>', $layout, 1 );
+					$m -> outertext = $in;
+
+					$layout = $html -> save();
 				} else {
-					//$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
-					//	$layout = str_replace_count ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, 1 );
-					//$layout = $this->core_model->replace_in_long_text ( $m ['full_tag'], "<div id='{$attr['field']}' class='edit'>" . $field_content . '</div>', $layout, $use_normal_replace = true );
-					$in = "<div id='{$attr['field']}'  field='{$attr['field']}'  class='edit'>" . $field_content . '</div>';
+					$in = "<{$tag_name}  id='{$attr['field']}'  field='{$attr['field']}'>" . $field_content . "</{$tag_name}>";
 					$m -> outertext = $in;
 
 					$layout = $html -> save();
-				}
-
-				//$layout = str_replace_count ( $m ['full_tag'], $field_content, $layout, 1 );
-				//	$layout = str_replace_count ( $m ['full_tag'], "aaaaaaaa", $layout, 1 );
-				//$layout = str_replace_count ( 'editable', "aaaaaaaa", $layout, 1 );
-				//p($layout);
-				//$layout = str_replace ( '<mw', '<microweber', $layout );
-
-				//$layout = $this->core_model->replace_in_long_text ( '<mw', '<microweber', $layout, $use_normal_replace = true );
-
-				if (strstr($layout, '<microweber') == true and $error == false) {
-					$layout = parse_micrwober_tags($layout, $options);
-				}
-				if (strstr($layout, '<editable') == true and $error == false) {
-					$layout = parse_micrwober_tags($layout, $options);
 				}
 
 			} else {
-				//$layout = $html->save ();
 			}
 
 		}
 
 	}
+	if (strstr($layout, '<microweber') == true and $error == false) {
+		$layout = parse_micrwober_tags($layout, $options);
+	}
+	if (strstr($layout, '<editable') == true and $error == false) {
 
-	 
+		$options2 = $options;
+		$options2['skip_edit_class'] = true;
+		//	$layout = parse_micrwober_tags($layout, $options2);
+	}
 	$site_url = site_url();
 	$layout = replace_in_long_text('{SITE_URL}', $site_url, $layout, true);
 	$layout = replace_in_long_text('{SITEURL}', $site_url, $layout, true);
-	 
+
 	if (defined('POST_ID') == true) {
 		//$layout = str_replace ( '{POST_ID}', POST_ID, $layout );
 		$layout = replace_in_long_text('{POST_ID}', POST_ID, $layout, true);
@@ -774,14 +799,14 @@ global $CI ;
 		} elseif ($is_content['content_title']) {
 			$content_meta_title = codeClean($is_content['content_title']);
 		} else {
-			$content_meta_title = $CI-> core_model -> optionsGetByKey('content_meta_title');
+			$content_meta_title = $CI -> core_model -> optionsGetByKey('content_meta_title');
 		}
 		$layout = str_replace('{content_meta_title}', $content_meta_title, $layout);
 
 		if ($is_content['content_meta_keywords']) {
 			$content_meta_title = $is_content['content_meta_keywords'];
 		} else {
-			$content_meta_title = $CI-> core_model -> optionsGetByKey('content_meta_keywords');
+			$content_meta_title = $CI -> core_model -> optionsGetByKey('content_meta_keywords');
 		}
 		$layout = str_replace('{content_meta_keywords}', $content_meta_title, $layout);
 
@@ -792,7 +817,7 @@ global $CI ;
 		} elseif ($is_content['content_body']) {
 			$content_meta_title = codeClean($is_content['content_body']);
 		} else {
-			$content_meta_title = $CI-> core_model -> optionsGetByKey('content_meta_title');
+			$content_meta_title = $CI -> core_model -> optionsGetByKey('content_meta_title');
 		}
 		$layout = str_replace('{content_description}', $content_meta_title, $layout);
 
@@ -844,92 +869,95 @@ global $CI ;
 	//p($relations);
 }
 
-
-
-
-
 /**
-	 *
-	 * @author Peter Ivanov
-	 *        
-	 *         function groupsSave($data) {
-	 *         $table = $table = TABLE_PREFIX . 'groups';
-	 *         $criteria = $this->input->xss_clean ( $data );
-	 *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
-	 *         $data );
-	 *         $save = $this->core_model->saveData ( $table, $criteria );
-	 *         return $save;
-	 *         }
-	 */
-	
-	function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false) {
-		$function_cache_id = false;
-		
-		$test_for_long = strlen ( $sVeryLongText );
-		if ($test_for_long > 1000) {
-			
-			$args = func_get_args ();
-			$i = 0;
-			foreach ( $args as $k => $v ) {
-				if ($i != 2) {
-					$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
-				} else {
-				
-				}
-				$i ++;
+ *
+ * @author Peter Ivanov
+ *
+ *         function groupsSave($data) {
+ *         $table = $table = TABLE_PREFIX . 'groups';
+ *         $criteria = $this->input->xss_clean ( $data );
+ *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
+ *         $data );
+ *         $save = $this->core_model->saveData ( $table, $criteria );
+ *         return $save;
+ *         }
+ */
+
+function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false) {
+	$function_cache_id = false;
+
+	$test_for_long = strlen($sVeryLongText);
+	if ($test_for_long > 1000) {
+
+		$args = func_get_args();
+		$i = 0;
+		foreach ($args as $k => $v) {
+			if ($i != 2) {
+				$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+			} else {
+
 			}
-			
-			$function_cache_id = __FUNCTION__ . md5 ( $sVeryLongText ) . md5 ( $function_cache_id );
-			
-			$cache_group = 'extract_tags';
-			
-			//$cache_content = $this->cacheGetContent ( $function_cache_id, $cache_group );
-			
-			if (($cache_content) != false) {
-				
+			$i++;
+		}
+
+		$function_cache_id = __FUNCTION__ . md5($sVeryLongText) . md5($function_cache_id);
+
+		$cache_group = 'extract_tags';
+
+		//$cache_content = $this->cacheGetContent ( $function_cache_id, $cache_group );
+
+		if (($cache_content) != false) {
+
 			//	return $cache_content;
-			
-			}
+
 		}
-		
-		if ($normal_replace == false) {
-			$iSet = 0; // Count how many times we increase the limit
-			while ( $iSet < 10 ) { // If the default limit is 100'000 characters
-			                       // the highest new limit will be 250'000
-			                       // characters
-				$sNewText = preg_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText ); // Try
-				                                                                                   // to
-				                                                                                   // use
-				                                                                                   // PREG
-				
-				if (preg_last_error () == PREG_BACKTRACK_LIMIT_ERROR) { // Only
-				                                                        // check on
-				                                                        // backtrack
-				                                                        // limit
-				                                                        // failure
-					ini_set ( 'pcre.backtrack_limit', ( int ) ini_get ( 'pcre.backtrack_limit' ) + 15000 ); // Get
-					                                                                                        // current
-					                                                                                        // limit
-					                                                                                        // and
-					                                                                                        // increase
-					$iSet ++; // Do not overkill the server
-				} else { // No fail
-					$sVeryLongText = $sNewText; // On failure $sNewText would be NULL
-					break; // Exit loop
-				}
-			}
-		
-		} else {
-			$sNewText = str_replace ( $sRegExpPattern, $sRegExpReplacement, $sVeryLongText );
-			
-			// $sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement,
-			// $sVeryLongText);
-		
-		}
-		 
-		return $sNewText;
-	
 	}
+
+	if ($normal_replace == false) {
+		$iSet = 0;
+		// Count how many times we increase the limit
+		while ($iSet < 10) {// If the default limit is 100'000 characters
+			// the highest new limit will be 250'000
+			// characters
+			$sNewText = preg_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
+			// Try
+			// to
+			// use
+			// PREG
+
+			if (preg_last_error() == PREG_BACKTRACK_LIMIT_ERROR) {// Only
+				// check on
+				// backtrack
+				// limit
+				// failure
+				ini_set('pcre.backtrack_limit', ( int ) ini_get('pcre.backtrack_limit') + 15000);
+				// Get
+				// current
+				// limit
+				// and
+				// increase
+				$iSet++;
+				// Do not overkill the server
+			} else {// No fail
+				$sVeryLongText = $sNewText;
+				// On failure $sNewText would be NULL
+				break;
+				// Exit loop
+			}
+		}
+
+	} else {
+		$sNewText = str_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
+
+		// $sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement,
+		// $sVeryLongText);
+
+	}
+
+	return $sNewText;
+
+}
+
 function parse_memory_storage($id = false, $content = false) {
 
 	static $parse_mem = array();

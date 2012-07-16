@@ -7,7 +7,7 @@ mw.edit.init_sortables = function () {
 
 	mw.drag.create()
 
-};
+}; 
    
   
  
@@ -20,30 +20,39 @@ mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
 mw.dragCurrent = null;
 
-
-
-
-
 mw.drag = {
 
 	create: function () {
 		mw.edit.remove_content_editable();
 
-		mw.drag.fix_placeholders(true);
+		mw.drag.fix_placeholders()
 		mw.drag.fixes()
 		// mw.edit.equal_height();
 
 		mw.drag.init(".element,.row");
 		mw.drag.init(".module-item");
 		mw.drag.sort(".element > *,.edit,.column > *");
-		mw.drag.edit(".element > *");
+		//mw.drag.edit("");
+		mw.drag.edit(".edit, .element > *");
 		mw.drag.fix_handles();
 		mw.resizable_columns();
 
 
 
-$spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit div.column';
-       $($spans).addClass('column');
+    $(".row").mouseleave(function(event){
+        if(mw.isDrag){
+            var el = $(this);
+            var offset = el.offset();
+            if(event.pageY<offset.top){
+              var dropa = mw.drag.display_dropables(document.body, true);
+              $(dropa).css({
+                position:'absolute',
+                top:offset.top-40
+              })
+            }
+        }
+    });
+
 
 	},
 
@@ -237,7 +246,7 @@ $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit
 						mw.drag.destroy_dropables();
 					}
 					else if ($(".mw_dropable").parents('.element:first').children().not('.mw-sorthandle').first().hasClass('mw_dropable')) {
-						$(".mw_dropable").parents('.element:last').before(mw.dragCurrent);
+						$(".mw_dropable").parents('.element:last').after(mw.dragCurrent);
 						mw.drag.destroy_dropables();
 					}
 					else {
@@ -245,24 +254,25 @@ $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit
 					}
 
 
-					$(mw.dragCurrent).fadeIn('slow', function(){
-                       mw.drag.fixes();
-					    mw.drag.fix_placeholders();
-				    	mw.resizable_columns();
+					$(mw.dragCurrent).fadeIn('slow');
 
-					});
-
-
-
+					
+					mw.drag.fixes();
+					mw.drag.fix_placeholders();
+					mw.resizable_columns()
 					event.stopPropagation();
 				}, 37);
 			}
 		});
 	},
-	create_dropable: function (elem) {
+    dropable_object : function(){
 		var dropable = document.createElement('div');
 		dropable.className = 'mw_dropable';
 		dropable.innerHTML = 'Drop your module here';
+        return dropable;
+    },
+	create_dropable: function (elem) {
+	    var dropable =  mw.drag.dropable_object();
 		$(dropable).hover(function () {
 			$(this).addClass("mw_dropable_hover")
 		}, function () {
@@ -276,13 +286,19 @@ $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit
 	destroy_dropables: function () {
 		$(".mw_dropable").remove();
 	},
-	display_dropables: function (selector) {
+	display_dropables: function (selector, isBefore) {
 		var drop_bottom = mw.drag.create_dropable(selector);
 		drop_bottom.style.display = 'none';
 		$(drop_bottom).addClass("drop_bottom");
-		$(selector).after(drop_bottom);
+        if(isBefore){
+          $(selector).before(drop_bottom);
+        }
+        else{
+          $(selector).after(drop_bottom);
+        }
 		$(drop_bottom).fadeIn(200);
 
+        return drop_bottom;
 	},
 
 
@@ -321,39 +337,17 @@ $spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit
 			}
 		});
 	},
-    fix_placeholders:function(isHard){
-      if(isHard){ //append the empty elements
-        $(".row").each(function(){
-          var el = $(this);
-          el.children("div.column").each(function(){
-            var the_empty_child = $(this).children("div.empty-element");
-            if(the_empty_child.length==0){
-              $(this).append('<div class="empty-element" id="mw-placeholder-'+mw.random()+'"></div>');
-              var the_empty_child = $(this).children("div.empty-element");
-            }
-          });
-        });
-      }
-      //scale the empty elements
-      $("div.empty-element").css({position:'absolute'});
-      $("div.empty-element").parent().height('auto');
-      $("div.empty-element").each(function(){
-        var el = $(this);
-        var the_row_height = el.parents(".row").eq(0).height();
-        var the_column_height = el.parent().height();
-        el.css({height:the_row_height-the_column_height, position:'relative'});
-      });
-    },
+
 
 	/**
 	 * fix_placeholders in the layout
 	 *
 	 * @method mw.drag.fix_placeholders()
 	 */
-	fix_placeholders1: function () {
+	fix_placeholders: function () {
 
  
-	 //	$(".empty-element", '.edit').remove();
+		$(".empty-element", '.edit').remove();
 		$(".column, .element, .row", '.edit').height('auto');
 
 
@@ -592,8 +586,14 @@ if (window.console != undefined) {
 
 
 
-		$(selector, '.edit').unbind('mousedown.edit');
-		$(selector, '.edit').bind("mousedown.edit", function (e) {
+		$(selector).unbind('mousedown');
+		$(selector).bind("mousedown", function (e) {
+
+ 
+				if (window.console != undefined) {
+					console.log('mousedown on element : ' + this.tagName);
+			 
+		
 			if (!mw.isDrag) {
 
 
@@ -609,7 +609,7 @@ if (window.console != undefined) {
 				if (window.console != undefined) {
 					console.log('mousedown on element : ' + this.tagName);
 				}
-
+ 
 				if (!$is_freshereditor && !$is_this_module) {
 					$(this).closest('.mw-sorthandle').show();
 
@@ -653,7 +653,7 @@ if (window.console != undefined) {
 				else {
 					mw.settings.sorthandle_hover = true;
 				}
-			}
+			} }
 		});
 	},
 
@@ -844,7 +844,8 @@ mw.resizable_columns = function () {
 			}
 
 
-			if ($no_next == false ) {
+			if (!$no_next /* || !$no_next */ ) {
+
 
 				$last_c_w = $(this).parent('.row').children('.column').last().width();
 				$row_max_w = $(this).parent('.row').width();
@@ -853,17 +854,17 @@ mw.resizable_columns = function () {
 				$(this).attr("data-also-rezise-item", $also_reverse_id);
 
 
-mw.global_resizes = {
-  next:'',
-  sum:0
-}
-				
+                mw.global_resizes = {
+                  next:'',
+                  sum:0
+                }
+
 				$(this).resizable({
 					
 					handles: $handles,
 					ghost:false,
 					containment: "parent",
-					
+
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
 					//maxWidth: $row_max_w - $last_c_w,
@@ -872,16 +873,11 @@ mw.global_resizes = {
 					 
 					resize: function (event, ui) {
 
-					
-						
-						
-
-
 						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width));
 
 						mw.settings.resize_started = true;
 						var el = $(this);
-						//el.css('height', 'auto');
+						el.css('height', 'auto');
 
 
 						var w = (100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")));
@@ -891,25 +887,6 @@ mw.global_resizes = {
 						var h = (100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")));
 						h += "%";
 						$(this).css("width", w);
-						//	$("#rightDiv").css("width", wRight);
-
-
-
-
-
-						//  $r = $(this).parent('.row');
-						// $last_c = $(this).parent('.row').children('.column').last().width();;
-						// $other_cols_w = $(this).parent('.row').children('.column').not('#'+this_col_id).width();;
-
-
-						//$cols_w = $r.children('.column').width();
-						// $max_w = mw.resizable_row_width -  $other_cols_w-20;
-
-
-
-
-						
-
 
 					},
 					create: function (event, ui) {
@@ -959,7 +936,7 @@ mw.global_resizes = {
 						mw.edit.fix_zindex();
 						mw.settings.resize_started = false;
 						mw.drag.fixes()
-						mw.drag.fix_placeholders()
+						//mw.drag.fix_placeholders()
 					}
 				});
 			}
