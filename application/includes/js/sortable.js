@@ -42,7 +42,8 @@ mw.drag = {
 
 
 
-
+$spans = '.edit div.span1,.edit div.span1,.edit  div.span2,.edit div.span3,.edit div.span4,.edit div.span5,.edit div.span6,.edit div.span7,.edit div.span8,.edit div.span9,.edit div.span10,.edit div.span11,.edit div.span12,.edit div.column';
+       $($spans).addClass('column');
 
 	},
 

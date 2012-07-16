@@ -90,7 +90,7 @@ mw.edit = {
 				$exisintg_num = $('#' + $el_id).children(".column").size();
 
 				$eq_w = 100 / $exisintg_num;
-				$pad = 1;
+				$pad = 0;
 				$eq_w1 = $eq_w - $pad;
 				$('#' + $el_id).children(".column").width($eq_w1 + '%');
 				$('#' + $el_id).children(".column").css('float', 'left');

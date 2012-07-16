@@ -60,6 +60,8 @@
 
 .column {
 	float:left;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 .column-min-height {
 	min-height:100px;

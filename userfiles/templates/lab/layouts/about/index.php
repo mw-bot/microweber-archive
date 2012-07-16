@@ -17,10 +17,10 @@ description: Home site layout
 ================================================== -->
 
 <section id="typography">
-  <editable rel="page" field="custom_field_sdfafsdfsdcdasdasdasfgasdcr5s43erfs4df134534"> </editable>
-  <editable rel="page" field="custom_field_czdfegddff1sddddssdfsdfdfsdfa1fd34345d1">
+  <editable rel="page" field="custom_field_sdfafsdfsdcdasdasdasfgasdcr5s43erfsdfs4df134534"> </editable>
+  <editable rel="page" field="custom_field_czdfegddff1sddsdfddssdfsdfdfsdfa1fd34345d1">
     <div class="row">
-      <div class="column">
+      <div class="column span5">
         <div class="element">
           <h1>MEDdasdasICAL CAREERS IN USA </h1>
           <h2>POasdasdasdST YOUR OPPORTUNITY OR CV</h2>
@@ -28,7 +28,7 @@ description: Home site layout
         <div class="element"> <a href="http://engine.adzerk.net/redirect/0/9334/2444/8277/34a5709f7d4049bd8cb0459b2855e740/45/1178/14844/634774662435193010/?keywords=jquery%2cdynamic%2crefresh%2csortable%2cinitialization%2cx-user-registered" rel="nofollow" target="_blank" title=""><img src="http://static.adzerk.net/Advertisers/db5df4870e4e4b6cbf42727fd434701a.jpg" title="" alt="" border="0" height="250" width="220"></a></div>
         <h1>HTML Ipsum Presents</h1>
       </div>
-      <div class="column">
+      <div class="column span7">
    
    
    
@@ -68,9 +68,7 @@ Best Regards Mark</p>
       </div>
     </div>
   </editable>
-  <editable rel="page" field="custom_field_xew1adssdf344sdfsdfh3a4dgggfsdAfsd345fgsd">
-    <div class="row">
-      <div class="column">
+  <editable rel="page" field="custom_field_xew1adssdf344sdfsdfh3a4dgggfsdAfssd345fgsd">
  
 		
 		
@@ -152,8 +150,7 @@ Best Regards Mark</p>
       
  
        
-      </div>
-    </div>
+    
   </editable>
 </section>
 <? include   TEMPLATE_DIR.  "footer.php"; ?>
