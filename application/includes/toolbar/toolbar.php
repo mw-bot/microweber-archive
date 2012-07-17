@@ -1,6 +1,8 @@
 <script type="text/javascript">
 
-    window.onerror = function(err){alert(err)}
+    window.onerror = function(err, file, row){alert(err + "\nFile: " + file + "\nRow: " + row)}
+
+
 
     window.mw = window.mw ? window.mw : {};
 
@@ -53,9 +55,11 @@
 
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js" type="text/javascript"></script>
- <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
+ <!-- <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script> -->
+  <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>
 
-<script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js" type="text/javascript"></script>
+
+<script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script type="text/javascript">
 
 

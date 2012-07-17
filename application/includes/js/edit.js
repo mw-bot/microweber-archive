@@ -6,7 +6,7 @@ mw.edit = {
 	 *
 	 * @class mw.edit
 	 */
-
+   
 	/**
 	 * Deletes element by id or selector
 	 *
