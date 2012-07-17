@@ -5,7 +5,7 @@
  */ 
 mw.edit.init_sortables = function () {
 
-	mw.drag.create()
+    mw.drag.create()
  
 };  
 
@@ -18,27 +18,13 @@ mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
 mw.dragCurrent = null;
+mw.have_new_items = false;
 
-mw.module_helper = "";
-
-prepare_module_helper = function(){
-    mw.module_helper = document.createElement('div');
-    mw.module_helper.className = "mw_module_helper";
-    document.body.appendChild(mw.module_helper);
-  
-}
-
-module_drag_helper = function(el){
-    var el = $(el);
-    var img = el.find("img").attr("src");
-    var description = el.find("span").text();
-    mw.module_helper.innerHTML = "<img src='" + img + "' /><br />" + description;
-    return mw.module_helper;
-}
 
 mw.drag = {
 
 	create: function () {
+        
 		mw.edit.remove_content_editable();
 
 		mw.drag.fix_placeholders(true);
@@ -52,7 +38,7 @@ mw.drag = {
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
        
-        prepare_module_helper();
+       
 
         $(document.body).mouseup(function(event){
         	if(mw.isDrag && document.getElementsByClassName("mw_dropable").length==0){
@@ -68,57 +54,75 @@ mw.drag = {
 
 	init: function (selector, callback) {
         
-        alert(selector);
+        $(selector).not(".ui-draggable").each(function(){
+            var el = $(this);
+           // var helper = el.hasClass("module-item")?module_helper:'original';
+            if( el.hasClass("module-item")){
+                
+                    helper = function(event, ui) {
+                                    return mw.dragCurrent = $(this).clone().appendTo('body').css({'zIndex':5}); 
+
+       // var foo = $('<span style="white-space:nowrap;">DRAG TEST</span>'); 
+      //  return foo;
+    }
+                
+            } else {
+                helper = 'original'
+            }
         
-		$(selector).not(".ui-draggable").draggable({
-			handle: ".mw-sorthandle",
-			cursorAt: {
-				top: -20,
-				left: -20
-			},
-			// containment: "#typography",
-			helper: alert(selector),//selector===".module-item"?module_drag_helper(this):'original',
-			start: function () {
-				mw.isDrag = true;
-				mw.dragCurrent = this;
-				mw.drag.edit_remove();
-				$(this).addClass("mw_drag_started");
-
-				mw.drag.fixes();
-
-
-
-			},
-			stop: function (event, ui) {
-				mw.isDrag = false;
-				$(this).removeClass("mw_drag_started");
-				if (typeof callback === 'function') {
-					callback.call(this);
-				}
-
-				if ($(mw.dragCurrent).hasClass("module-item")) {
-					setTimeout(function () {
-						mw.drag.load_new_modules();
-					}, 50);
-				} else {
-    			 
-    			setTimeout(function () {
-
-					mw.drag.edit_remove();
-					mw.drag.fix_placeholders();
+            
+            
+            
+            //alert(typeof helper);
+            
+            el.draggable({
+                handle: ".mw-sorthandle",
+            	cursorAt: {
+            		top: -20,
+            		left: -20
+            	},
+            	helper: helper,
+            	start: function () {
+            		mw.isDrag = true;
+            		mw.dragCurrent = this;
+            		mw.drag.edit_remove();
+            		$(this).addClass("mw_drag_started");
+            		mw.drag.fixes();
+            	},
+            	stop: function (event, ui) {
+            		mw.isDrag = false;
+            		$(this).removeClass("mw_drag_started");
+            	
+              
+            		if ($(mw.dragCurrent).hasClass("module-item")) {
+                                 
+            		
+                    mw.have_new_items = true;
                     
-                    
+                   
+            		}
+                    else {
+                      setTimeout(function () {
+                        mw.drag.edit_remove();
+                        mw.drag.fix_placeholders();
+                      }, 100);
+            		}
+            	
+                 if (typeof callback === 'function') {
+            			callback.call(this);
+            		}
+             
+             
+             
+             
+             
+             
+             
+             
+            	}
+            });
+        });
 
-				}, 100);
-                 
-                 
-                 
-				}
-
-
-
-			}
-		});
 	},
 
 	sort_handles_events: function (selector) {
@@ -246,7 +250,9 @@ mw.drag = {
                     }
 			 
                     
-                    
+                    if(   mw.have_new_items == true){
+                            mw.drag.load_new_modules();
+                    }
                     
                         $(mw.dragCurrent).show()
                       mw.drag.fixes();
@@ -613,26 +619,38 @@ if (window.console != undefined) {
                 var the_cols_n = $(this).children(".column").length;
             $row_max_w =the_row.width();
             
+            
+            
+            
             $j = 1;
             $remaining_percent_for_the_last_col = 100;
                the_cols.each(function () {
 			var the_col = $(this);
-if($j < the_cols_n){
+                    if($j < the_cols_n){
+                    
+                        	var w = (100 * parseFloat($(this).css("width")) / parseFloat($row_max_w));
+                    						var wRight = 100 - w;
+                                            
+                                            $remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
+                    					    w = (w);
 
-    	var w = (100 * parseFloat($(this).css("width")) / parseFloat($row_max_w));
-						var wRight = 100 - w;
+                                        
+                                    
+                                            
+                                            
+                                            w += "%";
+                    						wRight += "%";
+                    				 
+                    						$(this).css("width", w);
+                    
+                    } else {
+                                                				    w = ($remaining_percent_for_the_last_col);
+
+                      
+                        $(this).css("width", w+"%");
                         
-                        $remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
-						w += "%";
-						wRight += "%";
-				 
-						$(this).css("width", w);
-
-} else {
-    $(this).css("width",$remaining_percent_for_the_last_col+"%");
-    
-}
-$j++;
+                    }
+                $j++;
 		        });
             
             
@@ -901,9 +919,10 @@ if (window.console != undefined) {
 				setTimeout(function () {
 					mw.drag.fix_handles();
 					mw.drag.fixes();
+    				mw.drag.fix_placeholders();
 
 
-				}, 100);
+				}, 300);
 
 
 if (typeof callback === 'function') {
@@ -920,7 +939,7 @@ if (typeof callback === 'function') {
         
         
         
-        
+        mw.have_new_items = false;
         
         
         
@@ -1076,20 +1095,23 @@ mw.global_resizes = {
 
 
 
-						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width));
+						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
 
                         if(mw.global_resizes.next.width()<151){
                            $(this).resizable("option", "maxWidth", ui.size.width);
                         }
 
-
-						mw.settings.resize_started = true;
-						var el = $(this);
-						//el.css('height', 'auto');
-
-
  
-				
+					 
+                     
+                     mw.settings.resize_started = true;
+    				 
+					 
+						//	$("#rightDiv").css("width", wRight);
+
+//$(this).next('.column').css("width", 'auto');
+
+
 
 						//  $r = $(this).parent('.row');
 						// $last_c = $(this).parent('.row').children('.column').last().width();;
@@ -1098,7 +1120,6 @@ mw.global_resizes = {
 
 						//$cols_w = $r.children('.column').width();
 						// $max_w = mw.resizable_row_width -  $other_cols_w-20;
-
 
 
 
@@ -1156,34 +1177,5 @@ mw.drag.fix_column_sizes_to_percent(parent)
 			}
 		}
 	});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 }

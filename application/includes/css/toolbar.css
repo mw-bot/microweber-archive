@@ -518,9 +518,10 @@ background-image: -webkit-gradient(
 .drop_bottom{
   top:-7px;
 }
-.mw_drag_started{
+.mw_drag_started, li.module-item.ui-draggable-dragging{
   padding:20px;
   background:white;
+  list-style: none;
   box-shadow:0 0 8px #000;
 }
 
@@ -540,6 +541,16 @@ background-image: -webkit-gradient(
 div.mw_col_delete{
   float: left;
   white-space: nowrap;
+}
+
+.mw_module_helper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  background: red;
+  width: 200px;
+  height: 200px;
 }
 
 
