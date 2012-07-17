@@ -19,9 +19,22 @@ mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
 mw.dragCurrent = null;
 
+mw.module_helper = "";
 
+prepare_module_helper = function(){
+    mw.module_helper = document.createElement('div');
+    mw.module_helper.className = "mw_module_helper";
+    document.body.appendChild(mw.module_helper);
+  
+}
 
-
+module_drag_helper = function(el){
+    var el = $(el);
+    var img = el.find("img").attr("src");
+    var description = el.find("span").text();
+    mw.module_helper.innerHTML = "<img src='" + img + "' /><br />" + description;
+    return mw.module_helper;
+}
 
 mw.drag = {
 
@@ -36,22 +49,10 @@ mw.drag = {
 		mw.drag.sort(".element > *,.edit,.column > *");
 		mw.drag.edit(".element > *");
 		mw.drag.fix_handles();
-         mw.drag.fix_column_sizes_to_percent();
+        mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
        
-
-
-//    $(".row").mouseleave(function(event){
-//        mw.drag.destroy_dropables();
-//        if(mw.isDrag){
-//            var el = $(this);
-//            var offset = el.offset();
-//            if(event.pageY<offset.top){
-//              var dropa = mw.drag.display_dropables(this, true);
-//              mw.drag.the_drop(dropa.drop_top);
-//            }
-//        }
-//    });
+        prepare_module_helper();
 
         $(document.body).mouseup(function(event){
         	if(mw.isDrag && document.getElementsByClassName("mw_dropable").length==0){
@@ -67,6 +68,7 @@ mw.drag = {
 
 	init: function (selector, callback) {
         
+        alert(selector);
         
 		$(selector).not(".ui-draggable").draggable({
 			handle: ".mw-sorthandle",
@@ -75,7 +77,7 @@ mw.drag = {
 				left: -20
 			},
 			// containment: "#typography",
-			helper: 'original',
+			helper: alert(selector),//selector===".module-item"?module_drag_helper(this):'original',
 			start: function () {
 				mw.isDrag = true;
 				mw.dragCurrent = this;
@@ -98,17 +100,22 @@ mw.drag = {
 					setTimeout(function () {
 						mw.drag.load_new_modules();
 					}, 50);
-				}
-
-
-				setTimeout(function () {
+				} else {
+    			 
+    			setTimeout(function () {
 
 					mw.drag.edit_remove();
 					mw.drag.fix_placeholders();
                     
                     
 
-				}, 500);
+				}, 100);
+                 
+                 
+                 
+				}
+
+
 
 			}
 		});
@@ -213,7 +220,7 @@ mw.drag = {
 				var el = this;
                 var isTop = $(".drop_top.mw_dropable_hover").length>0;  // is mouse, over the top "dropable" ?!
 				setTimeout(function () {
-					$(mw.dragCurrent).hide();
+				//	$(mw.dragCurrent).hide();
                     
                     if($(".absolute-dropable").length>0){
     					var rel = $(".absolute-dropable").data("dropable-rel");
@@ -237,14 +244,15 @@ mw.drag = {
                           }
     					}    
                     }
-					
+			 
                     
                     
-					$(mw.dragCurrent).fadeIn('slow', function(){
-                       mw.drag.fixes();
-					   mw.drag.fix_placeholders();
+                    
+                        $(mw.dragCurrent).show()
+                      mw.drag.fixes();
+    				   mw.drag.fix_placeholders();
 				       mw.resizable_columns();
-					});
+					 
 					event.stopPropagation();
 				}, 37);
 			}
@@ -391,7 +399,7 @@ mw.drag = {
           });
         });
       }
-          $(selector).unbind('mouseleave');
+       $(selector).unbind('mouseleave');
 		$(selector).bind("mouseleave", function (event) {
 		 
 			
@@ -857,7 +865,7 @@ if (window.console != undefined) {
 	 *
 	 * @method mw.drag.load_new_modules()
 	 */
-	load_new_modules: function () {
+	load_new_modules: function (callback) {
 		$(".edit .module-item img").each(function () {
 			var clone = $(this).clone(true);
 			$(this).parent().replaceWith(clone);
@@ -897,13 +905,25 @@ if (window.console != undefined) {
 
 				}, 100);
 
-				setTimeout("mw.drag.create()", 300);
+
+if (typeof callback === 'function') {
+    				callback.call(this);
+				}
+
+				setTimeout("mw.drag.create()", 200);
 
 
 
 
 			}
 		}
+        
+        
+        
+        
+        
+        
+        
 	},
 
 	/**
@@ -982,7 +1002,6 @@ mw.resizable_columns = function () {
 			width: $(this).width() / parent1.width() * 100 + "%"
 		});
 		$is_done = $(this).hasClass('ui-resizable')
-
 		$ds = mw.settings.drag_started;
 		$is_done = false;
 		if ($is_done == false) {
@@ -1137,6 +1156,7 @@ mw.drag.fix_column_sizes_to_percent(parent)
 			}
 		}
 	});
+
 
 
 
