@@ -193,6 +193,9 @@ body:-webkit-full-screen {
   left: 0;
   visibility: hidden;
 }
+.mw_dropable{
+  position: absolute !important;
+}
 
 
 
