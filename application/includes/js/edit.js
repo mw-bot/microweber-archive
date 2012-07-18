@@ -354,6 +354,7 @@ $need_re_init = false;
 	 * @method mw.edit.fix_zindex()
 	 */
 	fix_zindex: function () {
+	return true;
 		var count = 100;
 		$('.mw-sorthandle-row').each(function () {
 			count += 10;

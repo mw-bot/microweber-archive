@@ -28,9 +28,11 @@ mw.tools = {
         var modal = mw.tools.modal.source();
         $(document.body).append(modal.html);
         var modal_object = $(document.getElementById(modal.id));
-        modal_object.width(width).height(height).find(".mw_modal_container").append(html);
-        modal_object.css({marginTop:-height/2,marginLeft:-width/2});
-        modal_object.show();
+        modal_object.width(width).height(height).find(".mw_modal_container").append(html).height(height-60);
+        modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
+        modal_object.show().draggable({
+          handle:'.mw_modal_toolbar'
+        });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
         return modal_return;
@@ -40,19 +42,34 @@ mw.tools = {
         var window_h = $(window).height();
         var window_w = $(window).width();
         var modal_width = modal.width();
+
+        var old_position = {
+          width:modal.css("width"),
+          height:modal.css("height"),
+          left:modal.css("left"),
+          top:modal.css("top")
+        }
+        modal.data("old_position", old_position);
+        modal.addClass("is_minimized");
         modal.animate({
-            top:window_h-10,
+            top:window_h-40,
             left:window_w-modal_width-10,
             height:20
         });
     },
     maximize:function(id){
-
+       var modal = $("#"+id);
+       modal.removeClass("is_minimized");
+       modal.animate(modal.data("old_position"));
     },
     minimax:function(id){
       //check the state of the modal and toggle it;
-
-      mw.tools.modal.minimize(id)
+      if($("#"+id).hasClass("is_minimized")){
+         mw.tools.modal.maximize(id);
+      }
+      else{
+         mw.tools.modal.minimize(id);
+      }
     },
     settings_window:function(callback){
         var modal = mw.modal("");

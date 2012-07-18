@@ -28,6 +28,7 @@ mw.drag = {
 		mw.edit.remove_content_editable();
 
 		mw.drag.fix_placeholders(true);
+      //  mw.drag.fix_placeholders(true, '.edit');
 		mw.drag.fixes()
 
 		mw.drag.init(".element,.row");
@@ -61,9 +62,6 @@ mw.drag = {
                 
                     helper = function(event, ui) {
                                     return mw.dragCurrent = $(this).clone().appendTo('body').css({'zIndex':5}); 
-
-       // var foo = $('<span style="white-space:nowrap;">DRAG TEST</span>'); 
-      //  return foo;
     }
                 
             } else {
@@ -95,10 +93,11 @@ mw.drag = {
             	
               
             		if ($(mw.dragCurrent).hasClass("module-item")) {
-                                 
-            		
+    		
                     mw.have_new_items = true;
-                    
+                       setTimeout(function () {
+                      mw.drag.load_new_modules()
+                      }, 300);
                    
             		}
                     else {
@@ -125,7 +124,11 @@ mw.drag = {
 
 	},
 
-	sort_handles_events: function (selector) {
+	
+    
+    
+    
+    sort_handles_events: function (selector) {
 
 		if (selector == undefined) {
 			selector = '.mw-sorthandle';
@@ -138,6 +141,10 @@ mw.drag = {
 			}
 		});
 	},
+    
+    
+    
+    
 	sort: function (selector) {
 		$(selector).unbind('mouseenter mouseleave');
 		$(selector).bind("mouseenter", function (event) {
@@ -253,9 +260,9 @@ mw.drag = {
                     if(   mw.have_new_items == true){
                             mw.drag.load_new_modules();
                     }
-                    
+                    setTimeout("mw.drag.fixes()", 300);
                         $(mw.dragCurrent).show()
-                      mw.drag.fixes();
+                 
     				   mw.drag.fix_placeholders();
 				       mw.resizable_columns();
 					 
@@ -706,7 +713,7 @@ if (window.console != undefined) {
 						text = mw.settings.sorthandle_col
 					}
 					else {
-						$m_name = $(this).children(".module").attr('data-module-title');
+						$m_name = $(this).children(".module").attr('module_title');
 
 						$m_id = $(this).children(".module").attr('module_id');
 						text = mw.settings.sorthandle_module
@@ -723,7 +730,7 @@ if (window.console != undefined) {
 			$('.mw-sorthandle-row-in-column', '.edit').removeClass('mw-sorthandle-row-in-column');
 			$('.mw-sorthandle-row-in-element', '.edit').removeClass('mw-sorthandle-row-in-element');
 			$('.mw-sorthandle-img-in-element', '.edit').removeClass('mw-sorthandle-img-in-element');
-			$('.edit>.row').children('.mw-sorthandle').addClass('.mw-sorthandle-main-level');
+			$('.edit>.row').children('.mw-sorthandle').addClass('mw-sorthandle-main-level');
 			$('.element').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-element');
 			$('.element').find('img').addClass('mw-sorthandle-img-in-element');
 			$('.column').find('.row').children('.mw-sorthandle').addClass('mw-sorthandle-row-in-column');
@@ -799,10 +806,7 @@ if (window.console != undefined) {
                             $(this).parent('.element').bind("change", function(event){
                                 
                                 
-                                
-if (window.console != undefined) {
-    				console.log('changed');
-				}
+   
                                 
                                 
                          mw.drag.fix_placeholders(true , r)
@@ -889,10 +893,17 @@ if (window.console != undefined) {
 			$(this).parent().replaceWith(clone);
 		});
 		$need_re_init = false;
+        
+        
+        
+         
+        
+         
+        
 		$(".module_draggable", '.edit').each(function (c) {
 			//$(this).unwrap(".module-item");
 			$name = $(this).attr("data-module-name");
-			if ($name && $name != 'undefined' && $name != false && $name != '') {
+			if ($name && $name != 'undefined' && $name != false && $name != '')  {
 				$el_id_new = 'mw-module-' + mw.random();
 				$(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
 				mw.drag.load_module($name, '#' + $el_id_new);
@@ -910,7 +921,10 @@ if (window.console != undefined) {
 			}
 			$need_re_init = true;
 		});
-
+ if(mw.have_new_items == true){
+              $need_re_init = true;
+          } 
+        
 		//
 
 		if ($need_re_init == true) {
@@ -1177,5 +1191,12 @@ mw.drag.fix_column_sizes_to_percent(parent)
 			}
 		}
 	});
- 
+
+
+
+
+
+
+
+
 }
