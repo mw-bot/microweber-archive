@@ -194,7 +194,17 @@ body:-webkit-full-screen {
   visibility: hidden;
 }
 .mw_dropable{
-  position: absolute !important;
+    position: absolute !important;
+}
+.mw_dropable_arr{
+  position: absolute;
+  display: block;
+  left: 50%;
+  bottom: -16px;
+  margin-left: -8px;
+  width: 16px;
+  height: 16px;
+  background: url(http://www.audio-factor.com/basket/images/arrow-down.png) no-repeat;
 }
 
 

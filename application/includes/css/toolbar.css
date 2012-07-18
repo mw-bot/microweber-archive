@@ -503,10 +503,11 @@ background-image: -webkit-gradient(
     text-align: center;
     color: #D0D0D0;
     font-size: 25px;
-    padding: 20px 0;
+
     height: 10px;
-    background: #FCF1A7;
-    border: 2px dashed #D0D0D0;
+    background: rgba(183,231,247,0.6);
+    background: rgb(183,231,247);
+
 }
 .mw_dropable:hover{
     border-color:#B4B4B4;
