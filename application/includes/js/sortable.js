@@ -5,7 +5,7 @@
  */
 mw.edit.init_sortables = function () {
 
-    mw.drag.create()
+    mw.drag.create();
 
 };
 
@@ -17,8 +17,12 @@ mw.edit.init_sortables = function () {
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
-mw.dragCurrent = null;
+
+
+
 mw.have_new_items = false;
+
+mw.dragCurrent = null;
 mw.currentDragMouseOver = null;
 
 
@@ -37,7 +41,6 @@ mw.dropables = {
     var offset = el.offset();
     var width = el.outerWidth();
     var height = el.outerHeight();
-
     mw.dropable.css({
         top:offset.top+height,
         left:offset.left,
@@ -50,10 +53,7 @@ mw.dropables = {
 mw.drag = {
 
 	create: function () {
-
-
-         mw.top_half = false;
-
+    mw.top_half = false;
      $(document.body).mousemove(function(event){
        if(mw.isDrag){
         var el = $(mw.currentDragMouseOver);
@@ -73,13 +73,19 @@ mw.drag = {
           });
           mw.dropable.data("position", "top");
         }
-        mw.dropable.show();
-
-        console.log(mw.dropable.data("position"));
-
-        //event.stopPropagation();
+       console.log(el.attr("class"));
+        if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
+            if(el.hasClass("empty-element")){
+                mw.dropable.hide();
+            }
+            else{
+                mw.dropable.show();
+            }
         }
-
+        else{
+           mw.dropable.hide();
+        }
+       }
      });
 
 
@@ -116,9 +122,6 @@ mw.drag = {
 
       mw.drag.dropable_object
 
-
-
-
 	},
 
 
@@ -126,13 +129,10 @@ mw.drag = {
 
         $(selector).not(".ui-draggable").each(function(){
             var el = $(this);
-           // var helper = el.hasClass("module-item")?module_helper:'original';
             if( el.hasClass("module-item")){
-
-                    helper = function(event, ui) {
-                                    return mw.dragCurrent = $(this).clone().appendTo('body').css({'zIndex':5});
-    }
-
+                helper = function(event, ui) {
+                    return mw.dragCurrent = $(this).clone().appendTo('body').css({'zIndex':5});
+                }
             }
             else {
                 helper = 'original'
@@ -165,7 +165,6 @@ mw.drag = {
                       mw.drag.fix_column_sizes_to_percent()
 
                       }, 300);
-
             		}
                     else {
                       setTimeout(function () {
@@ -177,9 +176,8 @@ mw.drag = {
 
                  if (typeof callback === 'function') {
             			callback.call(this);
-            		}
-
-             $(".row").css({marginTop:'0px',marginBottom:'0px'});
+            	 }
+                 $(".row").css({marginTop:'0px',marginBottom:'0px'});
 
             	}
             });
@@ -205,16 +203,10 @@ mw.drag = {
 		$(selector).bind("mouseenter", function (event) {
 		    mw.currentDragMouseOver = this;
 			if (mw.isDrag) {
-				//mw.drag.destroy_dropables();
                 if(!$(this).hasClass("empty-element")){
-                   //mw.drag.display_dropables(this);
-
-
                    mw.dropables.display(this);
-
                    event.stopPropagation();
                 }
-
 			}
 			else {
 				var el = $(this);
@@ -242,12 +234,9 @@ mw.drag = {
 			event.stopPropagation();
 		});
 
-
-
 		mw.drag.the_drop(selector);
 
 		return $(selector);
-
 
 	},
     row_sort:function(){
@@ -295,7 +284,6 @@ mw.drag = {
 		$(selector).bind("mouseup", function (event) {
 			if (mw.isDrag) {
 				var el = this;
-                var isTop = $(".drop_top.mw_dropable_hover").length>0;  // is mouse, over the top "dropable" ?!
 				setTimeout(function () {
 				//	$(mw.dragCurrent).hide();
 
@@ -315,8 +303,8 @@ mw.drag = {
                         }
                     }
 
-                    if(   mw.have_new_items == true){
-                            mw.drag.load_new_modules();
+                    if(mw.have_new_items == true){
+                        mw.drag.load_new_modules();
                     }
 
                     $(mw.dragCurrent).show();
@@ -324,7 +312,7 @@ mw.drag = {
                     mw.drag.fixes();
                     mw.drag.fix_placeholders();
                     mw.resizable_columns();
-                   mw.dropable.hide();
+                    mw.dropable.hide();
 					event.stopPropagation();
 				}, 37);
 			}
@@ -355,59 +343,8 @@ mw.drag = {
 	destroy_dropables: function () {
 		//$(".mw_dropable").remove();
 	},
-	display_dropables: function (selector, isAbsolute) {/*
-        var isAbsolute = isAbsolute || false;
-		var drop_bottom = mw.drag.create_dropable(selector);
-		var drop_top = mw.drag.create_dropable(selector, 'Drop above');
-		drop_bottom.style.display = 'none';
-		drop_top.style.display = 'none';
-		$(drop_bottom).addClass("drop_bottom");
-		$(drop_top).addClass("drop_top");
+	display_dropables: function (selector, isAbsolute) {
 
-        var el  = $(selector);
-
-        mw.drag.dropable_supporter(el);
-
-        if(!isAbsolute){
-
-    		if(el.next().hasClass("empty-element") || el.next().length==0){ // check if is last child
-                if(el.parent().hasClass("element")){
-                   el.parent().after(drop_bottom);
-                }
-                else{
-                   el.after(drop_bottom);
-                }
-            }
-            else{
-               el.after(drop_bottom);
-            }
-
-            if(el.prev().hasClass("mw-sorthandle")){//check if is first child
-               el.parent().before(drop_top);
-            }
-            else{
-                el.before(drop_top);
-            }
-
-	    }
-
-        else{ // if not absolute
-            var offset = el.offset();
-
-    		document.body.appendChild(drop_top);
-			$(drop_top).css({
-				position:'absolute',
-				top:offset.top-50,
-				left:offset.left,
-				zIndex:10000
-			}).addClass("absolute-dropable").data("dropable-rel", el.attr("id"));
-        }
-
-		$(drop_bottom).fadeIn(200);
-        $(drop_top).fadeIn(200);
-
-
-        return {drop_top:drop_top, drop_bottom:drop_bottom}   */
 	},
 
 
@@ -918,20 +855,11 @@ if (window.console != undefined) {
 					mw.drag.fix_handles();
 					mw.drag.fixes();
     				mw.drag.fix_placeholders();
-
-
 				}, 300);
-
-
-if (typeof callback === 'function') {
+                if (typeof callback === 'function') {
     				callback.call(this);
 				}
-
 				setTimeout("mw.drag.create()", 200);
-
-
-
-
 			}
 		}
 
@@ -1108,6 +1036,7 @@ mw.global_resizes = {
 
 					},
 					start: function (event, ui) {
+					  $(this).resizable("option", "maxWidth", 9999);
 						$(".column", '.edit').each(function () {
 							$(this).removeClass('selected');
 						});
@@ -1127,8 +1056,8 @@ mw.global_resizes = {
 					},
 					stop: function (event, ui) {
 
-var parent = ui.element.parent('.row');
-mw.drag.fix_column_sizes_to_percent(parent)
+                        var parent = ui.element.parent('.row');
+                        mw.drag.fix_column_sizes_to_percent(parent);
 
 						mw.edit.fix_zindex();
 						mw.settings.resize_started = false;

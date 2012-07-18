@@ -1,5 +1,16 @@
 
-
+#mw-saving-loader{
+	height:48px;
+	width:48px;
+	background-image: url(images/saving.gif);
+	background-color:#FFFFB9 !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+	  display:none;
+	position:absolute;
+	bottom:10px;
+	right:30px;
+}
 
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
 	padding-top:5px;

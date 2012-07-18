@@ -880,11 +880,15 @@ minWidth: 30 ,
 	 * @method mw.edit.save()
 	 */
 	save: function () {
+		
+		$("#mw-saving-loader").fadeIn();
+		
+		
 		$(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
 		$(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
 		$(".mw-sorthandle", '.edit').remove();
-		$('.column', '.row').height('auto')
+		 
 		var custom_styles = new Array();
 		var regEx = /^mw-style/;
 		var elm = $(".mw-custom-style", '.edit');
@@ -964,12 +968,14 @@ minWidth: 30 ,
 				async: true,
 				beforeSend: function () {
 					window.saving = true;
+					$("#mw-saving-loader").fadeIn();
 				},
 				success: function (data) {
 					mw.history.init();
 					window.saving = false;
 					window.mw_sortables_created = false;
 					window.mw_drag_started = false;
+					$("#mw-saving-loader").fadeOut();
 				}
 			});
 		}

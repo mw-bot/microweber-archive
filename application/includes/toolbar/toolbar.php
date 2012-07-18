@@ -175,5 +175,6 @@
       </div>
     <div id="mw-text-editor"></div>
     <div id="mw-history-panel"></div>
+     <div id="mw-saving-loader"></div> 
 
 </div><!-- /end .mw -->
