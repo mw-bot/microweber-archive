@@ -192,9 +192,11 @@ body:-webkit-full-screen {
   top:0;
   left: 0;
   visibility: hidden;
+
 }
 .mw_dropable{
     position: absolute !important;
+    box-shadow:1px 1px 1px black;
 }
 .mw_dropable_arr{
   position: absolute;

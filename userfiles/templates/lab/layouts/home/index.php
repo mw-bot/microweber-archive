@@ -44,7 +44,13 @@ description: Home site layout
     <!-- Headings & Paragraph Copy -->
     <div class="row">
       <div class="span4 column">
-       <module name="forms/mail_form" id="mf_home" />
+      
+      
+      
+       <module path="forms/mail_form" view="settings" /> 
+       
+        
+       
         <div class="well element"> 
           <h1>h1. Heading 1</h1>
           <h2>h2. Heading 2</h2>

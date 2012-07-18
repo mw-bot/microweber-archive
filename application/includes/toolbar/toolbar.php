@@ -7,7 +7,7 @@
     window.mw = window.mw ? window.mw : {};
 
     mw.settings = {
-        site_url:'<?php print site_url(); ?>',
+        site_url:'<?php print site_url(); ?>', //mw.settings.site_url
 
         page_id : '<?php print intval(PAGE_ID) ?>',
         post_id : '<?php print intval(POST_ID) ?>',
@@ -54,6 +54,7 @@
 
 
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
+<script src="<?php   print( INCLUDES_URL);  ?>js/api.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js" type="text/javascript"></script>
   <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script> 
  <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script> */ ?>

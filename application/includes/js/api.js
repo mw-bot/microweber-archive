@@ -121,12 +121,12 @@ mw.reload_module = function($module_name) {
 								
 									
 									if (mw_params_module == $module_name || mw_params_module_id == $module_name|| mw_params_module_no_adm == $module_name) {
-										 encoded = $(this).attr("data-params-encoded");
+										// encoded = $(this).attr("data-params-encoded");
 										 elem = $(this);                   
 										           
 		
 								 
-										 url1= '{SITE_URL}api/module/index/reload_module:' + encoded;
+										 url1= mw.settings.site_url+ 'api/module/index/reload_module';
 										 elem.load(url1,$all_attr,function() {
 											 mw.settings.sortables_created = false;
 										 }); 
