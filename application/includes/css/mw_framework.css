@@ -144,14 +144,47 @@ body:-webkit-full-screen {
   display: none;
   background: white;
   border:1px solid #C4C4C4;
+  overflow: hidden;
   /*box-shadow:0 0 5px #555555;*/
 }
+
+.mw_modal_close{
+  position: absolute;
+  display: block;
+  width: 27px;
+  height: 20px;
+  background: url(../img/popup_ctrls.png) no-repeat;
+  top: 1px;
+  right: 1px;
+  cursor: pointer;
+  text-indent: -9999px;
+}
+.mw_modal_minimize{
+  position: absolute;
+  top: 1px;
+  right: 30px;
+  text-indent: -9999px;
+  display: block;
+  background: url(../img/popup_ctrls.png) no-repeat 0 -20px;
+  cursor: pointer;
+  width: 27px;
+  height: 20px;
+}
+
+.mw_modal.is_minimized .mw_modal_minimize{
+  background-position: 0 -40px;
+}
+
 .mw_modal_container{
   padding: 15px;
   overflow-y:auto;
   overflow-x:hidden;
-
 }
+
+.mw_modal_maximized{
+  overflow: hidden;
+}
+
 .mw_modal_toolbar{
   height: 22px;
   width:100%;

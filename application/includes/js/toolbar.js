@@ -31,7 +31,8 @@ mw.tools = {
         modal_object.width(width).height(height).find(".mw_modal_container").append(html).height(height-60);
         modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
         modal_object.show().draggable({
-          handle:'.mw_modal_toolbar'
+          handle:'.mw_modal_toolbar',
+          containment:'body'
         });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
@@ -54,7 +55,7 @@ mw.tools = {
         modal.animate({
             top:window_h-40,
             left:window_w-modal_width-10,
-            height:20
+            height:24
         });
     },
     maximize:function(id){
