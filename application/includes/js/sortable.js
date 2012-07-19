@@ -29,6 +29,9 @@ mw.dropables = {
     dropable.innerHTML = '<span class="mw_dropable_arr"></span>';
     document.body.appendChild(dropable);
     mw.dropable = $(dropable);
+    mw.dropable.bind("mouseenter", function(){
+      $(this).hide();
+    });
   },
   display:function(el){
     var el = $(el);
@@ -53,10 +56,11 @@ mw.drag = {
             var el = $(mw.currentDragMouseOver);
             var offset = el.offset();
             var height = el.height();
+            $(".mw_dropdown_val").html(event.pageY > offset.top+(height/2));
             if(event.pageY > offset.top+(height/2)){  //is on the bottom part
               mw.top_half = false;
               mw.dropable.css({
-                top:offset.top+height
+                top:offset.top+height+2
               });
               mw.dropable.data("position", "bottom");
               mw.dropable.removeClass("mw_dropable_arr_up");
@@ -64,7 +68,7 @@ mw.drag = {
             else{
               mw.top_half = true;
               mw.dropable.css({
-                top:offset.top
+                top:offset.top-2
               });
               mw.dropable.data("position", "top");
               mw.dropable.addClass("mw_dropable_arr_up");
@@ -100,15 +104,11 @@ mw.drag = {
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
 
-
-
         $(document.body).mouseup(function(event){
         	if(mw.isDrag && mw.dropable.is(":hidden")){
         		$(".ui-draggable-dragging").animate({top:0,left:0});
         	}
         });
-
-      mw.drag.dropable_object;
 
 	},
 
@@ -139,7 +139,6 @@ mw.drag = {
             		mw.drag.edit_remove();
             		$(this).addClass("mw_drag_started");
             		mw.drag.fixes();
-
             	},
             	stop: function (event, ui) {
             		mw.isDrag = false;
@@ -249,16 +248,10 @@ if (window.console != undefined) {
 
 	    $(selector).unbind('mouseenter mouseleave');
 		$(selector).bind("mouseenter", function (event) {
-
-
-
-
 			if (mw.isDrag) {
                 mw.currentDragMouseOver = this;
-
                $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                $(this).addClass("currentDragMouseOver");
-
                 if(!$(this).hasClass("empty-element")){
                    mw.dropables.display(this);
                    event.stopPropagation();
@@ -295,14 +288,11 @@ if (window.console != undefined) {
 		return $(selector);
 	},
 
-
-	the_drop: function (selector) {
-
+    the_drop: function (selector) {
 		$(document.body).bind("mouseup", function (event) {
 			if (mw.isDrag) {
 				var el = this;
 				setTimeout(function () {
-
                         var position = mw.dropable.data("position");
                         var hovered = $(mw.currentDragMouseOver);
                         if(hovered.hasClass("empty-element")){
@@ -327,7 +317,6 @@ if (window.console != undefined) {
 
                               }
                         }
-
                     if(mw.have_new_items == true){
                         mw.drag.load_new_modules();
                     }
@@ -341,8 +330,6 @@ if (window.console != undefined) {
 			}
 		});
 	},
-
-
 	/**
 	 * Various fixes
 	 *
@@ -370,7 +357,6 @@ if (window.console != undefined) {
 			}
 		});
 	},
-
     /**
 	 * fix_placeholders in the layout
 	 *
@@ -380,7 +366,6 @@ if (window.console != undefined) {
        if(selector == undefined){
            selector = '.row';
        }
-
       if(isHard){ //append the empty elements
        $(selector).each(function(){
           var el = $(this);
@@ -426,8 +411,6 @@ if (window.console != undefined) {
 				$('#' + $some_el_id).height($('#' + $some_el_id).parents(".column:first").height());
 			}
 			else {
-
-
 				chHeight = 0;
 				colHeight = $(this).height();;
 				col = $(this);
@@ -436,7 +419,6 @@ if (window.console != undefined) {
 				$check = $(this).children().last().hasClass('empty-element');
                 $some_el_id = false;
 				 if($check == false){
-
                     text = mw.settings.empty_column_placeholder.toString();
 					$some_el_id = 'mw-placeholder-' + mw.random();
 					text = text.replace(/_ID_/g, $some_el_id);
