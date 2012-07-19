@@ -4,7 +4,7 @@ $mw_config = array ();
  
  
 
-$mw_config ['site_url'] = 'http://pecata/Microweber/';   //use slash at the end
+$mw_config ['site_url'] = 'http://pecata/Microweber_3/';   //use slash at the end
 
  $mw_config ['system_folder'] = 'ci';
 $mw_config ['application_folder'] = 'application';

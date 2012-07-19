@@ -1076,3 +1076,127 @@ mw.global_resizes = {
 
 
 }
+
+
+
+
+
+var Server;
+
+		function log( text ) {
+			$log = $('#log');
+			//Add text to log
+			$log.append(($log.val()?"\n":'')+text);
+			//Autoscroll
+			$log[0].scrollTop = $log[0].scrollHeight - $log[0].clientHeight;
+		}
+
+		function send( text ) {
+			Server.send( 'message', text );
+		}
+
+		$(document).ready(function() {
+			log('Connecting...');
+			Server = new FancyWebSocket('ws://192.168.0.3:9300');
+
+
+var intervalID = setInterval(function() {
+	var master = {}; 
+	var master_str =''; 
+ $('.edit').each(function (j) {
+			j++;
+			content = $(this).get(0).innerHTML;
+			id =  $(this).attr('field');
+			if (window.no_async == true) {
+				$async_save = false;
+				window.no_async = false;
+			}
+			else {
+				$async_save = true;
+			}
+			 
+			 
+		// var objX = "field_data_" + j;
+		//	master.objX = obj;
+			
+			content = encodeURI(content);
+			
+			master_str += "|||||||__MW__||||||_mw_field|_MW_SEP_"+id+"|_mw_content|_MW_SEP_" +content  
+			
+			
+				send( master_str);
+			
+		});
+		
+		
+		
+		 
+		
+	
+		
+	 
+
+ }, 2000);
+
+
+
+			$('#message').keypress(function(e) {
+				if ( e.keyCode == 13 && this.value ) {
+					log( 'You: ' + this.value );
+					send( this.value );
+
+					$(this).val('');
+				}
+			});
+
+			//Let the user know we're connected
+			Server.bind('open', function() {
+				log( "Connected." );
+			});
+
+			//OH NOES! Disconnection occurred.
+			Server.bind('close', function( data ) {
+				log( "Disconnected." );
+			});
+
+			//Log any messages sent from server
+			Server.bind('message', function( payload ) {
+ 
+ var str=payload;
+var n=str.split("|||||||__MW__|||||");
+			if(n[2] != undefined){
+				var n1=n[2].split("_MW_SEP_");
+				
+				 if (window.console != undefined) {
+                       //   console.log(n1);
+                      }
+				
+				
+			 if(n1[1] != undefined){
+				
+				$fld = n1[1].toString().replace("|_mw_content|", '');
+				$fld_c = n1[2].toString().replace("|_mw_content|", '');
+								$fld_cdec = decodeURI($fld_c );
+
+				  
+				
+	 
+ 				 $old = $('.edit [field="'+$fld+'"]').html();
+				 $old = encodeURI($old);
+				if($old  != $fld_c){
+					// $('.edit [field="'+$fld+'"]').html($fld_cdec);
+					 $('*[field="'+$fld+'"]').html($fld_cdec);
+					 if (window.console != undefined) {
+                          console.log($fld + $fld_cdec );
+                      }
+				}
+				
+				
+			}
+			}
+				
+				
+			});
+
+			Server.connect();
+		});
