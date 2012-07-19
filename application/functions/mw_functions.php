@@ -198,7 +198,164 @@ function mw_get_var($var) {
 	//print $var;
 	return $var;
 }
+function set_template_constants($for_page_id = false) {
+	$CI = get_instance ();
+	
+	if($for_page_id == false){
+		
+		$for_page_id = PAGE_ID;
+		
+	}
 
+
+
+$page = get_page($for_page_id);
+ 
+
+if (trim($page['active_site_template']) != '') {
+	$tmpl = trim($page['active_site_template']);
+	if (strtolower($tmpl) == 'default') {
+		$the_active_site_template = $CI -> core_model -> optionsGetByKey('curent_template');
+
+	} else {
+		$check_dir = TEMPLATEFILES . '' . $tmpl;
+
+		if (is_dir($check_dir)) {
+			$the_active_site_template = $tmpl;
+		} else {
+			$the_active_site_template = $CI -> core_model -> optionsGetByKey('curent_template');
+
+		}
+
+	}
+} else {
+	$the_active_site_template = $CI -> core_model -> optionsGetByKey('curent_template');
+
+}
+if (strtolower($the_active_site_template) == 'default') {
+
+	$the_active_site_template = $this -> core_model -> optionsGetByKey('curent_template');
+	//p($the_active_site_template,1);
+	//
+}
+
+//$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+
+$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
+$the_active_site_template_dir = normalize_path($the_active_site_template_dir, true);
+
+//p($the_active_site_template_dir );
+
+//if (defined ( 'ACTIVE_TEMPLATE_DIR' ) == false) {
+
+define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
+
+ 
+
+define('TEMPLATE_DIR', $the_active_site_template_dir);
+
+//}
+
+if (defined('TEMPLATES_DIR') == false) {
+
+	define('TEMPLATES_DIR', $the_active_site_template_dir);
+
+}
+
+if (defined('DEFAULT_TEMPLATE_DIR') == false) {
+
+	define('DEFAULT_TEMPLATE_DIR', TEMPLATEFILES . 'default/');
+
+}
+
+//$the_active_site_template = $this->core_model->optionsGetByKey ( 'curent_template' );
+
+$the_active_site_template_dir = TEMPLATEFILES . $the_active_site_template . '/';
+
+$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
+
+$the_template_url = $the_template_url . '/';
+
+if (defined('TEMPLATE_URL') == false) {
+
+	define("TEMPLATE_URL", $the_template_url);
+
+}
+
+if (defined('USERFILES_URL') == false) {
+
+	define("USERFILES_URL", site_url('userfiles/'));
+
+}
+if (defined('USERFILES_DIR') == false) {
+
+	define("USERFILES_DIR", USERFILES);
+
+}
+
+if (defined('MODULES_DIR') == false) {
+
+	define("MODULES_DIR", USERFILES . 'modules/');
+
+}
+
+if (defined('LAYOUTS_DIR') == false) {
+
+	$layouts_dir = TEMPLATES_DIR . 'layouts/';
+
+	define("LAYOUTS_DIR", $layouts_dir);
+
+} else {
+
+	$layouts_dir = LAYOUTS_DIR;
+
+}
+
+if (defined('LAYOUTS_URL') == false) {
+
+	$layouts_url = reduce_double_slashes(dirToURL($layouts_dir) . '/');
+
+	define("LAYOUTS_URL", $layouts_url);
+
+} else {
+
+	$layouts_url = LAYOUTS_URL;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 function template_var($var) {
 	 // $CI = get_instance ();
 	//$var =  get_instance()->template [$var];

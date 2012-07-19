@@ -206,7 +206,21 @@ body:-webkit-full-screen {
   margin-left: -8px;
   width: 16px;
   height: 16px;
-  background: url(http://www.audio-factor.com/basket/images/arrow-down.png) no-repeat;
+  background: url(http://png-5.findicons.com/files//icons/984/misto/256/arrow_down.png) no-repeat;
+  background-size:16px 16px;
+}
+.mw_dropable_arr_up{
+  bottom:16px;
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleX(-1);
+  filter: FlipV;
+  -ms-filter: "FlipV";
+}
+
+.currentDragMouseOver{
+  outline: dotted 3px #B7E7F7;
 }
 
 
