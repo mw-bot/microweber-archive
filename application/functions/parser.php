@@ -131,6 +131,7 @@ function parse_micrwober_tags($layout, $options = false) {
 						$attr['module'] = 'non_existing';
 					}
 					$mod_d1 = FALSE;
+					 
 					if ($attr['module'] != '') {
 
 						$attr['module'] = trim($attr['module']);
@@ -138,8 +139,20 @@ function parse_micrwober_tags($layout, $options = false) {
 						$attr['module'] = str_replace('..', '', $attr['module']);
 						// prevent hack of the directory
 						$attr['module'] = reduce_double_slashes($attr['module']);
-						$mod_d = MODULES_DIR . '' . $attr['module'];
-						$mod_d1 = normalize_path($mod_d, 1);
+
+						$module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $attr['module'] . '';
+						$module_in_template_dir = normalize_path($module_in_template_dir, 1);
+						$module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $attr['module'] . '.php';
+						$module_in_template_file = normalize_path($module_in_template_file, false);
+						 
+ 
+						if (is_dir($module_in_template_dir) or is_file($module_in_template_file)) {
+							$mod_d = $module_in_template_dir;
+							$mod_d1 = normalize_path($mod_d, 1);
+						} else {
+							$mod_d = MODULES_DIR . '' . $attr['module'];
+							$mod_d1 = normalize_path($mod_d, 1);
+						}
 
 						if (is_dir($mod_d1)) {
 							$try_file1 = $mod_d1 . 'index.php';
@@ -147,8 +160,7 @@ function parse_micrwober_tags($layout, $options = false) {
 							$mod_d1 = FALSE;
 							$try_file1 = $mod_d . '.php';
 						}
-
-						$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
+ 		$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
 
 						$try_file_db_file = MODULES_DIR . $attr['module'] . '_db.php';
 						$try_file_db_file = normalize_path($try_file_db_file, false);

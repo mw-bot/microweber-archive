@@ -12,11 +12,11 @@ mw.edit.init_sortables = function () {
 
 
 
-
-
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
+mw.external_content_dragged = false;
+
 
 
 
@@ -90,9 +90,6 @@ mw.drag = {
 
 
 
-
-
-
         mw.drag.dropable_supporter('init');
 
         mw.dropables.prepare();
@@ -120,7 +117,14 @@ mw.drag = {
         	}
         });
 
-      mw.drag.dropable_object
+      mw.drag.dropable_object;
+	  
+	  
+	  
+	
+
+	  
+	  
 
 	},
 
@@ -199,6 +203,55 @@ mw.drag = {
 		});
 	},
 	sort: function (selector) {
+		
+		
+		
+		
+	/*
+	Drag from external website
+
+		   $(selector).unbind('drop');
+		  $(selector).bind('drop', function(e) {
+   if (!mw.isDrag) {
+		e.preventDefault();
+        e.originalEvent.dataTransfer;
+		e.originalEvent.dataTransfer.items[0].getAsString(function(url){
+			
+			if(mw.external_content_dragged == false){
+
+			mw.external_content_dragged = true;
+			  var tr = $(e.target).closest('.element').prepend(url);
+
+			  			
+if (window.console != undefined) {
+					console.log('Drop from external website: ' +  url);
+				}
+			  
+			  
+			   e.preventDefault();
+			   e.stopPropagation();
+			   setTimeout(function () {
+
+						mw.external_content_dragged = false;
+					}, 600);
+			   
+			}
+		 //   alert(url);
+		})
+   }
+	  });
+
+   */
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	    $(selector).unbind('mouseenter mouseleave');
 		$(selector).bind("mouseenter", function (event) {
 		    mw.currentDragMouseOver = this;
@@ -285,8 +338,6 @@ mw.drag = {
 			if (mw.isDrag) {
 				var el = this;
 				setTimeout(function () {
-				//	$(mw.dragCurrent).hide();
-
                     if($(".absolute-dropable").length>0){
     					var rel = $(".absolute-dropable").data("dropable-rel");
 						$("#"+rel).before(mw.dragCurrent);
@@ -295,11 +346,26 @@ mw.drag = {
 					}
                     else{
                         var position = mw.dropable.data("position");
+
+                        var hovered = $(mw.currentDragMouseOver);
+
                         if(position=='top'){
-                           $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                           if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
+                              hovered.before(mw.dragCurrent);
+                           }
+                           else{
+                              hovered.parent().before(mw.dragCurrent);
+                           }
+
                         }
                         else if(position=='bottom'){
-                           $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                           if(hovered.next().length==0){
+                              hovered.parent().after(mw.dragCurrent);
+                           }
+                           else{
+                              hovered.after(mw.dragCurrent);
+                           }
+
                         }
                     }
 
