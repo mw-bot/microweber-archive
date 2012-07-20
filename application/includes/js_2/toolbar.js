@@ -31,8 +31,7 @@ mw.tools = {
         modal_object.width(width).height(height).find(".mw_modal_container").append(html).height(height-60);
         modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
         modal_object.show().draggable({
-          handle:'.mw_modal_toolbar',
-          containment:'body'
+          handle:'.mw_modal_toolbar'
         });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
@@ -55,7 +54,7 @@ mw.tools = {
         modal.animate({
             top:window_h-40,
             left:window_w-modal_width-10,
-            height:24
+            height:20
         });
     },
     maximize:function(id){
@@ -232,7 +231,7 @@ mw.extras = {
   }
 }
 
-mw.random = function(){return Math.floor(Math.random()*9999999+(Math.random()*9999)-Math.random()*(999+Math.random()));}
+mw.random = function(){return Math.floor(Math.random()*9999999);}
 
 
 mw.edit.image_settings={
@@ -312,51 +311,7 @@ mw.edit.image_settings={
 
 
 
-mw.remote_drag = {
-    from_pc:function(){
-        $(".element, .element>*").each(function(){
-            var el = $(this);
-            this.addEventListener('dragover', function(event){
-                event.stopPropagation();
-                event.preventDefault();
-                event.dataTransfer.dropEffect = 'copy';
-            }, false);
-            this.addEventListener('drop', function(event){
-                event.stopPropagation();
-                event.preventDefault();
-                var files = event.dataTransfer.files;
-                $.each(files, function(){
-                    var reader = new FileReader();
-                    mw.remote_drag.load_file(reader, this, el);
-                });
-            }, false);
-        });
-    },
-    load_file : function(reader, file, element){
-          if(file.type.indexOf("image")!=-1){
-             reader.onload = function(e) {
-               var result = e.target.result;
-               element.after( "<img src='"+result+"' />");
-  		     }
-             reader.readAsDataURL(file);
-          }
-          else if(file.type.indexOf("pdf")!=-1){
-              reader.onload = function(e) {
-               var result = e.target.result;
-               alert(1);
-               element.after( "<span>"+e.target.result+"</span>");
-  		     }
-             reader.readAsBinaryString(file);
-          }
-          else{
-            reader.onload = function(e) {
-               var result = e.target.result;
-               element.after( "<p>"+result+"</p>");
-  		    }
-            reader.readAsText(file,"UTF-8");
-          }
-    }
-}
+
 
 
 
@@ -364,11 +319,11 @@ mw.remote_drag = {
 
 
 $(window).load(function(){
-
-mw.remote_drag.from_pc()
         $("#typography img").click(function(){
             mw.edit.image_settings.init(this);
        });
+
+
 
 });
 

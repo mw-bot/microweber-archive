@@ -45,7 +45,6 @@
 <script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js" type="text/javascript"></script>
 <link href="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/freshereditor.js" type="text/javascript"></script>
-
 <link href="<?php   print( INCLUDES_URL);  ?>js/freshereditor.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 
@@ -57,19 +56,15 @@
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/api.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js" type="text/javascript"></script>
-  <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script> 
+    <script src="<?php   print( INCLUDES_URL);  ?>js/jsonml.js" type="text/javascript"></script> 
+     <script src="<?php   print( INCLUDES_URL);  ?>js/mutation_summary.js" type="text/javascript"></script>
   
-  
-  <script src="<?php   print( INCLUDES_URL);  ?>js/json2.js" type="text/javascript"></script>
-  
-  
-  <script src="<?php   print( INCLUDES_URL);  ?>js/fancywebsocket.js" type="text/javascript"></script>
+  <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
+    <script src="<?php   print( INCLUDES_URL);  ?>js/socket.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 
-  
-  
-  
- <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script> */ ?>
+ 
 
+ <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
 
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script type="text/javascript">
@@ -187,7 +182,6 @@
     <div id="mw-text-editor"></div>
     <div id="mw-history-panel"></div>
      <div id="mw-saving-loader"></div> 
-	 
-<textarea id='log' name='log' readonly='readonly'></textarea><br/>
-		<input type='text' id='message' name='message' />
+     <div id="log"></div> 
+
 </div><!-- /end .mw -->

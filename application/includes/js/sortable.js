@@ -29,6 +29,9 @@ mw.dropables = {
     dropable.innerHTML = '<span class="mw_dropable_arr"></span>';
     document.body.appendChild(dropable);
     mw.dropable = $(dropable);
+    mw.dropable.bind("mouseenter", function(){
+      $(this).hide();
+    });
   },
   display:function(el){
     var el = $(el);
@@ -53,10 +56,11 @@ mw.drag = {
             var el = $(mw.currentDragMouseOver);
             var offset = el.offset();
             var height = el.height();
+            $(".mw_dropdown_val").html(event.pageY > offset.top+(height/2));
             if(event.pageY > offset.top+(height/2)){  //is on the bottom part
               mw.top_half = false;
               mw.dropable.css({
-                top:offset.top+height
+                top:offset.top+height+2
               });
               mw.dropable.data("position", "bottom");
               mw.dropable.removeClass("mw_dropable_arr_up");
@@ -64,7 +68,7 @@ mw.drag = {
             else{
               mw.top_half = true;
               mw.dropable.css({
-                top:offset.top
+                top:offset.top-2
               });
               mw.dropable.data("position", "top");
               mw.dropable.addClass("mw_dropable_arr_up");
@@ -83,7 +87,7 @@ mw.drag = {
            }
          });
 
-        mw.drag.dropable_supporter('init');
+
 
         mw.dropables.prepare();
 
@@ -100,15 +104,11 @@ mw.drag = {
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
 
-        mw.drag.row_sort();
-
         $(document.body).mouseup(function(event){
         	if(mw.isDrag && mw.dropable.is(":hidden")){
         		$(".ui-draggable-dragging").animate({top:0,left:0});
         	}
         });
-
-      mw.drag.dropable_object;
 
 	},
 
@@ -131,7 +131,7 @@ mw.drag = {
             		top: -20,
             		left: -20
             	},
-                scroll: true, scrollSensitivity: 0, scrollSpeed: 40,
+
             	helper: helper,
             	start: function () {
             		mw.isDrag = true;
@@ -143,10 +143,7 @@ mw.drag = {
             	stop: function (event, ui) {
             		mw.isDrag = false;
             		$(this).removeClass("mw_drag_started");
-
-
             		if ($(mw.dragCurrent).hasClass("module-item")) {
-
                     mw.have_new_items = true;
                        setTimeout(function () {
 
@@ -175,7 +172,6 @@ mw.drag = {
 	},
 
 	sort_handles_events: function (selector) {
-
 		if (selector == undefined) {
 			selector = '.mw-sorthandle';
 		}
@@ -188,10 +184,10 @@ mw.drag = {
 		});
 	},
 	sort: function (selector) {
-		
-		
-		
-		
+
+
+
+
 	/*
 	Drag from external website
 
@@ -201,25 +197,25 @@ mw.drag = {
 		e.preventDefault();
         e.originalEvent.dataTransfer;
 		e.originalEvent.dataTransfer.items[0].getAsString(function(url){
-			
+
 			if(mw.external_content_dragged == false){
 
 			mw.external_content_dragged = true;
 			  var tr = $(e.target).closest('.element').prepend(url);
 
-			  			
+
 if (window.console != undefined) {
 					console.log('Drop from external website: ' +  url);
 				}
-			  
-			  
+
+
 			   e.preventDefault();
 			   e.stopPropagation();
 			   setTimeout(function () {
 
 						mw.external_content_dragged = false;
 					}, 600);
-			   
+
 			}
 		 //   alert(url);
 		})
@@ -227,21 +223,35 @@ if (window.console != undefined) {
 	  });
 
    */
-		
-		
+
+
+   $(".row, .edit").bind("mouseleave", function(event){
+     if (mw.isDrag) {
+       mw.currentDragMouseOver = this;
+       var el = this;
+       var offset = $(el).offset();
+       if(offset.top>event.pageY){
+          mw.dropable.data("position", "top");
+       }
+       else{
+         mw.dropable.data("position", "bottom");
+       }
+     }
+   });
+
+   $(".row, .edit").bind("mouseenter", function(){
+     if (mw.isDrag) {
+       mw.currentDragMouseOver = null;
+     }
+   });
+
 
 	    $(selector).unbind('mouseenter mouseleave');
 		$(selector).bind("mouseenter", function (event) {
-
-
-
-
 			if (mw.isDrag) {
                 mw.currentDragMouseOver = this;
-
                $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                $(this).addClass("currentDragMouseOver");
-
                 if(!$(this).hasClass("empty-element")){
                    mw.dropables.display(this);
                    event.stopPropagation();
@@ -269,71 +279,65 @@ if (window.console != undefined) {
 			}
 			event.stopPropagation();
 		});
+        $(selector).bind("mouseleave", function(){
+          if (mw.isDrag) {
+            mw.currentDragMouseOver = null; }
+        });
 
 		mw.drag.the_drop(selector);
 		return $(selector);
 	},
-    row_sort:function(){
-        $(".row").mouseout(function(event){
-            if(mw.isDrag){
-                var el = $(this);
-                var offset = el.offset();
-                if(event.pageY<offset.top){
-                    /*var dropa = mw.drag.display_dropables(el, true);
-                    mw.drag.the_drop(dropa);  */
-                }
-            }
-        });
-    },
-    dropable_supporter:function(init_or_support){
-        if(init_or_support=='init'){
-            var el = document.createElement('div');
-            el.className = 'dropable_supporter';
-            document.body.appendChild(el);
-            mw.dropable_supporter = el;
-        }
-        else {
-            var el = $(init_or_support);
-            var offset = el.offset();
-            var supporter = $(mw.dropable_supporter);
-            supporter.css({
-                top:offset.top-30,
-                left:offset.left,
-                visibility:'visible'
-            });
-        }
-    },
-	the_drop: function (selector) {
 
+    the_drop: function (selector) {
 		$(document.body).bind("mouseup", function (event) {
 			if (mw.isDrag) {
 				var el = this;
 				setTimeout(function () {
-                    if($(".absolute-dropable").length>0){
-    					var rel = $(".absolute-dropable").data("dropable-rel");
-						$("#"+rel).before(mw.dragCurrent);
-					}
-                    else{
                         var position = mw.dropable.data("position");
                         var hovered = $(mw.currentDragMouseOver);
-                        if(position=='top'){
-                           if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
-                              hovered.before(mw.dragCurrent);
-                           }
-                           else{
-                              hovered.parent().before(mw.dragCurrent);
-                           }
+                        if(hovered.hasClass("empty-element")){
+                           hovered.before(mw.dragCurrent);
                         }
-                        else if(position=='bottom'){
-                           if(hovered.next().length==0){  //if is last child
-                              hovered.parent().after(mw.dragCurrent);
-                           }
-                           else{
-                              hovered.after(mw.dragCurrent);
-                           }
-
+                        else{
+                              if(position=='top'){
+                                 if(hovered.hasClass("edit")){
+                                    hovered.append(mw.dragCurrent);
+                                 }
+                                 else{
+                                     if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
+                                        hovered.before(mw.dragCurrent);
+                                     }
+                                     else{
+                                       var parent = hovered.parent();
+                                       if(parent.hasClass("edit")){
+                                          parent.append(mw.dragCurrent);
+                                       }
+                                       else{
+                                          parent.before(mw.dragCurrent);
+                                       }
+                                     }
+                                 }
+                              }
+                              else if(position=='bottom'){
+                                 if(hovered.hasClass("edit")){
+                                    hovered.prepend(mw.dragCurrent);
+                                 }
+                                 else{
+                                     if(hovered.next().length==0){  //if is last child
+                                        hovered.parent().after(mw.dragCurrent);
+                                     }
+                                     else{
+                                         var parent = hovered.parent();
+                                         if(parent.hasClass("edit")){
+                                            parent.prepend(mw.dragCurrent);
+                                         }
+                                         else{
+                                            parent.after(mw.dragCurrent);
+                                         }
+                                     }
+                                 }
+                              }
                         }
-                    }
                     if(mw.have_new_items == true){
                         mw.drag.load_new_modules();
                     }
@@ -347,31 +351,22 @@ if (window.console != undefined) {
 			}
 		});
 	},
-
-
 	/**
 	 * Various fixes
 	 *
 	 * @method mw.drag.fixes()
 	 */
 	fixes: function () {
-
-
 		$("img[data-module-name]", '.edit').remove();
-
 		$(".column, .element, .row", '.edit').height('auto');
-
-		//$('.row', '.edit').equalWidths();
 		$(mw.dragCurrent).removeAttr('style');
 		$(".element", '.edit').removeAttr('style');
-
 		$(".column", '.edit').each(function () {
 			var el = $(this);
 			if (el.children().length == 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
 				if (el.height() < el.parent().height()) {
 					el.height(el.parent().height());
 				}
-
                 else {
 					el.height('auto');
 				}
@@ -383,8 +378,7 @@ if (window.console != undefined) {
 			}
 		});
 	},
-
-        /**
+    /**
 	 * fix_placeholders in the layout
 	 *
 	 * @method mw.drag.fix_placeholders(isHard , selector)
@@ -393,11 +387,7 @@ if (window.console != undefined) {
        if(selector == undefined){
            selector = '.row';
        }
-
       if(isHard){ //append the empty elements
-
-
-
        $(selector).each(function(){
           var el = $(this);
           el.children("div.column").each(function(){
@@ -409,30 +399,6 @@ if (window.console != undefined) {
           });
         });
       }
-       $(selector).unbind('mouseleave');
-		$(selector).bind("mouseleave", function (event) {
-
-
-
-
-        if(mw.isDrag){
-            var el = $(this);
-            var offset = el.offset();
-            if(event.pageY<offset.top){
-              /*var dropa = mw.drag.display_dropables(this, true);
-              mw.drag.the_drop(dropa.drop_top); */
-            }
-        }
-
-
-
-
-		});
-
-
-
-
-
 
       //scale the empty elements
       $("div.empty-element").css({position:'absolute'});
@@ -452,64 +418,35 @@ if (window.console != undefined) {
 	 */
 	fix_placeholders1: function () {
 
-
-	 //	$(".empty-element", '.edit').remove();
 		$(".column, .element, .row", '.edit').height('auto');
-
 
 		$('.column', '.edit').each(function () {
 			$this = el = $(this);
 			el.height(el.parent('.row').height());
 			if ($("div.element", this).size() == 0) {
-
-
 				text = mw.settings.empty_column_placeholder.toString();
-
-
 				$some_el_id = 'mw-placeholder-' + mw.random();
 				text = text.replace(/_ID_/g, $some_el_id);
-
-
 				$(this).html(text);
 				mw.drag.sort('#' + $some_el_id);
-
-
 				$('#' + $some_el_id).height($('#' + $some_el_id).parents(".column:first").height());
-
-
-
 			}
 			else {
-
-
 				chHeight = 0;
 				colHeight = $(this).height();;
 				col = $(this);
 				//$(this).children(":first")
 
 				$check = $(this).children().last().hasClass('empty-element');
-$some_el_id = false;
+                $some_el_id = false;
 				 if($check == false){
-
                     text = mw.settings.empty_column_placeholder.toString();
-
-
 					$some_el_id = 'mw-placeholder-' + mw.random();
 					text = text.replace(/_ID_/g, $some_el_id);
-
-
 					col.append(text);
 					mw.drag.sort('#' + $some_el_id);
-
-
-
-
-
-
-
-
 				 }
-emptyHeight = 0;
+                emptyHeight = 0;
 	 			$(this).children().each(function () {
 					if ($(this).hasClass('empty-element') == false) {
 						var h = $(this).outerHeight();
@@ -526,10 +463,6 @@ emptyHeight = 0;
 				if($some_el_id != false){
 				$('#' + $some_el_id).height(emptyHeight) ;
 
-
-if (window.console != undefined) {
-					console.log('empty_placeholder : ' + '#' + $some_el_id + ' emptyHeight   ' + emptyHeight);
-				}
 
 
 				}
@@ -561,46 +494,25 @@ if (window.console != undefined) {
                 var the_cols_n = $(this).children(".column").length;
             $row_max_w =the_row.width();
 
-
-
-
             $j = 1;
             $remaining_percent_for_the_last_col = 100;
                the_cols.each(function () {
-			var the_col = $(this);
+			        var the_col = $(this);
                     if($j < the_cols_n){
-
-                        	var w = (100 * parseFloat($(this).css("width")) / parseFloat($row_max_w));
-                    						var wRight = 100 - w;
-
-                                            $remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
-                    					    w = (w);
-
-
-
-
-
-                                            w += "%";
-                    						wRight += "%";
-
-                    						$(this).css("width", w);
-
+                      	var w = (100 * parseFloat($(this).css("width")) / parseFloat($row_max_w));
+  						var wRight = 100 - w;
+                        $remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
+  					    w = (w);
+                        w += "%";
+  						wRight += "%";
+  						$(this).css("width", w);
                     } else {
-                                                				    w = ($remaining_percent_for_the_last_col);
-
-
+                         w = ($remaining_percent_for_the_last_col);
                         $(this).css("width", w+"%");
-
                     }
                 $j++;
 		        });
-
-
-
 		});
-
-
-
 		}
 	},
 
@@ -732,12 +644,7 @@ if (window.console != undefined) {
 
 
 
-if (window.console != undefined) {
-    				console.log('changed');
-				}
-
-
-                         mw.drag.fix_placeholders(true , r)
+                        mw.drag.fix_placeholders(true , r)
                             });
                         }
 
@@ -1076,127 +983,3 @@ mw.global_resizes = {
 
 
 }
-
-
-
-
-
-var Server;
-
-		function log( text ) {
-			$log = $('#log');
-			//Add text to log
-			$log.append(($log.val()?"\n":'')+text);
-			//Autoscroll
-			$log[0].scrollTop = $log[0].scrollHeight - $log[0].clientHeight;
-		}
-
-		function send( text ) {
-			Server.send( 'message', text );
-		}
-
-		$(document).ready(function() {
-			log('Connecting...');
-			Server = new FancyWebSocket('ws://192.168.0.3:9300');
-
-
-var intervalID = setInterval(function() {
-	var master = {}; 
-	var master_str =''; 
- $('.edit').each(function (j) {
-			j++;
-			content = $(this).get(0).innerHTML;
-			id =  $(this).attr('field');
-			if (window.no_async == true) {
-				$async_save = false;
-				window.no_async = false;
-			}
-			else {
-				$async_save = true;
-			}
-			 
-			 
-		// var objX = "field_data_" + j;
-		//	master.objX = obj;
-			
-			content = encodeURI(content);
-			
-			master_str += "|||||||__MW__||||||_mw_field|_MW_SEP_"+id+"|_mw_content|_MW_SEP_" +content  
-			
-			
-				send( master_str);
-			
-		});
-		
-		
-		
-		 
-		
-	
-		
-	 
-
- }, 2000);
-
-
-
-			$('#message').keypress(function(e) {
-				if ( e.keyCode == 13 && this.value ) {
-					log( 'You: ' + this.value );
-					send( this.value );
-
-					$(this).val('');
-				}
-			});
-
-			//Let the user know we're connected
-			Server.bind('open', function() {
-				log( "Connected." );
-			});
-
-			//OH NOES! Disconnection occurred.
-			Server.bind('close', function( data ) {
-				log( "Disconnected." );
-			});
-
-			//Log any messages sent from server
-			Server.bind('message', function( payload ) {
- 
- var str=payload;
-var n=str.split("|||||||__MW__|||||");
-			if(n[2] != undefined){
-				var n1=n[2].split("_MW_SEP_");
-				
-				 if (window.console != undefined) {
-                       //   console.log(n1);
-                      }
-				
-				
-			 if(n1[1] != undefined){
-				
-				$fld = n1[1].toString().replace("|_mw_content|", '');
-				$fld_c = n1[2].toString().replace("|_mw_content|", '');
-								$fld_cdec = decodeURI($fld_c );
-
-				  
-				
-	 
- 				 $old = $('.edit [field="'+$fld+'"]').html();
-				 $old = encodeURI($old);
-				if($old  != $fld_c){
-					// $('.edit [field="'+$fld+'"]').html($fld_cdec);
-					 $('*[field="'+$fld+'"]').html($fld_cdec);
-					 if (window.console != undefined) {
-                          console.log($fld + $fld_cdec );
-                      }
-				}
-				
-				
-			}
-			}
-				
-				
-			});
-
-			Server.connect();
-		});
