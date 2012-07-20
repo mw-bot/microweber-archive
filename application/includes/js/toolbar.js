@@ -32,7 +32,8 @@ mw.tools = {
         modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
         modal_object.show().draggable({
           handle:'.mw_modal_toolbar',
-          containment:'body'
+          containment:'body',
+          stack: ".mw_modal"
         });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
@@ -51,17 +52,21 @@ mw.tools = {
           top:modal.css("top")
         }
         modal.data("old_position", old_position);
+
+        var margin =  24*($(".is_minimized").length);
         modal.addClass("is_minimized");
         modal.animate({
-            top:window_h-40,
+            top:window_h-40-margin,
             left:window_w-modal_width-10,
             height:24
         });
+        modal.draggable("option", "disabled", true);
     },
     maximize:function(id){
        var modal = $("#"+id);
        modal.removeClass("is_minimized");
        modal.animate(modal.data("old_position"));
+       modal.draggable("option", "disabled", false);
     },
     minimax:function(id){
       //check the state of the modal and toggle it;
@@ -321,21 +326,40 @@ mw.remote_drag = {
                 event.preventDefault();
                 event.dataTransfer.dropEffect = 'copy';
             }, false);
-
             this.addEventListener('drop', function(event){
                 event.stopPropagation();
                 event.preventDefault();
                 var files = event.dataTransfer.files;
-                $.each(files, function(a,b){
-                  var reader = new FileReader();
-                  reader.onload = function(e) {
-                     el.after( "<img src='"+e.target.result+"' />");
-                     alert(e.target.result)
-        		  }
-                  reader.readAsDataURL(this);
+                $.each(files, function(){
+                    var reader = new FileReader();
+                    mw.remote_drag.load_file(reader, this, el);
                 });
             }, false);
         });
+    },
+    load_file : function(reader, file, element){
+          if(file.type.indexOf("image")!=-1){
+             reader.onload = function(e) {
+               var result = e.target.result;
+               element.after( "<img src='"+result+"' />");
+  		     }
+             reader.readAsDataURL(file);
+          }
+          else if(file.type.indexOf("pdf")!=-1){
+              reader.onload = function(e) {
+               var result = e.target.result;
+               alert(1);
+               element.after( "<span>"+e.target.result+"</span>");
+  		     }
+             reader.readAsBinaryString(file);
+          }
+          else{
+            reader.onload = function(e) {
+               var result = e.target.result;
+               element.after( "<p>"+result+"</p>");
+  		    }
+            reader.readAsText(file,"UTF-8");
+          }
     }
 }
 

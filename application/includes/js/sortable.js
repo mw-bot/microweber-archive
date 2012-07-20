@@ -184,10 +184,10 @@ mw.drag = {
 		});
 	},
 	sort: function (selector) {
-		
-		
-		
-		
+
+
+
+
 	/*
 	Drag from external website
 
@@ -197,25 +197,25 @@ mw.drag = {
 		e.preventDefault();
         e.originalEvent.dataTransfer;
 		e.originalEvent.dataTransfer.items[0].getAsString(function(url){
-			
+
 			if(mw.external_content_dragged == false){
 
 			mw.external_content_dragged = true;
 			  var tr = $(e.target).closest('.element').prepend(url);
 
-			  			
+
 if (window.console != undefined) {
 					console.log('Drop from external website: ' +  url);
 				}
-			  
-			  
+
+
 			   e.preventDefault();
 			   e.stopPropagation();
 			   setTimeout(function () {
 
 						mw.external_content_dragged = false;
 					}, 600);
-			   
+
 			}
 		 //   alert(url);
 		})
@@ -223,7 +223,7 @@ if (window.console != undefined) {
 	  });
 
    */
-		
+
 
    $(".row, .edit").bind("mouseleave", function(event){
      if (mw.isDrag) {
@@ -300,21 +300,42 @@ if (window.console != undefined) {
                         }
                         else{
                               if(position=='top'){
-                                 if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
-                                    hovered.before(mw.dragCurrent);
+                                 if(hovered.hasClass("edit")){
+                                    hovered.append(mw.dragCurrent);
                                  }
                                  else{
-                                    hovered.parent().before(mw.dragCurrent);
+                                     if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
+                                        hovered.before(mw.dragCurrent);
+                                     }
+                                     else{
+                                       var parent = hovered.parent();
+                                       if(parent.hasClass("edit")){
+                                          parent.append(mw.dragCurrent);
+                                       }
+                                       else{
+                                          parent.before(mw.dragCurrent);
+                                       }
+                                     }
                                  }
                               }
                               else if(position=='bottom'){
-                                 if(hovered.next().length==0){  //if is last child
-                                    hovered.parent().after(mw.dragCurrent);
+                                 if(hovered.hasClass("edit")){
+                                    hovered.prepend(mw.dragCurrent);
                                  }
                                  else{
-                                    hovered.after(mw.dragCurrent);
+                                     if(hovered.next().length==0){  //if is last child
+                                        var parent = hovered.parent();
+                                        if(parent.hasClass("edit")){
+                                            parent.prepend(mw.dragCurrent);
+                                         }
+                                         else{
+                                            parent.after(mw.dragCurrent);
+                                         }
+                                     }
+                                     else{
+                                        hovered.after(mw.dragCurrent);
+                                     }
                                  }
-
                               }
                         }
                     if(mw.have_new_items == true){
@@ -866,41 +887,24 @@ mw.resizable_columns = function () {
 
 
 				$(this).attr("data-also-rezise-item", $also_reverse_id);
-
-
-mw.global_resizes = {
-  next:'',
-  sum:0
-}
-
+                mw.global_resizes = {
+                  next:'',
+                  sum:0
+                }
 				$(this).resizable({
-
 					handles: $handles,
 					ghost:false,
 					containment: "parent",
-
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
 					//maxWidth: $row_max_w - $last_c_w,
-
 					alsoResize: '#' + $also_inner_items,
-
 					resize: function (event, ui) {
-
-
-
-
-
-
 						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
-
                         if(mw.global_resizes.next.width()<151){
                            $(this).resizable("option", "maxWidth", ui.size.width);
                         }
-
-                     mw.settings.resize_started = true;
-
-
+                        mw.settings.resize_started = true;
 					},
 					create: function (event, ui) {
 						//$(".row", '.edit').equalWidths();

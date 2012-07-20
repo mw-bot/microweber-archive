@@ -354,24 +354,7 @@ $need_re_init = false;
 	 * @method mw.edit.fix_zindex()
 	 */
 	fix_zindex: function () {
-	return true;
-		var count = 100;
-		$('.mw-sorthandle-row').each(function () {
-			count += 10;
-			$(this).css('z-index', count);
-		});
-		
-	
 
-
-		
-		
-		
-		var count = 6000;
-		$('.mw-sorthandle-col').each(function () {
-			count += 10;
-			$(this).css('z-index', count);
-		});
 	},
 
 	/**
@@ -410,8 +393,6 @@ $need_re_init = false;
 		$('.freshereditor',".edit").freshereditor("edit", false);
 		$('.freshereditor',".edit").removeClass('freshereditor');
 		$('*[contenteditable]',".edit").removeAttr('contenteditable');
-		
-		
 	},
 
 
@@ -794,7 +775,7 @@ $('.column', '.edit').unbind('mouseover');
 							//	 aspectRatio: true,
 							autoHide: true,
 							cancel: ".mw-sorthandle",
-minWidth: 30 ,
+                            minWidth: 30 ,
 							//alsoResizeReverse:'.also-resize' ,
 							alsoResizeReverse: '#' + $also_reverse_id,
 							//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,
@@ -812,8 +793,6 @@ minWidth: 30 ,
 							create: function (event, ui) {
 								$(".row").equalWidths();
 								mw.edit.equal_height();
-
-
 							},
 							start: function (event, ui) {
 								$(".column").each(function () {
@@ -887,7 +866,7 @@ minWidth: 30 ,
 		$(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
 		$(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
-		$(".mw-sorthandle", '.edit').remove();
+		$(".mw-sorthandle", '.edit', '.ui-resizable-handle').remove();
 		 
 		var custom_styles = new Array();
 		var regEx = /^mw-style/;
