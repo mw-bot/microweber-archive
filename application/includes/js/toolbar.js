@@ -312,7 +312,32 @@ mw.edit.image_settings={
 
 
 
+mw.remote_drag = {
+    from_pc:function(){
+        $(".element, .element>*").each(function(){
+            var el = $(this);
+            this.addEventListener('dragover', function(event){
+                event.stopPropagation();
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'copy';
+            }, false);
 
+            this.addEventListener('drop', function(event){
+                event.stopPropagation();
+                event.preventDefault();
+                var files = event.dataTransfer.files;
+                $.each(files, function(a,b){
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                     el.after( "<img src='"+e.target.result+"' />");
+                     alert(e.target.result)
+        		  }
+                  reader.readAsDataURL(this);
+                });
+            }, false);
+        });
+    }
+}
 
 
 
@@ -320,11 +345,11 @@ mw.edit.image_settings={
 
 
 $(window).load(function(){
+
+mw.remote_drag.from_pc()
         $("#typography img").click(function(){
             mw.edit.image_settings.init(this);
        });
-
-
 
 });
 
