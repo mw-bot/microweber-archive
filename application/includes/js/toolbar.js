@@ -32,7 +32,8 @@ mw.tools = {
         modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
         modal_object.show().draggable({
           handle:'.mw_modal_toolbar',
-          containment:'body'
+          containment:'body',
+          stack: ".mw_modal"
         });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
@@ -51,17 +52,21 @@ mw.tools = {
           top:modal.css("top")
         }
         modal.data("old_position", old_position);
+
+        var margin =  24*($(".is_minimized").length);
         modal.addClass("is_minimized");
         modal.animate({
-            top:window_h-40,
+            top:window_h-40-margin,
             left:window_w-modal_width-10,
             height:24
         });
+        modal.draggable("option", "disabled", true);
     },
     maximize:function(id){
        var modal = $("#"+id);
        modal.removeClass("is_minimized");
        modal.animate(modal.data("old_position"));
+       modal.draggable("option", "disabled", false);
     },
     minimax:function(id){
       //check the state of the modal and toggle it;
@@ -232,7 +237,7 @@ mw.extras = {
   }
 }
 
-mw.random = function(){return Math.floor(Math.random()*9999999+(Math.random()*9999)-Math.random()*(999+Math.random()));}
+mw.random = function(){return Math.floor(Math.random()*9999999);}
 
 
 mw.edit.image_settings={

@@ -1,6 +1,20 @@
 <?php
 
 /**
+ * sid() 
+ *
+ * @desc returns session ID
+ * @access      public
+ * @category    users
+ * @author      Microweber 
+   
+ */
+function sid(){
+	
+	return get_instance ()->session->userdata('session_id');
+	
+}
+/**
  * user_name 
  *
  * @desc gets the user's FULL name

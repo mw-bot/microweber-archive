@@ -58,9 +58,10 @@
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit.js" type="text/javascript"></script>
     <script src="<?php   print( INCLUDES_URL);  ?>js/jsonml.js" type="text/javascript"></script> 
      <script src="<?php   print( INCLUDES_URL);  ?>js/mutation_summary.js" type="text/javascript"></script>
-  
-  <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
-    <script src="<?php   print( INCLUDES_URL);  ?>js/socket.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
+  <script src="<?php   print( INCLUDES_URL);  ?>js/fancywebsocket.js" type="text/javascript"></script>
+
+
+      
 
  
 
@@ -182,6 +183,9 @@
     <div id="mw-text-editor"></div>
     <div id="mw-history-panel"></div>
      <div id="mw-saving-loader"></div> 
-     <div id="log"></div> 
+    
 
 </div><!-- /end .mw -->
+ <? include( 'toolbar_socket.php') ; ?>
+     <script src="<?php   print( INCLUDES_URL);  ?>js/socket.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
+  <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>

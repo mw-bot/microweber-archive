@@ -11,7 +11,17 @@ var FancyWebSocket = function(url)
 	};
 
 	this.send = function(event_name, event_data){
-		this.conn.send( event_data );
+		
+		try
+  {
+ 	this.conn.send( event_data );
+  }
+catch(err)
+  {
+  //Handle errors here
+  }
+		
+		 
 		return this;
 	};
 

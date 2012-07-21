@@ -1,80 +1,4 @@
 window.mw = window.mw ? window.mw : {};
-json_to_string = function (obj) {
-    var t = typeof (obj);
-    if (t != "object" || obj === null) {
-        // simple data type
-        if (t == "string") obj = '"'+obj+'"';
-        return String(obj);
-    }
-    else {
-        // recurse array or object
-        var n, v, json = [], arr = (obj && obj.constructor == Array);
-        for (n in obj) {
-            v = obj[n]; t = typeof(v);
-            if (t == "string") v = '"'+v+'"';
-            else if (t == "object" && v !== null) v = JSON.stringify(v);
-            json.push((arr ? "" : '"' + n + '":') + String(v));
-        }
-        return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
-    }
-};
-
-
-
-
-
-
-
-/**
- * A utility function that creates a HTML DOM based on the descriptor.
- * The descriptor is an object that has the following members:
- * tag: (mandatory) string, the name of the HTML tag to be created. Example: "li" for creating a <li> element
- * id: (optional) string, the id that will be assigned to the element's id attribute. Example: "searchButton"
- * className: (optional) string, the name(s) that will be assigned to the element's className. If there are multiple classes, they should be separated by space. Example: "artist popularity"
- * attr: (optional) object, all the key-value pairs of this object will be added as attributes to the created element. Example: {href:"#",name:"badLink"} in an <a> element will be <a href="#" name:"badLink"></a>
- * contents: (optional) string, object or an array of objects. If it's string, it will go directly to the element text. If it is an object, it will be treated as a descriptor itself and passed to this function recursively. If it is an array, it will be supposed to be an array of descriptors
- * @return a DOM structure that can be used with appendChild() function to insert
- */
-function createTree(descriptor) {
-	var ret=document.createElement(descriptor.tag);
-	if ( descriptor.id ) {
-		ret.id=descriptor.id;
-	}
-	if ( descriptor.className ) {
-		ret.className=descriptor.className;
-	}
-	if ( descriptor.attr ) {
-		for ( var a in descriptor.attr ) {
-			ret.setAttribute( a, descriptor.attr[a] );
-		}
-	}
-	if ( descriptor.contents ) {
-		switch (typeof descriptor.contents ) {
-			case "string":
-				//it is simply a string
-				ret.innerHTML = descriptor.contents;
-				break;
-			case "object":
-				if ( Array.isArray( descriptor.contents ) ) {
-					//it is an array of objects
-					for( var i = 0; i < descriptor.contents.length; i++ ) {
-						if ( typeof descriptor.contents[i] == "string" ) {
-							//it is a string
-							ret.appendChild( document.createTextNode( descriptor.contents[i] ) );
-						} else {
-							//it is a node descriptor object (can't be an array)
-							ret.appendChild( createTree( descriptor.contents[i] ) );
-						}
-					}
-				} else {
-					//it is an object
-					ret.appendChild( createTree( descriptor.contents ) );
-				}
-				break;
-		}
-	}
-	return ret;
-}
 
 mw.edit = {
 	/**
@@ -430,24 +354,7 @@ $need_re_init = false;
 	 * @method mw.edit.fix_zindex()
 	 */
 	fix_zindex: function () {
-	return true;
-		var count = 100;
-		$('.mw-sorthandle-row').each(function () {
-			count += 10;
-			$(this).css('z-index', count);
-		});
-		
-	
 
-
-		
-		
-		
-		var count = 6000;
-		$('.mw-sorthandle-col').each(function () {
-			count += 10;
-			$(this).css('z-index', count);
-		});
 	},
 
 	/**
@@ -486,8 +393,6 @@ $need_re_init = false;
 		$('.freshereditor',".edit").freshereditor("edit", false);
 		$('.freshereditor',".edit").removeClass('freshereditor');
 		$('*[contenteditable]',".edit").removeAttr('contenteditable');
-		
-		
 	},
 
 
@@ -870,7 +775,7 @@ $('.column', '.edit').unbind('mouseover');
 							//	 aspectRatio: true,
 							autoHide: true,
 							cancel: ".mw-sorthandle",
-minWidth: 30 ,
+                            minWidth: 30 ,
 							//alsoResizeReverse:'.also-resize' ,
 							alsoResizeReverse: '#' + $also_reverse_id,
 							//	alsoResizeReverse:'.column [data-also-resize-inner='+$also_reverse_id+']' ,
@@ -888,8 +793,6 @@ minWidth: 30 ,
 							create: function (event, ui) {
 								$(".row").equalWidths();
 								mw.edit.equal_height();
-
-
 							},
 							start: function (event, ui) {
 								$(".column").each(function () {
@@ -963,7 +866,7 @@ minWidth: 30 ,
 		$(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
 		$(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
-		$(".mw-sorthandle", '.edit').remove();
+		$(".mw-sorthandle", '.edit', '.ui-resizable-handle').remove();
 		 
 		var custom_styles = new Array();
 		var regEx = /^mw-style/;

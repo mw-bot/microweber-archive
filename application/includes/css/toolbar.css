@@ -5,7 +5,7 @@
 
     position: absolute;
 
-    z-index: 9999;
+    z-index: 997;
 
     width: 100px;
 
@@ -36,19 +36,7 @@
 	background-color: #33CCFF !important;
 }
 
-.mw-outline-column {
-	outline-style:solid;
-	outline-width:1px;
-	outline-color: #d0d0d0;
-	outline-offset: 0px;
-}
-.mw-outline {
-	outline-style:solid;
-	outline-width:1px;
-	outline-color: #0F0;
-	outline-offset: 2px;
-}
- 
+
 .ui-sortable:not(.edit):hover, .col:hover {
 /*outline: 1px dotted #0CF;*/
 }
@@ -72,7 +60,7 @@
 .edit {
 	position:relative;
 }
-.element:hover, .row:hover{
+.element:hover{
   outline:1px solid #358BC3;
 }
 
@@ -110,6 +98,7 @@
 .mw-sorthandle {
     background-image: url(../img/handle_bg.gif);
     background-color: #D4E8F5;
+    z-index: 9;
 }
 .mw-sorthandle.mw-sorthandle-row{
     background-repeat:  no-repeat;
@@ -141,8 +130,6 @@
 .mw-sorthandle-col {
  	
 	top:0px;
-	z-index:1000;
- 
 	cursor:move;
 }
 .element {
@@ -153,16 +140,11 @@
 }
 .mw-sorthandle-row {
  	top:-14px;
-	z-index:900;
+
 	 
 	cursor:move;
 }
-.row .column .mw-sorthandle-row {
-	z-index:999;
-}
-.row .column .row .column .mw-sorthandle-row {
-	z-index:1000;
-}
+
 .ui-resizable-helper {
 	border: 2px dotted #00F;
 }
@@ -451,6 +433,7 @@ background-image: -webkit-gradient(
 );
 }
 
+
 #mw-text-editor .buttons{
   width: 100%;
   height:35px;
@@ -458,7 +441,7 @@ background-image: -webkit-gradient(
   background: #F5F5F5;
   border-top: 1px solid white;
   border-bottom: 1px solid #E5E5E5;
-  z-index: 10001;
+  z-index: 996;
   box-shadow:0 1px 0 #F3F3F3;
 
 }
@@ -538,7 +521,6 @@ div.mw_col_delete{
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 99999;
   background: red;
   width: 200px;
   height: 200px;

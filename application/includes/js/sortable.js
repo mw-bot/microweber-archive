@@ -5,7 +5,7 @@
  */
 mw.edit.init_sortables = function () {
 
-    mw.drag.create();
+	mw.drag.create();
 
 };
 
@@ -23,73 +23,73 @@ mw.currentDragMouseOver = null;
 
 
 mw.dropables = {
-  prepare:function(){
-    var dropable = document.createElement('div');
-    dropable.className = 'mw_dropable';
-    dropable.innerHTML = '<span class="mw_dropable_arr"></span>';
-    document.body.appendChild(dropable);
-    mw.dropable = $(dropable);
-    mw.dropable.bind("mouseenter", function(){
-      $(this).hide();
-    });
-  },
-  display:function(el){
-    var el = $(el);
-    var offset = el.offset();
-    var width = el.outerWidth();
-    var height = el.outerHeight();
-    mw.dropable.css({
-        top:offset.top+height,
-        left:offset.left,
-        width:width
-    });
-  }
+	prepare: function () {
+		var dropable = document.createElement('div');
+		dropable.className = 'mw_dropable';
+		dropable.innerHTML = '<span class="mw_dropable_arr"></span>';
+		document.body.appendChild(dropable);
+		mw.dropable = $(dropable);
+		mw.dropable.bind("mouseenter", function () {
+			$(this).hide();
+		});
+	},
+	display: function (el) {
+		var el = $(el);
+		var offset = el.offset();
+		var width = el.outerWidth();
+		var height = el.outerHeight();
+		mw.dropable.css({
+			top: offset.top + height,
+			left: offset.left,
+			width: width
+		});
+	}
 }
 
 
 mw.drag = {
 
 	create: function () {
-         mw.top_half = false;
-         $(document.body).mousemove(function(event){
-           if(mw.isDrag && mw.currentDragMouseOver!=null){
-            var el = $(mw.currentDragMouseOver);
-            var offset = el.offset();
-            var height = el.height();
-            $(".mw_dropdown_val").html(event.pageY > offset.top+(height/2));
-            if(event.pageY > offset.top+(height/2)){  //is on the bottom part
-              mw.top_half = false;
-              mw.dropable.css({
-                top:offset.top+height+2
-              });
-              mw.dropable.data("position", "bottom");
-              mw.dropable.removeClass("mw_dropable_arr_up");
-            }
-            else{
-              mw.top_half = true;
-              mw.dropable.css({
-                top:offset.top-2
-              });
-              mw.dropable.data("position", "top");
-              mw.dropable.addClass("mw_dropable_arr_up");
-            }
-            if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
-                if(el.hasClass("empty-element")){
-                    mw.dropable.hide();
-                }
-                else{
-                    mw.dropable.show();
-                }
-            }
-            else{
-               mw.dropable.hide();
-            }
-           }
-         });
+		mw.top_half = false;
+		$(document.body).mousemove(function (event) {
+			if (mw.isDrag && mw.currentDragMouseOver != null) {
+				var el = $(mw.currentDragMouseOver);
+				var offset = el.offset();
+				var height = el.height();
+				$(".mw_dropdown_val").html(event.pageY > offset.top + (height / 2));
+				if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
+					mw.top_half = false;
+					mw.dropable.css({
+						top: offset.top + height + 2
+					});
+					mw.dropable.data("position", "bottom");
+					mw.dropable.removeClass("mw_dropable_arr_up");
+				}
+				else {
+					mw.top_half = true;
+					mw.dropable.css({
+						top: offset.top - 2
+					});
+					mw.dropable.data("position", "top");
+					mw.dropable.addClass("mw_dropable_arr_up");
+				}
+				if (el.hasClass("element") || el.hasClass("row") || el.parents(".row").length > 0 || el.parents(".element").length > 0) {
+					if (el.hasClass("empty-element")) {
+						mw.dropable.hide();
+					}
+					else {
+						mw.dropable.show();
+					}
+				}
+				else {
+					mw.dropable.hide();
+				}
+			}
+		});
 
 
 
-        mw.dropables.prepare();
+		mw.dropables.prepare();
 
 		mw.edit.remove_content_editable();
 
@@ -101,73 +101,81 @@ mw.drag = {
 		mw.drag.sort(".element > *,.edit,.column > *");
 		mw.drag.edit(".element > *");
 		mw.drag.fix_handles();
-        mw.drag.fix_column_sizes_to_percent();
+		mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
 
-        $(document.body).mouseup(function(event){
-        	if(mw.isDrag && mw.dropable.is(":hidden")){
-        		$(".ui-draggable-dragging").animate({top:0,left:0});
-        	}
-        });
+		$(document.body).mouseup(function (event) {
+			if (mw.isDrag && mw.dropable.is(":hidden")) {
+				$(".ui-draggable-dragging").animate({
+					top: 0,
+					left: 0
+				});
+			}
+		});
 
 	},
 
 
 	init: function (selector, callback) {
 
-        $(selector).not(".ui-draggable").each(function(){
-            var el = $(this);
-            if( el.hasClass("module-item")){
-                helper = function(event, ui) {
-                    return mw.dragCurrent = $(this).clone().appendTo('body').css({'zIndex':5});
-                }
-            }
-            else {
-                helper = 'original'
-            }
-            el.draggable({
-                handle: ".mw-sorthandle",
-            	cursorAt: {
-            		top: -20,
-            		left: -20
-            	},
+		$(selector).not(".ui-draggable").each(function () {
+			var el = $(this);
+			if (el.hasClass("module-item")) {
+				helper = function (event, ui) {
+					return mw.dragCurrent = $(this).clone().appendTo('body').css({
+						'zIndex': 5
+					});
+				}
+			}
+			else {
+				helper = 'original'
+			}
+			el.draggable({
+				handle: ".mw-sorthandle",
+				cursorAt: {
+					top: -20,
+					left: -20
+				},
 
-            	helper: helper,
-            	start: function () {
-            		mw.isDrag = true;
-            		mw.dragCurrent = this;
-            		mw.drag.edit_remove();
-            		$(this).addClass("mw_drag_started");
-            		mw.drag.fixes();
-            	},
-            	stop: function (event, ui) {
-            		mw.isDrag = false;
-            		$(this).removeClass("mw_drag_started");
-            		if ($(mw.dragCurrent).hasClass("module-item")) {
-                    mw.have_new_items = true;
-                       setTimeout(function () {
+				helper: helper,
+				start: function () {
+					mw.isDrag = true;
+					mw.dragCurrent = this;
+					mw.drag.edit_remove();
+					$(this).addClass("mw_drag_started");
+					mw.drag.fixes();
+				},
+				stop: function (event, ui) {
+					mw.isDrag = false;
+					$(this).removeClass("mw_drag_started");
+					if ($(mw.dragCurrent).hasClass("module-item")) {
+						mw.have_new_items = true;
+						setTimeout(function () {
 
-                        mw.drag.load_new_modules()
-                        mw.drag.fix_column_sizes_to_percent()
+							mw.drag.load_new_modules()
+							mw.drag.fix_column_sizes_to_percent()
 
-                      }, 300);
-            		}
-                    else {
-                      setTimeout(function () {
-                        mw.drag.edit_remove();
-                        mw.drag.fix_placeholders();
-                        mw.drag.fix_column_sizes_to_percent()
-                      }, 100);
-            		}
+						}, 300);
+					}
+					else {
+						setTimeout(function () {
+							mw.drag.edit_remove();
+							mw.drag.fix_placeholders();
+							mw.drag.fix_column_sizes_to_percent()
+						}, 100);
+					}
 
-                 if (typeof callback === 'function') {
-            			callback.call(this);
-            	 }
-                 $(".row").css({marginTop:'0px',marginBottom:'0px'});
+					if (typeof callback === 'function') {
+						callback.call(this);
+					}
+					$(".row").css({
+						marginTop: '0px',
+						marginBottom: '0px'
+					});
 
-            	}
-            });
-        });
+				}
+			});
+		});
 
 	},
 
@@ -188,7 +196,7 @@ mw.drag = {
 
 
 
-	/*
+		/*
 	Drag from external website
 
 		   $(selector).unbind('drop');
@@ -225,37 +233,37 @@ if (window.console != undefined) {
    */
 
 
-   $(".row, .edit").bind("mouseleave", function(event){
-     if (mw.isDrag) {
-       mw.currentDragMouseOver = this;
-       var el = this;
-       var offset = $(el).offset();
-       if(offset.top>event.pageY){
-          mw.dropable.data("position", "top");
-       }
-       else{
-         mw.dropable.data("position", "bottom");
-       }
-     }
-   });
+		$(".row, .edit").bind("mouseleave", function (event) {
+			if (mw.isDrag) {
+				mw.currentDragMouseOver = this;
+				var el = this;
+				var offset = $(el).offset();
+				if (offset.top > event.pageY) {
+					mw.dropable.data("position", "top");
+				}
+				else {
+					mw.dropable.data("position", "bottom");
+				}
+			}
+		});
 
-   $(".row, .edit").bind("mouseenter", function(){
-     if (mw.isDrag) {
-       mw.currentDragMouseOver = null;
-     }
-   });
+		$(".row, .edit").bind("mouseenter", function () {
+			if (mw.isDrag) {
+				mw.currentDragMouseOver = null;
+			}
+		});
 
 
-	    $(selector).unbind('mouseenter mouseleave');
+		$(selector).unbind('mouseenter mouseleave');
 		$(selector).bind("mouseenter", function (event) {
 			if (mw.isDrag) {
-                mw.currentDragMouseOver = this;
-               $(".currentDragMouseOver").removeClass("currentDragMouseOver");
-               $(this).addClass("currentDragMouseOver");
-                if(!$(this).hasClass("empty-element")){
-                   mw.dropables.display(this);
-                   event.stopPropagation();
-                }
+				mw.currentDragMouseOver = this;
+				$(".currentDragMouseOver").removeClass("currentDragMouseOver");
+				$(this).addClass("currentDragMouseOver");
+				if (!$(this).hasClass("empty-element")) {
+					mw.dropables.display(this);
+					event.stopPropagation();
+				}
 			}
 			else {
 				var el = $(this);
@@ -279,73 +287,74 @@ if (window.console != undefined) {
 			}
 			event.stopPropagation();
 		});
-        $(selector).bind("mouseleave", function(){
-          if (mw.isDrag) {
-            mw.currentDragMouseOver = null; }
-        });
+		$(selector).bind("mouseleave", function () {
+			if (mw.isDrag) {
+				mw.currentDragMouseOver = null;
+			}
+		});
 
 		mw.drag.the_drop(selector);
 		return $(selector);
 	},
 
-    the_drop: function (selector) {
+	the_drop: function (selector) {
 		$(document.body).bind("mouseup", function (event) {
 			if (mw.isDrag) {
 				var el = this;
 				setTimeout(function () {
-                        var position = mw.dropable.data("position");
-                        var hovered = $(mw.currentDragMouseOver);
-                        if(hovered.hasClass("empty-element")){
-                           hovered.before(mw.dragCurrent);
-                        }
-                        else{
-                              if(position=='top'){
-                                 if(hovered.hasClass("edit")){
-                                    hovered.append(mw.dragCurrent);
-                                 }
-                                 else{
-                                     if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
-                                        hovered.before(mw.dragCurrent);
-                                     }
-                                     else{
-                                       var parent = hovered.parent();
-                                       if(parent.hasClass("edit")){
-                                          parent.append(mw.dragCurrent);
-                                       }
-                                       else{
-                                          parent.before(mw.dragCurrent);
-                                       }
-                                     }
-                                 }
-                              }
-                              else if(position=='bottom'){
-                                 if(hovered.hasClass("edit")){
-                                    hovered.prepend(mw.dragCurrent);
-                                 }
-                                 else{
-                                     if(hovered.next().length==0){  //if is last child
-                                        hovered.parent().after(mw.dragCurrent);
-                                     }
-                                     else{
-                                         var parent = hovered.parent();
-                                         if(parent.hasClass("edit")){
-                                            parent.prepend(mw.dragCurrent);
-                                         }
-                                         else{
-                                            parent.after(mw.dragCurrent);
-                                         }
-                                     }
-                                 }
-                              }
-                        }
-                    if(mw.have_new_items == true){
-                        mw.drag.load_new_modules();
-                    }
-                    $(mw.dragCurrent).show();
-                    mw.drag.fixes();
-                    mw.drag.fix_placeholders();
-                    mw.resizable_columns();
-                    mw.dropable.hide();
+					var position = mw.dropable.data("position");
+					var hovered = $(mw.currentDragMouseOver);
+					if (hovered.hasClass("empty-element")) {
+						hovered.before(mw.dragCurrent);
+					}
+					else {
+						if (position == 'top') {
+							if (hovered.hasClass("edit")) {
+								hovered.append(mw.dragCurrent);
+							}
+							else {
+								if (hovered.prev(".mw-sorthandle").length == 0) { //if is NOT the first child ??
+									hovered.before(mw.dragCurrent);
+								}
+								else {
+									var parent = hovered.parent();
+									if (parent.hasClass("edit")) {
+										parent.append(mw.dragCurrent);
+									}
+									else {
+										parent.before(mw.dragCurrent);
+									}
+								}
+							}
+						}
+						else if (position == 'bottom') {
+							if (hovered.hasClass("edit")) {
+								hovered.prepend(mw.dragCurrent);
+							}
+							else {
+								if (hovered.next().length == 0) { //if is last child
+									var parent = hovered.parent();
+									if (parent.hasClass("edit")) {
+										parent.prepend(mw.dragCurrent);
+									}
+									else {
+										parent.after(mw.dragCurrent);
+									}
+								}
+								else {
+									hovered.after(mw.dragCurrent);
+								}
+							}
+						}
+					}
+					if (mw.have_new_items == true) {
+						mw.drag.load_new_modules();
+					}
+					$(mw.dragCurrent).show();
+					mw.drag.fixes();
+					mw.drag.fix_placeholders();
+					mw.resizable_columns();
+					mw.dropable.hide();
 					event.stopPropagation();
 				}, 37);
 			}
@@ -367,7 +376,7 @@ if (window.console != undefined) {
 				if (el.height() < el.parent().height()) {
 					el.height(el.parent().height());
 				}
-                else {
+				else {
 					el.height('auto');
 				}
 			}
@@ -378,38 +387,43 @@ if (window.console != undefined) {
 			}
 		});
 	},
-    /**
+	/**
 	 * fix_placeholders in the layout
 	 *
 	 * @method mw.drag.fix_placeholders(isHard , selector)
 	 */
-    fix_placeholders:function(isHard , selector){
-       if(selector == undefined){
-           selector = '.row';
-       }
-      if(isHard){ //append the empty elements
-       $(selector).each(function(){
-          var el = $(this);
-          el.children("div.column").each(function(){
-            var the_empty_child = $(this).children("div.empty-element");
-            if(the_empty_child.length==0){
-              $(this).append('<div class="empty-element" id="mw-placeholder-'+mw.random()+'"></div>');
-              var the_empty_child = $(this).children("div.empty-element");
-            }
-          });
-        });
-      }
+	fix_placeholders: function (isHard, selector) {
+		if (selector == undefined) {
+			selector = '.row';
+		}
+		if (isHard) { //append the empty elements
+			$(selector).each(function () {
+				var el = $(this);
+				el.children("div.column").each(function () {
+					var the_empty_child = $(this).children("div.empty-element");
+					if (the_empty_child.length == 0) {
+						$(this).append('<div class="empty-element" id="mw-placeholder-' + mw.random() + '"></div>');
+						var the_empty_child = $(this).children("div.empty-element");
+					}
+				});
+			});
+		}
 
-      //scale the empty elements
-      $("div.empty-element").css({position:'absolute'});
-      $("div.empty-element").parent().height('auto');
-      $("div.empty-element").each(function(){
-        var el = $(this);
-        var the_row_height = el.parents(".row").eq(0).height();
-        var the_column_height = el.parent().height();
-        el.css({height:the_row_height-the_column_height, position:'relative'});
-      });
-    },
+		//scale the empty elements
+		$("div.empty-element").css({
+			position: 'absolute'
+		});
+		$("div.empty-element").parent().height('auto');
+		$("div.empty-element").each(function () {
+			var el = $(this);
+			var the_row_height = el.parents(".row").eq(0).height();
+			var the_column_height = el.parent().height();
+			el.css({
+				height: the_row_height - the_column_height,
+				position: 'relative'
+			});
+		});
+	},
 
 	/**
 	 * fix_placeholders in the layout
@@ -438,81 +452,82 @@ if (window.console != undefined) {
 				//$(this).children(":first")
 
 				$check = $(this).children().last().hasClass('empty-element');
-                $some_el_id = false;
-				 if($check == false){
-                    text = mw.settings.empty_column_placeholder.toString();
+				$some_el_id = false;
+				if ($check == false) {
+					text = mw.settings.empty_column_placeholder.toString();
 					$some_el_id = 'mw-placeholder-' + mw.random();
 					text = text.replace(/_ID_/g, $some_el_id);
 					col.append(text);
 					mw.drag.sort('#' + $some_el_id);
-				 }
-                emptyHeight = 0;
-	 			$(this).children().each(function () {
+				}
+				emptyHeight = 0;
+				$(this).children().each(function () {
 					if ($(this).hasClass('empty-element') == false) {
 						var h = $(this).outerHeight();
 						chHeight += h;
 					}
 				});
 
-	if (chHeight > 0) {
+				if (chHeight > 0) {
 
 
-				emptyHeight = colHeight - chHeight;
+					emptyHeight = colHeight - chHeight;
 
-				col.children(".empty-element").height(emptyHeight) ;
-				if($some_el_id != false){
-				$('#' + $some_el_id).height(emptyHeight) ;
+					col.children(".empty-element").height(emptyHeight);
+					if ($some_el_id != false) {
+						$('#' + $some_el_id).height(emptyHeight);
 
 
+
+					}
 
 				}
 
-				}
-
- 			}
+			}
 
 
 		});
 
 	},
 
-    /**
+	/**
 	 * Makes handles for all elements
 	 *
 	 * @method mw.drag.fix_column_sizes_to_percent()
 	 */
 	fix_column_sizes_to_percent: function (row_id_or_object) {
 		if (mw.isDrag == false) {
-		 if(row_id_or_object == undefined){
-             row_id_or_object = '.row'
+			if (row_id_or_object == undefined) {
+				row_id_or_object = '.row'
 
-        }
+			}
 
-            $(row_id_or_object, '.edit').each(function () {
-			var the_row = $(this);
-                var the_cols = $(this).children(".column");
-                var the_cols_n = $(this).children(".column").length;
-            $row_max_w =the_row.width();
+			$(row_id_or_object, '.edit').each(function () {
+				var the_row = $(this);
+				var the_cols = $(this).children(".column");
+				var the_cols_n = $(this).children(".column").length;
+				$row_max_w = the_row.width();
 
-            $j = 1;
-            $remaining_percent_for_the_last_col = 100;
-               the_cols.each(function () {
-			        var the_col = $(this);
-                    if($j < the_cols_n){
-                      	var w = (100 * parseFloat($(this).css("width")) / parseFloat($row_max_w));
-  						var wRight = 100 - w;
-                        $remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
-  					    w = (w);
-                        w += "%";
-  						wRight += "%";
-  						$(this).css("width", w);
-                    } else {
-                         w = ($remaining_percent_for_the_last_col);
-                        $(this).css("width", w+"%");
-                    }
-                $j++;
-		        });
-		});
+				$j = 1;
+				$remaining_percent_for_the_last_col = 100;
+				the_cols.each(function () {
+					var the_col = $(this);
+					if ($j < the_cols_n) {
+						var w = (100 * parseFloat($(this).css("width")) / parseFloat($row_max_w));
+						var wRight = 100 - w;
+						$remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
+						w = (w);
+						w += "%";
+						wRight += "%";
+						$(this).css("width", w);
+					}
+					else {
+						w = ($remaining_percent_for_the_last_col);
+						$(this).css("width", w + "%");
+					}
+					$j++;
+				});
+			});
 		}
 	},
 
@@ -592,6 +607,10 @@ if (window.console != undefined) {
 	 * @method mw.drag.edit(".element > *");
 	 */
 	edit: function (selector) {
+	
+
+
+		
 
 
 
@@ -613,8 +632,25 @@ if (window.console != undefined) {
 				if (window.console != undefined) {
 					console.log('mousedown on element : ' + this.tagName);
 				}
+				
+				
+
+
+
+
+
+
 
 				if (!$is_freshereditor && !$is_this_module) {
+
+					if (typeof (mw_lastChanged) == "function") {
+
+						mw_lastChanged($(this));
+					}
+
+
+
+
 					$(this).closest('.mw-sorthandle').show();
 
 					$el_id = $(this).attr('id');
@@ -634,19 +670,27 @@ if (window.console != undefined) {
 					$(this).parent('.element').freshereditor("edit", true);
 					$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 					$(this).parent('.element').children().removeAttr("contenteditable");
-                     mw.drag.fix_onChange_editable_elements();
+					//mw.drag.fix_onChange_editable_elements();
+					
+					mw.drag.fix_onChange_editable_elements();
+		
+					
 
-                       r = $(this).parents('.row:first');
-
-                       if(r.length > 0 ){
-                         $(this).parent('.element').unbind("change");
-                            $(this).parent('.element').bind("change", function(event){
+					r = $(this).parents('.row:first');
 
 
 
-                        mw.drag.fix_placeholders(true , r)
-                            });
-                        }
+					if (r.length > 0) {
+						$(this).parent('.element').unbind("change");
+						$(this).parent('.element').bind("change", function (event) {
+
+
+
+							mw.drag.fix_placeholders(true, r)
+						 
+							
+						});
+					}
 
 
 
@@ -674,6 +718,68 @@ if (window.console != undefined) {
 				}
 			}
 		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			if (typeof (mw_lastChanged) == "function") {
+					 
+				//	$a = $(this).attr('data-mw-change-binded');	
+					// if($a != 'yes'){
+						
+						$('.freshereditor').live("paste", function (event) {
+
+alert('to complete: '+mw_lastChanged);
+								if (!mw.isDrag) {
+										$(this).attr('data-mw-change-binded','yes');			
+								mw_lastChanged($(this));
+								event.stopPropagation()						 
+								}
+						});
+					//}			
+		  }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	},
 
 	/**
@@ -695,25 +801,30 @@ if (window.console != undefined) {
 	},
 
 
-    /**
-     * One call of this function fixes all ContentEditable elements in the page to have onchange event.
+	/**
+	 * One call of this function fixes all ContentEditable elements in the page to have onchange event.
 	 *
 	 * @method mw.drag.fix_onChange_editable_elements();
 	 */
-    fix_onChange_editable_elements : function()   {
-      $('[contenteditable]').live('focus', function() {
-    var $this = $(this);
-    $this.data('before', $this.html());
-    return $this;
-}).live('blur keyup paste', function() {
-    var $this = $(this);
-    if ($this.data('before') !== $this.html()) {
-        $this.data('before', $this.html());
-        $this.trigger('change');
-    }
-    return $this;
-});
-    },
+	fix_onChange_editable_elements: function (selector) {
+		if (selector == undefined) {
+			selector = '*[contenteditable]';
+		}
+
+ 
+		$(selector).live('focus', function () {
+			var $this = $(this);
+			$this.data('before', $this.html());
+			return $this;
+		}).live('blur keyup paste', function () {
+			var $this = $(this);
+			if ($this.data('before') !== $this.html()) {
+				$this.data('before', $this.html());
+				$this.trigger('change');
+			}
+			return $this;
+		});
+	},
 
 
 
@@ -750,9 +861,9 @@ if (window.console != undefined) {
 			}
 			$need_re_init = true;
 		});
- if(mw.have_new_items == true){
-              $need_re_init = true;
-          }
+		if (mw.have_new_items == true) {
+			$need_re_init = true;
+		}
 
 		if ($need_re_init == true) {
 			if (!mw.isDrag) {
@@ -760,16 +871,16 @@ if (window.console != undefined) {
 				setTimeout(function () {
 					mw.drag.fix_handles();
 					mw.drag.fixes();
-    				mw.drag.fix_placeholders();
+					mw.drag.fix_placeholders();
 				}, 300);
-                if (typeof callback === 'function') {
-    				callback.call(this);
+				if (typeof callback === 'function') {
+					callback.call(this);
 				}
 				setTimeout("mw.drag.create()", 200);
 			}
 		}
 
-        mw.have_new_items = false;
+		mw.have_new_items = false;
 
 	},
 
@@ -880,48 +991,31 @@ mw.resizable_columns = function () {
 			}
 
 
-			if ($no_next == false ) {
+			if ($no_next == false) {
 
 				$last_c_w = $(this).parent('.row').children('.column').last().width();
 				$row_max_w = $(this).parent('.row').width();
 
 
 				$(this).attr("data-also-rezise-item", $also_reverse_id);
-
-
-mw.global_resizes = {
-  next:'',
-  sum:0
-}
-
+				mw.global_resizes = {
+					next: '',
+					sum: 0
+				}
 				$(this).resizable({
-
 					handles: $handles,
-					ghost:false,
+					ghost: false,
 					containment: "parent",
-
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
 					//maxWidth: $row_max_w - $last_c_w,
-
 					alsoResize: '#' + $also_inner_items,
-
 					resize: function (event, ui) {
-
-
-
-
-
-
-						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
-
-                        if(mw.global_resizes.next.width()<151){
-                           $(this).resizable("option", "maxWidth", ui.size.width);
-                        }
-
-                     mw.settings.resize_started = true;
-
-
+						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum - ui.size.width - 10));
+						if (mw.global_resizes.next.width() < 151) {
+							$(this).resizable("option", "maxWidth", ui.size.width);
+						}
+						mw.settings.resize_started = true;
 					},
 					create: function (event, ui) {
 						//$(".row", '.edit').equalWidths();
@@ -942,12 +1036,12 @@ mw.global_resizes = {
 
 					},
 					start: function (event, ui) {
-					  $(this).resizable("option", "maxWidth", 9999);
+						$(this).resizable("option", "maxWidth", 9999);
 						$(".column", '.edit').each(function () {
 							$(this).removeClass('selected');
 						});
 
-						mw.global_resizes.next = $(this).next().length>0?$(this).next():$(this).prev();
+						mw.global_resizes.next = $(this).next().length > 0 ? $(this).next() : $(this).prev();
 
 						mw.global_resizes.sum = ui.size.width + mw.global_resizes.next.width();
 
@@ -962,8 +1056,8 @@ mw.global_resizes = {
 					},
 					stop: function (event, ui) {
 
-                        var parent = ui.element.parent('.row');
-                        mw.drag.fix_column_sizes_to_percent(parent);
+						var parent = ui.element.parent('.row');
+						mw.drag.fix_column_sizes_to_percent(parent);
 
 						mw.edit.fix_zindex();
 						mw.settings.resize_started = false;

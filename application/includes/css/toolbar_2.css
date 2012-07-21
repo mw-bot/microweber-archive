@@ -1,3 +1,37 @@
+.mw-multi-user-sidebar {
+ position:absolute;
+ bottom:100px;
+ right:30px;
+ height:300px;
+ width:300px;
+ background-color:#efecec;	
+	z-index:999999999;
+}
+
+#mw-socket-log {
+ height:100px;
+ 	 width:300px;
+	
+}
+
+.mw-multi-user-mouse-pointer {
+ height:30px;
+ width:30px;
+ 
+ background-color:#FFFF00;	
+ 
+ border: 1px solid #660000;
+ 
+
+position: absolute;
+ 
+z-index:999999999;
+
+
+}
+.mw-other-user-edit-element {
+	background-color:#FFFF00;
+}
 
 #mw-saving-loader{
 	height:48px;
