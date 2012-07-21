@@ -37,7 +37,7 @@ var Server;
 			connection_interval = setInterval(function() { 
 				if(mw.multi_edit.data_element_id){
 			//	mw.multi_edit.data_element_id_content = $("*[data-element-id='"+mw.multi_edit.data_element_id+"']", '.element').html();
-				el1z = $("*[data-element-id='"+mw.multi_edit.data_element_id+"']", '.element').get(0);
+				el1z = $("*[data-element-id='"+mw.multi_edit.data_element_id+"']", '.edit').get(0);
 				mw.multi_edit.data_element_id_content = JsonML.parseDOM(el1z)
 				
 				}
@@ -153,16 +153,17 @@ catch(err)
 				 
 				//var diffs = compare(remote_elem,local_elem_id);
 //if(local_elem_id.html() != remote_elem){
-	if(local_elem_id_last_upd < remote_elem){
+	if(local_elem_id_last_upd < remote_elem_last_upd){
 	local_elem_id.replaceWith(remote_elem);
-}
-				
-				
-				if (window.console != undefined) {
+			if (window.console != undefined) {
 
 			console.log(local_elem_id);
 			//  console.log(summaries.target.activeElement );
 		}
+}
+				
+				
+		
 				/*if (elem.className.indexOf('Remove-Me') >= 0) {
 					// this will remove from resulting DOM tree
 					return null;
@@ -226,30 +227,28 @@ var expiry = getUTCTime(currentDate);
 window.now_utc_date = expiry;
 
 function mw_lastChanged(selector) {
-
+	$('.hl2').removeClass('hl2');
 	if (selector == undefined) {
 		selector = '*';
 
 	}
 	else {
-		$('.hl2').removeClass('hl2');
-		$(selector).addClass('hl2');
+	
+		$(selector, '.edit').addClass('hl2');
 	}
 
-	$(selector, '.edit').each(function () {
+	$('*[data-element-id]', '.edit').each(function () {
 		//	var expiry = Date.UTC(month,day,year,hours,minutes,seconds,milliseconds);
 
 		var currentDate = new Date();
 		var expiry = getUTCTime(currentDate);
 		window.now_utc_date = expiry.toString()
 
-
-		if (window.console != undefined) {
-
-			console.log(window.now_utc_date);
-			//  console.log(summaries.target.activeElement );
-		}
+ 
 		window.now_utc_date = parseInt(window.now_utc_date) + 1
+		
+		 mw.multi_edit.utc_date = window.now_utc_date;
+		
 		$(this).attr('data-element-last-update', window.now_utc_date);
 
 mw.multi_edit.data_element_id = $(this).attr('data-element-id');
@@ -262,7 +261,7 @@ mw.multi_edit.data_element_id = $(this).attr('data-element-id');
 
 
 function mw_updateIndexes() {
-	$('*', '.element').each(function () {
+	$('*', '.edit').each(function () {
 		$el_at = $(this).attr('data-element-id');
 		if ($el_at == undefined) {
 			$(this).attr('data-element-id', mw.random());
@@ -281,10 +280,29 @@ function mw_updateIndexes() {
 
 
 var mw_updateRemote = function (summaries) {
-	send(summaries);
+					summaries1 = (summaries[0] );
+					$t = false;
+					if(summaries1.target != undefined && summaries1.target.activeElement != undefined){
+					
+					
+					
+					$t1 = $(summaries1.target.activeElement)	;
+					if($t1.attr('data-element-id')){
+						
+						$t  = $t1;
+					}
+					
+					
+					
+	 
+				//mw_lastChanged($t);
+					}
+//mw.multi_edit.mutation_summaries = summaries1;
+	//send(summaries1);
 	if (window.console != undefined) {
 
-		console.log(summaries);
+		 
+		console.log($t);
 		//  console.log(summaries.target.activeElement );
 	}
 }
@@ -300,10 +318,7 @@ $(document).ready(function () {
 	mw_lastChanged();
 
 
-	$("*[data-element-id]", '.element').live("mousedown.last_change", function (e) {
-		mw_lastChanged($(this))
-		//   e.stopPropagation()
-	});
+	 
 	
 	
 		$(document).bind("mousemove", function (e) {
@@ -341,7 +356,8 @@ $(document).ready(function () {
 		callback: mw_updateRemote,
 		queries: [{
 			//element: '[data-element-id]',
-			element: '*',
+			element: '[data-element-id]',
+			//element: '*',
 			elementAttributes: 'data-element-last-update'
 
 
