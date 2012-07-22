@@ -1,6 +1,7 @@
 <script type="text/javascript">
- var serverURL =  'ws://192.168.0.3:9300';
- 
+ //var serverURL =  'ws://127.0.0.1:9300';
+ WEB_SOCKET_DEBUG = true; 
+ var serverURL = "ws://127.0.0.1:9000";   // SET THIS TO YOUR SERVER
  
  window.mw = window.mw ? window.mw : {};
  

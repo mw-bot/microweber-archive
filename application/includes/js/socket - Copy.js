@@ -339,105 +339,23 @@ $(document).ready(function () {
 	 
 	 
 	});
-	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-	  var list = document.querySelector('.element');
-$(list).addClass('hl1');
-var observer = new MutationObserver(function(mutations) {  
-console.log(mutations);
-    mutations.forEach(function(mutation) {
-		
-      if (mutation.type === 'childList') {
-        var list_values = [].slice.call(list.children)
-            .map( function(node) { return node.innerHTML; })
-            .filter( function(s) {
-              if (s === '<br>') {
-                return false;
-              }
-              else {
-                return true;
-              }
-         });
-        
-      }
-    });
-  });
-  
-  observer.observe(list, {
-  	attributes: true, 
-  	childList: true, 
-  	characterData: true
-  });
-  
-  
-  
-  
-  var list_all1 = $('.asdasdasdelement');
-  
-  
-  $(list_all1).each(function(i1){        
-     list = $(this).get(0)   
-	     if (window.console != undefined) {
-
-		 
-		console.log(list);
- 	}
-	  
-	   var observer = new MutationObserver(function(mutations) {  
-    mutations.forEach(function(mutation) {
-		
-		    if (window.console != undefined) {
-
-		 
-		console.log(mutation);
- 	}
-		
-		
-      if (mutation.type === 'childList') {
-        var list_values = [].slice.call(list.children)
-            .map( function(node) { return node.innerHTML; })
-            .filter( function(s) {
-              if (s === '<br>') {
-                return false;
-              }
-              else {
-                return true;
-              }
-         });
-    
-      }
-    });
-	
-	
-	
-	observer.observe(list, {
-  	attributes: true, 
-  	childList: true, 
-  	characterData: true
- 	 });
-	
-	
-	
-	
-	
-	
-  });
-  
-  
-      
- });
- 
- 
- 
 
 
-  
-  
-  
 
 	//var el = document.querySelectorAll('*[data-element-id]');
-	 
+	/*el = $('*', '.element');
+	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
-/*	var observer = new MutationSummary({
+
+	$.each(el, function (a, b) {
+		$l = $(this).get(0);
+		observer.observe($l, {
+			childList: true
+		});
+
+	});*/
+
+	var observer = new MutationSummary({
 		callback: mw_updateRemote,
 		queries: [{
 			//element: '[data-element-id]',
@@ -448,7 +366,7 @@ console.log(mutations);
 
 		}]
 	});
-*/
+
 
 });
 
