@@ -66,7 +66,11 @@ mw.edit = {
 
 				if ($numcols > $exisintg_num) {
 					for (i = $exisintg_num; i < $numcols; i++) {
-						$('<div class="column">' + mw.settings.empty_column_placeholder + '</div>').appendTo('#' + $el_id);
+                        var new_col = document.createElement('div');
+                        new_col.className = 'column';
+                        new_col.innerHTML = 'column';
+						$('#' + $el_id).append(new_col);
+                        mw.drag.the_drop(new_col);
 					}
 				}
 				else {
@@ -76,14 +80,15 @@ mw.edit = {
                         var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
                         var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
-                            var el = $(this).find(".element").eq(0);
+
+                            var el = $(this).children(".element, .module, .row, .mw-layout-holder");
                             last_after_remove.append(el);
                            $("#"+this.id).remove();
                         });
-
-
 					}
 				}
+
+                mw.drag.fix_placeholders(true, "#"+$row_id);
 
 				$exisintg_num = $('#' + $el_id).children(".column").size();
 
