@@ -25,6 +25,36 @@ function parse_micrwober_tags($layout, $options = false) {
 
 	}
 
+	$dom = new DOMDocument();
+	@$dom->loadHTML($layout);
+	$x = new DOMXPath($dom);
+//	$allClassBar = $x->query("//*[@class='module']");
+		$allClassBar = $x->query('//div[contains(@class,"module")]');
+
+
+ //	foreach($x->query('//*[@class="module"]') as $node)
+	//
+//foreach($x->query("*[contains(concat(' ', normalize-space(@class), ' '), ' module ')") as $node)
+//	 foreach($x->query('[@module]') as $node)
+		 foreach($allClassBar as $node)
+	{
+	//	var_dump( $node->getAttribute("class"));
+		 	//$node->setAttribute('class', 'hl2');
+
+		 //	$input->parentNode->replaceChild($span, $input);
+	//var_dump( $node->innerHTML());
+//	$s=	$node->getMethods();
+	//	$class->getProperties();
+	//	$node->getAttribute("href");
+	//	print_r($node);
+
+	//	$data['dom']['href'][] = $node->getAttribute("href");
+	}
+//	$layout = $dom->saveHTML();
+
+
+
+
 	//	$this->core_model->cacheWriteAndEncode ( $layout, $function_cache_id, $cache_group );
 
 	//echo memory_get_usage() . "\n"; // 36640
@@ -1067,7 +1097,7 @@ function OLD_parse_micrwober_tags($layout, $options = false) {
 	//$layout = str_ireplace ( '<mw', '<microweber', $layout );
 	$layout = replace_in_long_text('<mw', '<microweber', $layout, $use_normal_replace = true);
 
-	$layout = replace_in_long_text('<module', '<microweber module', $layout, $use_normal_replace = true);
+	$layout = replace_in_long_text('<module ', '<microweber module ', $layout, $use_normal_replace = true);
 
 	$v = $layout;
 
@@ -1517,7 +1547,7 @@ function OLD_parse_micrwober_tags($layout, $options = false) {
 
 								$more_attrs = '';
 
-								$more_attrs = " class='module' "; 
+								$more_attrs = " class='module' ";
 
 								//$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
 

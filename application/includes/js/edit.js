@@ -26,7 +26,7 @@ mw.edit = {
 		}
 	},
 
-	sortable_options: {},
+	
 
 	/**
 	 * Creates columns of given row id
@@ -80,7 +80,8 @@ mw.edit = {
                         var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
                             var el = $(this).children(".element, .module, .row, .mw-layout-holder");
-                            last_after_remove.append(el);
+                            //last_after_remove.append(el);
+                            last_after_remove.find(".empty-element").before(el);
                            $("#"+this.id).remove();
                         });
                         last_after_remove.resizable("destroy");

@@ -735,8 +735,6 @@ mw.resizable_columns = function () {
 		$is_done = false;
 		if ($is_done == false) {
 
-
-
 			$inner_column = $(this).children(".column:first");
 			$prow = $(this).parent('.row').attr('id');
 			$no_next = false;
