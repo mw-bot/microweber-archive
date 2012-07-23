@@ -347,8 +347,13 @@ if (window.console != undefined) {
                     mw.resizable_columns();
                     mw.dropable.hide();
 					event.stopPropagation();
+
+                    $(".currentDragMouseOver").removeClass("currentDragMouseOver");
+            mw.currentDragMouseOver = null;
 				}, 37);
 			}
+
+
 		});
 	},
 	/**

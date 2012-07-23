@@ -36,8 +36,8 @@ mw.edit = {
 	 * @param $numcols - number of columns required
 	 */
 	create_columns: function ($row_id, $numcols) {
-	//	$('.column').resizable("destroy");
-	//	$('.ui-resizable').resizable("destroy");
+
+
 		if ($row_id != undefined && $row_id != false && $row_id != 'undefined') {
 			$el_id = $row_id;
 
@@ -45,6 +45,10 @@ mw.edit = {
 		else {
 			$el_id = mw.settings.row_id;
 		}
+
+        var column_set = $(document.getElementById($row_id)).find(".columns_set").eq(0);
+        column_set.find("a").removeClass("active");
+        column_set.find("a").eq($numcols-1).addClass("active");
 
 		if ($el_id != undefined && $el_id != false && $el_id != 'undefined') {
 			mw.settings.sortables_created = false;
@@ -59,9 +63,7 @@ mw.edit = {
 				$exisintg_num = 1;
 			}
 			if ($numcols != $exisintg_num) {
-				if (window.console && window.console.log) {
-					window.console.log('  $exisintg_num ' + $exisintg_num + '       $numcols ' + $numcols);
-				}
+
 				if ($numcols > $exisintg_num) {
 					for (i = $exisintg_num; i < $numcols; i++) {
 						$('<div class="column">' + mw.settings.empty_column_placeholder + '</div>').appendTo('#' + $el_id);
@@ -69,42 +71,37 @@ mw.edit = {
 				}
 				else {
 					$cols_to_remove = $exisintg_num - $numcols;
-					if (window.console && window.console.log) {
-						window.console.log('$cols_to_remove' + $cols_to_remove);
-					}
-					if ($cols_to_remove > 0) {
 
-						for (i = $cols_to_remove; i > 0; i--) {
-							//for (i=0;i<=$cols_to_remove;i++){
-							$ch_n = parseInt($exisintg_num) - parseInt(i);
-							if ($cols_to_remove >= 1) {
-								if (window.console && window.console.log) {
-									window.console.log('$removinc child col' + '#' + $el_id + ">div.column:nth-child(" + $ch_n + ")");
-								}
-								$('#' + $el_id).children(".column:eq(" + $ch_n + ")").fadeOut('slow').remove();
-							}
-						}
+					if ($cols_to_remove > 0) {
+                        var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
+                        var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
+                        $(elements_to_clone).each(function(){
+                            var el = $(this).find(".element").eq(0);
+                            last_after_remove.append(el);
+                           $("#"+this.id).remove();
+                        });
+
+
 					}
 				}
 
 				$exisintg_num = $('#' + $el_id).children(".column").size();
 
 				$eq_w = 100 / $exisintg_num;
-				$pad = 0;
-				$eq_w1 = $eq_w - $pad;
+
+				$eq_w1 = $eq_w;
 				$('#' + $el_id).children(".column").width($eq_w1 + '%');
-				$('#' + $el_id).children(".column").css('float', 'left');
-				$('#' + $el_id).children(".column").css('padding-right', $pad + '%');
-
-				$('#' + $el_id).equalWidths();
-				//	$('#' + $el_id).children('.column').height('auto');
 
 
-				mw.edit.equal_height('#' + $el_id);
-				
-				mw.edit.init_sortables();
-				mw.edit.equal_height();
-				mw.edit.init_sortables()
+			  //	$('#' + $el_id).equalWidths();
+
+
+
+			  	//mw.edit.equal_height('#' + $el_id);
+
+			  	//mw.edit.init_sortables();
+			   	//mw.edit.equal_height();
+			   //	mw.edit.init_sortables()
 			}
 		}
 	},

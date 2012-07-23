@@ -131,7 +131,7 @@ function parse_micrwober_tags($layout, $options = false) {
 						$attr['module'] = 'non_existing';
 					}
 					$mod_d1 = FALSE;
-					 
+
 					if ($attr['module'] != '') {
 
 						$attr['module'] = trim($attr['module']);
@@ -144,8 +144,7 @@ function parse_micrwober_tags($layout, $options = false) {
 						$module_in_template_dir = normalize_path($module_in_template_dir, 1);
 						$module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $attr['module'] . '.php';
 						$module_in_template_file = normalize_path($module_in_template_file, false);
-						 
- 
+
 						if (is_dir($module_in_template_dir) or is_file($module_in_template_file)) {
 							$mod_d = $module_in_template_dir;
 							$mod_d1 = normalize_path($mod_d, 1);
@@ -160,7 +159,7 @@ function parse_micrwober_tags($layout, $options = false) {
 							$mod_d1 = FALSE;
 							$try_file1 = $mod_d . '.php';
 						}
- 		$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
+						$try_file = MODULES_DIR . 'modules/' . $attr['module'] . '.php';
 
 						$try_file_db_file = MODULES_DIR . $attr['module'] . '_db.php';
 						$try_file_db_file = normalize_path($try_file_db_file, false);
@@ -522,9 +521,9 @@ function parse_micrwober_tags($layout, $options = false) {
 
 								$more_attrs = '';
 
-								$more_attrs = " class='mercury-snippet module' ";
+								$more_attrs = " class='module' ";
 
-								$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
+								//$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'   ";
 
 								$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
 
@@ -1518,9 +1517,9 @@ function OLD_parse_micrwober_tags($layout, $options = false) {
 
 								$more_attrs = '';
 
-								$more_attrs = " class='mercury-snippet module' ";
+								$more_attrs = " class='module' "; 
 
-								$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
+								//$more_attrs2 .= " data____snippet='{$params_module_clean}|{$mod_id}'  data_version='1' ";
 
 								$more_attrs2 .= " data-snippet='{$params_module_clean}|{$mod_id}'  contenteditable='false' ";
 
