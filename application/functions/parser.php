@@ -1067,7 +1067,7 @@ function OLD_parse_micrwober_tags($layout, $options = false) {
 	//$layout = str_ireplace ( '<mw', '<microweber', $layout );
 	$layout = replace_in_long_text('<mw', '<microweber', $layout, $use_normal_replace = true);
 
-	$layout = replace_in_long_text('<module', '<microweber module', $layout, $use_normal_replace = true);
+	$layout = replace_in_long_text('<module ', '<microweber module ', $layout, $use_normal_replace = true);
 
 	$v = $layout;
 
