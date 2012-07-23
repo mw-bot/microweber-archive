@@ -63,50 +63,36 @@ mw.edit = {
 				$exisintg_num = 1;
 			}
 			if ($numcols != $exisintg_num) {
-
-				if ($numcols > $exisintg_num) {
+				if ($numcols > $exisintg_num) {  //more columns
 					for (i = $exisintg_num; i < $numcols; i++) {
                         var new_col = document.createElement('div');
                         new_col.className = 'column';
-                        new_col.innerHTML = 'column';
-						$('#' + $el_id).append(new_col);
-                        mw.drag.the_drop(new_col);
+                        $('#' + $el_id).append(new_col);
+                        mw.drag.fix_placeholders(true, '#' + $el_id);
+                        mw.drag.sort(new_col.getElementsByClassName('empty-element')[0]);
 					}
+                    mw.resizable_columns();
 				}
-				else {
+				else {  //less columns
 					$cols_to_remove = $exisintg_num - $numcols;
-
 					if ($cols_to_remove > 0) {
                         var last_after_remove = $('#' + $el_id).children(".column").eq($numcols-1);
                         var elements_to_clone = $('#' + $el_id).children(".column:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
-
                             var el = $(this).children(".element, .module, .row, .mw-layout-holder");
                             last_after_remove.append(el);
                            $("#"+this.id).remove();
                         });
+                        last_after_remove.resizable("destroy");
+                        $('#' + $el_id).children(".empty-element").remove();
+                        mw.drag.fix_placeholders(true, '#' + $el_id);
 					}
 				}
 
-                mw.drag.fix_placeholders(true, "#"+$row_id);
-
 				$exisintg_num = $('#' + $el_id).children(".column").size();
-
 				$eq_w = 100 / $exisintg_num;
-
 				$eq_w1 = $eq_w;
 				$('#' + $el_id).children(".column").width($eq_w1 + '%');
-
-
-			  //	$('#' + $el_id).equalWidths();
-
-
-
-			  	//mw.edit.equal_height('#' + $el_id);
-
-			  	//mw.edit.init_sortables();
-			   	//mw.edit.equal_height();
-			   //	mw.edit.init_sortables()
 			}
 		}
 	},

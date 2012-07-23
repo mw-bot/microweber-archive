@@ -82,7 +82,7 @@ class Init_model extends CI_Model {
 			while (false !== ($file = readdir($handle))) {
 				if (stristr($file, 'disabled') == false) {
 
-					$exts = split("[/\\.]", $file);
+					$exts = explode(".", $file);
 					$n = count($exts) - 1;
 					$ext = $exts[$n];
 					$ext = strtolower($ext);

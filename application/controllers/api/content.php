@@ -1261,11 +1261,12 @@ class Content extends CI_Controller {
 						//p($tags1);
 						// p($tags1);
 						$html = str_get_html($content);
-						foreach ($html->find('div[data-params-encoded="edit_tag"]') as $checkbox) {
-							//var_Dump($checkbox);
-							$re1 = $checkbox -> module_id;
-							$style = $checkbox -> style;
-							$re2 = $checkbox -> mw_params_module;
+						 foreach ($html->find('div[data-params-encoded="edit_tag"]') as $checkbox) {
+					//	foreach ($html->find('div[data-params-encoded="edit_tag"]') as $mod) {
+							  
+							$re1 = $mod -> module_id;
+							$style = $mod -> style;
+							$re2 = $mod -> mw_params_module;
 							$tag1 = "<microweber ";
 							$tag1 = $tag1 . "module=\"{$re2}\" ";
 							$tag1 = $tag1 . "module_id=\"{$re1}\" ";
@@ -1866,7 +1867,7 @@ class Content extends CI_Controller {
 				}
 			}
 		}
- 
+
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 		header('Content-type: application/json');
@@ -2257,7 +2258,8 @@ class Content extends CI_Controller {
 				$item['custom_field_cats'] = $article -> find('span[id=ctl00_ctl00_MasterPlaceHolder_MainContent_lblProductBreadCrumbs]', 0) -> plaintext;
 				$item['custom_field_cats'] = str_ireplace('&nbsp;', ' ', $item['custom_field_cats']);
 				//$item['taxonomy_categories_str'] = explode('>',  $item['custom_field_cats']);
-				$c = explode('>', $item['custom_field_cats']); ;
+				$c = explode('>', $item['custom_field_cats']);
+				;
 				$tax_cats = array();
 				$ci1 = 0;
 				foreach ($c as $c1) {

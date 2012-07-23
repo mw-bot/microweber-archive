@@ -80,12 +80,12 @@ mw.reload_module = function($module_name) {
 				//$("div.module[mw_params_module='"+$module_name+"']").each(
 			//  $mods = $("div.module");
 				 
-					$mods = $("div.module[mw_params_module='"+$module_name+"']", '.edit')
+					$mods = $("div.module[data-module='"+$module_name+"']", '.edit')
 					
 				$mods.each(
  								function() {
 
-									var mw_params_module = $(this).attr(	"mw_params_module");
+									var mw_params_module = $(this).attr(	"data-module");
 									var mw_params_module_id = $(this).attr(	"module_id");
 									if(mw_params_module != undefined){
 									mw_params_module = mw_params_module.replace(/\\/g,"/"); 

@@ -1,4 +1,10 @@
 <?
+$CI = get_instance();
+if(! $CI->template_model){
+	 
+		 		$CI -> load -> model('Template_model', 'template_model');
+	
+		}
  $id = $params['id'];
 if(intval($id) == 0){
 	if(defined('PAGE_ID')){
@@ -225,7 +231,12 @@ $template_options['site_template'] = $template_dir;
 }
 
 ?>
-        <? $layouts = $this->template_model->layoutsList($template_options);  
+        <? 
+		
+		
+		
+		
+		$layouts = $CI->template_model->layoutsList($template_options);  
 
 //p( $layouts);
 

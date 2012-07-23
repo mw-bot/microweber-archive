@@ -1535,11 +1535,12 @@ function OLD_parse_micrwober_tags($layout, $options = false) {
 
 										if ($no_edit == false) {
 											//$module_file = '<div onmouseup="load_edit_module_by_module_id(\'' . $mod_id . '\')" mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
-											$module_file = '<div ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '"  data-module="' . $params_module . '"    mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+											$module_file = '<div ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . '  ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
 
-											 
+											//$module_file = '<div mw_params_encoded="' . $params_encoded . '"  mw_params_module="' . $params_module . '"    ' . $mod_id_tag . ' class="module" ' . $no_admin_tag . ' edit="' . $edtid_hash . '">' . $module_file . '</div>';
+
 										} else {
-											$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '"  data-module="' . $params_module . '"  mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
+											$module_file = '<div  ' . $more_attrs . $more_attrs2 . ' mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"   ' . $mod_id_tag . ' ' . $no_admin_tag . '  >' . $module_file . '</div>';
 
 										}
 									}
@@ -1552,7 +1553,7 @@ function OLD_parse_micrwober_tags($layout, $options = false) {
 
 							} else {
 								if (strval($module_file) != '') {
-									$module_file = '<div ' . $more_attrs2 . ' class="module" ' . $mod_id_tag . '  data-module="' . $params_module . '"  mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
+									$module_file = '<div ' . $more_attrs2 . ' class="module" ' . $mod_id_tag . '  mw_params_encoded="' . $params_encoded . '" mw_params_module="' . $params_module . '"  >' . $module_file . '</div>';
 								}
 							}
 							//}  ++
