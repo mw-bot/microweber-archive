@@ -171,7 +171,7 @@
       </div>
       <div id="tab_help" class="mw_toolbar_tab">Help</div>
       <div id="tab_style_editor" class="mw_toolbar_tab">
-        <? include( 'toolbar_tag_editor.php') ; ?>
+        <? //include( 'toolbar_tag_editor.php') ; ?>
       </div>
     <div id="mw-text-editor"></div>
     <div id="mw-history-panel"></div>
