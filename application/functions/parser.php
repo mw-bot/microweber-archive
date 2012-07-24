@@ -37,6 +37,8 @@ function xhtmlToDomNode($xhtml)
 *
 * @param string $layout
 * @param array $options
+*	$options['no_doctype_strip']  = false //if true will not remove the doctype
+*
 * @return string $layout
 */
 /**
@@ -61,12 +63,16 @@ function parse_micrwober_tags($layout, $options = false)
     if ($layout == '') {
         return $layout;
     }
+	$layout = str_replace('></module>', '/>', $layout);
 
     $dom = new DOMDocument();
     $dom->preserveWhiteSpace = true;
     $dom->strictErrorChecking = false;
-    $dom->recover = true;
+	 $dom->formatOutput = false;
+   // $dom->recover = true;
     @$dom->loadHTML($layout);
+//	$dom->loadXML('<div>' . $html . '</div>', LIBXML_NOERROR | LIBXML_NOWARNING);
+
     $x = new DOMXPath($dom);
 
     $query = '//microweber';
@@ -80,15 +86,11 @@ function parse_micrwober_tags($layout, $options = false)
         $attrs = $node->attributes;
         if (!empty($attrs)) {
             foreach($attrs as $attrib) {
-                if ($i == 0) {
-                    $module_name = $attrib->nodeName;
-                } else {
+
                     $mod_attributes[$attrib->nodeName] = $attrib->nodeValue;
-                }
 
                 $i++;
             }
-
             $newElement = $dom->createElement('module');
 
             foreach($attrs as $attrib1) {
@@ -104,6 +106,9 @@ function parse_micrwober_tags($layout, $options = false)
     $layout = $dom->saveHTML();
 
     $query = '//module';
+//	$query = ("//*[contains(concat(' ', normalize-space(@class), ' '), ' module ')]");
+
+	// $query = ("//*[contains(@module, '')]");
     $modules = $x->evaluate($query);
     if (!empty($modules))
         foreach($modules as $node) {
@@ -118,11 +123,11 @@ function parse_micrwober_tags($layout, $options = false)
                 $nv = $attrib->nodeValue;
 
                 if ($i == 0) {
-                    $module_name = $nn;
+                     $module_name = $nn;
                 } else {
-                    $mod_attributes[$nn] = $nv;
-                }
 
+                }
+ $mod_attributes[$nn] = $nv;
                 if ($nn == 'module') {
                     $module_name = $nv;
                 }
@@ -131,16 +136,30 @@ function parse_micrwober_tags($layout, $options = false)
                     $module_name = $nv;
                 }
 
+                if ($nn == 'data-module') {
+                    $module_name = $nv;
+                }
+
                 $i++;
             }
-
+//var_dump($module_name);
             $mod_content = load_module($module_name, $mod_attributes);
+        	$mod_content = parse_micrwober_tags($mod_content);
+
             if ($mod_content != false) {
                 $newElement = $dom->createElement('div', $mod_content);
                 $definedClasses = explode(' ', $node->getAttribute('class'));
                 $className = 'module';
                 if (!in_array($className, $definedClasses)) {
-                    $node->setAttribute('class', $node->getAttribute('class') . ' ' . $className);
+                    $ex_cl = $node->getAttribute('class');
+                    if (trim($ex_cl) != '') {
+                        $ex_cl = explode(' ', $ex_cl);
+                        $ex_cl[] = $className;
+                        $ex_cl = implode(' ', $ex_cl);
+                    } else {
+                        $ex_cl = $className;
+                    }
+                    $node->setAttribute('class', $ex_cl);
                 }
                 foreach($attrs as $attrib1) {
                     $n = $attrib1->nodeName;
@@ -244,7 +263,9 @@ function parse_micrwober_tags($layout, $options = false)
         }
 
         if ($field_content != false and $field_content != '') {
-        	$newElement = $dom->createElement($nt, $field_content);
+        //	p($field_content);
+        	$field_content = parse_micrwober_tags($field_content);
+            $newElement = $dom->createElement($nt, $field_content);
 
             foreach($attrs as $attrib1) {
                 $n = $attrib1->nodeName;
@@ -260,23 +281,79 @@ function parse_micrwober_tags($layout, $options = false)
 
     $layout = $dom->saveHTML();
     $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
-    return $layout;
 
+    if (!$options['no_doctype_strip']) {
+        $layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $layout);
+    }
+
+    return $layout;
 }
 
+function make_microweber_tags($layout)
+{
+    if ($layout == '') {
+        return $layout;
+    }
+
+    $dom = new DOMDocument();
+    $dom->preserveWhiteSpace = true;
+    $dom->strictErrorChecking = false;
+    // $dom->recover = true;
+    @$dom->loadHTML($layout);
+    $x = new DOMXPath($dom);
+    // $query = ("//.module");
+    $query = ("//*[contains(concat(' ', normalize-space(@class), ' '), ' module ')]");
+
+    $modules = $x->evaluate($query);
+
+    if (!empty($modules))
+        foreach($modules as $node) {
+        // Loop all attributes in p.
+        $mod_attributes = array();
+
+        $attrs = $node->attributes;
+        $nt = $node->nodeName;
+        // $newElement = $dom->createElement($nt, '');
+        $newElement = $dom->createElement('module');
+        foreach($attrs as $attrib1) {
+            $n = $attrib1->nodeName;
+
+            $v = $attrib1->nodeValue;
+
+            $newElement->setAttribute($n, $v);
+        	if ($n == 'module') {
+        		$newElement->setAttribute('type', $v);
+
+        	}
+        }
+
+        $node->parentNode->insertBefore($newElement, $node);
+        $node->parentNode->removeChild($node);
+    }
+
+    $layout = $dom->saveHTML();
+    $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+    $layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $layout);
+
+	$layout = str_replace('></module>', '/>', $layout);
+
+
+
+    return $layout;
+}
 
 /**
 *
 * @author Peter Ivanov
 *
-*                                            function groupsSave($data) {
-*                                            $table = $table = TABLE_PREFIX . 'groups';
-*                                            $criteria = $this->input->xss_clean ( $data );
-*                                            $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
-*                                            $data );
-*                                            $save = $this->core_model->saveData ( $table, $criteria );
-*                                            return $save;
-*                                            }
+*                                                  function groupsSave($data) {
+*                                                  $table = $table = TABLE_PREFIX . 'groups';
+*                                                  $criteria = $this->input->xss_clean ( $data );
+*                                                  $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
+*                                                  $data );
+*                                                  $save = $this->core_model->saveData ( $table, $criteria );
+*                                                  return $save;
+*                                                  }
 */
 
 function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false)

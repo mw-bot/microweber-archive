@@ -328,7 +328,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 				$is_preview_layout = str_replace('..', '', $is_preview_layout);
 				$content['content_layout_file'] = $is_preview_layout;
 				//p($is_preview_layout,1);
-				 
+
 			}
 		}
 
@@ -673,14 +673,14 @@ if (defined('INTERNAL_API_CALL') == true) {
 				if ($is_admin == true) {
 					//$layout = $this->template_model->addTransparentBackgroudToFlash ( $layout );
 					//$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
-					
+
 					$tb = INCLUDES_DIR.DS.'toolbar'.DS.'toolbar.php';
-					
+
 		$layout_toolbar = $this->load->file ( $tb, true );
 		// $layout =$this->load->view ( 'admin/toolbar', true, true );
-					
-					
-					
+
+
+
 					if ($layout_toolbar != '') {
 						$layout = str_replace('<body>', '<body>' . $layout_toolbar, $layout);
 						//$layout = str_replace('</ body>', $layout_toolbar . '</ body>', $layout);
@@ -732,11 +732,16 @@ if (defined('INTERNAL_API_CALL') == true) {
 			$layout = str_replace('</body>', $stats_js . '</body>', $layout);
 		}
 
-	 
+
 		$this -> benchmark -> mark('parsing_template_tags_start');
 		//$this-> load -> model('Template_model', 'template_model');
 		// $layout = $this-> template_model -> parseMicrwoberTags($layout);
-		$layout = parse_micrwober_tags($layout);
+		//p($layout,1);
+		$layout_opts = array();
+		$layout_opts['no_doctype_strip'] = 1;
+
+		$layout = parse_micrwober_tags($layout, $layout_opts);
+
 		$this -> benchmark -> mark('parsing_template_tags_end');
 		if ($content_display_mode == 'extended_api_with_no_template') {
 

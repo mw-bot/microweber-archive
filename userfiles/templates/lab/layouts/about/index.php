@@ -17,9 +17,10 @@ description: Home site layout
 ================================================== -->
 
 <section id="typography">
-  <div class="edit" id="footeasasssr" data-field='price'>
+  <div class="edit" id="cvbcvbsdfcvsf">
     <div class="row">
       <div class="column" style="width:33%" >
+       <module type="login" />
         <div class="element" > <img src="http://lorempixum.com/200/200/?<? print rand(); ?>" height="200"   />
           <h1>HTML Ipsum Presents</h1>
           <h1>HTML Ipsum Presents</h1>
