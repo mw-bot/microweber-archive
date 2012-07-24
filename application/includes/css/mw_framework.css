@@ -269,7 +269,34 @@ body:-webkit-full-screen {
   margin-top: 40px !important;
 }
 
-.
+.mw_image_resizer{
+  position: absolute !important;
+  z-index: 999;
+  visibility: hidden;
+}
+
+.mw_image_resizer.active{
+  visibility: visible;
+}
+
+.mw_image_resizer .ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; background-image: url(../img/resize.gif);}
+.mw_image_resizer .ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+
+.mw_image_resizer .ui-resizable-n { cursor: n-resize; height: 1px; width: 100%; top: -1px; left: 0; background-repeat: repeat-x;}
+.mw_image_resizer .ui-resizable-s { cursor: s-resize; height: 1px; width: 100%; bottom: -1px; left: 0; background-repeat: repeat-x;}
+.mw_image_resizer .ui-resizable-e { cursor: e-resize; width: 1px; right: -1px; top: 0; height: 100%; background-repeat: repeat-y;}
+.mw_image_resizer .ui-resizable-w { cursor: w-resize; width: 1px; left: -1px; top: 0; height: 100%; background-repeat: repeat-y;}
+
+.mw_image_resizer .ui-resizable-se { cursor: se-resize; width: 9px; height: 9px; right: -5px; bottom: -5px; }
+.mw_image_resizer .ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.mw_image_resizer .ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.mw_image_resizer .ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}
+
+.mw_image_resizer .ui-resizable-se, .mw_image_resizer .ui-resizable-sw, .mw_image_resizer .ui-resizable-nw, .mw_image_resizer .ui-resizable-ne{
+    background: #333;
+    border: 1px solid #EEEEEE;
+    opacity:0.6;
+}
 
 
 

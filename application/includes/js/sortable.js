@@ -758,8 +758,8 @@ mw.resizable_columns = function () {
 
 			$also_inner_items = $inner_column.attr('id');
 
-			//   $inner_column.addClass('also-resize-inner');
-			$(this).parent(".column").resizable("destroy")
+
+		  $(this).parent(".column").resizable("destroy")
 			$(this).children(".column").resizable("destroy")
 
 			if ($no_next == false) {
