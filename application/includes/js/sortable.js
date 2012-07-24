@@ -128,8 +128,7 @@ mw.drag = {
             el.draggable({
                 handle: ".mw-sorthandle",
             	cursorAt: {
-            		top: -20,
-            		left: -20
+            		top: -30
             	},
 
             	helper: helper,
@@ -199,13 +198,13 @@ mw.drag = {
              }
            }
          });
-         $(selector).bind("mouseenter", function(){
+         $(selector).notmouseenter().bind("mouseenter", function(){
            if(mw.isDrag){
                 mw.currentDragMouseOver = null;
            }
          });
-	    $(selector).unbind('mouseenter mouseleave');
-		$(selector).bind("mouseenter", function (event) {
+
+		$(selector).notmouseenter().bind("mouseenter", function (event) {
 			if (mw.isDrag) {
                 mw.currentDragMouseOver = this;
                $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -301,9 +300,12 @@ mw.drag = {
                     }
                     $(mw.dragCurrent).show();
                     mw.drag.fixes();
-                    mw.drag.fix_placeholders();
+                    setTimeout(function(){mw.drag.fix_placeholders();}, 40)
                     mw.resizable_columns();
                     mw.dropable.hide();
+
+
+
 					event.stopPropagation();
 
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -678,6 +680,7 @@ mw.drag = {
 		url1 = mw.settings.site_url + 'api/content/load_layout_element';
 		$($update_element).load(url1, attributes, function () {
 			window.mw_sortables_created = false;
+            mw.image.resize.init($update_element + " img");
 		});
 		//	mw.edit.unwrap_layout_holder()
 	},

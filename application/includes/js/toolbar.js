@@ -348,7 +348,6 @@ mw.remote_drag = {
           else if(file.type.indexOf("pdf")!=-1){
               reader.onload = function(e) {
                var result = e.target.result;
-               alert(1);
                element.after( "<span>"+e.target.result+"</span>");
   		     }
              reader.readAsBinaryString(file);
@@ -406,8 +405,8 @@ mw.image = {
       init:function(selector){
         mw.image_resizer == undefined?mw.image.resize.prepare():'';
         $(selector, '.edit').each(function(){
-          $(this).bind("mouseenter", function(){
-             if( !mw.image.isResizing && !mw.isDrag){
+          $(this).notmouseenter().bind("mouseenter", function(){
+             if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started){
              var el = $(this);
              var offset = el.offset();
              var r = $(mw.image_resizer);
@@ -424,8 +423,6 @@ mw.image = {
              $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
              mw.image.currentResizing = el;
             }
-            var data = $(this).data("events");
-       console.log(data.mouseenter);
           });
         });
       }
@@ -434,23 +431,24 @@ mw.image = {
 
 
 
-
-
-$.expr[':'].notmouseenter = function(el){
-  var el = $(el);
-  var events = $(this).data("events");
-  console.log(events);
-
-  return (events==undefined || events.mouseenter==undefined);
+$.expr[':'].noop = function(){
+    return true;
 };
 
+
+(function( $ ){
+  $.fn.notmouseenter = function() {
+    return this.filter(function(){
+      var el = $(el);
+      var events = el.data("events");
+      return (events==undefined || events.mouseover==undefined || events.mouseover[0].origType!='mouseenter');
+    });
+  };
+})( jQuery );
 
 
 
 $(window).load(function(){
-
-
-
 
 
 
@@ -459,15 +457,7 @@ $(window).load(function(){
       mw.edit.image_settings.init(this);
   });
 
-  mw.image.resize.init(".edit img");
-
-
-  $("img").click(function(event){
-      console.log(this.event.data);
-   });
-
-//  $("img:notmouseenter").
-
+  mw.image.resize.init(".element img");
 
 
 });
