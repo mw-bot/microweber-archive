@@ -310,7 +310,7 @@ mw.edit.image_settings={
             $(this).find("img").attr("width",w).attr("height",h).width(w).height(h);
            }
         });
-        $("#typography img").attr("contentEditable", false);
+        $(".edit img").attr("contentEditable", false);
       }
     }
 }
@@ -405,7 +405,7 @@ mw.image = {
       init:function(selector){
         mw.image_resizer == undefined?mw.image.resize.prepare():'';
         $(selector, '.edit').each(function(){
-          $(this).notmouseenter().bind("mouseenter", function(){
+          $(this).notclick().bind("click", function(){
              if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started){
              var el = $(this);
              var offset = el.offset();
@@ -446,6 +446,29 @@ $.expr[':'].noop = function(){
   };
 })( jQuery );
 
+(function( $ ){
+  $.fn.notclick = function() {
+    return this.filter(function(){
+      var el = $(el);
+      var events = el.data("events");
+      return (events==undefined || events.click==undefined);
+    });
+  };
+})( jQuery );
+
+
+(function( $ ){
+  $.fn.visible = function() {
+    return this.css("visibility", "visible");
+  };
+})( jQuery );
+
+(function( $ ){
+  $.fn.invisible = function() {
+    return this.css("visibility", "hidden");
+  };
+})( jQuery );
+
 
 
 $(window).load(function(){
@@ -453,7 +476,7 @@ $(window).load(function(){
 
 
   mw.remote_drag.from_pc();
-  $("#typography img").click(function(){
+  $(".edit img").click(function(){
       mw.edit.image_settings.init(this);
   });
 

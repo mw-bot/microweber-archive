@@ -88,10 +88,9 @@ mw.drag = {
          });
 
 
-
         mw.dropables.prepare();
 
-		mw.edit.remove_content_editable();
+	    mw.edit.remove_content_editable();
 
 		mw.drag.fix_placeholders(true);
 		mw.drag.fixes()
@@ -99,7 +98,8 @@ mw.drag = {
 		mw.drag.init(".element, .row");
 		mw.drag.init(".module-item");
 		mw.drag.sort(".element > *,.edit,.column > *");
-		mw.drag.edit(".element > *");
+
+                mw.drag.edit(".element > *");
 		mw.drag.fix_handles();
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
@@ -126,7 +126,7 @@ mw.drag = {
                 helper = 'original'
             }
             el.draggable({
-                handle: ".mw-sorthandle",
+                handle: ".mw-sorthandle-moveit",
             	cursorAt: {
             		top: -30
             	},
@@ -166,6 +166,19 @@ mw.drag = {
 
             	}
             });
+            $(this).hover(function(event){
+              $(".mw-sorthandle").invisible();
+              $(".element-active").removeClass("element-active");
+              $(this).addClass("element-active");
+              $(this).find(".mw-sorthandle").eq(0).visible();
+              event.stopPropagation();
+            }, function(event){
+              $(".mw-sorthandle").invisible();
+               var el = $(this);
+               el.removeClass("element-active");
+               //$(this)..removeClass("mw-sorthandle-active");
+              event.stopPropagation();
+            });
         });
 
 	},
@@ -181,6 +194,13 @@ mw.drag = {
 				mw.drag.edit_remove();
 			}
 		});
+
+       $(selector).find(".mw-sorthandle-moveit").hover(function(){
+            $(this).parent().parent().addClass("moveit-hover");
+       }, function(){
+           $(this).parent().parent().removeClass("moveit-hover");
+       });
+
 	},
 	sort: function (selector) {
          var selector = selector || '.row, .edit';
@@ -218,25 +238,21 @@ mw.drag = {
 				var el = $(this);
 				if (el.hasClass("mw-sorthandle")) {
 					mw.mouse_over_handle = true;
-					el.css("visibility", "visible");
+
 				}
 				else {
-					$(".mw-sorthandle").css("visibility", "hidden");
+
 					setTimeout(function () {
 						mw.mouse_over_handle = false;
 					}, 200);
 				}
-				if (el.hasClass("element")) {
-					el.children(".mw-sorthandle").css("visibility", "visible");
-				}
-				else {
-					el.parents(".element:first").children(".mw-sorthandle").css("visibility", "visible");
-				}
-				el.parents(".row:first").children(".mw-sorthandle-row").css("visibility", "visible");
+
+
 			}
 			event.stopPropagation();
 		});
         $(selector).bind("mouseleave", function(){
+
           if (mw.isDrag) {
             mw.currentDragMouseOver = null; }
         });
@@ -490,7 +506,7 @@ mw.drag = {
 
 
 
-		$(selector, '.edit').unbind('mousedown.edit');
+	  $(selector, '.edit').unbind('mousedown.edit');
 		$(selector, '.edit').bind("mousedown.edit", function (e) {
 			if (!mw.isDrag) {
 

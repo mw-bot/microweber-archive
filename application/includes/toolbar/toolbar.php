@@ -30,12 +30,35 @@
 		empty_column_placeholder : '<div id="_ID_" class="empty-element empty-element-column">Please drag items here</div>',
 		
     	//handles
-    	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div></div>",
-    	sorthandle_row_columns_controlls : 'row <a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
-    	sorthandle_row_delete : '<a class=\"mw.edit.delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)">x</a> ',
+    	sorthandle_row :
+        "<div class='mw-sorthandle mw-sorthandle-row'>\
+            <div class='columns_set'></div>\
+            <div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div>\
+        </div>",
+    	sorthandle_row_columns_controlls :
+         '<a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
+    	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)"><span>x</span></a> ',
     	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
-    	sorthandle_col:"<div class='mw-sorthandle mw-sorthandle-col'><div class='mw-element-name-handle'>element</div><div class='mw_col_delete mw.edit.delete_element'><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>",
-    	sorthandle_module:"<div class='mw-sorthandle mw-sorthandle-col'><div class='mw-element-name-handle'>MODULE_NAME</div><div class='mw_col_delete mw.edit.delete_element'><a href=\"javascript:mw.edit.module_settings(MODULE_ID)\">settings</a><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>"
+    	sorthandle_col:
+        "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
+            <div class='mw_col_delete mw_edit_delete_element'>\
+                <a class='mw_edit_btn mw_edit_delete' href='javascript:mw.edit.delete_element(ELEMENT_ID)'><span>x</span></a>\
+            </div>\
+            <span class='mw-sorthandle-moveit'>Move</span>\
+        </div>",
+    	sorthandle_module:
+            "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
+                <div class='mw-element-name-handle'>MODULE_NAME</div>\
+                <div class='mw_col_delete mw_edit_delete_element'>\
+                    <a class='mw_edit_btn mw_edit_settings' href='javascript:mw.edit.module_settings(MODULE_ID)'>Settings</a>\
+                    <a class='mw_edit_btn mw_edit_delete' href='javascript:mw.edit.delete_element(ELEMENT_ID)'><span>x</span></a>\
+                </div>\
+                <span class='mw-sorthandle-moveit'>Move</span>\
+            </div>"
     }
 
 </script>
