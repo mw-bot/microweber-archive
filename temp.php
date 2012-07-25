@@ -1,0 +1,1 @@
+<? print file_get_contents('http://pecata/Microweber_2/t2/mw-embed:mw-module-557297831423') ?>

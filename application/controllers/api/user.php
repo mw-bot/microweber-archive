@@ -360,7 +360,7 @@ class User extends CI_Controller {
 						
 						$p = get_page ();
 						if (! empty ( $p )) {
-							$link = page_link ( $p ['id'] );
+ 							$link = page_link ( $p ['id'] );
 							$link = $link . '/editmode:y';
 							safe_redirect ( $link );
 							
