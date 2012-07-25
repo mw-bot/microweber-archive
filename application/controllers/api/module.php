@@ -190,6 +190,8 @@ class Module extends CI_Controller {
         // $this->load->model ( 'Template_model', 'template_model' );
         // $res = $this->template_model->parseMicrwoberTags ( $tags, $opts );
         $res = parse_micrwober_tags($tags, $opts);
+    	$res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
+
         /*	if ($admin == true) {
 		 $is_admin = is_admin ();
 		 if ($is_admin == false) {

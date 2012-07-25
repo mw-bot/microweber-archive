@@ -14,6 +14,10 @@ function load_module($module_name)
     $module_in_template_dir = normalize_path($module_in_template_dir, 1);
     $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
     $module_in_template_file = normalize_path($module_in_template_file, false);
+
+
+
+
     $try_file1 = false;
     if (is_dir($module_in_template_dir)) {
         $mod_d = $module_in_template_dir;
@@ -22,10 +26,17 @@ function load_module($module_name)
     } elseif (is_file($module_in_template_file)) {
         $try_file1 = $module_in_template_file;
     } else {
+
+
+
         $module_in_default_dir = MODULES_DIR . $module_name . '';
         $module_in_default_dir = normalize_path($module_in_default_dir, 1);
         $module_in_default_file = MODULES_DIR . $module_name . '.php';
         $module_in_default_file = normalize_path($module_in_default_file, false);
+
+    //	var_dump($module_in_default_file);
+
+
 
         if (is_dir($module_in_default_dir)) {
             $mod_d = $module_in_default_dir;
@@ -35,7 +46,7 @@ function load_module($module_name)
             $try_file1 = $module_in_default_file;
         }
     }
- //	p($try_file1);
+ //
     if ($try_file1 != false and is_file($try_file1)) {
         $config['url_to_module'] = $try_config_file;
         $config['path_to_module'] = normalize_path((dirname($config['url_to_module'])) . '/', true);
@@ -53,6 +64,8 @@ function load_module($module_name)
         // $try_file = MODULES_DIR . 'modules/' . $module_name . '.php';
         return $module_file;
     } else {
+
+
         return false;
     }
     // p($try_file);

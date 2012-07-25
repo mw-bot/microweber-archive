@@ -17,13 +17,12 @@ description: Home site layout
 ================================================== -->
 
 <section id="typography">
-  <div class="edit" id="cvbcvbsdfcvsf">
+  <div class="edit" id="cvbcvbsassdfddfcvsf">
     <div class="row">
       <div class="column" style="width:33%" >
-       <module type="login" />
+       <mw module="login" />
         <div class="element" > <img src="http://lorempixum.com/200/200/?<? print rand(); ?>" height="200"   />
-          <h1>HTML Ipsum Presents</h1>
-          <h1>HTML Ipsum Presents</h1>
+           <h1>asdasd Ipsum Presents</h1>
           <p>Мъжът трябва да помни:<br>
             - Датата, когато се е запознал с жената<br>
             - Датата на първата среща<br>
