@@ -7,7 +7,9 @@ class Index extends CI_Controller {
 		parent::__construct();
 
 		$this -> benchmark -> mark('default_constructor_start');
+		
 		require_once (APPPATH . 'controllers/default_constructor.php');
+	
 		$this -> benchmark -> mark('default_constructor_end');
 		if (defined('INTERNAL_API_CALL') == true) {
 			$microweber_api = $this;
@@ -19,30 +21,30 @@ class Index extends CI_Controller {
 	}
 
 	function index() {
-$this -> benchmark -> mark('the_index_controller_start');
-		require (APPPATH . 'controllers/advanced/index/_controller.php');
-$this -> benchmark -> mark('the_index_controller_end');
+		$this -> benchmark -> mark('the_index_controller_start');
+		require_once (APPPATH . 'controllers/advanced/index/_controller.php');
+		$this -> benchmark -> mark('the_index_controller_end');
 	}
 
 	function userbase() {
 
-		require (APPPATH . 'controllers/advanced/userbase/_controller.php');
+		require_once (APPPATH . 'controllers/advanced/userbase/_controller.php');
 
 	}
 
 	function captcha() {
 
-		require (APPPATH . 'controllers/captcha.php');
+		require_once (APPPATH . 'controllers/captcha.php');
 
 	}
 
 	function users() {
-		require (APPPATH . 'controllers/advanced/users/_controller.php');
+		require_once (APPPATH . 'controllers/advanced/users/_controller.php');
 
 	}
 
 	function dashboard() {
-		require (APPPATH . 'controllers/advanced/dashboard/_controller.php');
+		require_once (APPPATH . 'controllers/advanced/dashboard/_controller.php');
 
 	}
 

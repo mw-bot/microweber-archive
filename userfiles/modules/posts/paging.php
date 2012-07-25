@@ -1,5 +1,5 @@
  <? if(empty($posts_pages_links)) : ?>
- <? $posts_pages_links = app_var('posts_pages_links'); ?>
+ no pages var?
  <?php endif ; ?>
  
  

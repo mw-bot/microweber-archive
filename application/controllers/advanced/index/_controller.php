@@ -176,34 +176,8 @@ if (defined('INTERNAL_API_CALL') == true) {
 			if (defined('CONTENT_ID') == false) {
 				define('CONTENT_ID', $content['id']);
 			}
-		} else {
-			//	$post['content_body'] = html_entity_decode($post['content_body']);
-
-		}
-
-		//	$page['content_body'] = html_entity_decode($page['content_body']);
-
-		/*
-		 if (user_id() != false) {
-		 //$full_page = get_page ( $page ['id'] );
-		 $more = $this -> core_model -> getCustomFields('table_content', $page['id']);
-		 $page['custom_fields'] = $more;
-		 //p($page);
-		 if (trim($more["logged_redirect"]) != '') {
-		 //redirect ( $more ["logged_redirect"] );
-		 //ob_start();
-		 $this -> load -> helper('url');
-		 $redir = site_url($more["logged_redirect"]);
-		 //p($redir);
-		 //header ( "HTTP/1.1 301 Moved Permanently" );
-		 //header ( "Location: " . $redir );
-		 //redirect ( $redir, 'refresh' );
-		 echo "<meta http-equiv=\"refresh\" content=\"0;url=" . "{$redir}\" />";
-		 //ob_end_flush(); //now the headers are sent
-		 exit();
-		 }
-
-		 }*/
+		} else  
+ 
 
 		if ($_POST['format'] == 'json') {
 			$output_format = 'json';
@@ -232,7 +206,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		}
 		//require (APPPATH . 'controllers/advanced/index/display_page.php');
-		require (APPPATH . 'controllers/advanced/index/display.php');
+		require_once (APPPATH . 'controllers/advanced/index/display.php');
 		$this -> benchmark -> mark('getting_content_by_params_end');
 
 		//print '</pre>';
@@ -609,6 +583,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 			}
 		}
 
+
 		if (trim($taxonomy_data) != '') {
 
 			// $this-> load -> vars($this-> template);
@@ -656,7 +631,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 		//	$stats_js = CI::model ( 'stats' )->get_js_code ();
 
 		$editmode = $this -> session -> userdata('editmode');
-
+ 
 		// DISABLING EDITMODE till its finished
 		//	$editmode = false;
 		$no_toolbar = false;

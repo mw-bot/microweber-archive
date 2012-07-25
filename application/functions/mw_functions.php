@@ -199,6 +199,7 @@ function mw_get_var($var) {
 	return $var;
 }
 function set_template_constants($for_page_id = false) {
+	 
 	$CI = get_instance ();
 
 	if($for_page_id == false){
@@ -356,24 +357,8 @@ if (defined('LAYOUTS_URL') == false) {
 
 
 }
-function template_var($var) {
-	 // $CI = get_instance ();
-	//$var =  get_instance()->template [$var];
-	//return $var;
-}
-function app_var($k, $new_value) {
-	if ($k == false) {
-		return false;
-	}
-
-	 // $CI = get_instance ();
-	if ($k == true and ! isset ( $new_value )) {
-		//return  get_instance()->appvar->get ( $k );
-	} else {
-		// get_instance()->appvar->set ( $k, $new_value );
-	}
-
-}
+ 
+ 
 
 function add_post_form($params) {
 
@@ -878,7 +863,7 @@ function get_posts($params = false) {
 	if (! $params ['items_per_page']) {
 		$params ['items_per_page'] = 30;
 	}
-	app_var ( 'items_per_page', $params ['items_per_page'] );
+	//app_var ( 'items_per_page', $params ['items_per_page'] );
 	//var_Dump($params ['selected_categories']);
 	if ($params ['category']) {
 		$params ['selected_categories'] [] = $params ['category'];
@@ -941,17 +926,17 @@ function get_posts($params = false) {
 			//p($posts);
 			if (! empty ( $posts )) {
 				if ($posts ["posts_pages_count"]) {
-					app_var ( 'posts_pages_count', $posts ["posts_pages_count"] );
+				//	app_var ( 'posts_pages_count', $posts ["posts_pages_count"] );
 				}
 			}
 			if (! empty ( $posts )) {
 				if ($posts ["posts_pages_curent_page"]) {
-					app_var ( 'posts_pages_curent_page', $posts ["posts_pages_curent_page"] );
+					//app_var ( 'posts_pages_curent_page', $posts ["posts_pages_curent_page"] );
 				}
 			}
 			if (! empty ( $posts )) {
 				if ($posts ["posts_pages_links"]) {
-					app_var ( 'posts_pages_links', $posts ["posts_pages_links"] );
+					//app_var ( 'posts_pages_links', $posts ["posts_pages_links"] );
 				}
 			}
 			if (! empty ( $posts )) {
@@ -2359,19 +2344,7 @@ function loop($array_of_data, $file, $array_variable_name = 'data') {
 	}
 
 }
-function global_include($script_path) {
-	// check if the file to include exists:
-	if (isset ( $script_path ) && is_file ( $script_path )) {
-		// extract variables from the global scope:
-		extract ( $GLOBALS, EXTR_REFS );
-		ob_start ();
-		include ($script_path);
-		return ob_get_clean ();
-	} else {
-		ob_clean ();
-		trigger_error ( 'The script to parse in the global scope was not found' );
-	}
-}
+ 
 
 function get_ref_page() {
 	$ref_page = $_SERVER ['HTTP_REFERER'];
@@ -2409,45 +2382,13 @@ function get_ref_category() {
 
 }
 
-function _e($str) {
-	//	setlocale ( LC_MESSAGES, 'es_ES.utf8' );
-	// run ok with LC_MESSAGES
-
-
-	// Specify location of translation tables
-	//bindtextdomain ( "myAppPhp", ROOTPATH .DIRECTORY_SEPARATOR .APPPATH. "/language" );
-	//bind_textdomain_codeset ( "myAppPhp", 'UTF-8' );
-	// It's very important
-
-
-	//print ROOTPATH .DIRECTORY_SEPARATOR .APPPATH . "/language";
-	// Choose domain
-	//textdomain ( "myAppPhp" );
-	// Current locale settings
-	//echo "Current i18n:" . setlocale ( LC_ALL, 0 ) . "\n\n";
-
-
-	// i18n support information here
-	//$language = 'en_US';
-	//$newLocale = setlocale ( LC_ALL, $language );
-	//echo "After i18n:$newLocale\n\n";
-
-
-	// Set the text domain as 'messages'
-	//$domain = 'messages';
-	//bindtextdomain ( $domain, APPPATH. DIRECTORY_SEPARATOR ."language" );
-	//textdomain ( $domain );
-
-
-	//	echo gettext ( $str );
-	echo ($str);
-}
-require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
-require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
-require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
-require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');
-require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
+ 
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');
+require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
 
 
 

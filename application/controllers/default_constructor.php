@@ -54,9 +54,14 @@ if ($profiler) {
 //$mw_cache_storage_hits = array ();
 
 //$before = memory_get_usage();
+		//$this -> benchmark -> mark('loading_core_model_start');
+ 
+$this -> load -> model('Core_model', 'core_model');	
 
-$this -> load -> model('Core_model', 'core_model');
+	//	$this -> benchmark -> mark('loading_core_model_end'); //
+
 $this -> load -> model('Content_model', 'content_model');
+
 $this -> load -> library('session');
 //must be in this order!
 //$this->load->model ( 'Init_model', 'init_model' );
@@ -77,8 +82,8 @@ $this -> load -> library('session');
  $this->load->model ( 'Template_model', 'template_model' );
  $this->load->model ( 'Mw_model', 'mw' );*/
 // $CI = get_instance ();
-
-require (APPPATH . 'functions' . '/mw_functions.php');
+ //p(memory_get_usage(),1) ; 
+require_once (APPPATH . 'functions' . '/mw_functions.php');
 
 $db_setup = CACHEDIR_ROOT . '/db_tmp/index.php';
 if (is_file($db_setup) == false) {
