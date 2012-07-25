@@ -56,6 +56,7 @@ mw.drag = {
             var el = $(mw.currentDragMouseOver);
             var offset = el.offset();
             var height = el.height();
+            var width = el.width();
             $(".mw_dropdown_val").html(event.pageY > offset.top+(height/2));
             if(event.pageY > offset.top+(height/2)){  //is on the bottom part
               mw.top_half = false;
@@ -73,6 +74,7 @@ mw.drag = {
               mw.dropable.data("position", "top");
               mw.dropable.addClass("mw_dropable_arr_up");
             }
+
             if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
@@ -166,6 +168,19 @@ mw.drag = {
 
             	}
             });
+            $(this).hover(function(event){
+              $(".mw-sorthandle").invisible();
+              $(".element-active").removeClass("element-active");
+              $(this).addClass("element-active");
+              $(this).find(".mw-sorthandle").eq(0).visible();
+              event.stopPropagation();
+            }, function(event){
+              $(".mw-sorthandle").invisible();
+               var el = $(this);
+               el.removeClass("element-active");
+               $(this).removeClass("mw-sorthandle-active");
+              //event.stopPropagation();
+            });
         });
 
 	},
@@ -181,6 +196,13 @@ mw.drag = {
 				mw.drag.edit_remove();
 			}
 		});
+
+       $(selector).find(".mw-sorthandle-moveit").hover(function(){
+            $(this).parent().parent().addClass("moveit-hover");
+       }, function(){
+           $(this).parent().parent().removeClass("moveit-hover");
+       });
+
 	},
 	sort: function (selector) {
          var selector = selector || '.row, .edit';
@@ -197,6 +219,7 @@ mw.drag = {
                 mw.dropable.data("position", "bottom");
              }
            }
+
          });
          $(selector).notmouseenter().bind("mouseenter", function(){
            if(mw.isDrag){

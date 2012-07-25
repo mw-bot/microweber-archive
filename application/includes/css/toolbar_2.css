@@ -152,7 +152,7 @@
   margin-top: -7px;
   background: url(../img/resize_arrows.png) no-repeat;
   width: 13px;
-  height: 7px;
+  height: 14px;
   visibility: hidden;
 }
 .ui-resizable-e:hover .resize_arrows{

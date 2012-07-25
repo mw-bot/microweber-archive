@@ -445,6 +445,7 @@ $.expr[':'].noop = function(){
     });
   };
 })( jQuery );
+
 (function( $ ){
   $.fn.notclick = function() {
     return this.filter(function(){
@@ -452,6 +453,19 @@ $.expr[':'].noop = function(){
       var events = el.data("events");
       return (events==undefined || events.click==undefined);
     });
+  };
+})( jQuery );
+
+
+(function( $ ){
+  $.fn.visible = function() {
+    return this.css("visibility", "visible");
+  };
+})( jQuery );
+
+(function( $ ){
+  $.fn.invisible = function() {
+    return this.css("visibility", "hidden");
   };
 })( jQuery );
 
