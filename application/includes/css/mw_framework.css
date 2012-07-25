@@ -221,31 +221,26 @@ body:-webkit-full-screen {
 
 .mw_dropable{
     position: absolute !important;
-    box-shadow:1px 1px 1px black;
+    height: 2px;
+    background:#56B2F3;
 }
 .mw_dropable_arr{
   position: absolute;
   display: block;
   left: 50%;
-  bottom: -16px;
-  margin-left: -8px;
+  bottom: -8px;
+  margin-left: -4px;
   width: 16px;
-  height: 16px;
-  background: url(http://png-5.findicons.com/files//icons/984/misto/256/arrow_down.png) no-repeat;
-  background-size:16px 16px;
+  height: 8px;
+  background: url(../img/dopable_arrows.png) no-repeat 0 -9px;
 }
-.mw_dropable_arr_up{
-  bottom:16px;
-  -moz-transform: scaleY(-1);
-  -o-transform: scaleY(-1);
-  -webkit-transform: scaleY(-1);
-  transform: scaleX(-1);
-  filter: FlipV;
-  -ms-filter: "FlipV";
+.mw_dropable_arr_up .mw_dropable_arr{
+    background-position: 0 0;
+    top: -8px;
 }
 
 .currentDragMouseOver{
-  outline: dotted 3px #B7E7F7;
+  outline: dotted 0px #56B2F3;
 }
 
 .edit, .column{
@@ -301,6 +296,7 @@ body:-webkit-full-screen {
 
 .mw_edit_btn{
   display: inline-block;
+  position: relative;
   padding: 3px 6px;
   font-size: 11px;
   color: #5B5B5B;
@@ -310,20 +306,39 @@ body:-webkit-full-screen {
   border: 1px solid #D2D1D1;
   line-height: normal;
   -webkit-border-radius: 3px;
--moz-border-radius: 3px;
-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
   background-image: linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-background-image: -o-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-background-image: -moz-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-background-image: -webkit-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-background-image: -ms-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
+  background-image: -o-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
+  background-image: -moz-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
+  background-image: -webkit-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
+  background-image: -ms-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
+
+  background-image: -webkit-gradient(
+  	linear,
+  	left bottom,
+  	left top,
+  	color-stop(0.09, rgb(225,225,225)),
+  	color-stop(0.55, rgb(245,245,245))
+  );
+}
+
+.mw_edit_settings:hover{
+border-color:#2680D3;
+color: white;
+text-decoration:none; 
+background-image: linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
+background-image: -o-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
+background-image: -moz-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
+background-image: -webkit-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
+background-image: -ms-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
 
 background-image: -webkit-gradient(
 	linear,
 	left bottom,
 	left top,
-	color-stop(0.09, rgb(225,225,225)),
-	color-stop(0.55, rgb(245,245,245))
+	color-stop(0.09, rgb(42,131,221)),
+	color-stop(0.55, rgb(80,173,240))
 );
 }
 
@@ -331,6 +346,7 @@ background-image: -webkit-gradient(
   position: absolute;
   right: 3px;
   top: 3px;
+  line-height: normal;
 }
 .mw_edit_delete{
   height: 19px;
@@ -344,10 +360,36 @@ background-image: -webkit-gradient(
   width: 8px;
   height: 8px;
   background: url(../img/delete_item.png) no-repeat;
-  top: 50%;
-  left: 50%;
-  margin: -4px 0 0 -4px;
-  text-indent: -9999px;
+  left: 7px;
+  top: 6px;
+
+}
+
+.mw_edit_delete:hover{
+  border-color:#FF3636;
+background-image: linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
+background-image: -o-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
+background-image: -moz-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
+background-image: -webkit-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
+background-image: -ms-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
+
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.09, rgb(255,19,19)),
+	color-stop(0.55, rgb(255,124,124))
+);
+}
+.mw_edit_delete:hover span{
+    background-position: 0 -8px;
+}
+
+
+
+
+.mw-sorthandle{
+  /*visibility: visible !important;*/
 }
 
 

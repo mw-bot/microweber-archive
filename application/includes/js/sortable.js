@@ -171,13 +171,13 @@ mw.drag = {
               $(".element-active").removeClass("element-active");
               $(this).addClass("element-active");
               $(this).find(".mw-sorthandle").eq(0).visible();
-              event.stopPropagation();
+              //event.stopPropagation();
             }, function(event){
               $(".mw-sorthandle").invisible();
                var el = $(this);
                el.removeClass("element-active");
                //$(this)..removeClass("mw-sorthandle-active");
-              event.stopPropagation();
+              //event.stopPropagation();
             });
         });
 

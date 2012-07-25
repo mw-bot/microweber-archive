@@ -41,12 +41,12 @@
           <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> \
           <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> \
           <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
-    	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)"><span>x</span></a> ',
+    	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)"><span>&nbsp;</span></a> ',
     	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
     	sorthandle_col:
         "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
             <div class='mw_col_delete mw_edit_delete_element'>\
-                <a class='mw_edit_btn mw_edit_delete' href='javascript:mw.edit.delete_element(ELEMENT_ID)'><span>x</span></a>\
+                <samp class='mw_edit_btn mw_edit_delete' onclick=\"mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></samp>\
             </div>\
             <span class='mw-sorthandle-moveit'>Move</span>\
         </div>",
@@ -54,8 +54,8 @@
             "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
                 <div class='mw-element-name-handle'>MODULE_NAME</div>\
                 <div class='mw_col_delete mw_edit_delete_element'>\
-                    <a class='mw_edit_btn mw_edit_settings' href='javascript:mw.edit.module_settings(MODULE_ID)'>Settings</a>\
-                    <a class='mw_edit_btn mw_edit_delete' href='javascript:mw.edit.delete_element(ELEMENT_ID)'><span>x</span></a>\
+                    <a class='mw_edit_btn mw_edit_settings' href=\"javascript:mw.edit.module_settings(MODULE_ID)\">Settings</a>\
+                    <a class='mw_edit_btn mw_edit_delete' href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
                 </div>\
                 <span class='mw-sorthandle-moveit'>Move</span>\
             </div>"
@@ -195,7 +195,7 @@
       </div>
       <div id="tab_help" class="mw_toolbar_tab">Help</div>
       <div id="tab_style_editor" class="mw_toolbar_tab">
-        <? include( 'toolbar_tag_editor.php') ; ?>
+        <? //include( 'toolbar_tag_editor.php') ; ?>
       </div>
     <div id="mw-text-editor"></div>
     <div id="mw-history-panel"></div>
