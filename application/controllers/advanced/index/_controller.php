@@ -739,6 +739,13 @@ if (defined('INTERNAL_API_CALL') == true) {
 		//p($layout,1);
 		$layout_opts = array();
 		$layout_opts['no_doctype_strip'] = 1;
+		
+		if(url_param('mw-embed')){
+			$em = url_param('mw-embed');
+			$layout_opts['mw_embed'] = $em;
+			 
+		}
+		
 
 		$layout = parse_micrwober_tags($layout, $layout_opts);
 

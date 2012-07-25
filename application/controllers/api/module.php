@@ -158,13 +158,17 @@ class Module extends CI_Controller {
                     $data['module'] = $data['mw_params_module'];
                 }
             }
-            $data['type'] = $data['module'];
+			
+            $data['data-type'] = $data['module'];
             if ($data['data-module'] != false) {
                 if (trim($data['data-module']) != '') {
                     $data['module'] = $data['data-module'];
                 }
             }
             // p($data);
+            if($data['module']){
+				unset($data['module']);
+			}
             foreach ($data as $k => $v) {
                 if (is_array($v)) {
                     $v1 = encode_var($v);

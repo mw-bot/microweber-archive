@@ -1200,7 +1200,7 @@ class Content extends CI_Controller {
 
                         $html_to_save = $the_field_data['html'];
                         $html_to_save = $content =  make_microweber_tags($html_to_save);
-
+ 
 
                          if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
