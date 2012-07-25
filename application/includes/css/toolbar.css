@@ -61,28 +61,55 @@
 }
 
 .mw-sorthandle {
+
+
+
+    z-index: 9;
+
+
 	width:100%;
     visibility: hidden;
 	position:absolute;
 	left: 0px;
 	border: none;
 	height:19px;
-	cursor:move;
-    background-repeat:  no-repeat;
-    background-position: center center;
-    background-image: url(../img/handle_bg.gif), linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -o-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -moz-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -webkit-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -ms-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -webkit-gradient(
-    	linear,
-    	left bottom,
-    	left top,
-    	color-stop(0, rgb(215,215,215)),
-    	color-stop(0.55, rgb(233,233,233));
-    );
+
 }
+
+.mw-sorthandle-moveit{
+  position: absolute;
+  left: 0;
+  top: 0;
+  line-height: normal;
+  display: inline-block;
+  color: white;
+  cursor: move;
+  text-align: center;
+  font-size: 11px;
+  padding: 4px 6px;
+  border:1px solid #2680D3;
+
+  -webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+
+background-image: linear-gradient(bottom, rgb(42,131,221) 26%, rgb(80,173,240) 63%);
+background-image: -o-linear-gradient(bottom, rgb(42,131,221) 26%, rgb(80,173,240) 63%);
+background-image: -moz-linear-gradient(bottom, rgb(42,131,221) 26%, rgb(80,173,240) 63%);
+background-image: -webkit-linear-gradient(bottom, rgb(42,131,221) 26%, rgb(80,173,240) 63%);
+background-image: -ms-linear-gradient(bottom, rgb(42,131,221) 26%, rgb(80,173,240) 63%);
+
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.26, rgb(42,131,221)),
+	color-stop(0.63, rgb(80,173,240))
+);
+}
+
+
+
 .mw-sorthandle-parent-outline{
 
     outline:1px solid #358BC3 ;
@@ -91,32 +118,13 @@
 
 
 
-.mw-sorthandle {
-    background-image: url(../img/handle_bg.gif);
-    background-color: #D4E8F5;
-    z-index: 9;
-}
+
 .mw-sorthandle.mw-sorthandle-row{
-    background-repeat:  no-repeat;
-    background-position: center center;
-    background-image: url(../img/handle_bg.gif), linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -o-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -moz-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -webkit-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -ms-linear-gradient(bottom, rgb(215,215,215) 0%, rgb(233,233,233) 55%);
-    background-image: url(../img/handle_bg.gif), -webkit-gradient(
-    	linear,
-    	left bottom,
-    	left top,
-    	color-stop(0, rgb(215,215,215)),
-    	color-stop(0.55, rgb(233,233,233));
-    );
+
 }
 
 
-.mw-sorthandle span {
-	width:100%;
-}
+
 
 
  
@@ -125,7 +133,7 @@
 }
 .mw-sorthandle-col {
  	
-	top:0px;
+	top:-17px;
 	cursor:move;
 }
 .element {
@@ -520,6 +528,20 @@ div.mw_col_delete{
   background: red;
   width: 200px;
   height: 200px;
+}
+
+
+.column .ui-resizable-handle{
+    visibility:hidden;
+}
+.column:hover .ui-resizable-handle{
+    visibility:visible;
+}
+.element:hover .mw-sorthandle:first-child{
+  visibility: visible;
+}
+.row:hover .mw-sorthandle-row:first-child{
+  visibility: visible;
 }
 
 

@@ -1,62 +1,6 @@
 <?php
+include_once('parser/phpQuery.php');
 
-class DOMHTMLElement extends DOMElement {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function innerHTML()
-    {
-        $doc = new DOMDocument();
-        foreach ($this->childNodes as $child) {
-            $doc->appendChild($doc->importNode($child, true));
-        }
-        $content = $doc->saveHTML();
-        return $content;
-    }
-
-    public function outerHTML()
-    {
-        $doc = new DOMDocument();
-        $doc->appendChild($doc->importNode($this, true));
-        $content = $doc->saveHTML();
-        return $content;
-    }
-}
-
-function removeBOM($str = "")
-{
-    if (substr($str, 0, 3) == pack("CCC", 0xef, 0xbb, 0xbf)) {
-        $str = substr($str, 3);
-    }
-    return $str;
-}
-
-function xhtmlToDomNode($xhtml)
-{
-    $xhtml = removeBOM($xhtml);
-    $a = "<html>
-    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-<body>'.$xhtml.'</body></html>";
-
-    $dom = new DomDocument();
-    $dom->preserveWhiteSpace = true;
-    $dom->strictErrorChecking = false;
-    // $dom->recover = true;
-    @$dom->loadHtml($a);
-    $fragment = $dom->createDocumentFragment();
-    // $body = $dom->getElementByTagName('body')->item(0);
-    $x = new DOMXPath($dom);
-    // $allClassBar = $x->query("//*[@class='module']");
-    // $allClassBar = $x->query('//div[contains(@class,"module")]');
-    $body = $x->query('//body')->item(0);;
-
-    foreach ($body->childNodes as $child) {
-        $fragment->appendChild($child);
-    }
-    return $fragment;
-}
 /**
  * Parses the microweber tags from the $layout back to html content.
  *
@@ -73,6 +17,101 @@ function xhtmlToDomNode($xhtml)
  */
 function parse_micrwober_tags($layout, $options = false)
 {
+    $pq = phpQuery::newDocument($layout);
+    // print first list outer HTML
+    // $edit_fields =  $pq['.edit'];
+    foreach($pq['.edit'] as $elem) {
+        // iteration returns PLAIN dom nodes, NOT phpQuery objects
+        $tagName = $elem->tagName;
+        $name = pq($elem)->attr('field');
+
+        if (strval($name) == '') {
+            $name = pq($elem)->attr('id');
+        }
+
+        if (strval($name) == '') {
+            $name = pq($elem)->attr('data-field');
+        }
+
+        $rel = pq($elem)->attr('rel');
+        if ($rel == false) {
+            $rel = 'page';
+        }
+
+        $get_global = false;
+        $rel = 'page';
+        $field = $name;
+        $use_id_as_field = $name;
+
+        if ($rel == 'global') {
+            $get_global = true;
+        } else {
+            $get_global = false;
+        }
+
+        if ($rel == 'page') {
+            $data = get_page(PAGE_ID);
+        } else if ($attr['post']) {
+            $data = get_post($attr['post']);
+            if ($data == false) {
+                $data = get_page($attr['post']);
+            }
+        } else if ($attr['category']) {
+            $data = get_category($attr['category']);
+        } else if ($attr['global']) {
+            $get_global = true;
+        }
+
+        $cf = false;
+        $field_content = false;
+
+        if ($get_global == true) {
+            $field_content = $CI->core_model->optionsGetByKey($field, $return_full = false, $orderby = false);
+        } else {
+            if ($use_id_as_field != false) {
+                $field_content = $data[$use_id_as_field];
+
+                if ($field_content == false) {
+                    $field_content = $data['custom_fields'][$use_id_as_field];
+                }
+            }
+
+            if ($field_content == false) {
+                $field_content = $data[$field];
+            }
+
+            if ($field_content == false) {
+                $field_content = $data['custom_fields'][$field];
+            }
+        }
+        // pq($elem)->addClass('hl2');
+        // p($field_content); ;
+        if ($field_content != false and $field_content != '') {
+            $field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
+
+            $field_content = parse_micrwober_tags($field_content);
+            // $newElement = $dom->createElement($nt, $field_content);
+            pq($elem)->html($field_content);
+            // $node->parentNode->insertBefore($newElement, $node);
+            // $node->parentNode->removeChild($node);
+        } else {
+        }
+    }
+
+    foreach($pq['mw'] as $elem) {
+        $name = pq($elem)->attr('module');
+
+        if (strval($name) != '') {
+
+        	p($name);
+
+        }
+    }
+
+    return $pq;
+    exit;
+    // change INNER HTML of second LI directly in first UL
+    // $pq['ul:first > li:eq(1)'] = 'new inner html of second LI directly in first UL';
     global $CI;
     if (!defined('PAGE_ID')) {
         if (intval(PAGE_ID) == 0) {
@@ -87,24 +126,34 @@ function parse_micrwober_tags($layout, $options = false)
         return $layout;
     }
 
-	$dom = new DOMDocument();
-    // $dom->registerNodeClass('DOMElement','DOMHTMLElement');
-    // $dom = new DOMDocument();
+    $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+
+    $dom = new DOMDocument();
     $dom->preserveWhiteSpace = true;
     $dom->strictErrorChecking = false;
     $dom->formatOutput = false;
 
     $dom->resolveExternals = true;
-    // $dom->recover = true;
-     @$dom->loadHTML ('<?xml version="1.0" encoding="utf-8" standalone="yes"?><meta http-equiv="content-type" content="text/html; charset=utf-8">'.$layout);
 
-
-
-
-
-
-    // $dom->loadXML('<div>' . $html . '</div>', LIBXML_NOERROR | LIBXML_NOWARNING);
+    @$dom->loadHTML ('<xml version="1.0" encoding="utf-8" standalone="yes"?><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $layout . ' ');
     $x = new DOMXPath($dom);
+    // get all the script tags
+    $script_tags = $dom->getElementsByTagName('script');
+
+    $query = ("//script");
+    $length = $script_tags->length;
+    // for each tag, remove it from the DOM
+    for ($i = 0; $i < $length; $i++) {
+        $script_tags->item(0)->parentNode->removeChild($script_tags->item(0));
+    }
+    // get the HTML string back
+    $layout = $dom->saveHTML();
+
+    /*
+
+   @$dom->loadHTML ('<xml version="1.0" encoding="utf-8" standalone="yes"?><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>' . $layout . '__REM__</body></html>');
+
+*/
 
     $query = "//*[contains(concat(' ', normalize-space(@class), 'edit'), ' edit ')]";
     $query = ("//*[contains(@class, 'edit')]");
@@ -215,10 +264,6 @@ function parse_micrwober_tags($layout, $options = false)
     $layout = $dom->saveHTML();
 
     $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
-
-    if (!$options['no_doctype_strip']) {
-        $layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $layout);
-    }
 
     $query = '//mw';
     $modules = $x->evaluate($query);
@@ -347,13 +392,20 @@ function parse_micrwober_tags($layout, $options = false)
     $layout = $dom->saveHTML();
     $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 
+    if ($options['no_doctype_strip'] == false) {
+        $layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $layout);
+        $layout = preg_replace('~<(?:!xml|)[^>]*>\s*~i', '', $layout);
+    }
+    $layout = str_replace('<?xml version="1.0" encoding="utf-8" standalone="yes"?>', '', $layout);
+    $layout = str_replace('__REM__</body></html>', '', $layout);
+
     return $layout;
 }
 
 function make_microweber_tags($layout)
 {
+    return $layout;
     if ($layout == '') {
-        return $layout;
     }
 
     $dom = new DOMDocument();
@@ -394,9 +446,9 @@ function make_microweber_tags($layout)
     $layout = $dom->saveHTML();
     $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
     $layout = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $layout);
-
-    $layout = str_replace('></module>', '/>', $layout);
-
+    $layout = preg_replace('~<(?:!xml|)[^>]*>\s*~i', '', $layout);
+    $layout = str_replace('<?xml version="1.0" encoding="utf-8" standalone="yes"?>', '', $layout);
+    // $layout = str_replace('></module>', '/>', $layout);
     return $layout;
 }
 
@@ -404,14 +456,14 @@ function make_microweber_tags($layout)
  *
  * @author Peter Ivanov
  *
- *                                                   function groupsSave($data) {
- *                                                   $table = $table = TABLE_PREFIX . 'groups';
- *                                                   $criteria = $this->input->xss_clean ( $data );
- *                                                   $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
- *                                                   $data );
- *                                                   $save = $this->core_model->saveData ( $table, $criteria );
- *                                                   return $save;
- *                                                   }
+ *                                                           function groupsSave($data) {
+ *                                                           $table = $table = TABLE_PREFIX . 'groups';
+ *                                                           $criteria = $this->input->xss_clean ( $data );
+ *                                                           $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
+ *                                                           $data );
+ *                                                           $save = $this->core_model->saveData ( $table, $criteria );
+ *                                                           return $save;
+ *                                                           }
  */
 
 function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false)
@@ -508,9 +560,9 @@ function OLD_parse_micrwober_tags($layout, $options = false)
     // $this->core_model->cacheWriteAndEncode ( $layout, $function_cache_id, $cache_group );
     // echo memory_get_usage() . "\n"; // 36640
     /*$cache_id =  md5 ( $layout ) . md5 ( serialize ( $options ) );
-	 $cache_group = 'blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
+	   $cache_group = 'blocks/'.DIRECTORY_SEPARATOR.intval(PAGE_ID).DIRECTORY_SEPARATOR.'';
 
-	 */
+	*/
 
     if (($cache_content) == false) {
         // return $cache_content;
@@ -1240,4 +1292,12 @@ function OLD_parse_micrwober_tags($layout, $options = false)
         return $v;
     }
     // p($relations);
+}
+
+function removeBOM($str = "")
+{
+    if (substr($str, 0, 3) == pack("CCC", 0xef, 0xbb, 0xbf)) {
+        $str = substr($str, 3);
+    }
+    return $str;
 }

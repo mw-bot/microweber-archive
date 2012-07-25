@@ -237,7 +237,7 @@ mw.extras = {
   }
 }
 
-mw.random = function(){return Math.floor(Math.random()*9999999);}
+mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
 
 
 mw.edit.image_settings={
@@ -310,7 +310,7 @@ mw.edit.image_settings={
             $(this).find("img").attr("width",w).attr("height",h).width(w).height(h);
            }
         });
-        $("#typography img").attr("contentEditable", false);
+        $(".edit img").attr("contentEditable", false);
       }
     }
 }
@@ -348,7 +348,6 @@ mw.remote_drag = {
           else if(file.type.indexOf("pdf")!=-1){
               reader.onload = function(e) {
                var result = e.target.result;
-               alert(1);
                element.after( "<span>"+e.target.result+"</span>");
   		     }
              reader.readAsBinaryString(file);
@@ -364,16 +363,111 @@ mw.remote_drag = {
 }
 
 
+mw.image = {
+    isResizing:false,
+    currentResizing:null,
+    resize:{
+      create_resizer:function(){
+        if(mw.image_resizer==undefined){
+          var resizer = document.createElement('div');
+          resizer.className = 'mw_image_resizer';
+          document.body.appendChild(resizer);
+          mw.image_resizer = resizer;
+        }
+      },
+      prepare:function(){
+        mw.image.resize.create_resizer();
+        $(mw.image_resizer).resizable({
+            handles: "all",
+            minWidth: 20,
+            minHeight: 20,
+            start:function(){
+              mw.image.isResizing = true;
+            },
+            stop:function(){
+              mw.image.isResizing = false;
+            },
+            resize:function(){
+              var offset = mw.image.currentResizing.offset();
+              $(this).css({
+                top: offset.top,
+                left: offset.left
+              })
+            },
+            aspectRatio: 16 / 9
+        });
+        $(mw.image_resizer).mouseleave(function(){
+          if( !mw.image.isResizing ){
+             $(this).removeClass("active");
+          }
+        });
+      },
+      init:function(selector){
+        mw.image_resizer == undefined?mw.image.resize.prepare():'';
+        $(selector, '.edit').each(function(){
+          $(this).notclick().bind("click", function(){
+             if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started){
+             var el = $(this);
+             var offset = el.offset();
+             var r = $(mw.image_resizer);
+             var width = el.width();
+             var height = el.height();
+             r.css({
+                left:offset.left,
+                top:offset.top,
+                width:width,
+                height:height
+             });
+             r.addClass("active");
+             $(mw.image_resizer).resizable( "option", "alsoResize", el);
+             $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
+             mw.image.currentResizing = el;
+            }
+          });
+        });
+      }
+    }
+  }
 
+
+
+$.expr[':'].noop = function(){
+    return true;
+};
+
+
+(function( $ ){
+  $.fn.notmouseenter = function() {
+    return this.filter(function(){
+      var el = $(el);
+      var events = el.data("events");
+      return (events==undefined || events.mouseover==undefined || events.mouseover[0].origType!='mouseenter');
+    });
+  };
+})( jQuery );
+(function( $ ){
+  $.fn.notclick = function() {
+    return this.filter(function(){
+      var el = $(el);
+      var events = el.data("events");
+      return (events==undefined || events.click==undefined);
+    });
+  };
+})( jQuery );
 
 
 
 $(window).load(function(){
 
-mw.remote_drag.from_pc()
-        $("#typography img").click(function(){
-            mw.edit.image_settings.init(this);
-       });
+
+
+  mw.remote_drag.from_pc();
+  $(".edit img").click(function(){
+      mw.edit.image_settings.init(this);
+  });
+
+  mw.image.resize.init(".element img");
+
 
 });
 

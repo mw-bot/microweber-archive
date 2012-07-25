@@ -30,16 +30,40 @@
 		empty_column_placeholder : '<div id="_ID_" class="empty-element empty-element-column">Please drag items here</div>',
 		
     	//handles
-    	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div></div>",
-    	sorthandle_row_columns_controlls : 'row <a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
+    	sorthandle_row :
+        "<div class='mw-sorthandle mw-sorthandle-row'>\
+            <div class='columns_set'></div>\
+            <div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div>\
+        </div>",
+    	sorthandle_row_columns_controlls :
+         '<a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> \
+          <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
     	sorthandle_row_delete : '<a class=\"mw.edit.delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)">x</a> ',
     	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
-    	sorthandle_col:"<div class='mw-sorthandle mw-sorthandle-col'><div class='mw-element-name-handle'>element</div><div class='mw_col_delete mw.edit.delete_element'><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>",
-    	sorthandle_module:"<div class='mw-sorthandle mw-sorthandle-col'><div class='mw-element-name-handle'>MODULE_NAME</div><div class='mw_col_delete mw.edit.delete_element'><a href=\"javascript:mw.edit.module_settings(MODULE_ID)\">settings</a><a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a></span></div>"
+    	sorthandle_col:
+        "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
+            <div class='mw_col_delete mw.edit.delete_element'>\
+                <a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a>\
+            </div>\
+            <span class='mw-sorthandle-moveit'>Move</span>\
+        </div>",
+    	sorthandle_module:
+            "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
+                <div class='mw-element-name-handle'>MODULE_NAME</div>\
+                <div class='mw_col_delete mw.edit.delete_element'>\
+                    <a href=\"javascript:mw.edit.module_settings(MODULE_ID)\">settings</a>\
+                    <a class=\"mw.edit.delete_element\" href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\">x</a>\
+                </div>\
+                <span class='mw-sorthandle-moveit'>Move</span>\
+            </div>"
     }
 
 </script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js" type="text/javascript"></script>
+
 <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js" type="text/javascript"></script>
@@ -171,8 +195,7 @@
       </div>
       <div id="tab_help" class="mw_toolbar_tab">Help</div>
       <div id="tab_style_editor" class="mw_toolbar_tab">
-        <? //include( 'toolbar_tag_editor.php') ; ?>
-      </div>
+       </div>
     <div id="mw-text-editor"></div>
     <div id="mw-history-panel"></div>
      <div id="mw-saving-loader"></div> 

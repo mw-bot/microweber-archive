@@ -88,10 +88,9 @@ mw.drag = {
          });
 
 
-
         mw.dropables.prepare();
 
-		mw.edit.remove_content_editable();
+	    mw.edit.remove_content_editable();
 
 		mw.drag.fix_placeholders(true);
 		mw.drag.fixes()
@@ -99,7 +98,8 @@ mw.drag = {
 		mw.drag.init(".element, .row");
 		mw.drag.init(".module-item");
 		mw.drag.sort(".element > *,.edit,.column > *");
-		mw.drag.edit(".element > *");
+
+                mw.drag.edit(".element > *");
 		mw.drag.fix_handles();
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
@@ -126,10 +126,9 @@ mw.drag = {
                 helper = 'original'
             }
             el.draggable({
-                handle: ".mw-sorthandle",
+                handle: ".mw-sorthandle-moveit",
             	cursorAt: {
-            		top: -20,
-            		left: -20
+            		top: -30
             	},
 
             	helper: helper,
@@ -199,13 +198,13 @@ mw.drag = {
              }
            }
          });
-         $(selector).bind("mouseenter", function(){
+         $(selector).notmouseenter().bind("mouseenter", function(){
            if(mw.isDrag){
                 mw.currentDragMouseOver = null;
            }
          });
-	    $(selector).unbind('mouseenter mouseleave');
-		$(selector).bind("mouseenter", function (event) {
+
+		$(selector).notmouseenter().bind("mouseenter", function (event) {
 			if (mw.isDrag) {
                 mw.currentDragMouseOver = this;
                $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -219,25 +218,21 @@ mw.drag = {
 				var el = $(this);
 				if (el.hasClass("mw-sorthandle")) {
 					mw.mouse_over_handle = true;
-					el.css("visibility", "visible");
+
 				}
 				else {
-					$(".mw-sorthandle").css("visibility", "hidden");
+
 					setTimeout(function () {
 						mw.mouse_over_handle = false;
 					}, 200);
 				}
-				if (el.hasClass("element")) {
-					el.children(".mw-sorthandle").css("visibility", "visible");
-				}
-				else {
-					el.parents(".element:first").children(".mw-sorthandle").css("visibility", "visible");
-				}
-				el.parents(".row:first").children(".mw-sorthandle-row").css("visibility", "visible");
+
+
 			}
 			event.stopPropagation();
 		});
         $(selector).bind("mouseleave", function(){
+
           if (mw.isDrag) {
             mw.currentDragMouseOver = null; }
         });
@@ -301,9 +296,12 @@ mw.drag = {
                     }
                     $(mw.dragCurrent).show();
                     mw.drag.fixes();
-                    mw.drag.fix_placeholders();
+                    setTimeout(function(){mw.drag.fix_placeholders();}, 40)
                     mw.resizable_columns();
                     mw.dropable.hide();
+
+
+
 					event.stopPropagation();
 
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -488,7 +486,7 @@ mw.drag = {
 
 
 
-		$(selector, '.edit').unbind('mousedown.edit');
+	  $(selector, '.edit').unbind('mousedown.edit');
 		$(selector, '.edit').bind("mousedown.edit", function (e) {
 			if (!mw.isDrag) {
 
@@ -678,6 +676,7 @@ mw.drag = {
 		url1 = mw.settings.site_url + 'api/content/load_layout_element';
 		$($update_element).load(url1, attributes, function () {
 			window.mw_sortables_created = false;
+            mw.image.resize.init($update_element + " img");
 		});
 		//	mw.edit.unwrap_layout_holder()
 	},
@@ -758,8 +757,8 @@ mw.resizable_columns = function () {
 
 			$also_inner_items = $inner_column.attr('id');
 
-			//   $inner_column.addClass('also-resize-inner');
-			$(this).parent(".column").resizable("destroy")
+
+		  $(this).parent(".column").resizable("destroy")
 			$(this).children(".column").resizable("destroy")
 
 			if ($no_next == false) {
