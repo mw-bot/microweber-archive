@@ -2,22 +2,31 @@
 include_once('parser/phpQuery.php');
 
 /**
- * Parses the microweber tags from the $layout back to html content.
- *
- * @param string $layout
- * @param array $options $options['no_doctype_strip']  = false //if true will not remove the doctype
- * @return string $layout
- */
+* Parses the microweber tags from the $layout back to html content.
+*
+* @param string $layout
+* @param array $options $options['no_doctype_strip']  = false //if true will not remove the doctype
+* @return string $layout
+*/
 /**
- * parse_micrwober_tags()
- *
- * @param string $layout
- * @param array $options
- * @return
- */
+* parse_micrwober_tags()
+*
+* @param string $layout
+* @param array $options
+* @return
+*/
 function parse_micrwober_tags($layout, $options = false)
 {
-    $pq = phpQuery::newDocument($layout);
+
+
+
+
+	$layout = str_replace('<mw ', '<module ', $layout);
+	$layout = str_replace('<microweber module=', '<module type=', $layout);
+	$layout = str_replace('</microweber>', '', $layout);
+
+
+	$pq = phpQuery::newDocument($layout);
     // print first list outer HTML
     // $edit_fields =  $pq['.edit'];
     foreach($pq['.edit'] as $elem) {
@@ -98,15 +107,85 @@ function parse_micrwober_tags($layout, $options = false)
         }
     }
 
-    foreach($pq['mw'] as $elem) {
+
+/*
+  foreach($pq['mw'] as $elem) {
         $name = pq($elem)->attr('module');
 
-        if (strval($name) != '') {
-
-        	p($name);
-
+        $attributes = array();
+        $ats = $elem->attributes;
+        $module_html = "<module ";
+        if (!empty($ats)) {
+            foreach($ats as $attribute_name => $attribute_node) {
+                $v = $attribute_node->nodeValue;
+                $module_html .= " {$attribute_name}='{$v}'  ";
+            }
         }
+    	$module_html. ' />';
+    	pq($elem)->replaceWith($module_html) ;
     }
+*/
+
+
+
+	foreach($pq['module'] as $elem) {
+		$name = pq($elem)->attr('module');
+
+		$attrs = $elem->attributes;
+
+		$z = 0;
+		foreach($attrs as  $attribute_node) {
+			$nn = $attribute_node->nodeName;
+			$v = $nv = $attribute_node->nodeValue;
+
+
+
+
+
+
+			if ($z == 0) {
+				$module_name = $nn;
+			} else {
+			}
+			$mod_attributes[$nn] = $nv;
+			if ($nn == 'module') {
+				$module_name = $nv;
+			}
+
+			if ($nn == 'type') {
+				$module_name = $nv;
+			}
+
+			if ($nn == 'data-module') {
+				$module_name = $nv;
+			}
+
+			$z++;
+		}
+
+
+
+
+		//
+		$mod_content = load_module($module_name, $attrs);
+ 	$mod_content = parse_micrwober_tags($mod_content);
+		if ($mod_content != false) {
+
+			$module_html = "<div ";
+			if (!empty($attrs)) {
+				foreach($attrs as $attribute_name => $attribute_node) {
+					$v = $attribute_node->nodeValue;
+					$module_html .= " {$attribute_name}='{$v}'  ";
+				}
+			}
+			$module_html.= '>'.$mod_content.'</div>';
+ 			pq($elem)->replaceWith($module_html) ;
+
+		}
+
+	}
+
+
 
     return $pq;
     exit;
@@ -453,18 +532,18 @@ function make_microweber_tags($layout)
 }
 
 /**
- *
- * @author Peter Ivanov
- *
- *                                                           function groupsSave($data) {
- *                                                           $table = $table = TABLE_PREFIX . 'groups';
- *                                                           $criteria = $this->input->xss_clean ( $data );
- *                                                           $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
- *                                                           $data );
- *                                                           $save = $this->core_model->saveData ( $table, $criteria );
- *                                                           return $save;
- *                                                           }
- */
+*
+* @author Peter Ivanov
+*
+*                                                              function groupsSave($data) {
+*                                                              $table = $table = TABLE_PREFIX . 'groups';
+*                                                              $criteria = $this->input->xss_clean ( $data );
+*                                                              $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
+*                                                              $data );
+*                                                              $save = $this->core_model->saveData ( $table, $criteria );
+*                                                              return $save;
+*                                                              }
+*/
 
 function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false)
 {
