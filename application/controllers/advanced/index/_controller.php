@@ -689,23 +689,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		}
 
-		$r = (RESOURCES_DIR . 'load.php');
-		$r = normalize_path($r, false);
-		//$res =$this->load->file ( , true );
-		if (is_file($r)) {
-			$res = $this -> load -> file($r, true);
-			if ($res != false) {
-
-				$layout = str_replace('</ head>', '</head>', $layout);
-				//some developers put spaces
-
-				$layout = str_replace('</head>', $res . '</head>', $layout);
-			}
-		}
-
-		if ($stats_js != false) {
-			$layout = str_replace('</body>', $stats_js . '</body>', $layout);
-		}
+		 
 
 
 		$this -> benchmark -> mark('parsing_template_tags_start');
