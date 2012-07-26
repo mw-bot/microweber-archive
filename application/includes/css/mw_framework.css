@@ -224,6 +224,12 @@ body:-webkit-full-screen {
     height: 2px;
     background:#56B2F3;
 }
+
+.mw_dropable_vertical{
+  height: auto;
+  width: 2px;
+}
+
 .mw_dropable_arr{
   position: absolute;
   display: block;
@@ -390,6 +396,15 @@ background-image: -webkit-gradient(
 
 .mw-sorthandle{
   /*visibility: visible !important;*/
+}
+
+
+body.not-allowed{
+  cursor: no-drop !important;
+}
+
+.element{
+  display: inline-block;
 }
 
 

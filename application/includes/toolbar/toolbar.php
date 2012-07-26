@@ -30,8 +30,11 @@
 		empty_column_placeholder : '<div id="_ID_" class="empty-element empty-element-column">Please drag items here</div>',
 		
     	//handles
-    	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'><div class='columns_set'></div><div class='mw-sorthandle mw-sorthandle-row'><div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div></div>";
-    	 ,
+    	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'>\
+	    	    <div class='columns_set'></div>\
+	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
+	    	    <div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div>\
+    	    </div>",
     	sorthandle_row_columns_controlls :
          '<a  href="javascript:mw.edit.create_columns(ROW_ID,1)" class="mw-make-cols mw-make-cols-1" >1</a> \
           <a  href="javascript:mw.edit.create_columns(ROW_ID,2)" class="mw-make-cols mw-make-cols-2" >2</a> \
@@ -41,8 +44,8 @@
     	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)"><span>&nbsp;</span></a> ',
     	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
     	sorthandle_col:
-        "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>
-            <div class='mw_col_delete mw_edit_delete_element'>
+        "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
+            <div class='mw_col_delete mw_edit_delete_element'>\
                 <a class='mw_edit_btn mw_edit_delete' onclick=\"mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
             </div>\
             <span class='mw-sorthandle-moveit'>Move</span>\

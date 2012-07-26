@@ -267,7 +267,7 @@ mw.edit.image_settings={
           display:'block'
         });
     },
-    init:function(el){
+    init:function(el){  return false;
        var id = mw.edit.image_settings.prepare();
        mw.edit.image_settings.scale(el, id);
 

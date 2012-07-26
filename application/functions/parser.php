@@ -1,5 +1,29 @@
 <?php
 include_once ('parser/phpQuery.php');
+$mw_replace_script_num = 1;
+
+function mw_replace_script_back($match) {
+	var_dump($mw_replace_script_num);
+
+	p($mw_replace_script_num);
+	$m = $match[0];
+	$m = str_replace('<mwscript ', '<script ', $m);
+	//$layout = str_replace('</mw-script', '</script', $layout);
+
+	$content = $mw_script_matches[$mw_replace_script_num];
+	$mw_replace_script_num = $mw_replace_script_num++;
+
+	p($content);
+	return $match[0];
+
+	if (stripos($match[0], 'example.org/') !== false) {
+
+		///return $match[0];
+	} else {
+		//return 'http://proxy.com/?u=' . urlencode($match[0]);
+	}
+
+}
 
 /**
  * Parses the microweber tags from the $layout back to html content.
@@ -24,50 +48,36 @@ function parse_micrwober_tags($layout, $options = false) {
 	$layout = str_replace('<microweber module=', '<module data-type=', $layout);
 	$layout = str_replace('</microweber>', '', $layout);
 
-//$layout = preg_match_all('#<script(.*?)>(.*?)</script>#is', '', $layout);
-$pattern = "/<script[^>]*>(.*)<\/script>/Uis"; 
-preg_match_all($pattern, $layout, $matches); 
-print_r($matches);
+	//$layout = preg_match_all('#<script(.*?)>(.*?)</script>#is', '', $layout);
+	$script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
 
- 
- 
-	 //$layout = str_replace('<script ', '<TEXTAREA ', $layout);
-	// $layout = str_replace('</script', '</TEXTAREA', $layout);
- 
-	$pq = phpQuery::newDocument($layout);
+	$replaced_scripts = array();
+	//$layout = preg_replace('/<script(?:(?!<\/script>).)*<\/script>/s','',$layout);
 
-	$scripts = array();
-	$sc_id = 1;
-	foreach ($pq['script'] as $elem) {
-		$cr = pq($elem) -> text();
+	preg_match_all($script_pattern, $layout, $mw_script_matches);
 
-		$scripts[$sc_id] = array();
-		$scripts[$sc_id]['content'] = $cr;
+	if (!empty($mw_script_matches)) {
+		foreach ($mw_script_matches[0] as $key => $value) {
+			if ($value != '') {
+				$v1 = md5($value);
+				 $layout = str_replace($value, $v1, $layout);
+				//$layout = str_replace_count($value, $v1, $layout,1);
+				$replaced_scripts[$v1] = $value;
+				//	p($value);
 
-		$attributes = array();
-		$ats = $elem -> attributes;
-
-		$module_html = "<div-script ";
-		if (!empty($ats)) {
-			$ats1 = array();
-			foreach ($ats as $attribute_name => $attribute_node) {
-			//	$v = $attribute_node -> nodeValue;
-			//	$ats1[$attribute_name] = $v;
-			//	$module_html .= " {$attribute_name}='{$v}'  ";
 			}
-
-			$scripts[$sc_id]['attributes'] = $ats1;
-
 		}
-		$module_html . '>' . '' . '</div-script>';
-		pq($elem) -> replaceWith($module_html);
-		$sc_id++;
 	}
-//$pq->remove('script');
-	// print first list outer HTML
-	// $edit_fields =  $pq['.edit'];
 
-	 $els = $pq['.edit'];
+	//  var_dump($mw_script_matches);
+
+	//$layout = str_replace('<script ', '<TEXTAREA ', $layout);
+	// $layout = str_replace('</script', '</TEXTAREA', $layout);
+
+	$pq = phpQuery::newDocument($layout);
+ 
+
+	$els = $pq['.edit'];
 	//$els = pq('body')->find('.edit')->filter(':not(script)');
 
 	foreach ($els as $elem) {
@@ -162,7 +172,7 @@ print_r($matches);
 	 pq($elem)->replaceWith($module_html) ;
 	 }
 	 */
-	 $els = $pq['module'];
+	$els = $pq['module'];
 	//$els = pq('module')->filter(':not(script)');
 
 	foreach ($els as $elem) {
@@ -233,32 +243,25 @@ print_r($matches);
 	//$layout = str_replace('</mw-script', '</script', $layout);
 	//.$layout = html_entity_decode($layout, ENT_NOQUOTES, "UTF-8");
 
-	/*
-	if (!empty($scripts)) {
-			$sc_id_1 = 1;
-			foreach ($pq['div-script'] as $elem) {
-				$el_new = $scripts[$sc_id_1];
-				if (is_array($el_new) and !empty($el_new)) {
-						   $module_html = "<script ";
-					$attrs = $el_new['attributes'];
-					if (!empty($attrs)) {
-						foreach ($attrs as $attribute_name => $attribute_node) {
-							$module_html .= " {$attribute_name}='{$attribute_node}'  ";
-						}
-					}
-					$module_html .= '>' . $el_new['content'] . '</script>';
-	
-					pq($elem) -> replaceWith($module_html);
-				}
-				$sc_id_1++;
-	
+	// if (!empty($scripts)) {
+	// if(!empty($mw_script_matches)){
+	// $mw_script_matches = $mw_script_matches[0];
+	// }
+	//
+	//
+
+	$layout = $pq -> htmlOuter();
+
+	if (!empty($replaced_scripts)) {
+		foreach ($replaced_scripts as $key => $value) {
+			if ($value != '') {
+
+				$layout = str_replace($key, $value, $layout);
+
 			}
-		}*/
-	
-$layout  =$pq -> htmlOuter();
- $layout = str_replace('<mw-script ', '<script ', $layout);
-	 $layout = str_replace('</mw-script', '</script', $layout);
-	// $layout = html_entity_decode($layout, ENT_NOQUOTES, "UTF-8");
+		}
+	}
+
 	return $layout;
 	exit ;
 

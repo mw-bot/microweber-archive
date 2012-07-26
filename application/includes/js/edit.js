@@ -938,7 +938,11 @@ mw.history = {
 
 
 mw.drop_regions = {
+
   dropTimeout:null,
+  global_drop_is_in_region:false,
+  which : 'none',
+
   create:function(element){
     var el = $(element);
     var height = el.height();
@@ -980,10 +984,18 @@ mw.drop_regions = {
             var regions = mw.drop_regions.create(element);
             var is_in_region = mw.drop_regions.is_in_region(regions, event);
             if(is_in_region=='left'){
-               callback.call('left');
+               callback.call(this, 'left');
+               mw.drop_regions.global_drop_is_in_region = true;
+               mw.drop_regions.which = 'left';
             }
             else if(is_in_region=='right'){
-               callback.call('right');
+               callback.call(this, 'right');
+               mw.drop_regions.global_drop_is_in_region = true;
+               mw.drop_regions.which = 'right';
+            }
+            else{
+              mw.drop_regions.global_drop_is_in_region = false;
+               mw.drop_regions.which = 'none';
             }
             mw.drop_regions.dropTimeout = null;
         }, 37);
@@ -992,10 +1004,17 @@ mw.drop_regions = {
 }
 
 
+
+
+
+
 window.onload = function(){
-  $("#mw-element-134324223673613 p:first").mousemove(function(event){
-      mw.drop_regions.init(this, event, function(){
-        console.log(this);
-      });
+  $(".element").mousemove(function(event){
+      if(mw.isDrag){
+        mw.drop_regions.init(this, event, function(region){
+
+        });
+      }
+     // event.stopPropagation();
   });
 }

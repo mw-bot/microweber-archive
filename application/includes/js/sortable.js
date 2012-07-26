@@ -38,11 +38,17 @@ mw.dropables = {
     var offset = el.offset();
     var width = el.outerWidth();
     var height = el.outerHeight();
-    mw.dropable.css({
-        top:offset.top+height,
-        left:offset.left,
-        width:width
-    });
+    if(mw.drop_regions.global_drop_is_in_region){
+        console.log(1)
+    }
+    else{
+      mw.dropable.css({
+          top:offset.top+height,
+          left:offset.left,
+          width:width
+      });
+    }
+
   }
 }
 
@@ -53,27 +59,68 @@ mw.drag = {
          mw.top_half = false;
          $(document.body).mousemove(function(event){
            if(mw.isDrag && mw.currentDragMouseOver!=null){
+
             var el = $(mw.currentDragMouseOver);
+            var body = $(this);
+
             var offset = el.offset();
             var height = el.height();
             var width = el.width();
             $(".mw_dropdown_val").html(event.pageY > offset.top+(height/2));
-            if(event.pageY > offset.top+(height/2)){  //is on the bottom part
-              mw.top_half = false;
-              mw.dropable.css({
-                top:offset.top+height+2
-              });
-              mw.dropable.data("position", "bottom");
-              mw.dropable.removeClass("mw_dropable_arr_up");
+
+            if(mw.drop_regions.global_drop_is_in_region){
+
+              mw.dropable.addClass("mw_dropable_vertical");
+              if(mw.drop_regions.which=='left'){
+                mw.dropable.data("position", 'left');
+                 mw.dropable.css({
+                      top:offset.top,
+                      height:height,
+                      left:offset.left,
+                      width:2
+                 });
+              }
+              else{
+                  mw.dropable.data("position", 'right');
+                  mw.dropable.css({
+                      top:offset.top,
+                      left:offset.left+width,
+                      height:height,
+                      width:2
+                 });
+              }
             }
             else{
-              mw.top_half = true;
-              mw.dropable.css({
-                top:offset.top-2
-              });
-              mw.dropable.data("position", "top");
-              mw.dropable.addClass("mw_dropable_arr_up");
+                mw.dropable.removeClass("mw_dropable_vertical");
+                if(event.pageY > offset.top+(height/2)){  //is on the bottom part
+
+                  mw.top_half = false;
+                  mw.dropable.css({
+                    top:offset.top+height+2,
+                    left:offset.left,
+                    height:2,
+                    width:width
+                  });
+                  mw.dropable.data("position", "bottom");
+                  mw.dropable.removeClass("mw_dropable_arr_up");
+                }
+                else{
+                  mw.top_half = true;
+                  mw.dropable.css({
+                    top:offset.top-2,
+                    left:offset.left,
+                    height:2,
+                    width:width
+                  });
+                  mw.dropable.data("position", "top");
+                  mw.dropable.addClass("mw_dropable_arr_up");
+                }
             }
+
+
+
+
+
 
             if(el.hasClass("element") || el.hasClass("row") || el.parents(".row").length>0 || el.parents(".element").length>0){
                 if(el.hasClass("empty-element")){
@@ -110,6 +157,7 @@ mw.drag = {
         	if(mw.isDrag && mw.dropable.is(":hidden")){
         		$(".ui-draggable-dragging").animate({top:0,left:0});
         	}
+            $(this).removeClass("not-allowed");
         });
 
 	},
@@ -132,6 +180,7 @@ mw.drag = {
             	cursorAt: {
             		top: -30
             	},
+
 
             	helper: helper,
             	start: function () {
@@ -275,6 +324,7 @@ mw.drag = {
                            hovered.before(mw.dragCurrent);
                         }
                         else{
+
                               if(position=='top'){
                                  if(hovered.hasClass("edit")){
                                     hovered.append(mw.dragCurrent);
@@ -313,6 +363,34 @@ mw.drag = {
                                      }
                                  }
                               }
+                              else if(position=='left'){
+
+
+                                hovered.before(mw.dragCurrent);
+                                var hw = hovered.parents(".column:first").width()/2;
+                                var hw = '';
+                                //alert(hw)
+                                setTimeout(function(){
+                                   $(mw.dragCurrent).css("float", "left");
+
+                                   if(hw>50){
+                                   $(mw.dragCurrent).width(hw); }
+
+                                }, 73);
+
+                              }
+                              else if(position=='right'){
+                                $(mw.dragCurrent).css("float", "none");
+
+                                hovered.after(mw.dragCurrent);
+                                var hw = hovered.parents(".column:first").width()/2;
+                                var hw = '';
+                                setTimeout(function(){
+                                    hovered.css("float", "left");
+                                    hovered.width(hw);
+                                    $(mw.dragCurrent).width(hw);
+                                }, 73);
+                              }
                         }
                     if(mw.have_new_items == true){
                         mw.drag.load_new_modules();
@@ -343,8 +421,12 @@ mw.drag = {
 	fixes: function () {
 		$("img[data-module-name]", '.edit').remove();
 		$(".column, .element, .row", '.edit').height('auto');
-		$(mw.dragCurrent).removeAttr('style');
-		$(".element", '.edit').removeAttr('style');
+        $(mw.dragCurrent).css({
+          top:'',
+          left:''
+        });
+		//$(mw.dragCurrent).removeAttr('style');
+		//$(".element", '.edit').removeAttr('style');
 		$(".column", '.edit').each(function () {
 			var el = $(this);
 			if (el.children().length == 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
