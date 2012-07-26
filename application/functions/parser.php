@@ -24,11 +24,16 @@ function parse_micrwober_tags($layout, $options = false) {
 	$layout = str_replace('<microweber module=', '<module data-type=', $layout);
 	$layout = str_replace('</microweber>', '', $layout);
 
+	//$layout = str_replace('<script ', '<mw-script ', $layout);
+	//$layout = str_replace('</script', '</mw-script', $layout);
+
 	$pq = phpQuery::newDocument($layout);
 
 	// print first list outer HTML
 	// $edit_fields =  $pq['.edit'];
-	foreach ($pq['.edit'] as $elem) {
+	
+	$els = $pq['.edit']->filter(':not(script)');
+	foreach ($els as $elem) {
 		// iteration returns PLAIN dom nodes, NOT phpQuery objects
 		$tagName = $elem -> tagName;
 		$name = pq($elem) -> attr('field');
@@ -120,8 +125,9 @@ function parse_micrwober_tags($layout, $options = false) {
 	 pq($elem)->replaceWith($module_html) ;
 	 }
 	 */
-
-	foreach ($pq['module'] as $elem) {
+	$els = $pq['module']->filter(':not(script)');
+	 
+	foreach ($els as $elem) {
 		$name = pq($elem) -> attr('module');
 
 		$attrs = $elem -> attributes;
@@ -178,14 +184,18 @@ function parse_micrwober_tags($layout, $options = false) {
 		$em = trim($options['mw_embed']);
 		if ($em != '') {
 			foreach ($pq['#'.$em] as $elem) {
- 				pq($elem)->parents('body') -> replaceWith($elem );
+				pq($elem) -> parents('body') -> replaceWith($elem);
 
 			}
 		}
 
 	}
+$layout  =  $pq ;
+	//$layout = str_replace('<mw-script ', '<script ', $layout);
+	//$layout = str_replace('</mw-script', '</script', $layout);
+	//.$layout = html_entity_decode($layout, ENT_NOQUOTES, "UTF-8");
 
-	return $pq;
+	return $layout;
 	exit ;
 
 }

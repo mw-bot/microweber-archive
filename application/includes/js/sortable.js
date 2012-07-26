@@ -807,6 +807,7 @@ mw.resizable_columns = function () {
 					handles: $handles,
 					ghost:false,
 					containment: "parent",
+                    greedy:true,
 					cancel: ".mw-sorthandle",
 					minWidth: 150,
 					//maxWidth: $row_max_w - $last_c_w,
@@ -820,7 +821,7 @@ mw.resizable_columns = function () {
 					},
 					create: function (event, ui) {
 						//$(".row", '.edit').equalWidths();
-						mw.edit.equal_height();
+					   	mw.edit.equal_height();
 
 
 						var el = $(this);

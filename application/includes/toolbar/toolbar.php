@@ -46,7 +46,7 @@
     	sorthandle_col:
         "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
             <div class='mw_col_delete mw_edit_delete_element'>\
-                <samp class='mw_edit_btn mw_edit_delete' onclick=\"mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></samp>\
+                <a class='mw_edit_btn mw_edit_delete' onclick=\"mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
             </div>\
             <span class='mw-sorthandle-moveit'>Move</span>\
         </div>",

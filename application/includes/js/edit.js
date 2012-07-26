@@ -784,8 +784,15 @@ $('.column', '.edit').unbind('mouseover');
 		$(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
 		$(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
-		$(".mw-sorthandle", '.edit', '.ui-resizable-handle').remove();
-		 
+		$(".mw-sorthandle", '.edit').remove();
+		$('.ui-resizable-handle', '.edit').remove();
+		$('.ui-draggable', '.edit').removeClass("ui-draggable");
+		$('.ui-resizable', '.edit').removeClass("ui-resizable");
+		$('.column', '.edit').removeClass("selected");
+
+
+
+
 		var custom_styles = new Array();
 		var regEx = /^mw-style/;
 		var elm = $(".mw-custom-style", '.edit');
