@@ -935,3 +935,67 @@ mw.history = {
 		}
 	}
 }
+
+
+mw.drop_regions = {
+  dropTimeout:null,
+  create:function(element){
+    var el = $(element);
+    var height = el.height();
+    var width = el.width();
+    var offset = el.offset();
+    var region_left = {
+      l:offset.left,
+      r:offset.left+50,
+      t:offset.top,
+      b:offset.top+height
+    }
+    var region_right = {
+      l:offset.left+width-50,
+      r:offset.left+width,
+      t:offset.top,
+      b:offset.top+height
+    }
+    return {
+        left:region_left,
+        right:region_right
+    }
+  },
+  is_in_region:function(regions, event){
+    var l = regions.left;
+    var r = regions.right;
+    var mx = event.pageX;
+    var my = event.pageY;
+    if(mx>l.l && mx<l.r && my>l.t && my<l.b){
+        return 'left';
+    }
+    else if(mx>r.l && mx<r.r && my>r.t && my<r.b){
+      return 'right';
+    }
+    else{return 'none'}
+  },
+  init:function(element, event, callback){
+    if(mw.drop_regions.dropTimeout==null){
+        mw.drop_regions.dropTimeout = setTimeout(function(){
+            var regions = mw.drop_regions.create(element);
+            var is_in_region = mw.drop_regions.is_in_region(regions, event);
+            if(is_in_region=='left'){
+               callback.call('left');
+            }
+            else if(is_in_region=='right'){
+               callback.call('right');
+            }
+            mw.drop_regions.dropTimeout = null;
+        }, 37);
+    }
+  }
+}
+
+
+window.onload = function(){
+  $("#mw-element-134324223673613 p:first").mousemove(function(event){
+      mw.drop_regions.init(this, event, function(){
+        console.log(this);
+      });
+  });
+}

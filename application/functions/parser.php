@@ -24,15 +24,52 @@ function parse_micrwober_tags($layout, $options = false) {
 	$layout = str_replace('<microweber module=', '<module data-type=', $layout);
 	$layout = str_replace('</microweber>', '', $layout);
 
-	//$layout = str_replace('<script ', '<mw-script ', $layout);
-	//$layout = str_replace('</script', '</mw-script', $layout);
+//$layout = preg_match_all('#<script(.*?)>(.*?)</script>#is', '', $layout);
+$pattern = "/<script[^>]*>(.*)<\/script>/Uis"; 
+preg_match_all($pattern, $layout, $matches); 
+print_r($matches);
 
+ 
+ 
+	 //$layout = str_replace('<script ', '<TEXTAREA ', $layout);
+	// $layout = str_replace('</script', '</TEXTAREA', $layout);
+ 
 	$pq = phpQuery::newDocument($layout);
 
+	$scripts = array();
+	$sc_id = 1;
+	foreach ($pq['script'] as $elem) {
+		$cr = pq($elem) -> text();
+
+		$scripts[$sc_id] = array();
+		$scripts[$sc_id]['content'] = $cr;
+
+		$attributes = array();
+		$ats = $elem -> attributes;
+
+		$module_html = "<div-script ";
+		if (!empty($ats)) {
+			$ats1 = array();
+			foreach ($ats as $attribute_name => $attribute_node) {
+			//	$v = $attribute_node -> nodeValue;
+			//	$ats1[$attribute_name] = $v;
+			//	$module_html .= " {$attribute_name}='{$v}'  ";
+			}
+
+			$scripts[$sc_id]['attributes'] = $ats1;
+
+		}
+		$module_html . '>' . '' . '</div-script>';
+		pq($elem) -> replaceWith($module_html);
+		$sc_id++;
+	}
+//$pq->remove('script');
 	// print first list outer HTML
 	// $edit_fields =  $pq['.edit'];
-	
-	$els = $pq['.edit']->filter(':not(script)');
+
+	 $els = $pq['.edit'];
+	//$els = pq('body')->find('.edit')->filter(':not(script)');
+
 	foreach ($els as $elem) {
 		// iteration returns PLAIN dom nodes, NOT phpQuery objects
 		$tagName = $elem -> tagName;
@@ -125,8 +162,9 @@ function parse_micrwober_tags($layout, $options = false) {
 	 pq($elem)->replaceWith($module_html) ;
 	 }
 	 */
-	$els = $pq['module']->filter(':not(script)');
-	 
+	 $els = $pq['module'];
+	//$els = pq('module')->filter(':not(script)');
+
 	foreach ($els as $elem) {
 		$name = pq($elem) -> attr('module');
 
@@ -190,11 +228,37 @@ function parse_micrwober_tags($layout, $options = false) {
 		}
 
 	}
-$layout  =  $pq ;
+	//$layout = $pq;
 	//$layout = str_replace('<mw-script ', '<script ', $layout);
 	//$layout = str_replace('</mw-script', '</script', $layout);
 	//.$layout = html_entity_decode($layout, ENT_NOQUOTES, "UTF-8");
 
+	/*
+	if (!empty($scripts)) {
+			$sc_id_1 = 1;
+			foreach ($pq['div-script'] as $elem) {
+				$el_new = $scripts[$sc_id_1];
+				if (is_array($el_new) and !empty($el_new)) {
+						   $module_html = "<script ";
+					$attrs = $el_new['attributes'];
+					if (!empty($attrs)) {
+						foreach ($attrs as $attribute_name => $attribute_node) {
+							$module_html .= " {$attribute_name}='{$attribute_node}'  ";
+						}
+					}
+					$module_html .= '>' . $el_new['content'] . '</script>';
+	
+					pq($elem) -> replaceWith($module_html);
+				}
+				$sc_id_1++;
+	
+			}
+		}*/
+	
+$layout  =$pq -> htmlOuter();
+ $layout = str_replace('<mw-script ', '<script ', $layout);
+	 $layout = str_replace('</mw-script', '</script', $layout);
+	// $layout = html_entity_decode($layout, ENT_NOQUOTES, "UTF-8");
 	return $layout;
 	exit ;
 
