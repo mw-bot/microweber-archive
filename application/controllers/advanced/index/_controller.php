@@ -9,37 +9,30 @@ $content_display_mode = false;
  $cache_page = false;
 
  }*/
-
+ 
 if (defined('INTERNAL_API_CALL') == true) {
 	$microweber_api = $this;
 	$CI = get_instance();
 	return $CI;
 
 } else {
-
-	//require (APPPATH . 'controllers/advanced/users/force_profile_complete.php');
-
+ 
 	$output_format = false;
-	$subdomain_user = $this -> session -> userdata('subdomain_user');
-	//$this-> template['subdomain_user'] = $subdomain_user;
-	$subdomain_user = false;
-	if ($content_display_mode != 'extended_api_with_no_template') {
+	  
 
-	}
+	$cache_page = false;
+	if ($cache_page == true) {
 
 	$site_cache_time = "5 minutes";
 	$url = url();
-	//p($url);
+ 
 	$url = str_ireplace('\\', '', $url);
 	$cache_content = false;
 	$whole_site_cache_id = 'url_' . md5($url);
-	$cache_page = false;
-	if ($cache_page == true) {
 		if (!$_POST) {
 
-			$cache_content = $this -> core_model -> cacheGetContentAndDecode($whole_site_cache_id, $cache_group = 'global', $site_cache_time);
-			//	p($cache_content);
-		}
+			//$cache_content = cache_get_content($whole_site_cache_id, $cache_group = 'global', $site_cache_time);
+ 		}
 	}
 
 	$is_json = url_param('json');
@@ -61,7 +54,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 	}
 	//p($output_format);
 	//$cache_content = false;
-
+ 
 	if (($cache_content) != false) {
 
 		$layout = $cache_content;
@@ -77,7 +70,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 			//
 			$page = $this -> content_model -> getContentHomepage();
 
-			//	var_dump($page);
+			 
 		} else {
 
 			if ($page['is_home'] != 'y') {
@@ -91,6 +84,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 			}
 			$page = $this -> content_model -> getPageByURLAndCache($url);
 		}
+ 
 		if (empty($page)) {
 
 			if (is_file(TEMPLATES_DIR . 'layouts/' . $url . '/index.php') == true) {
@@ -122,17 +116,12 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 			//exit ( '404: Nothing found on line ' . __LINE__ );
 		}
-		//var_dump($page);
+		 
 		if (empty($page)) {
 			$page = $this -> content_model -> getContentHomepage();
 		}
 
-		/*if (is_readable ( TEMPLATES_DIR . 'layouts/' . $content ['content_layout_file'] ) == true) {
-
-		 }*/
-		//p($post);
-		//	p($page);
-
+	 
 		if ($post_maybe['content_type'] == 'post') {
 			$post = $post_maybe;
 			//p($post);
@@ -689,23 +678,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		}
 
-		$r = (RESOURCES_DIR . 'load.php');
-		$r = normalize_path($r, false);
-		//$res =$this->load->file ( , true );
-		if (is_file($r)) {
-			$res = $this -> load -> file($r, true);
-			if ($res != false) {
-
-				$layout = str_replace('</ head>', '</head>', $layout);
-				//some developers put spaces
-
-				$layout = str_replace('</head>', $res . '</head>', $layout);
-			}
-		}
-
-		if ($stats_js != false) {
-			$layout = str_replace('</body>', $stats_js . '</body>', $layout);
-		}
+		 
 
 
 		$this -> benchmark -> mark('parsing_template_tags_start');

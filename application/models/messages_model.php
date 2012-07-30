@@ -117,7 +117,7 @@ WHERE
 		
 		$q = "SELECT * from $table where parent_id={$msg_id} and deleted_from_receiver='n' and deleted_from_sender='n' ";
 		$cache_group = 'users/messages/' . $msg_id;
-		$cache_group_id = __FUNCTION__ . md5 ( $q );
+		$cache_group_id = __FUNCTION__ . crc32 ( $q );
 		$resutlt = $this->core_model->dbQuery ( $q, $cache_group_id, $cache_group );
 		$return = array ();
 		if (empty ( $resutlt )) {
@@ -149,7 +149,7 @@ WHERE
 		$table = TABLE_PREFIX . 'messages';
 		$q = "SELECT * from $table where id={$msg_id}  ";
 		$cache_group = 'users/messages/' . $msg_id;
-		$cache_group_id = __FUNCTION__ . md5 ( $q );
+		$cache_group_id = __FUNCTION__ . crc32 ( $q );
 		$resutlt = $this->core_model->dbQuery ( $q, $cache_group_id, $cache_group );
 		
 		if (empty ( $resutlt )) {

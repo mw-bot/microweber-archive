@@ -4,7 +4,7 @@ $mw_config = array ();
   
  
 
-$mw_config ['site_url'] = 'http://pecata/Microweber/';   //use slash at the end
+$mw_config ['site_url'] = 'http://dev2/Microweber/';   //use slash at the end
 
  $mw_config ['system_folder'] = 'application/ci';
 $mw_config ['application_folder'] = 'application';
@@ -16,7 +16,7 @@ $mw_config ['db_username'] = 'root';
 $mw_config ['db_password'] = '123456';  
 
  
-$mw_config ['db_database'] = 'digi2';
+$mw_config ['db_database'] = 'mw';
 
 ini_set('display_errors', '1');
  

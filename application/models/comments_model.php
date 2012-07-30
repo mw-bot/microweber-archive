@@ -163,7 +163,7 @@ class Comments_model extends CI_Model {
 		//p($q);
 		
 
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'comments/global' );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), 'comments/global' );
 		
 		return intval ( $q [0] ['qty'] );
 		
@@ -227,7 +227,7 @@ class Comments_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		global $cms_db_tables;
 		

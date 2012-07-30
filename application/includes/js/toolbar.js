@@ -267,7 +267,7 @@ mw.edit.image_settings={
           display:'block'
         });
     },
-    init:function(el){
+    init:function(el){  return false;
        var id = mw.edit.image_settings.prepare();
        mw.edit.image_settings.scale(el, id);
 
@@ -419,15 +419,15 @@ mw.image = {
                 height:height
              });
              r.addClass("active");
-             $(mw.image_resizer).resizable( "option", "alsoResize", el);
+             $(mw.image_resizer).resizable( "option", "alsoResize", el); }
              $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
              mw.image.currentResizing = el;
-            }
+            })
           });
-        });
+        }
       }
     }
-  }
+
 
 
 
@@ -471,9 +471,29 @@ $.expr[':'].noop = function(){
 
 
 
+
+
+editablePurify = function(el){
+  var dirty = $(el).find("[_moz_dirty]").not("br");
+  dirty.each(function(){
+    var el = $(this);
+    el.removeAttr("id");
+    if(el.html()=="" || el.html()==" "){
+      el.replaceWith('<br />');
+    }
+  });
+}
+
+
+
+
+
 $(window).load(function(){
 
 
+$(".element").keyup(function(event){
+    editablePurify(this);
+})
 
   mw.remote_drag.from_pc();
   $(".edit img").click(function(){

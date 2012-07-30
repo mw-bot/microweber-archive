@@ -98,7 +98,7 @@ class reports_model extends CI_Model {
 		//var_dump ( $check_if_user_reported_for_today );
 		
 
-		$check_if_user_reported_for_today = $this->core_model->dbQuery ( $check_if_user_reported_for_today, __FUNCTION__ . md5 ( $check_if_user_reported_for_today ), $cache_group );
+		$check_if_user_reported_for_today = $this->core_model->dbQuery ( $check_if_user_reported_for_today, __FUNCTION__ . crc32 ( $check_if_user_reported_for_today ), $cache_group );
 		
 		$check_if_user_reported_for_today = intval ( $check_if_user_reported_for_today [0] ['qty'] );
 		
@@ -210,9 +210,9 @@ class reports_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -271,7 +271,7 @@ class reports_model extends CI_Model {
 			//var_dump($qty);
 			
 
-			$qty = $this->core_model->dbQuery ( $qty, $cache_id = __FUNCTION__ . md5 ( $qty ), $cache_group );
+			$qty = $this->core_model->dbQuery ( $qty, $cache_id = __FUNCTION__ . crc32 ( $qty ), $cache_group );
 			
 			$qty = $qty [0] ['qty'];
 			

@@ -915,12 +915,12 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$content_id = intval ( $content_id );
 		$cache_group = 'content/' . $content_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -951,12 +951,12 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$content_id = intval ( $content_id );
 		$cache_group = 'content/' . $content_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1041,11 +1041,11 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$cache_group = 'content/global';
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1064,7 +1064,7 @@ class content_model extends CI_Model {
 	}
 	
 	function getPageByURLAndCache($url, $no_recursive = false) {
-		
+ 
 		$function_cache_id = false;
 		
 		$args = func_get_args ();
@@ -1075,11 +1075,11 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$cache_group = 'content/global';
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1307,9 +1307,9 @@ class content_model extends CI_Model {
 		
 		}
 		$id = intval ( $id );
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group = 'content/' . $id );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group = 'content/' . $id );
 		
 		if (($cache_content) != false) {
 			
@@ -1441,11 +1441,11 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		$id = intval ( $id );
 		$cache_group = 'content/' . $id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1560,9 +1560,9 @@ class content_model extends CI_Model {
 		
 		}
 		$cache_group = 'content/' . $id;
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1913,9 +1913,9 @@ class content_model extends CI_Model {
 		$cache_group = 'media/table_content/' . $id;
 		$function_cache_id = serialize ( $id ) . serialize ( $size ) . serialize ( $size_h );
 		
-		$function_cache_id = __FUNCTION__ . md5 ( __FUNCTION__ . $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( __FUNCTION__ . $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2328,11 +2328,11 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		$content_id = intval ( $content_id );
 		$cache_group = 'content/' . $content_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2395,11 +2395,11 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$cache_group = 'content/' . $id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		// $cache_content = false;
 		
@@ -2451,7 +2451,7 @@ class content_model extends CI_Model {
 		$id = intval ( $id );
 		$q = "SELECT * from $table where id='$id'  limit 0,1 ";
 		
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'content/' . $id );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), 'content/' . $id );
 		$content = $q [0];
 		
 		if (! empty ( $content )) {
@@ -2485,11 +2485,11 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		$content_id = intval ( $content_id );
 		$cache_group = 'content/' . $content_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2616,11 +2616,11 @@ class content_model extends CI_Model {
 		
 		}
 		$content_id = intval ( $content_id );
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$cache_group = 'content/' . $content_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2724,11 +2724,11 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		$page_id = intval ( $page_id );
 		$cache_group = 'content/' . $page_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2751,9 +2751,9 @@ class content_model extends CI_Model {
 		/*
 		 * $args = func_get_args (); foreach ( $args as $k => $v ) {
 		 * $function_cache_id = $function_cache_id . serialize ( $k ) .
-		 * serialize ( $v ); } $function_cache_id = __FUNCTION__ . md5 (
+		 * serialize ( $v ); } $function_cache_id = __FUNCTION__ . crc32 (
 		 * $function_cache_id ); $cache_content =
-		 * $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+		 * cache_get_content ( $function_cache_id );
 		 * if (($cache_content) != false) { if ($cache_content == 'false') {
 		 * return false; } else { return $cache_content; } }
 		 */
@@ -2869,7 +2869,7 @@ class content_model extends CI_Model {
 
                                 ";
 								
-								$results = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
+								$results = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), 'taxonomy/global' );
 								
 								// p($results,1);
 								
@@ -2952,7 +2952,7 @@ class content_model extends CI_Model {
 										// p($q);
 										
 
-										$results = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
+										$results = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), 'taxonomy/global' );
 										
 										// var_dump ( $results );
 										
@@ -3809,9 +3809,9 @@ class content_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'content/global' );
+		$cache_content = cache_get_content ( $function_cache_id, 'content/global' );
 		
 		// $cache_content = false;
 		
@@ -3877,10 +3877,10 @@ class content_model extends CI_Model {
 
 		}
 		
-		// $function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		// $function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 
-		// $cache_content = $this->core_model->cacheGetContentAndDecode (
+		// $cache_content = cache_get_content (
 		// $function_cache_id );
 		
 
@@ -5655,12 +5655,12 @@ $my_limit_q
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 		
 		}
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$taxonomy_id = intval ( $id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -5700,7 +5700,7 @@ $my_limit_q
 			// ='dynamic' and content_subtype_value={$id} limit 0,1";
 			
 
-			// $q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ),
+			// $q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ),
 			// $cache_group );
 			
 
@@ -5747,7 +5747,7 @@ $my_limit_q
 				
 				$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
 				
-				// $q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q
+				// $q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q
 				// ), $cache_group );
 				$content = $this->getContentAndCache ( $content, $orderby );
 				// $content = $this->content_model->getContentAndCache (
@@ -6032,9 +6032,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 
-$function_cache_id = __FUNCTION__ . md5 ( $the_url . $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $the_url . $function_cache_id );
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+$cache_content = cache_get_content ( $function_cache_id );
 
 if (($cache_content) != false) {
 
@@ -6406,9 +6406,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+$cache_content = cache_get_content ( $function_cache_id, 'menus' );
 
 if (($cache_content) != false) {
 
@@ -6452,9 +6452,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 
-$function_cache_id = __FUNCTION__ . md5 ( $check . $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $check . $function_cache_id );
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+$cache_content = cache_get_content ( $function_cache_id, 'menus' );
 
 if (($cache_content) != false) {
 
@@ -6675,9 +6675,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 }
 $function_cache_id = $function_cache_id . PAGE_ID . POST_ID . MAIN_PAGE_ID;
 
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+$cache_content = cache_get_content ( $function_cache_id, 'menus' );
 
 if (($cache_content) != false) {
 // p($cache_content);
@@ -6705,7 +6705,7 @@ where item_parent=$menu_id
 and $table_menus.item_parent<>$table_menus.id
 order by position ASC ";
 // p ( $sql );
-$q = $this->core_model->dbQuery ( $sql, __FUNCTION__ . md5 ( $sql ), 'menus' );
+$q = $this->core_model->dbQuery ( $sql, __FUNCTION__ . crc32 ( $sql ), 'menus' );
 
 $data = $q;
 if (empty ( $data )) {
@@ -6791,9 +6791,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, 'menus' );
+$cache_content = cache_get_content ( $function_cache_id, 'menus' );
 
 if (($cache_content) != false) {
 
@@ -6963,9 +6963,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id ) . ACTIVE_PAGE_ID;
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id ) . ACTIVE_PAGE_ID;
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+$cache_content = cache_get_content ( $function_cache_id );
 
 if (($cache_content) != false) {
 
@@ -7361,11 +7361,11 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 $content_id = intval ( $id );
 $cache_group = 'content/' . $content_id;
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 
 if (($cache_content) != false) {
 
@@ -7619,12 +7619,12 @@ function contentGetRecomendedPosts($post_id, $how_much = 5) {
 
 $function_cache_id = serialize ( $post_id ) . serialize ( $how_much );
 
-$function_cache_id = __FUNCTION__ . md5 ( __FUNCTION__ . $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( __FUNCTION__ . $function_cache_id );
 
 $content_id = intval ( $post_id );
 $cache_group = 'content/' . $content_id;
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 
 if (($cache_content) != false) {
 
@@ -8108,11 +8108,11 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 $cache_group = 'taxonomy/global';
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 
 if (($cache_content) != false) {
 
@@ -8328,7 +8328,7 @@ $my_limit_q
 // p ( $q );
 
 // $q = $this->core_model->dbQuery ( $q,
-// __FUNCTION__ . md5 ( $q ), 'taxonomy/global' );
+// __FUNCTION__ . crc32 ( $q ), 'taxonomy/global' );
 $total_count_array = array ();
 
 if (! empty ( $q )) {
@@ -8830,9 +8830,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 
 }
 $content_id = intval ( $content_id );
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 $cache_group = 'media/table_content/' . $content_id;
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 
 if (($cache_content) != false) {
 
@@ -8862,7 +8862,7 @@ AND ID is not null ORDER BY media_order ASC";
 
 // ($q);
 
-$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 
 $ids = $this->core_model->dbExtractIdsFromArray ( $q );
 
@@ -8900,9 +8900,9 @@ $function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 $content_id = intval ( $content_id );
 $cache_group = 'media/table_content/' . $content_id;
 
-$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
-$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 
 if (($cache_content) != false) {
 
@@ -8932,7 +8932,7 @@ AND ID is not null ORDER BY media_order ASC";
 
 // ($q);
 
-$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 
 $ids = $this->core_model->dbExtractIdsFromArray ( $q );
 

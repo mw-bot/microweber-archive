@@ -67,11 +67,11 @@
 }
 
 .empty-element {
-	background-image: url(images/drop.png);
-	background-color:#FFFFB9 !important;
+	/*background-image: url(images/drop.png); */
+	background-color:white !important;
 	background-repeat: no-repeat;
 	background-position: center center;
-	outline: 1px dashed #a5b3ac;
+
 	font-size: 11px;
 	font-style: normal;
 	line-height: 11px;
@@ -79,11 +79,11 @@
 	font-variant: normal;
 	text-transform: none;
 	width:100%;	
-	opacity:0.3;
+
 }
 
 .empty-element:hover {
-	opacity:0.9;
+  background-color:#FFFFB9 !important;
 }
 
 
@@ -149,7 +149,7 @@
   left: 3px;
   left: 12px;
   top: 0;
-  margin-top: -7px;
+  margin-top: -14px;
   background: url(../img/resize_arrows.png) no-repeat;
   width: 13px;
   height: 14px;

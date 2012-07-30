@@ -224,6 +224,12 @@ body:-webkit-full-screen {
     height: 2px;
     background:#56B2F3;
 }
+
+.mw_dropable_vertical{
+  height: auto;
+  width: 2px;
+}
+
 .mw_dropable_arr{
   position: absolute;
   display: block;
@@ -245,6 +251,20 @@ body:-webkit-full-screen {
 
 .edit, .column{
   min-height: 50px;
+  position: relative;
+}
+
+.edit:after, .column:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.element,
+.element p{
+  zoom:1;
 }
 
 .ui-draggable-dragging{
@@ -391,6 +411,39 @@ background-image: -webkit-gradient(
 .mw-sorthandle{
   /*visibility: visible !important;*/
 }
+
+
+body.not-allowed{
+  cursor: no-drop !important;
+}
+
+.element{
+
+}
+
+.column.ui-resizable:hover{
+  z-index: 2;
+}
+
+.ui-resizable-handle{
+ /* background: #5B5B5B;
+  cursor: default !important; */
+}
+.mw_drag_float{
+  float: left !important;
+  display: inline-block !important;
+}
+
+.mw_drag_float_right{
+  float: right !important;
+  display: inline-block !important;
+}
+
+
+
+
+
+
 
 
 

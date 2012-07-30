@@ -784,8 +784,15 @@ $('.column', '.edit').unbind('mouseover');
 		$(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
 		$(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
 
-		$(".mw-sorthandle", '.edit', '.ui-resizable-handle').remove();
-		 
+		$(".mw-sorthandle", '.edit').remove();
+		$('.ui-resizable-handle', '.edit').remove();
+		$('.ui-draggable', '.edit').removeClass("ui-draggable");
+		$('.ui-resizable', '.edit').removeClass("ui-resizable");
+		$('.column', '.edit').removeClass("selected");
+
+
+
+
 		var custom_styles = new Array();
 		var regEx = /^mw-style/;
 		var elm = $(".mw-custom-style", '.edit');
@@ -927,4 +934,87 @@ mw.history = {
 			})
 		}
 	}
+}
+
+
+mw.drop_regions = {
+
+  dropTimeout:null,
+  global_drop_is_in_region:false,
+  which : 'none',
+
+  create:function(element){
+    var el = $(element);
+    var height = el.height();
+    var width = el.width();
+    var offset = el.offset();
+    var region_left = {
+      l:offset.left,
+      r:offset.left+50,
+      t:offset.top,
+      b:offset.top+height
+    }
+    var region_right = {
+      l:offset.left+width-50,
+      r:offset.left+width,
+      t:offset.top,
+      b:offset.top+height
+    }
+    return {
+        left:region_left,
+        right:region_right
+    }
+  },
+  is_in_region:function(regions, event){
+    var l = regions.left;
+    var r = regions.right;
+    var mx = event.pageX;
+    var my = event.pageY;
+    if(mx>l.l && mx<l.r && my>l.t && my<l.b){
+        return 'left';
+    }
+    else if(mx>r.l && mx<r.r && my>r.t && my<r.b){
+      return 'right';
+    }
+    else{return 'none'}
+  },
+  init:function(element, event, callback){
+    if(mw.drop_regions.dropTimeout==null){
+        mw.drop_regions.dropTimeout = setTimeout(function(){
+            var regions = mw.drop_regions.create(element);
+            var is_in_region = mw.drop_regions.is_in_region(regions, event);
+            if(is_in_region=='left'){
+               callback.call(this, 'left');
+               mw.drop_regions.global_drop_is_in_region = true;
+               mw.drop_regions.which = 'left';
+            }
+            else if(is_in_region=='right'){
+               callback.call(this, 'right');
+               mw.drop_regions.global_drop_is_in_region = true;
+               mw.drop_regions.which = 'right';
+            }
+            else{
+              mw.drop_regions.global_drop_is_in_region = false;
+               mw.drop_regions.which = 'none';
+            }
+            mw.drop_regions.dropTimeout = null;
+        }, 37);
+    }
+  }
+}
+
+
+
+
+
+
+window.onload = function(){
+  $(".element").mousemove(function(event){
+      if(mw.isDrag){
+        mw.drop_regions.init(this, event, function(region){
+
+        });
+      }
+     // event.stopPropagation();
+  });
 }
