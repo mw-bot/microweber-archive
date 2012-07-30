@@ -89,37 +89,6 @@ class Template_model extends CI_Model {
 
 		$html = $this -> content_model -> applyGlobalTemplateReplaceables($layout);
 
-		/*require_once 'htmlsql-v0.5/htmlsql.class.php';
-		 require_once ("htmlsql-v0.5/snoopy.class.php");
-
-		 $wsql = new htmlsql ( );
-		 $html = $layout;
-		 // connect to a string
-		 if (! $wsql->connect ( 'string', $html )) {
-		 return $layout;
-		 }
-
-		 //if (! $wsql->query ( 'SELECT * FROM to_table  ' )) {
-		 //if (! $wsql->query ( 'SELECT * FROM microweber ' )) {
-		 if (! $wsql->query ( 'SELECT * FROM * WHERE $class == "remove-on-submit" ' )) {
-
-		 //return $layout;
-		 }
-
-		 $arr = $wsql->fetch_array ();
-		 if (! empty ( $arr )) {
-		 foreach ( $arr as $row ) {
-		 $json = $row ['text'];
-		 if (trim ( $json ) != '') {
-		 //$result = json_decode ( $json, 1 );
-
-		 p ( $result );
-
-		 }
-
-		 }
-		 }
-		 */
 		return $html;
 	}
 
@@ -1140,24 +1109,7 @@ class Template_model extends CI_Model {
 
 	}
 
-	/**
-
-	 * @desc Function getModules
-	 * @param array
-	 * @return array
-	 * @author      Peter Ivanov
-	 * @version 1.0
-	 * @since Version 1.0
-	 * @example
-	 $modules_options = array();
-	 $modules_options['skip_admin'] = true;
-	 $modules_options['ui'] = true;
-
-	 $modules = $this->template_model->getModules($modules_options );
-
-	 p($modules );
-
-	 */
+	 
 	function getDesignElementsDirs($options = false) {
 
 		$dir_name = normalize_path(ELEMENTS_DIR);

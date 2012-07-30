@@ -478,53 +478,31 @@ if (defined('INTERNAL_API_CALL') == true) {
 			//
 		}
 
-		//	p($page);
-
-		//if ($content ['content_layout_file'] == '') {
-
-		//}
-		//} else {
-		//	// $this->load->vars ( $this->template );
-
-		//	$layout = $this->load->file ( $the_active_site_template_dir . 'affiliate_site_1/default_layout.php', true );
-		//}
+	
 
 		if (trim($content['content_filename']) != '') {
 			if (is_readable($the_active_site_template_dir . $content['content_filename']) == true) {
-				// $this-> load -> vars($this-> template);
-
-				//$content_filename = $this->load->file ( $the_active_site_template_dir . $content ['content_filename'], true );
-				//$layout = str_ireplace ( '{content}', $content_filename, $layout );
-				$layout = str_ireplace('{content}', $content_filename_pre, $layout);
+		 			$layout = str_ireplace('{content}', $content_filename_pre, $layout);
 
 			}
 
 		}
 		//p ( $f_editable_layout );
 		if ($f_editable_layout != false) {
-			//	$layout = str_replace ( '{layout}', $is_saved_layout_from_editor, $layout );
 			if (is_file($f_editable_layout)) {
-				// $this-> load -> vars($this-> template);
 
 				$f_editable_layout_load = $this -> load -> file($f_editable_layout, true);
-				//	p($f_editable_layout_load);
 				$html_to_save = $layout;
 				$html = str_get_html($html_to_save);
 				foreach ($html->find ( 'div[rel="layout"]' ) as $checkbox) {
-					//p ( $checkbox->outertext );
-					// $checkbox->outertext =$f_editable_layout_load;
+				
 					$checkbox -> innertext = $f_editable_layout_load;
 					$html -> save();
 
 				}
 
 				$layout = $html -> save();
-				//
-
-				//$layout = str_replace ( $s1, $s2, $layout );
-
-				//p ( $layout,1);
-				//	$layout = $this-> template_model -> parseMicrwoberTags($layout);
+				
 			}
 
 		} else {
@@ -536,25 +514,19 @@ if (defined('INTERNAL_API_CALL') == true) {
 				$content['content_body_filename'] = $post['content_body_filename'];
 			}
 		}
-		//var_dump($post ['content_body_filename']);
 		if ($content['content_body_filename'] != false) {
 			if (trim($content['content_body_filename']) != '') {
-				//$the_active_site_template12 = $this->core_model->optionsGetByKey ( 'curent_template' );
-				//$the_active_site_template_dir1 = TEMPLATEFILES . $the_active_site_template12 . '/content_files/';
-
+		
 				$the_active_site_template_dir1 = TEMPLATE_DIR;
 
 				if (is_file($the_active_site_template_dir1 . $content['content_body_filename']) == true) { {
-						//$v1 = file_get_contents ( $the_active_site_template_dir . $content ['content_body_filename'] );
-						//$v1 = html_entity_decode ( $v1 );
-						// $this-> load -> vars($this-> template);
+			
 						$content_filename1 = $this -> load -> file($the_active_site_template_dir1 . $content['content_body_filename'], true);
 
-						//print($content ['content_body']);
+					
 						$layout = str_ireplace('{content}', $content_filename1, $layout);
 						$layout = str_ireplace('{content_body_filename}', $content_filename1, $layout);
 
-						//$v = htmlspecialchars_decode ( $v );
 					}
 				}
 
@@ -563,10 +535,6 @@ if (defined('INTERNAL_API_CALL') == true) {
 		} else {
 
 			if (trim($content['content_body']) != '') {
-
-				// $this-> load -> vars($this-> template);
-
-				//print($content ['content_body']);
 				$layout = str_ireplace('{content}', $content['the_content_body'], $layout);
 
 			}
@@ -574,37 +542,20 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 
 		if (trim($taxonomy_data) != '') {
-
-			// $this-> load -> vars($this-> template);
-
 			$layout = str_ireplace('{content}', $taxonomy_data, $layout);
 
 		}
 
 		if (trim($content_from_filename_post) != '') {
-
-			//var_dump($content_from_filename_post);
-			// $this-> load -> vars($this-> template);
-
 			$layout = str_ireplace('{post_content}', $content_from_filename_post, $layout);
-
 		}
 
-		//just remove it if its still there
-		// $this-> load -> vars($this-> template);
 
 		$content = str_ireplace('{content}', '', $content);
-		//var_dump($global_template_replaceables);
-		//
-
-		//	p(array_size($this->core_model->cache_storage));
-
+	
 		$layout = $this -> content_model -> applyGlobalTemplateReplaceables($layout, $global_template_replaceables);
 
-		//$layout = $this->content_model->applyGlobalTemplateReplaceables ( $layout, $global_template_replaceables );
-		//	var_dump ( $taxonomy_tree );
-		//$layout = $this-> template_model -> replaceTemplateTags($layout);
-		//var_dump ( $taxonomy_tree );
+
 		$opts = array();
 		$opts['no_microwber_tags'] = true;
 		$opts['no_remove_div'] = true;

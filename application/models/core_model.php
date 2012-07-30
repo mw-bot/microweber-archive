@@ -1485,22 +1485,32 @@ class Core_model extends CI_Model {
 		$value = $data ['value'];
 		$field = $data ['field'];
 		$full_path = $data ['full_path'];
-
+ 				$field = str_replace(':', '_', $field);
+				 				$id = str_replace(':', '_', $id);
+				
+ 
 		// copy for hiustory
 		$today = date ( 'Y-m-d H-i-s' );
 
 		if ($full_path == false) {
 			$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 			$history_dir = normalize_path ( $history_dir );
-
+	
 		} else {
+	
+		
 			$history_dir = dirname ( $full_path );
 			$history_dir = normalize_path ( $history_dir );
 		}
 	
+	
+	
+	
+	
+	
+	
+	
 	$history_dir = str_replace('..', '_', $history_dir);
-				$history_dir = str_replace(':', '_', $history_dir);
-								$history_dir = str_replace('^', '_', $history_dir);
 		$dir = $history_dir;
 		$pattern = '\.(php)$';
 		
@@ -1568,12 +1578,25 @@ class Core_model extends CI_Model {
 		if ($table == false) {
 			$table = 'global';
 		}
+				$field = str_replace(':', '_', $field);
+								 				$id = str_replace(':', '_', $id);
+				
+			
 		// copy for hiustory
 		$today = date ( 'Y-m-d H-i-s' );
 		$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 		$history_dir = normalize_path ( $history_dir );
 	$history_dir = str_replace('..', '_', $history_dir);
-				$history_dir = str_replace(':', '_', $history_dir);
+	
+	
+	
+
+	
+	
+	
+	
+	
+			//	$history_dir = str_replace(':', '_', $history_dir);
 								$history_dir = str_replace('^', '_', $history_dir);
 		if ($history_dir == false) {
 			mkdir_recursive ( $history_dir );

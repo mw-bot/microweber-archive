@@ -89,6 +89,9 @@ function url($skip_ajax = false, $skip_param = false) {
 
 		if ($is_ajax == false) {
 		} else {
+			
+			
+			
 			if ($_SERVER ['HTTP_REFERER'] != false) {
 				return $_SERVER ['HTTP_REFERER'];
 			} else {

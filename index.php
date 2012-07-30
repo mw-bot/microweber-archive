@@ -270,7 +270,12 @@ if ($mw_config['site_url']) {
 	define('SITEURL', $pageURL . '://' . $_SERVER["SERVER_NAME"] . '/' . $subdir . '/');
 }
 
-$md5_conf = md5(serialize($mw_config));
+$encoded_conf = (serialize($mw_config));
+
+$encoded_conf = sprintf("%08X", crc32($encoded_conf));
+
+$md5_conf = $encoded_conf;
+
 $cache_main_dir = dirname ((__FILE__) ) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
@@ -279,7 +284,8 @@ if (is_dir($cache_main_dir) == false) {
 
 }
 
-$cache_main_dir = $cache_main_dir . md5(ROOTPATH) . DIRECTORY_SEPARATOR;
+$encoded_rootpath = sprintf("%08X", crc32(ROOTPATH));
+$cache_main_dir = $cache_main_dir . $encoded_rootpath . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
 
@@ -290,7 +296,7 @@ if (is_dir($cache_main_dir) == false) {
 define('CACHEDIR', $cache_main_dir);
 define('SITE_URL', SITEURL);
 
-define('HISTORY_DIR', CACHEDIR . 'history' . '/');
+define('HISTORY_DIR', CACHEDIR . 'history' . DIRECTORY_SEPARATOR);
 
 define('CACHE_FILES_EXTENSION', '.php');
 
