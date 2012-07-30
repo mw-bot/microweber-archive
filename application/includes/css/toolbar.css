@@ -79,7 +79,8 @@
   cursor: move;
   text-align: center;
   font-size: 11px;
-  padding: 4px 6px;
+  line-height: 15px;
+  padding: 0px 4px;
   border:1px solid #2680D3;
 
   -webkit-border-radius: 3px;

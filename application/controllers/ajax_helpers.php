@@ -103,68 +103,7 @@ $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(12
 
 	}
 	
-	function set_session_vars() {
-		$name = $_POST ['the_var'];
-		$val = $_POST ['the_val'];
-		
-		switch (strtolower ( $name )) {
-			case 'is_admin' :
-			case 'admin' :
-			case 'userdata' :
-			case 'user' :
-			case 'the_user' :
-			case 'username' :
-			case 'password' :
-			case 'id' :
-				
-				exit ( 'oops' );
-				break;
-		
-		}
-		
-		if ($name and $val) {
-			$this->session->set_userdata ( $name, $val );
-		}
-		exit ();
-	}
-	
-	function set_session_vars_by_post() {
-		$new = array ();
-		foreach ( $_POST as $k => $v ) {
-			switch (strtolower ( $k )) {
-				case 'is_admin' :
-				case 'admin' :
-				case 'userdata' :
-				case 'user' :
-				case 'the_user' :
-				case 'username' :
-				case 'password' :
-				case 'id' :
-					//case 'billing_cvv2' :
-					
-
-					//exit ( 'oops, cannot set reserved session var:' . $k );
-					break;
-				
-				default :
-					if ($k and $v) {
-						//CI::library('session')->set_userdata ( $k, $v );
-						$new [$k] = $v;
-					}
-					break;
-			
-			}
-		
-		}
-		if (! empty ( $new )) {
-			$this->session->set_userdata ( $new );
-		
-		}
-		
-		//var_dump($_POST);
-		exit ();
-	
-	}
+	 
 	
 	function comments_post() {
 		//@todo delete this

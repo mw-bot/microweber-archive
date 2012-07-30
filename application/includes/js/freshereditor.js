@@ -261,16 +261,7 @@ Improvments by Quan Nguyen (github.com/mquan):
 				$(".buttons", $toolbar).append("<ul class='toolbarSection'>" + group + "</u>");
 			});
 				
-			//this keeps the toolbar always on top when scroll
-			$(window).scroll(function () {
-				var docTop = $(window).scrollTop();
-				var toolbarTop = $toolbar.offset().top;
-				if (docTop > toolbarTop) {
-					$("div.buttons", $toolbar).css({ "position": "fixed", "top": "0" });
-				} else {
-					$("div.buttons", $toolbar).css("position", "relative");
-				}
-			});
+		   
 			
 			//one common click event for all command buttons
 			$("a.toolbar-cmd").click(function() { 

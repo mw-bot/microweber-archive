@@ -21,7 +21,7 @@
     	sorthandle_hover : false,
 		resize_started:false,
 		sorthandle_click : false,
-		
+
     	row_id : false,
     //	empty_column_placeholder : '<div class="ui-state-highlight ui-sortable-placeholder"><span>Please drag items here 1</span></div>',
 		
@@ -54,8 +54,8 @@
             "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
                 <div class='mw-element-name-handle'>MODULE_NAME</div>\
                 <div class='mw_col_delete mw_edit_delete_element'>\
-                    <a class='mw_edit_btn mw_edit_settings' href=\"javascript:mw.edit.module_settings(MODULE_ID)\">Settings</a>\
-                    <a class='mw_edit_btn mw_edit_delete' href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
+                    <a class='mw_edit_btn mw_edit_delete right' href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
+                    <a class='mw_edit_btn mw_edit_settings right' href=\"javascript:mw.edit.module_settings(MODULE_ID)\">Settings</a>\
                 </div>\
                 <span class='mw-sorthandle-moveit'>Move</span>\
             </div>"
@@ -63,8 +63,11 @@
 
 </script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-1.7.2.js" type="text/javascript"></script>
+<script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
 
-<script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script>
+<?php /* <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script> */ ?>
+
+
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
 <script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js" type="text/javascript"></script>
 <link href="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
@@ -118,7 +121,8 @@
 
         })();
     </script>
-<div class="mw">
+<div class="mw" id="live_edit_toolbar_holder">
+<div class="mw" id="live_edit_toolbar">
       <div id="mw_toolbar_nav">
           <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
           <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a>
@@ -202,3 +206,4 @@
      <div id="mw-saving-loader"></div> 
 
 </div><!-- /end .mw -->
+</div><!-- /end mw_holder -->

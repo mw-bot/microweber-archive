@@ -365,6 +365,7 @@ $need_re_init = false;
 				$(".row,.element", '.edit').enableSelection();
 				$(".mw-sorthandle", '.edit').disableSelection();
 				$(".edit").freshereditor("edit", true);
+                $("#mw-text-editor").slideDown('fast');
 				mw.settings.editables_created = true
 				$("#mw-layout-edit-site-top-bar-r").html("Text edit");
 			}
@@ -382,6 +383,7 @@ $need_re_init = false;
 		$('.freshereditor',".edit").freshereditor("edit", false);
 		$('.freshereditor',".edit").removeClass('freshereditor');
 		$('*[contenteditable]',".edit").removeAttr('contenteditable');
+        $("#mw-text-editor").slideUp();
 	},
 
 
@@ -586,7 +588,6 @@ $(this).children(".mw-sorthandle-row:hidden").show();
 			}
 		}, function () {
 			if (mw.settings.drag_started == false) {
-				//$(this).find(".mw-sorthandle-row").hide();
 				$(this).find(".ui-resizable-handle:visible").hide();
 			}
 		});
@@ -594,7 +595,7 @@ $(this).children(".mw-sorthandle-row:hidden").show();
 		$(".element", '.edit').live('mouseover', function (e) {
 			if (mw.settings.drag_started == false) {
 				//	$(".element", '.edit').mouseover(function() {
-				
+
 				if (mw.settings.drag_started == false) {
 					
 				 

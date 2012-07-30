@@ -222,7 +222,6 @@ mw.modal = mw.tools.modal.init;
 
 
 
-
 mw.extras = {
   fullscreen:function(el){
       if (el.webkitRequestFullScreen) {
@@ -419,15 +418,15 @@ mw.image = {
                 height:height
              });
              r.addClass("active");
-             $(mw.image_resizer).resizable( "option", "alsoResize", el);
+             $(mw.image_resizer).resizable( "option", "alsoResize", el); }
              $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
              mw.image.currentResizing = el;
-            }
+            })
           });
-        });
+        }
       }
     }
-  }
+
 
 
 
@@ -471,9 +470,29 @@ $.expr[':'].noop = function(){
 
 
 
+
+
+editablePurify = function(el){
+  var dirty = $(el).find("[_moz_dirty]").not("br");
+  dirty.each(function(){
+    var el = $(this);
+    el.removeAttr("id");
+    if(el.html()=="" || el.html()==" "){
+      el.replaceWith('<br />');
+    }
+  });
+}
+
+
+
+
+
 $(window).load(function(){
 
 
+$(".element").keyup(function(event){
+    editablePurify(this);
+})
 
   mw.remote_drag.from_pc();
   $(".edit img").click(function(){
@@ -483,7 +502,21 @@ $(window).load(function(){
   mw.image.resize.init(".element img");
 
 
+
+    $(window).scroll(function(event){
+
+
+    });
+
+    $("#live_edit_toolbar_holder").height($("#live_edit_toolbar").height());
+
+
 });
+
+
+
+
+
 
 
 $(window).resize(function(){

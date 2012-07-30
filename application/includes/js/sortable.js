@@ -39,7 +39,7 @@ mw.dropables = {
     var width = el.outerWidth();
     var height = el.outerHeight();
     if(mw.drop_regions.global_drop_is_in_region){
-        console.log(1)
+        //console.log(1)
     }
     else{
       mw.dropable.css({
@@ -58,13 +58,23 @@ mw.drag = {
 	create: function () {
          mw.top_half = false;
          $(document.body).mousemove(function(event){
+           mw.mouse = {
+             x:event.pageX,
+             y:event.pageY
+           }
            if(mw.isDrag && mw.currentDragMouseOver!=null){
 
             var el = $(mw.currentDragMouseOver);
+            $(".ui-draggable-dragging").show();
+            if(el.hasClass("ui-draggable-dragging") || el.parents(".ui-draggable-dragging").length>0){
+              // check if mouse is over the dragging element
+              return false;
+            }
+
             var body = $(this);
 
             var offset = el.offset();
-            var height = el.height();
+            var height = el.outerHeight();
             var width = el.width();
             $(".mw_dropdown_val").html(event.pageY > offset.top+(height/2));
 
@@ -73,6 +83,7 @@ mw.drag = {
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){
                 mw.dropable.data("position", 'left');
+
                  mw.dropable.css({
                       top:offset.top,
                       height:height,
@@ -160,6 +171,12 @@ mw.drag = {
             $(this).removeClass("not-allowed");
         });
 
+
+
+
+
+
+
 	},
 
 
@@ -190,6 +207,7 @@ mw.drag = {
             		$(this).addClass("mw_drag_started");
             		mw.drag.fixes();
             	},
+
             	stop: function (event, ui) {
             		mw.isDrag = false;
             		$(this).removeClass("mw_drag_started");
@@ -217,17 +235,20 @@ mw.drag = {
 
             	}
             });
-            $(this).hover(function(event){
+            $(this).mouseover(function(event){
               $(".mw-sorthandle").invisible();
               $(".element-active").removeClass("element-active");
               $(this).addClass("element-active");
               $(this).find(".mw-sorthandle").eq(0).visible();
               event.stopPropagation();
-            }, function(event){
+            });
+            $(this).mouseleave(function(event){
               $(".mw-sorthandle").invisible();
                var el = $(this);
                el.removeClass("element-active");
                $(this).removeClass("mw-sorthandle-active");
+               $(this).parents(".element").eq(0).addClass("element-active");
+              $(this).parents(".element").eq(0).find(".mw-sorthandle").eq(0).visible();
               //event.stopPropagation();
             });
         });
@@ -256,7 +277,7 @@ mw.drag = {
 	sort: function (selector) {
          var selector = selector || '.row, .edit';
 
-         $(selector).bind("mouseleave", function(event){
+         $(selector).not(".mw-sorthandle").bind("mouseleave", function(event){
            if (mw.isDrag) {
              mw.currentDragMouseOver = this;
              var el = this;
@@ -276,15 +297,17 @@ mw.drag = {
            }
          });
 
-		$(selector).notmouseenter().bind("mouseenter", function (event) {
+		$(selector).notmouseenter().not(".mw-sorthandle").bind("mouseenter", function (event) {
 			if (mw.isDrag) {
-                mw.currentDragMouseOver = this;
-               $(".currentDragMouseOver").removeClass("currentDragMouseOver");
-               $(this).addClass("currentDragMouseOver");
-                if(!$(this).hasClass("empty-element")){
-                   mw.dropables.display(this);
-                   event.stopPropagation();
-                }
+    			if (this.className.indexOf('ui-draggable-dragging')==-1 && $(this).parents(".ui-draggable-dragging").length==0) {
+                   mw.currentDragMouseOver = this;
+                   $(".currentDragMouseOver").removeClass("currentDragMouseOver");
+                   $(this).addClass("currentDragMouseOver");
+                   if(!$(this).hasClass("empty-element")){
+                       mw.dropables.display(this);
+                       event.stopPropagation();
+                   }
+    			}
 			}
 			else {
 				var el = $(this);
@@ -322,10 +345,15 @@ mw.drag = {
                         var hovered = $(mw.currentDragMouseOver);
                         if(hovered.hasClass("empty-element")){
                            hovered.before(mw.dragCurrent);
+                           $(mw.dragCurrent).removeClass("mw_drag_float");
+                                 $(mw.dragCurrent).removeClass("mw_drag_float_right");
                         }
                         else{
 
                               if(position=='top'){
+                                 $(mw.dragCurrent).removeClass("mw_drag_float");
+                                 $(mw.dragCurrent).removeClass("mw_drag_float_right");
+                                 hovered.removeClass("mw_drag_float");
                                  if(hovered.hasClass("edit")){
                                     hovered.append(mw.dragCurrent);
                                  }
@@ -345,6 +373,9 @@ mw.drag = {
                                  }
                               }
                               else if(position=='bottom'){
+                                $(mw.dragCurrent).removeClass("mw_drag_float");
+                                $(mw.dragCurrent).removeClass("mw_drag_float_right");
+                                 hovered.removeClass("mw_drag_float");
                                  if(hovered.hasClass("edit")){
                                     hovered.prepend(mw.dragCurrent);
                                  }
@@ -367,28 +398,21 @@ mw.drag = {
 
 
                                 hovered.before(mw.dragCurrent);
-                                var hw = hovered.parents(".column:first").width()/2;
-                                var hw = '';
-                                //alert(hw)
+
                                 setTimeout(function(){
-                                   $(mw.dragCurrent).css("float", "left");
-
-                                   if(hw>50){
-                                   $(mw.dragCurrent).width(hw); }
-
+                                   $(mw.dragCurrent).addClass("mw_drag_float");
+                                   $(mw.dragCurrent).removeClass("mw_drag_float_right");
                                 }, 73);
 
                               }
                               else if(position=='right'){
-                                $(mw.dragCurrent).css("float", "none");
+                                $(mw.dragCurrent).removeClass("mw_drag_float");
+                                $(mw.dragCurrent).addClass("mw_drag_float_right");
 
-                                hovered.after(mw.dragCurrent);
-                                var hw = hovered.parents(".column:first").width()/2;
-                                var hw = '';
+                                hovered.before(mw.dragCurrent);
+
                                 setTimeout(function(){
-                                    hovered.css("float", "left");
-                                    hovered.width(hw);
-                                    $(mw.dragCurrent).width(hw);
+                                    hovered.removeClass("mw_drag_float");
                                 }, 73);
                               }
                         }
@@ -480,6 +504,9 @@ mw.drag = {
 	 * @method mw.drag.fix_column_sizes_to_percent()
 	 */
 	fix_column_sizes_to_percent: function (row_id_or_object) {
+	  return false;
+
+
 		if (mw.isDrag == false) {
 		 if(row_id_or_object == undefined){
              row_id_or_object = '.row'
@@ -497,16 +524,16 @@ mw.drag = {
                the_cols.each(function () {
 			        var the_col = $(this);
                     if($j < the_cols_n){
-                      	var w = (100 * parseFloat($(this).css("width")) / parseFloat($row_max_w));
+                      	var w = (100 * parseFloat($(this).width()) / parseFloat($row_max_w));
   						var wRight = 100 - w;
                         $remaining_percent_for_the_last_col = $remaining_percent_for_the_last_col - w;
   					    w = (w);
                         w += "%";
   						wRight += "%";
-  						$(this).css("width", w);
+  						$(this).width(w);
                     } else {
                          w = ($remaining_percent_for_the_last_col);
-                        $(this).css("width", w+"%");
+                        $(this).width(w+"%");
                     }
                 $j++;
 		        });
@@ -627,6 +654,9 @@ mw.drag = {
 					$is_this_element = $(this).hasClass('.element');
 					$(this).addClass('freshereditor');
 					$(this).parent('.element').freshereditor("edit", true);
+
+                    $("#mw-text-editor").slideDown();
+
 					$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 					$(this).parent('.element').children().removeAttr("contenteditable");
                      mw.drag.fix_onChange_editable_elements();
@@ -684,7 +714,7 @@ mw.drag = {
 		$('.freshereditor', '.edit').removeClass("freshereditor");
 		$('*[contenteditable]', '.edit').removeAttr("contenteditable");
 
-
+         $("#mw-text-editor").slideUp();
 
 
 	},

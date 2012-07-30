@@ -1497,6 +1497,12 @@ class Core_model extends CI_Model {
 			$history_dir = dirname ( $full_path );
 			$history_dir = normalize_path ( $history_dir );
 		}
+		$history_dir = str_replace('..', '_', $history_dir);
+		$history_dir = str_replace(':', '_', $history_dir);
+				$history_dir = str_replace('?', '_', $history_dir);
+								$history_dir = str_replace('&', '_', $history_dir);
+				
+		
 		if (is_dir ( $history_dir ) == false) {
 			mkdir_recursive ( $history_dir );
 
@@ -1568,7 +1574,10 @@ class Core_model extends CI_Model {
 		$today = date ( 'Y-m-d H-i-s' );
 		$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 		$history_dir = normalize_path ( $history_dir );
-
+	$history_dir = str_replace('..', '_', $history_dir);
+		$history_dir = str_replace(':', '_', $history_dir);
+				$history_dir = str_replace('?', '_', $history_dir);
+								$history_dir = str_replace('&', '_', $history_dir);
 		if ($history_dir == false) {
 			mkdir_recursive ( $history_dir );
 		}

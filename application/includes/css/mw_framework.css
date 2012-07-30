@@ -251,7 +251,23 @@ body:-webkit-full-screen {
 
 .edit, .column{
   min-height: 50px;
+  position: relative;
 }
+
+.edit:after, .column:after, .element:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.element,
+.element p{
+  zoom:1;
+}
+
+
 
 .ui-draggable-dragging{
   z-index: 999;
@@ -303,8 +319,10 @@ body:-webkit-full-screen {
 .mw_edit_btn{
   display: inline-block;
   position: relative;
-  padding: 3px 6px;
+  padding: 0 6px;
   font-size: 11px;
+  line-height: 16px;
+  margin-left: 3px;
   color: #5B5B5B;
   text-decoration: none;
   text-align: center;
@@ -352,10 +370,10 @@ background-image: -webkit-gradient(
   position: absolute;
   right: 3px;
   top: 3px;
-  line-height: normal;
+  line-height: 11px;
 }
 .mw_edit_delete{
-  height: 19px;
+  height: 14px;
   width: 21px;
   padding: 0;
 }
@@ -367,9 +385,10 @@ background-image: -webkit-gradient(
   height: 8px;
   background: url(../img/delete_item.png) no-repeat;
   left: 7px;
-  top: 6px;
+  top: 3px;
 
 }
+
 
 .mw_edit_delete:hover{
   border-color:#FF3636;
@@ -404,8 +423,54 @@ body.not-allowed{
 }
 
 .element{
-  display: inline-block;
+
 }
+
+.column.ui-resizable:hover{
+  z-index: 2;
+}
+
+.ui-resizable-handle{
+ /* background: #5B5B5B;
+  cursor: default !important; */
+}
+.mw_drag_float{
+  float: left !important;
+  display: inline-block !important;
+}
+
+.mw_drag_float_right{
+  float: right !important;
+  display: inline-block !important;
+}
+
+.ui-draggable-dragging *{
+
+}
+
+
+#mw-text-editor{
+  display: none;
+}
+
+#live_edit_toolbar_holder,
+#live_edit_toolbar{
+  width: 100%;
+  position: relative;
+  z-index: 997;
+}
+
+#live_edit_toolbar{
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+
+
+
+
+
 
 
 

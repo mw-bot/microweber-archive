@@ -45,7 +45,7 @@ h2{
 
 <div id="MagicTheme">
 
-    <div class="edit" id="the_test" field="asdasdasd">
+    <div class="edit" id="the_test" field="test_v1">
 
 
 
@@ -55,7 +55,7 @@ h2{
       <div class="row">
          <div class="column">
 
-              <h2 class="element"><span>Simple Text</span></h2>
+              <h2 class="element"><span>Simple Cool Text</span></h2>
 
               <div class="element"><p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -95,7 +95,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
          </div>
          <div class="column" style="width: 450px;">
 
-           <div class="element"><img src="http://pecata/Microweber/application/includes/img/tests/i1.jpg" /></div>
+           <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i1.jpg" /></div>
 
          </div>
       </div>
@@ -106,18 +106,18 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
       <div class="row">
          <div class="column" style="width: 450px;">
               <h2 class="element"><span>Hollywood Style</span></h2>
-              <div class="element"><img src="http://pecata/Microweber/application/includes/img/tests/i2.jpg" /></div>
+              <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i2.jpg" /></div>
           </div>
           <div class="column" style="width: 450px;">
             <div class="row">
               <div class="column" style="width: 215px;">
-                   <div class="element"><img src="http://pecata/Microweber/application/includes/img/tests/i3.jpg" /></div>
+                   <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i3.jpg" /></div>
               </div>
               <div class="column" style="width: 215px;">
-                   <div class="element"><img src="http://pecata/Microweber/application/includes/img/tests/i4.jpg" /></div>
+                   <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i4.jpg" /></div>
               </div>
             </div>
-            <div class="element"><img src="http://pecata/Microweber/application/includes/img/tests/i5.jpg" /></div>
+            <div class="element element-image"><img src="http://pecata/Microweber/application/includes/img/tests/i5.jpg" /></div>
           </div>
 
       </div>
