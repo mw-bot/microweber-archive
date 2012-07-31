@@ -1229,7 +1229,7 @@ class Content extends CI_Controller {
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
                              //   $to_save['quick_save'] = true;
-                          // $to_save ['debug'] = true;
+                            
                                 // $to_save['r'] = $some_mods;
                                 $to_save['page_element_id'] = $page_element_id;
                                 // $to_save['page_element_content'] = $this->template_model->parseMicrwoberTags($html_to_save, $options = false);

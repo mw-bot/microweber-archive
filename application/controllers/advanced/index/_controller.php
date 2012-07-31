@@ -9,31 +9,30 @@ $content_display_mode = false;
  $cache_page = false;
 
  }*/
- 
+
 if (defined('INTERNAL_API_CALL') == true) {
 	$microweber_api = $this;
 	$CI = get_instance();
 	return $CI;
 
 } else {
- 
+
 	$output_format = false;
-	  
 
 	$cache_page = false;
 	if ($cache_page == true) {
 
-	$site_cache_time = "5 minutes";
-	$url = url();
- 
-	$url = str_ireplace('\\', '', $url);
-	$cache_content = false;
-	$whole_site_cache_id = 'url_' . md5($url);
+		$cache_content = false;
+		$whole_site_cache_id = 'url_' . md5($url);
 		if (!$_POST) {
 
 			//$cache_content = cache_get_content($whole_site_cache_id, $cache_group = 'global', $site_cache_time);
- 		}
+		}
 	}
+	$site_cache_time = "5 minutes";
+	$url = url(true);
+
+	$url = str_ireplace('\\', '', $url);
 
 	$is_json = url_param('json');
 	if ($is_json) {
@@ -54,7 +53,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 	}
 	//p($output_format);
 	//$cache_content = false;
- 
+
 	if (($cache_content) != false) {
 
 		$layout = $cache_content;
@@ -70,7 +69,6 @@ if (defined('INTERNAL_API_CALL') == true) {
 			//
 			$page = $this -> content_model -> getContentHomepage();
 
-			 
 		} else {
 
 			if ($page['is_home'] != 'y') {
@@ -82,9 +80,10 @@ if (defined('INTERNAL_API_CALL') == true) {
 					$post_maybe = $this -> content_model -> contentGetByIdAndCache($post_maybe['id']);
 				}
 			}
-			$page = $this -> content_model -> getPageByURLAndCache($url);
-		}
- 
+			$page = $this -> content_model -> getContentByURLAndCache($url);
+//p($page);
+		} 
+
 		if (empty($page)) {
 
 			if (is_file(TEMPLATES_DIR . 'layouts/' . $url . '/index.php') == true) {
@@ -116,28 +115,31 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 			//exit ( '404: Nothing found on line ' . __LINE__ );
 		}
-		 
+
 		if (empty($page)) {
 			$page = $this -> content_model -> getContentHomepage();
 		}
 
-	 
 		if ($post_maybe['content_type'] == 'post') {
 			$post = $post_maybe;
 			//p($post);
 			if (defined('POST_ID') == false) {
 				define('POST_ID', $post['id']);
 			}
-
 			if (defined('CONTENT_ID') == false) {
 				define('CONTENT_ID', $post['id']);
 			}
 
-			if (defined('PAGE_ID') == false) {
-				define('PAGE_ID', $page['id']);
+		} else {
+			if (defined('CONTENT_ID') == false) {
+				define('CONTENT_ID', $page['id']);
 			}
 		}
 
+		
+		if (defined('PAGE_ID') == false) {
+			define('PAGE_ID', $page['id']);
+		}
 		if (defined('MAIN_PAGE_ID') == false) {
 			$par = $this -> content_model -> getParentPagesIdsForPageIdAndCache($page['id']);
 			//p($par );
@@ -165,10 +167,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 			if (defined('CONTENT_ID') == false) {
 				define('CONTENT_ID', $content['id']);
 			}
-		} else  
- 
-
-		if ($_POST['format'] == 'json') {
+		} else if ($_POST['format'] == 'json') {
 			$output_format = 'json';
 		}
 
@@ -478,11 +477,9 @@ if (defined('INTERNAL_API_CALL') == true) {
 			//
 		}
 
-	
-
 		if (trim($content['content_filename']) != '') {
 			if (is_readable($the_active_site_template_dir . $content['content_filename']) == true) {
-		 			$layout = str_ireplace('{content}', $content_filename_pre, $layout);
+				$layout = str_ireplace('{content}', $content_filename_pre, $layout);
 
 			}
 
@@ -495,14 +492,14 @@ if (defined('INTERNAL_API_CALL') == true) {
 				$html_to_save = $layout;
 				$html = str_get_html($html_to_save);
 				foreach ($html->find ( 'div[rel="layout"]' ) as $checkbox) {
-				
+
 					$checkbox -> innertext = $f_editable_layout_load;
 					$html -> save();
 
 				}
 
 				$layout = $html -> save();
-				
+
 			}
 
 		} else {
@@ -516,14 +513,13 @@ if (defined('INTERNAL_API_CALL') == true) {
 		}
 		if ($content['content_body_filename'] != false) {
 			if (trim($content['content_body_filename']) != '') {
-		
+
 				$the_active_site_template_dir1 = TEMPLATE_DIR;
 
 				if (is_file($the_active_site_template_dir1 . $content['content_body_filename']) == true) { {
-			
+
 						$content_filename1 = $this -> load -> file($the_active_site_template_dir1 . $content['content_body_filename'], true);
 
-					
 						$layout = str_ireplace('{content}', $content_filename1, $layout);
 						$layout = str_ireplace('{content_body_filename}', $content_filename1, $layout);
 
@@ -540,7 +536,6 @@ if (defined('INTERNAL_API_CALL') == true) {
 			}
 		}
 
-
 		if (trim($taxonomy_data) != '') {
 			$layout = str_ireplace('{content}', $taxonomy_data, $layout);
 
@@ -550,11 +545,9 @@ if (defined('INTERNAL_API_CALL') == true) {
 			$layout = str_ireplace('{post_content}', $content_from_filename_post, $layout);
 		}
 
-
 		$content = str_ireplace('{content}', '', $content);
-	
-		$layout = $this -> content_model -> applyGlobalTemplateReplaceables($layout, $global_template_replaceables);
 
+		$layout = $this -> content_model -> applyGlobalTemplateReplaceables($layout, $global_template_replaceables);
 
 		$opts = array();
 		$opts['no_microwber_tags'] = true;
@@ -571,7 +564,7 @@ if (defined('INTERNAL_API_CALL') == true) {
 		//	$stats_js = CI::model ( 'stats' )->get_js_code ();
 
 		$editmode = $this -> session -> userdata('editmode');
- 
+
 		// DISABLING EDITMODE till its finished
 		//	$editmode = false;
 		$no_toolbar = false;
@@ -589,12 +582,10 @@ if (defined('INTERNAL_API_CALL') == true) {
 					//$layout = $this->template_model->addTransparentBackgroudToFlash ( $layout );
 					//$layout_toolbar = $this -> load -> view('admin/toolbar', true, true);
 
-					$tb = INCLUDES_DIR.DS.'toolbar'.DS.'toolbar.php';
+					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
 
-		$layout_toolbar = $this->load->file ( $tb, true );
-		// $layout =$this->load->view ( 'admin/toolbar', true, true );
-
-
+					$layout_toolbar = $this -> load -> file($tb, true);
+					// $layout =$this->load->view ( 'admin/toolbar', true, true );
 
 					if ($layout_toolbar != '') {
 						$layout = str_replace('<body>', '<body>' . $layout_toolbar, $layout);
@@ -629,22 +620,18 @@ if (defined('INTERNAL_API_CALL') == true) {
 
 		}
 
-		 
-
-
 		$this -> benchmark -> mark('parsing_template_tags_start');
 		//$this-> load -> model('Template_model', 'template_model');
 		// $layout = $this-> template_model -> parseMicrwoberTags($layout);
 		//p($layout,1);
 		$layout_opts = array();
 		$layout_opts['no_doctype_strip'] = 1;
-		
-		if(url_param('mw-embed')){
+
+		if (url_param('mw-embed')) {
 			$em = url_param('mw-embed');
 			$layout_opts['mw_embed'] = $em;
-			 
+
 		}
-		
 
 		$layout = parse_micrwober_tags($layout, $layout_opts);
 

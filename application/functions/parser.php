@@ -39,6 +39,7 @@ function parse_micrwober_tags($layout, $options = false) {
 
 	$layout = str_replace('<microweber module=', '<module data-type=', $layout);
 	$layout = str_replace('</microweber>', '', $layout);
+	$layout = str_replace('></module>', '/>', $layout);
 
 	//$layout = preg_match_all('#<script(.*?)>(.*?)</script>#is', '', $layout);
 	$script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
@@ -122,9 +123,11 @@ function parse_micrwober_tags($layout, $options = false) {
 		} else {
 			$get_global = false;
 		}
-
+ 
 		if ($rel == 'page') {
 			$data = get_page(PAGE_ID);
+			//p(PAGE_ID);
+		//	p($data);
 		} else if ($attr['post']) {
 			$data = get_post($attr['post']);
 			if ($data == false) {
@@ -158,11 +161,11 @@ function parse_micrwober_tags($layout, $options = false) {
 				$field_content = $data['custom_fields'][$field];
 			}
 		}
-
+	 
 		if ($field_content != false and $field_content != '') {
 			$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-			$field_content = parse_micrwober_tags($field_content);
+			 $field_content = parse_micrwober_tags($field_content);
 			pq($elem) -> html($field_content);
 
 		} else {
@@ -265,7 +268,7 @@ function parse_micrwober_tags($layout, $options = false) {
 	//
 
 	$layout = $pq -> htmlOuter();
-
+ 
 	if (!empty($replaced_scripts)) {
 		foreach ($replaced_scripts as $key => $value) {
 			if ($value != '') {
@@ -277,14 +280,9 @@ function parse_micrwober_tags($layout, $options = false) {
 		}
 	}
 
-
-
-
 	if (!empty($replaced_modules)) {
 
-
-$attribute_pattern = 
-        '@
+		$attribute_pattern = '@
         (?P<name>\w+)                         # attribute name
         \s*=\s*
         (
@@ -294,57 +292,62 @@ $attribute_pattern =
         )
         @xsi';
 
-$attrs = array();
+		$attrs = array();
 		foreach ($replaced_modules as $key => $value) {
 			if ($value != '') {
-			
-			if ( preg_match_all ( $attribute_pattern, $value, $attrs1, PREG_SET_ORDER  )) {
-				foreach($attrs1 as $item){
-					//p($item);
-					$attrs[$item['name']] = $item['value_quoted'];
+
+				if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
+					foreach ($attrs1 as $item) {
+						// p($item);
+						$m_tag = trim($item[0], "\x22\x27");
+						$m_tag = trim($m_tag, "\x27\x22");
+						$m_tag = explode('=', $m_tag);
+
+						$a = trim($m_tag[0], "''");
+						$a = trim($a, '""');
+
+						$b = trim($m_tag[1], "''");
+						$b = trim($b, '""');
+
+						$attrs[$a] = $b;
+
+						//$attrs[$item['name']] = $item['value_quoted'];
+					}
+
 				}
-				
-				
-			//
-		 
-		}
-			
-			
+
 				$m_tag = ltrim($value, "<module");
 
 				$m_tag = rtrim($m_tag, "/>");
 				$m_tag = rtrim($m_tag);
-				
+
 				//$m_tag = preg_replace(array('/style=[\'\"].+?[\'\"]/','/style=/'), '', $m_tag);
-			 
-				
-			 
-            	// Find all tags
-			
-	  
-// 				
-// 				
+
+				// Find all tags
+
+				//
+				//
 				// $m_tag = explode(' ', $m_tag);
 				// //			$m_tag2 = join('&', $m_tag);
 				// //	$m_tag2 = parse_str($m_tag2);
 				// $attrs = array();
 				// if (isset($m_tag[0])) {
-					// foreach ($m_tag as $m_tag_param) {
-// 
-						// if ($m_tag_param != '') {
-// 							
-// 							
-// 							
-							// $m_tag_param = explode('=', $m_tag_param);
-							// $a = trim($m_tag_param[0], "\x22\x27");
-							// if ($a != 'style') {
-								// $b = trim($m_tag_param[1], "\x22\x27");
-								// $attrs[$a] = $b;
-							// }
-// 
-						// }
-					// }
-// 
+				// foreach ($m_tag as $m_tag_param) {
+				//
+				// if ($m_tag_param != '') {
+				//
+				//
+				//
+				// $m_tag_param = explode('=', $m_tag_param);
+				// $a = trim($m_tag_param[0], "\x22\x27");
+				// if ($a != 'style') {
+				// $b = trim($m_tag_param[1], "\x22\x27");
+				// $attrs[$a] = $b;
+				// }
+				//
+				// }
+				// }
+				//
 				// }
 
 				$module_html = "<div class='module __WRAP_NO_WRAP__' ";
@@ -382,6 +385,7 @@ $attrs = array();
 					}
 
 					$mod_content = load_module($module_name, $attrs);
+				 
 					$mod_content = parse_micrwober_tags($mod_content, $options);
 					$module_html .= '>' . $mod_content . '</div>';
 
@@ -400,7 +404,7 @@ $attrs = array();
 	if (!defined($cache_content)) {
 		define($cache_content, $layout);
 	}
- 
+
 	return $layout;
 	exit ;
 

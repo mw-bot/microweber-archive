@@ -48,7 +48,8 @@ class Module extends CI_Controller {
 				if (is_file($try_config_file)) {
 					include ($try_config_file);
 					if ($config['icon'] == false) {
-						$config['icon'] = MODULES_DIR . '' . $_POST['module'] . '.png'; ;
+						$config['icon'] = MODULES_DIR . '' . $_POST['module'] . '.png';
+						;
 						$config['icon'] = pathToURL($config['icon']);
 					}
 					print json_encode($config);
@@ -165,10 +166,12 @@ class Module extends CI_Controller {
 					$mod_n = $data['module'] = $data['data-module'];
 				}
 			}
-			// p($data);
-			if ($data['module']) {
+ 			if ($data['module']) {
 				unset($data['module']);
 			}
+
+			$data['data-type'] = rtrim($data['data-type'], '/');
+			$data['data-type'] = rtrim($data['data-type'], '\\');
 
 			$has_id = false;
 			foreach ($data as $k => $v) {
@@ -187,7 +190,7 @@ class Module extends CI_Controller {
 
 			if ($has_id == false) {
 
-				$mod_n = url_title($mod_n).'-'.date("YmdHis");
+				$mod_n = url_title($mod_n) . '-' . date("YmdHis");
 				$tags .= "id=\"$mod_n\" ";
 
 			}
@@ -210,22 +213,7 @@ class Module extends CI_Controller {
 		$res = parse_micrwober_tags($tags, $opts);
 		$res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
 
-		/*	if ($admin == true) {
-		 $is_admin = is_admin ();
-		 if ($is_admin == false) {
-		 $go = site_url ( 'login' );
-		 safe_redirect ( $go );
-		 }
-		 $opts ['no_cache'] = true;
-
-		 $res_1 =$this->load->view ( 'admin/module_admin', true, true );
-		 $res_1 = parse_micrwober_tags($tags, $opts) ;
-		 //$res_1 = $this->template_model->parseMicrwoberTags ( $res_1, $opts );
-		 }
-
-		 if ($res_1) {
-		 $res = str_replace('{content}', $res, $res_1);
-		 }*/
+	 
 		print $res;
 		exit();
 		// phpinfo();

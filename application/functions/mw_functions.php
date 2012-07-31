@@ -127,7 +127,7 @@ function url($skip_ajax = false, $skip_param = false) {
 	$pageURL  = url_param_unset($skip_param );
 	}
 	//$pageURL  = rtrim('index.php', $pageURL );
-
+ 
 	return $pageURL;
 
 }

@@ -637,8 +637,7 @@ class Core_model extends CI_Model {
 				 to_table_id =\"".$custom_field_to_save['to_table_id']."\"
 						";
 
-
-
+ 
 							$this->dbQ ( $add );
 
 
