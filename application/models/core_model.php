@@ -1113,7 +1113,7 @@ class Core_model extends CI_Model {
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, 'db' );
 
@@ -1197,7 +1197,7 @@ class Core_model extends CI_Model {
 
 		$function_cache_id = serialize ( $table ) . serialize ( $string ) . serialize ( $only_in_ids );
 
-		$function_cache_id = __FUNCTION__ . md5 ( __FUNCTION__ . $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( __FUNCTION__ . $function_cache_id );
 
 		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id );
 
@@ -1485,31 +1485,39 @@ class Core_model extends CI_Model {
 		$value = $data ['value'];
 		$field = $data ['field'];
 		$full_path = $data ['full_path'];
-
+ 				$field = str_replace(':', '_', $field);
+				 				$id = str_replace(':', '_', $id);
+				
+ 
 		// copy for hiustory
 		$today = date ( 'Y-m-d H-i-s' );
 
 		if ($full_path == false) {
 			$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 			$history_dir = normalize_path ( $history_dir );
-
+	
 		} else {
+	
+		
 			$history_dir = dirname ( $full_path );
 			$history_dir = normalize_path ( $history_dir );
 		}
-		$history_dir = str_replace('..', '_', $history_dir);
-		$history_dir = str_replace(':', '_', $history_dir);
-				$history_dir = str_replace('?', '_', $history_dir);
-								$history_dir = str_replace('&', '_', $history_dir);
-				
+	
+	
+	
+	
+	
+	
+	
+	
+	$history_dir = str_replace('..', '_', $history_dir);
+		$dir = $history_dir;
+		$pattern = '\.(php)$';
 		
-		if (is_dir ( $history_dir ) == false) {
+			if (is_dir ( $history_dir ) == false) {
 			mkdir_recursive ( $history_dir );
 
 		}
-
-		$dir = $history_dir;
-		$pattern = '\.(php)$';
 
 		$newstamp = 0;
 		$newname = "";
@@ -1570,14 +1578,26 @@ class Core_model extends CI_Model {
 		if ($table == false) {
 			$table = 'global';
 		}
+				$field = str_replace(':', '_', $field);
+								 				$id = str_replace(':', '_', $id);
+				
+			
 		// copy for hiustory
 		$today = date ( 'Y-m-d H-i-s' );
 		$history_dir = HISTORY_DIR . $table . '/' . $id . '/' . $field . '/';
 		$history_dir = normalize_path ( $history_dir );
 	$history_dir = str_replace('..', '_', $history_dir);
-		$history_dir = str_replace(':', '_', $history_dir);
-				$history_dir = str_replace('?', '_', $history_dir);
-								$history_dir = str_replace('&', '_', $history_dir);
+	
+	
+	
+
+	
+	
+	
+	
+	
+			//	$history_dir = str_replace(':', '_', $history_dir);
+								$history_dir = str_replace('^', '_', $history_dir);
 		if ($history_dir == false) {
 			mkdir_recursive ( $history_dir );
 		}
@@ -1779,9 +1799,9 @@ function saveCustomField($data_to_save) {
 		$table_custom_field = $cms_db_tables ['table_custom_fields'];
 		$q = " SELECT *  from  $table_custom_field  where	id={$id}";
 
-		$cache_id = __FUNCTION__ . '_' . md5 ( $q );
+		$cache_id = __FUNCTION__ . '_' . src32 ( $q );
 
-		$cache_id = md5 ( $cache_id );
+		 
 
 		$q = $this->dbQuery ( $q, $cache_id, 'custom_fields/' . $id );
 
@@ -1849,9 +1869,9 @@ function saveCustomField($data_to_save) {
 								 $field_for_q
 								 order by field_order asc  ";
 
-				$cache_id = __FUNCTION__ . '_' . md5 ( $q );
+				$cache_id = __FUNCTION__ . '_' . crc32 ( $q );
 
-				$cache_id = md5 ( $cache_id );
+				//$cache_id = md5 ( $cache_id );
 				// p($q);
 				$q = $this->dbQuery ( $q, $cache_id, 'custom_fields' );
 				// $q = $this->dbQuery ( $q );
@@ -2444,7 +2464,7 @@ function saveCustomField($data_to_save) {
 
 				}
 
-				$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+				$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 				$cache_id = $function_cache_id;
 
@@ -3257,7 +3277,7 @@ function saveCustomField($data_to_save) {
 
 			}
 
-			$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id ) . md5 ( $aFilter ) . md5 ( $aOptions );
+			$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id ) . md5 ( $aFilter ) . md5 ( $aOptions );
 
 			if ($get_params_from_url == true) {
 
@@ -3319,7 +3339,7 @@ function saveCustomField($data_to_save) {
 
 			}
 
-			$result = $this->dbQuery ( $execQuery, __FUNCTION__ . md5 ( $execQuery ), $cacheGroup );
+			$result = $this->dbQuery ( $execQuery, __FUNCTION__ . crc32 ( $execQuery ), $cacheGroup );
 			return $result;
 
 		}
@@ -4191,11 +4211,11 @@ function saveCustomField($data_to_save) {
 
 			if ($execQuery == false) {
 
-				$result = $this->dbQuery ( $query, __FUNCTION__ . md5 ( $query ), $cacheGroup );
+				$result = $this->dbQuery ( $query, __FUNCTION__ . crc32 ( $query ), $cacheGroup );
 
 			} else {
 
-				$result = $this->dbQuery ( $aFilter, __FUNCTION__ . md5 ( $aFilter ), $cacheGroup );
+				$result = $this->dbQuery ( $aFilter, __FUNCTION__ . crc32 ( $aFilter ), $cacheGroup );
 
 			}
 
@@ -4533,6 +4553,11 @@ function saveCustomField($data_to_save) {
 
 	function cacheGetContent($cache_id, $cache_group = 'global', $time = false) {
 
+
+return cache_get_content_encoded($cache_id, $cache_group , $time) ;
+
+
+
 		global $cms_db_tables;
 
 		global $mw_cache_storage;
@@ -4558,37 +4583,26 @@ function saveCustomField($data_to_save) {
 
 
 
-		$cache_group = $cache_group . '/';
+		$cache_group = $cache_group .DS;
 
 		$cache_group = reduce_double_slashes ( $cache_group );
 
-		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
+		$cache_file = cache_get_file_path( $cache_id, $cache_group );
 		$get_file = $cache_file;
-		if ($tsdfsdfime != false) {
-			//if (is_file ( $cache_file )) {
-				$time_limit = strtotime ( $time );
-
-				$last_modified = @filemtime ( $cache_file );
-
-				if (time () - $last_modified > $time_limit) {
-				//p($time_limit);
-					//p($last_modified);
-
-					//unlink ( $cache_file );
-					//return false;
-				} else {
-
-					$get_file = $cache_file;
-				}
-
-			//}
-		}
-
+	 
 
 			try {
-
+ 
 				if($cache_file != false){
-				if(isset($get_file )== true and is_file($cache_file)){
+					//$cache_file = reduce_double_slashes($cache_file);
+					// p($cache_file);
+ 					if(isset($get_file )== true and is_file($cache_file)){
+						
+						
+					//this is slower  
+					// $cache =  implode('', file($cache_file));
+					 
+					 //this is faster
 				 $cache = file_get_contents ( $cache_file );
 				}
 
@@ -4647,12 +4661,14 @@ function saveCustomField($data_to_save) {
 
 	}
 
-	function cacheGetContentAndDecode($cache_id, $cache_group = 'global', $time = false) {
+	function cacheGetContentAndDecode($cache_id, $cache_group = 'global' , $time = false) {
 
+	return cache_get_content($cache_id, $cache_group , $time) ;
 
-		$cache = $this->cacheGetContent ( $cache_id, $cache_group, $time );
+	$cache = $this->cacheGetContent ( $cache_id, $cache_group, $time );
 
-		if ($cache == '') {
+	if ($cache ==
+ '') {
 
 			return false;
 
@@ -4672,13 +4688,14 @@ function saveCustomField($data_to_save) {
 
 	function cacheWriteContent($cache_id, $content, $cache_group = 'global') {
 
+return cache_write_to_file($cache_id, $content, $cache_group);
 		if (strval ( trim ( $cache_id ) ) == '') {
 
 			return false;
 
 		}
 
-		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
+		$cache_file = cache_get_file_path( $cache_id, $cache_group );
 
 		if (strval ( trim ( $content ) ) == '') {
 
@@ -4726,8 +4743,10 @@ function saveCustomField($data_to_save) {
 	}
 
 	function cacheWriteAndEncode($data_to_cache, $cache_id, $cache_group = 'global') {
-
-		if ($data_to_cache == false) {
+ 				
+			return cache_store_data($data_to_cache, $cache_id, $cache_group);
+		
+ 		if ($data_to_cache == false) {
 
 			return false;
 
@@ -4749,27 +4768,9 @@ function saveCustomField($data_to_save) {
 
 	function cacheDeleteFile($cache_id, $cache_group = 'global') {
 
-		return cache_get_file ( $cache_id, $cache_group );
+		return cache_get_file_path ( $cache_id, $cache_group );
 
-		global $cms_db_tables;
-
-		$cache_file = $this->_getCacheFile ( $cache_id, $cache_group );
-
-		$this->cache_storage [$cache_id] = false;
-
-		try {
-			unlink ( $cache_file );
-		} catch ( MyException $e ) {
-			// throw new Exception('Problem in foobar',0,$e);
-		}
-
-		// if (is_file ( $cache_file ) == true) {
-
-		// @unlink ( $cache_file );
-
-		// }
-
-		return true;
+		 
 
 	}
 
@@ -4781,22 +4782,7 @@ function saveCustomField($data_to_save) {
 
 	function _getCacheDir($cache_group = 'global', $deleted_cache_dir = false) {
 		return cache_get_dir ( $cache_group, $deleted_cache_dir );
-		/*
-		 * if (strval ( $cache_group ) != '') { $cache_group = str_replace (
-		 * '/', DIRECTORY_SEPARATOR, $cache_group ); //we will seperate the dirs
-		 * by 1000s $cache_group_explode = explode ( DIRECTORY_SEPARATOR,
-		 * $cache_group ); $cache_group_new = array (); foreach (
-		 * $cache_group_explode as $item ) { if (intval ( $item ) != 0) {
-		 * $item_temp = intval ( $item ) / 1000; $item_temp = ceil ( $item_temp
-		 * ); $item_temp = $item_temp . '000'; $cache_group_new [] = $item_temp;
-		 * $cache_group_new [] = $item; } else { $cache_group_new [] = $item; }
-		 * } $cache_group = implode ( DIRECTORY_SEPARATOR, $cache_group_new );
-		 * if ($deleted_cache_dir == false) { $cacheDir = CACHEDIR .
-		 * $cache_group; } else { $cacheDir = CACHEDIR . 'deleted' .
-		 * DIRECTORY_SEPARATOR . date ( 'YmdHis' ) . DIRECTORY_SEPARATOR .
-		 * $cache_group; } if (! is_dir ( $cacheDir )) { mkdir_recursive (
-		 * $cacheDir ); } return $cacheDir; } else { return $cache_group; }
-		 */
+		 
 	}
 
 	public function cleanCacheGroup($cache_group = 'global') {
@@ -4899,7 +4885,7 @@ function saveCustomField($data_to_save) {
 				$i ++;
 			}
 
-			$function_cache_id = __FUNCTION__ . md5 ( $sVeryLongText ) . md5 ( $function_cache_id );
+			$function_cache_id = __FUNCTION__ . crc32 ( $sVeryLongText ) . md5 ( $function_cache_id );
 
 			$cache_group = 'extract_tags';
 
@@ -4969,7 +4955,7 @@ function saveCustomField($data_to_save) {
 			$i ++;
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $html ) . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $html ) . md5 ( $function_cache_id );
 
 		$cache_group = 'extract_tags';
 
@@ -5525,7 +5511,7 @@ $w
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 		if ($disable_cache == false) {
@@ -6129,7 +6115,7 @@ $w
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 
@@ -6162,7 +6148,7 @@ $w
 
 		AND ID is not null ORDER BY media_order $order_direction limit 0,1";
 
-		$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		$q = $this->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 
 		if (! empty ( $q [0] )) {
 
@@ -6210,9 +6196,9 @@ $w
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+		$cache_content = cache_get_content ( $function_cache_id );
 
 		if (($cache_content) != false) {
 
@@ -6238,9 +6224,9 @@ $w
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id );
+		$cache_content = cache_get_content ( $function_cache_id );
 
 		if (($cache_content) != false) {
 
@@ -6477,7 +6463,7 @@ $w
 
 		}
 		if ($no_cache == false) {
-			$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+			$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 			$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
 
@@ -6547,7 +6533,7 @@ $w
 
 				$q = " SELECT count(*) as qty from $table where to_table='$to_table' and to_table_id='$to_table_id' $media_type_q  ";
 				// var_dump($q);
-				// $q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ),
+				// $q = $this->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ),
 				// $cache_group );
 
 				// $q = $q [0] ['qty'];
@@ -6807,7 +6793,7 @@ $w
 		global $cms_db_tables;
 		$table = $cms_db_tables ['table_media'];
 		$q = " SELECT * from $table where id='$id'  ";
-		$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		$q = $this->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 
 		if (empty ( $q )) {
 
@@ -8915,7 +8901,8 @@ $w
 	}
 
 	function cacheWrite($data_to_cache, $cache_id, $cache_group = 'global') {
-
+ 
+return cache_write($data_to_cache, $cache_id, $cache_group );
 		global $cms_db_tables;
 
 		if (strval ( trim ( $data_to_cache ) ) == '') {
@@ -9270,11 +9257,11 @@ $w
 
 			}
 
-			$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+			$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 			$cache_group = 'curl';
 
-			$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+			$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 
 			if (($cache_content) != false) {
 
@@ -9651,7 +9638,7 @@ $w
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
 		$cache_content = $this->cacheGetContentAndDecode ( $function_cache_id, $cache_group = 'options' );
 		if (($cache_content) == '--false--') {
@@ -9798,9 +9785,9 @@ $w
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group = 'options' );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group = 'options' );
 
 		if (($cache_content) != false) {
 
@@ -10290,7 +10277,7 @@ $w
 		$q = "select * from $table $where group by name";
 
 		// var_dump($q);
-		$q = $this->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'geo' );
+		$q = $this->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), 'geo' );
 		// var_dump($q);
 		return $q;
 

@@ -232,22 +232,25 @@ mw.edit = {
 	 * @method mw.edit.module_settings()
 	 */
 	module_settings: function ($module_id) {
+			$module = $('#' + $module_id);
+			 var attributes = {}; 
+        $.each($module[0].attributes, function(index, attr) {
+            attributes[attr.name] = attr.value;
+        }); 
 
-		$module = $('div.module[module_id="' + $module_id + '"]:first', '.edit');
-		//alert($module_id);
-		$module_name = $module.attr('module');
-		$module_title = $module.attr('data-module-title');
 
-		data1 = {}
-		data1.module = '' + $module_name;
-		data1.view = 'settings';
-		data1.module_id = $module_id;
+		data1 = attributes
+		//data1.module = '' + $module_name;
+	 	data1.view = 'admin';
+		/*data1.module_id = $module_id;
 		data1.page_id = window.page_id;
 		data1.post_id = window.post_id;
-		data1.category_id = window.category_id;
+		data1.category_id = window.category_id;*/
 
         mw.modal("", 600, 450, function(){
             $(this.container).load(mw.settings.site_url + "api/module", data1);
+			            $(this.container).attr('data-settings-for-module', $module_id);
+
         });
 
 	},

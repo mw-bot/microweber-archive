@@ -76,7 +76,7 @@ mw.drag = {
             var offset = el.offset();
             var height = el.outerHeight();
             var width = el.width();
-            $(".mw_dropdown_val").html(event.pageY > offset.top+(height/2));
+
 
             if(mw.drop_regions.global_drop_is_in_region){
 
@@ -186,7 +186,7 @@ mw.drag = {
             var el = $(this);
             if( el.hasClass("module-item")){
                 helper = function(event, ui) {
-                    return mw.dragCurrent = $(this).clone().appendTo('body').css({'zIndex':5});
+                    return mw.dragCurrent = $(this).clone(true).appendTo('body').css({'zIndex':5});
                 }
             }
             else {
@@ -197,8 +197,6 @@ mw.drag = {
             	cursorAt: {
             		top: -30
             	},
-
-
             	helper: helper,
             	start: function () {
             		mw.isDrag = true;
@@ -207,17 +205,14 @@ mw.drag = {
             		$(this).addClass("mw_drag_started");
             		mw.drag.fixes();
             	},
-
             	stop: function (event, ui) {
             		mw.isDrag = false;
             		$(this).removeClass("mw_drag_started");
             		if ($(mw.dragCurrent).hasClass("module-item")) {
                     mw.have_new_items = true;
                        setTimeout(function () {
-
                         mw.drag.load_new_modules()
                         mw.drag.fix_column_sizes_to_percent()
-
                       }, 300);
             		}
                     else {
@@ -227,18 +222,16 @@ mw.drag = {
                         mw.drag.fix_column_sizes_to_percent()
                       }, 100);
             		}
-
                  if (typeof callback === 'function') {
             			callback.call(this);
             	 }
                  $(".row").css({marginTop:'0px',marginBottom:'0px'});
-
             	}
             });
             $(this).mouseover(function(event){
               $(".mw-sorthandle").invisible();
               $(".element-active").removeClass("element-active");
-              $(this).addClass("element-active");
+              $(this).not(".module-item").addClass("element-active");
               $(this).find(".mw-sorthandle").eq(0).visible();
               event.stopPropagation();
             });
@@ -572,14 +565,14 @@ mw.drag = {
 				}
 				$has = $(this).children(":first").hasClass("mw-sorthandle-col");
 				if ($has == false) {
-					$has_module = $(this).children(".module").size();
+					$has_module = $(this).hasClass("module");
 					if ($has_module == false) {
 						text = mw.settings.sorthandle_col
 					}
 					else {
-						$m_name = $(this).children(".module").attr('data-module-title');
+						$m_name = $(this).attr('data-type');
 
-						$m_id = $(this).children(".module").attr('module_id');
+						$m_id = $(this).attr('id');
 						text = mw.settings.sorthandle_module
 						text = text.replace(/MODULE_NAME/g, "" + '' + $m_name + "");
 						text = text.replace(/MODULE_ID/g, "'" + $m_id + "'");
@@ -624,7 +617,7 @@ mw.drag = {
 
 
 
-				$is_this_module = ($(this).hasClass('mw-module-wrap') && $(this).parents(".element:first").hasClass('mw-module-wrap'));
+				$is_this_module = ($(this).hasClass('module') || $(this).parents(".element:first").hasClass('module'));
 				$is_freshereditor = $(this).hasClass('freshereditor');
 				$is_this_row = $(this).hasClass('row');
 				$is_this_handle = $(this).hasClass('mw-sorthandle');
@@ -659,6 +652,18 @@ mw.drag = {
 
 					$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 					$(this).parent('.element').children().removeAttr("contenteditable");
+
+
+
+                                   					$(this).parent('.element').children('.module').freshereditor("edit", false);
+
+
+
+
+
+
+
+
                      mw.drag.fix_onChange_editable_elements();
 
                        r = $(this).parents('.row:first');
@@ -699,6 +704,10 @@ mw.drag = {
 				}
 			}
 		});
+
+
+       
+
 	},
 
 	/**
@@ -748,27 +757,44 @@ mw.drag = {
 	 * @method mw.drag.load_new_modules()
 	 */
 	load_new_modules: function (callback) {
+
+
+
 		$(".edit .module-item img").each(function () {
-			var clone = $(this).clone(true);
-			$(this).parent().replaceWith(clone);
+		   	var clone = $(this).clone(true);
+
+
+			$(this).parents("li").eq(0).replaceWith(clone);
+
+
 		});
+
+		
+	 
+		
 		$need_re_init = false;
 
 		$(".module_draggable", '.edit').each(function (c) {
-			//$(this).unwrap(".module-item");
+			
 			$name = $(this).attr("data-module-name");
-			if ($name && $name != 'undefined' && $name != false && $name != '') {
+		   //	if ($name && $name != 'undefined' && $name != false && $name != '') {
 				$el_id_new = 'mw-module-' + mw.random();
-				$(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
-				mw.drag.load_module($name, '#' + $el_id_new);
-				$(this).remove();
 
-			}
+                $(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
+
+				mw.drag.load_module($name, '#' + $el_id_new);
+
+			   $(this).remove();
+
+		   //	}
 			$name = $(this).attr("data-element-name");
 			if ($name && $name != 'undefined' && $name != false && $name != '') {
 				$el_id_new = 'mw-layout-element-' + new Date().getTime() + Math.floor(Math.random() * 101);
 				$(this).after("<div class='mw-layout-holder' id='" + $el_id_new + "'></div>");
-				mw.drag.load_layout_element($name, '#' + $el_id_new);
+			//	mw.drag.load_layout_element($name, '#' + $el_id_new);
+			
+
+				mw.drag.load_module($name,'#' + $el_id_new);
 				$(this).remove();
 
 
@@ -782,11 +808,7 @@ mw.drag = {
 		if ($need_re_init == true) {
 			if (!mw.isDrag) {
 
-				setTimeout(function () {
-					mw.drag.fix_handles();
-					mw.drag.fixes();
-    				mw.drag.fix_placeholders();
-				}, 300);
+
                 if (typeof callback === 'function') {
     				callback.call(this);
 				}
@@ -809,7 +831,7 @@ mw.drag = {
 		attributes.element = $layout_element_name;
 
 		url1 = mw.settings.site_url + 'api/content/load_layout_element';
-		$($update_element).load(url1, attributes, function () {
+		$($update_element).load_modules(url1, attributes, function () {
 			window.mw_sortables_created = false;
             mw.image.resize.init($update_element + " img");
 		});
@@ -830,7 +852,7 @@ mw.drag = {
 		attributes.module = $module_name;
 
 		url1 = mw.settings.site_url + 'api/module';
-		$($update_element).load(url1, attributes, function () {
+		$($update_element).load_modules(url1, attributes, function () {
 			window.mw_sortables_created = false;
 		});
 
@@ -841,6 +863,100 @@ mw.drag = {
 
 
 
+
+
+
+
+jQuery.fn.extend({
+	load_modules: function( url, params, callback ) {
+		if ( typeof url !== "string" && _load ) {
+			return _load.apply( this, arguments );
+
+		// Don't do a request if no elements are being requested
+		} else if ( !this.length ) {
+			return this;
+		}
+
+		var off = url.indexOf( " " );
+		if ( off >= 0 ) {
+			var selector = url.slice( off, url.length );
+			url = url.slice( 0, off );
+		}
+
+
+		var type = "GET";
+
+
+		if ( params ) {
+
+			if ( jQuery.isFunction( params ) ) {
+
+				callback = params;
+				params = undefined;
+
+
+			} else if ( typeof params === "object" ) {
+				params = jQuery.param( params, jQuery.ajaxSettings.traditional );
+				type = "POST";
+			}
+		}
+
+		var self = this;
+
+
+		jQuery.ajax({
+			url: url,
+			type: type,
+			dataType: "html",
+			data: params,
+
+			complete: function( jqXHR, status, responseText ) {
+
+				responseText = jqXHR.responseText;
+
+				if ( jqXHR.isResolved() ) {
+
+					jqXHR.done(function( r ) {
+						responseText = r;
+					});
+
+					self.after( selector ?
+
+						jQuery("<div>")
+							.append(responseText.replace(rscript, ""))
+
+
+							.find(selector) :
+
+						responseText );
+				}
+
+				if ( callback ) {
+					self.each( callback, [ responseText, status, jqXHR ] );
+				}
+				
+
+				self.remove();
+
+                mw.drag.fix_handles();
+                mw.drag.fixes();
+                mw.drag.fix_placeholders();
+
+			}
+		});
+
+		return this;
+	}});
+
+
+
+
+$.fn.mwUnwrap = function() {
+    this.parent(':not(body)').each(function(){
+        $(this).replaceWith( this.childNodes );
+    });
+    return this;
+};
 
 /**
  * Makes resizable columns

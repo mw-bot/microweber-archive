@@ -212,7 +212,7 @@ class Init_model extends CI_Model {
 		foreach ($args as $k => $v) {
 			$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 		}
-		$function_cache_id = __FUNCTION__ . '_' . $table_name . '_' . md5($function_cache_id);
+		$function_cache_id = __FUNCTION__ . '_' . $table_name . '_' . crc32($function_cache_id);
 		if (is_file($dir2 . $function_cache_id) == false) {
 			@touch($dir2 . $function_cache_id);
 			//@file_put_contents($dir2 . $function_cache_id , serialize($fields_to_add) );

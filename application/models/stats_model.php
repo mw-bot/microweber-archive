@@ -67,7 +67,7 @@ class Stats_model extends CI_Model {
 		$cache_group = 'stats';
 		
 		$q = "SELECT * FROM $table WHERE main_url = '{$url}' ";
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 		if (empty ( $q )) {
 			$now = date ( 'Y-m-d H:i:s' );
 			$q1 = "insert into $table set main_url = '{$url}', name= '{$url}', timezone='America/New_York', ts_created='{$now}' ";
@@ -79,7 +79,7 @@ class Stats_model extends CI_Model {
 			$id = intval ( $id );
 			
 			$q = "SELECT * FROM $table_access WHERE login = 'anonymous' and idsite=$id";
-			$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+			$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 			if (empty ( $q )) {
 				$q1 = "insert into $table_access set login = 'anonymous', idsite=$id, access='view' ";
 				$q1 = $this->core_model->dbQ ( $q1 );
@@ -97,7 +97,7 @@ class Stats_model extends CI_Model {
 		$cache_group = 'global/stats';
 		$q = "SELECT * FROM $table WHERE name = '$url' ";
 		
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group, '- 5 minutes' );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group, '- 5 minutes' );
 		
 		if (! empty ( $q )) {
 			$q = $q [0];
@@ -140,7 +140,7 @@ class Stats_model extends CI_Model {
               
               ";
 			
-			$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group,  '- 5 minutes' );
+			$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group,  '- 5 minutes' );
 			return intval ( $q [0] ["views"] );
 		} else {
 			return 0;

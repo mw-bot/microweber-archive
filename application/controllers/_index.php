@@ -94,7 +94,7 @@ class Index extends CI_Controller {
 			
 			if (! $_POST) {
 				
-			//$cache_content = $this->core_model->cacheGetContentAndDecode ( $whole_site_cache_id, $site_cache_time );
+			//$cache_content = cache_get_content ( $whole_site_cache_id, $site_cache_time );
 			}
 			
 			$cache_content = false;

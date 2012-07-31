@@ -435,7 +435,7 @@ class Notifications_model extends CI_Model {
 		
 		$q = "SELECT * from $table where id='{$id}'  limit 0,1 ";
 		// var_dump($q);
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), 'log/' . $id );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), 'log/' . $id );
 		//var_dump ( $q );
 		$content = $q [0];
 		

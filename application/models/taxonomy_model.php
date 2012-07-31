@@ -499,7 +499,7 @@ class taxonomy_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		global $cms_db_tables;
 		
@@ -579,7 +579,7 @@ class taxonomy_model extends CI_Model {
 		
 		} else {
 			
-			$function_cache_id = __FUNCTION__ . '_' . $data ['taxononomy_type'] . '_' . $data ['to_table'] . '_' . $data ['to_table_id'] . '_' . md5 ( $function_cache_id );
+			$function_cache_id = __FUNCTION__ . '_' . $data ['taxononomy_type'] . '_' . $data ['to_table'] . '_' . $data ['to_table_id'] . '_' . crc32 ( $function_cache_id );
 			
 			global $cms_db_tables;
 			
@@ -666,12 +666,12 @@ class taxonomy_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$taxonomy_id = intval ( $id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -712,12 +712,12 @@ class taxonomy_model extends CI_Model {
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 		
 		}
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$taxonomy_id = intval ( $id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -757,7 +757,7 @@ class taxonomy_model extends CI_Model {
 
 			$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$id} limit 0,1";
 			//p($q,1);
-			$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+			$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 			
 			//$content = $this->content_model->getContentAndCache ( $content, $orderby );
 			
@@ -802,7 +802,7 @@ class taxonomy_model extends CI_Model {
 				
 				$q = " select * from $table_content where content_subtype ='dynamic' and content_subtype_value={$item} limit 0,1";
 				//p($q);
-				$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+				$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 				
 				//$content = $this->content_model->getContentAndCache ( $content, $orderby );
 				
@@ -1105,7 +1105,7 @@ class taxonomy_model extends CI_Model {
 		$name = codeClean ( $name );
 		$q = " select id from $table where taxonomy_value like '{$name}' limit 0,1";
 		
-		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		$q = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 		if (! empty ( $q )) {
 			$q = $q [0] ['id'];
 			return $q;
@@ -1146,12 +1146,12 @@ class taxonomy_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$taxonomy_id = intval ( $id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1201,7 +1201,7 @@ class taxonomy_model extends CI_Model {
 		$cache_group = 'taxonomy/' . $id;
 		$q = " SELECT parent_id from $table where id={$id}    ";
 		
-		$q_cache_id = __FUNCTION__ . md5 ( $q );
+		$q_cache_id = __FUNCTION__ . crc32 ( $q );
 		//var_dump($q_cache_id);
 		
 
@@ -1245,12 +1245,12 @@ class taxonomy_model extends CI_Model {
 		
 		}
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$taxonomy_id = intval ( $parent_id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1343,7 +1343,7 @@ class taxonomy_model extends CI_Model {
 		$cache_group = 'taxonomy/' . $parent_id;
 		$q = " SELECT id,    parent_id from $table_items where parent_id= $parent_id   $type_q  $visible_on_frontend_q $my_limit_q ";
 		//var_dump($q);
-		$q_cache_id = __FUNCTION__ . md5 ( $q );
+		$q_cache_id = __FUNCTION__ . crc32 ( $q );
 		//var_dump($q_cache_id);
 		$save = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
 		
@@ -1425,7 +1425,7 @@ class taxonomy_model extends CI_Model {
 		$cache_group = 'taxonomy/' . $parent_id;
 		$q = " SELECT id,  parent_id from $table where parent_id= $parent_id   $type_q  $visible_on_frontend_q";
 		//var_dump($cache_group);
-		$q_cache_id = __FUNCTION__ . md5 ( $q );
+		$q_cache_id = __FUNCTION__ . crc32 ( $q );
 		//var_dump($q_cache_id);
 		$save = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
 		
@@ -1498,7 +1498,7 @@ class taxonomy_model extends CI_Model {
 		$cache_group = 'taxonomy/' . $parent_id;
 		$q = " SELECT count(*) as qty from $table where parent_id= $parent_id   $type_q ";
 		//var_dump($q);
-		$q_cache_id = __FUNCTION__ . md5 ( $q );
+		$q_cache_id = __FUNCTION__ . crc32 ( $q );
 		//var_dump($q_cache_id);
 		$get = $this->core_model->dbQuery ( $q, $q_cache_id, $cache_group );
 		
@@ -1626,7 +1626,7 @@ class taxonomy_model extends CI_Model {
 		$q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where $root_q $visible_on_frontend_q and taxonomy_type='category_item'  group by to_table_id   $my_limit_q ";
 		
 		//	var_dump($q);
-		$taxonomies = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group );
+		$taxonomies = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group );
 		
 		//var_dump($taxonomies);
 		//print 'asds';;
@@ -1694,11 +1694,11 @@ class taxonomy_model extends CI_Model {
 		
 		}
 		$root = intval ( $root );
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$cache_group = 'taxonomy/' . $root;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -1739,7 +1739,7 @@ class taxonomy_model extends CI_Model {
 		$root = intval ( $root );
 		$q = " select id from $table where parent_id = $root and taxonomy_type='{$type}' ";
 		
-		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q . $root . serialize ( $incliude_root ) ), $cache_group = 'taxonomy/' . $root );
+		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . crc32 ( $q . $root . serialize ( $incliude_root ) ), $cache_group = 'taxonomy/' . $root );
 		
 		if (! empty ( $taxonomies )) {
 			
@@ -1807,11 +1807,11 @@ class taxonomy_model extends CI_Model {
 		
 		}
 		$root = intval ( $id );
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$cache_group = 'taxonomy/' . $root;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		if (($cache_content) != false) {
 			
 			return $cache_content;
@@ -1856,7 +1856,7 @@ class taxonomy_model extends CI_Model {
 		$id = intval ( $id );
 		$q = " select id, parent_id  from $table where id = $id and  taxonomy_type='{$taxonomy_type}'  $with_main_parrent_q ";
 		
-		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . md5 ( $q ), $cache_group = 'taxonomy/' . $id );
+		$taxonomies = $this->core_model->dbQuery ( $q, $cache_id = __FUNCTION__ . crc32 ( $q ), $cache_group = 'taxonomy/' . $id );
 		
 		//var_dump($q);
 		
@@ -1938,12 +1938,12 @@ class taxonomy_model extends CI_Model {
 			$function_cache_id = $function_cache_id . serialize ( $k ) . serialize ( $v );
 		
 		}
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
 		$taxonomy_id = intval ( $id );
 		$cache_group = 'taxonomy/' . $taxonomy_id;
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2046,9 +2046,9 @@ class taxonomy_model extends CI_Model {
 		}
 		$content_id = intval ( $content_id );
 		$cache_group = 'content/' . $content_id;
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2102,9 +2102,9 @@ class taxonomy_model extends CI_Model {
 		$content_id = intval ( $content_id );
 		$cache_group = 'content/' . $content_id;
 		
-		$function_cache_id = __FUNCTION__ . md5 ( $function_cache_id );
+		$function_cache_id = __FUNCTION__ . crc32 ( $function_cache_id );
 		
-		$cache_content = $this->core_model->cacheGetContentAndDecode ( $function_cache_id, $cache_group );
+		$cache_content = cache_get_content ( $function_cache_id, $cache_group );
 		
 		if (($cache_content) != false) {
 			
@@ -2135,7 +2135,7 @@ class taxonomy_model extends CI_Model {
 		
 		$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $taxonomy_type_q ";
 		//var_dump($q);
-		$data = $this->core_model->dbQuery ( $q, __FUNCTION__ . md5 ( $q ), $cache_group = 'content/' . $content_id );
+		$data = $this->core_model->dbQuery ( $q, __FUNCTION__ . crc32 ( $q ), $cache_group = 'content/' . $content_id );
 		// var_dump ( $data );
 		
 

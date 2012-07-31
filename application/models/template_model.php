@@ -89,37 +89,6 @@ class Template_model extends CI_Model {
 
 		$html = $this -> content_model -> applyGlobalTemplateReplaceables($layout);
 
-		/*require_once 'htmlsql-v0.5/htmlsql.class.php';
-		 require_once ("htmlsql-v0.5/snoopy.class.php");
-
-		 $wsql = new htmlsql ( );
-		 $html = $layout;
-		 // connect to a string
-		 if (! $wsql->connect ( 'string', $html )) {
-		 return $layout;
-		 }
-
-		 //if (! $wsql->query ( 'SELECT * FROM to_table  ' )) {
-		 //if (! $wsql->query ( 'SELECT * FROM microweber ' )) {
-		 if (! $wsql->query ( 'SELECT * FROM * WHERE $class == "remove-on-submit" ' )) {
-
-		 //return $layout;
-		 }
-
-		 $arr = $wsql->fetch_array ();
-		 if (! empty ( $arr )) {
-		 foreach ( $arr as $row ) {
-		 $json = $row ['text'];
-		 if (trim ( $json ) != '') {
-		 //$result = json_decode ( $json, 1 );
-
-		 p ( $result );
-
-		 }
-
-		 }
-		 }
-		 */
 		return $html;
 	}
 
@@ -191,11 +160,11 @@ class Template_model extends CI_Model {
 
 		}
 
-		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
+		$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 		$cache_group = 'templates';
 
-		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+		$cache_content = cache_get_content($cache_id, $cache_group);
 
 		if (($cache_content) != false) {
 
@@ -284,11 +253,11 @@ class Template_model extends CI_Model {
 
 		}
 
-		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
+		$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 		$cache_group = 'templates';
 
-		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+		$cache_content = cache_get_content($cache_id, $cache_group);
 
 		if (($cache_content) != false) {
 
@@ -1048,7 +1017,7 @@ class Template_model extends CI_Model {
 				print($to_save_text);
 				//copy for hiustory
 				$today = date('Y-m-d H-i-s');
-				$history_f = md5($try_file);
+				$history_f = crc32($try_file);
 				//$history_dir = $the_dir . '/history/' . $id . '/';
 
 				$history_dir = APPPATH . '/history/blocks/' . $id . '/';
@@ -1108,7 +1077,7 @@ class Template_model extends CI_Model {
 					//p($try_icon);
 					$config['icon'] = $config['thumbnail'] = pathToURL($try_icon);
 
-					$mmd5 = md5($value_fn);
+					$mmd5 = crc32($value_fn);
 					$check_if_uninstalled = STYLES_DIR . '_system/' . $mmd5 . '.php';
 					if (is_file($check_if_uninstalled)) {
 						$config['uninstalled'] = true;
@@ -1140,24 +1109,7 @@ class Template_model extends CI_Model {
 
 	}
 
-	/**
-
-	 * @desc Function getModules
-	 * @param array
-	 * @return array
-	 * @author      Peter Ivanov
-	 * @version 1.0
-	 * @since Version 1.0
-	 * @example
-	 $modules_options = array();
-	 $modules_options['skip_admin'] = true;
-	 $modules_options['ui'] = true;
-
-	 $modules = $this->template_model->getModules($modules_options );
-
-	 p($modules );
-
-	 */
+	 
 	function getDesignElementsDirs($options = false) {
 
 		$dir_name = normalize_path(ELEMENTS_DIR);
@@ -1215,7 +1167,7 @@ class Template_model extends CI_Model {
 
 					}
 
-					$mmd5 = md5($config['module']);
+					$mmd5 = crc32($config['module']);
 					$check_if_uninstalled = ELEMENTS_DIR . '_system/' . $mmd5 . '.php';
 					if (is_file($check_if_uninstalled)) {
 						$config['uninstalled'] = true;
@@ -1261,11 +1213,11 @@ class Template_model extends CI_Model {
 
 		}
 
-		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
+		$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 		$cache_group = 'templates';
 
-		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+		$cache_content = cache_get_content($cache_id, $cache_group);
 
 		if (($cache_content) != false) {
 
@@ -1362,11 +1314,11 @@ class Template_model extends CI_Model {
 
 		}
 
-		$cache_id = $function_cache_id = __FUNCTION__ . md5($function_cache_id);
+		$cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 		$cache_group = 'modules/';
 
-		$cache_content = $this -> core_model -> cacheGetContentAndDecode($cache_id, $cache_group);
+		$cache_content = cache_get_content($cache_id, $cache_group);
 
 		if (($cache_content) != false) {
 
@@ -1413,7 +1365,7 @@ class Template_model extends CI_Model {
 
 					}
 
-					$mmd5 = md5($config['module']);
+					$mmd5 = crc32($config['module']);
 					$check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
 					if (is_file($check_if_uninstalled)) {
 						$config['uninstalled'] = true;
@@ -1469,9 +1421,9 @@ class Template_model extends CI_Model {
 
 		}
 
-		$function_cache_id = __FUNCTION__ . md5($function_cache_id);
+		$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-		$cache_content = $this -> core_model -> cacheGetContentAndDecode($function_cache_id, $cache_group = 'options');
+		$cache_content = cache_get_content($function_cache_id, $cache_group = 'options');
 
 		if (($cache_content) != false) {
 

@@ -7,12 +7,91 @@ function url_string($string) {
 
 }
 
+ 
+
+		function getParamFromURL($param = false) {
+					
+					$function_cache_id = false;
+	$args = func_get_args();
+	foreach ($args as $k => $v) {
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+	$cache_content = CACHE_GET_FILE_ . $function_cache_id;
+
+	if (!defined($cache_content)) {
+	} else {
+		return (constant($cache_content));
+
+	}
+					
+					
+					
+					
+					
+				$CI = get_instance();
+				$CI->load->helper('url');
+				 
+				$url = getCurentURL();
+				$site = site_url();
+				$url = str_ireplace($site, '', $url);
+				$segs = explode('/', $url);
+				foreach ($segs as $segment) {
+						$segment = explode(':', $segment);
+						if ($segment[0] == $param) {
+							define($cache_content, $segment[1]);
+								return $segment[1];
+						}
+				}
+				if (!defined($cache_content)) {
+		define($cache_content, false);
+	}
+				
+				return false;
+		}
+
+ 
+
+
+
+function site_url($uri = '') {
+	
+$function_cache_id = false;
+	$args = func_get_args();
+	foreach ($args as $k => $v) {
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+	$cache_content = CACHE_GET_FILE_ . $function_cache_id;
+
+	if (!defined($cache_content)) {
+	} else {
+	//	p((constant($cache_content)));
+		return (constant($cache_content));
+
+	}
+
+
+ 
+
+	$CI = get_instance();
+	$u = $CI -> config -> site_url($uri);
+	
+	if (!defined($cache_content)) {
+		define($cache_content, $u);
+	}
+	return $u; 
+}
+
 function url($skip_ajax = false, $skip_param = false) {
 	if ($skip_ajax == false) {
 		$is_ajax = isAjax ();
 
 		if ($is_ajax == false) {
 		} else {
+			
+			
+			
 			if ($_SERVER ['HTTP_REFERER'] != false) {
 				return $_SERVER ['HTTP_REFERER'];
 			} else {
@@ -40,7 +119,7 @@ function url($skip_ajax = false, $skip_param = false) {
 		$pageURL .= $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . $_SERVER ["REQUEST_URI"];
 
 	} else {
-
+ 
 		$pageURL .= $_SERVER ["SERVER_NAME"] . $_SERVER ["REQUEST_URI"];
 
 	}
@@ -2382,13 +2461,14 @@ function get_ref_category() {
 
 }
 
+ require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cache.php');
  
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');
-require_once (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');
+require (APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
 
 
 

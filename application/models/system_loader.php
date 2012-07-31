@@ -545,27 +545,7 @@ if (!function_exists('getCurentURL')) {
 				return $pageURL;
 		}
 
-}if (!function_exists('getParamFromURL')) {
-
-		function getParamFromURL($param = false) {
-				$CI = get_instance();
-				$CI->load->helper('url');
-				;
-				$url = getCurentURL();
-				$site = site_url();
-				$url = str_ireplace($site, '', $url);
-				$segs = explode('/', $url);
-				foreach ($segs as $segment) {
-						$segment = explode(':', $segment);
-						if ($segment[0] == $param) {
-								return $segment[1];
-						}
-				}
-				return false;
-		}
-
 }
-
 function isAjax() {
 		return (isset ($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
 }
@@ -594,68 +574,72 @@ if (!function_exists('pathToURL')) {
 
 }
 // $arrays - Array of arrays to intersect.
-if (!function_exists('getParamFromURL')) {
+// if (!function_exists('getParamFromURL')) {
+// 
+		// function getParamFromURL($param, $param_sub_position = false) {
+// //$segs = $this->uri->segment_array ();
+				// if ($_POST) {
+						// if ($_POST['search_by_keyword']) {
+								// if ($param == 'keyword') {
+										// return $_POST['search_by_keyword'];
+								// }
+						// }
+				// }
+				// $url = uri_string();
+				// $rem = site_url();
+				// $url = str_ireplace($rem, '', $url);
+				// $segs = explode('/', $url);
+				// foreach ($segs as $segment) {
+						// $seg1 = explode(':', $segment);
+// //	var_dump($seg1);
+						// if (($seg1[0]) == ($param)) {
+// //if (stristr ( $segment, $param . ':' ) == true) {
+								// if ($param_sub_position == false) {
+										// $the_param = str_ireplace($param . ':', '', $segment);
+										// if ($param == 'custom_fields_criteria') {
+												// $the_param1 = base64_decode($the_param);
+												// $the_param1 = unserialize($the_param1);
+												// return $the_param1;
+										// }
+										// return $the_param;
+								// }
+								// else {
+										// $the_param = str_ireplace($param . ':', '', $segment);
+										// $params_list = explode(',', $the_param);
+										// if ($param == 'custom_fields_criteria') {
+												// $the_param1 = base64_decode($the_param);
+												// $the_param1 = unserialize($the_param1);
+												// return $the_param1;
+										// }
+// //$param_value = $params_list [$param_sub_position - 1];
+// //$param_value = $the_param;
+										// return $the_param;
+								// }
+						// }
+				// }
+		// }
+// 
+// }if (!function_exists('getParamFromURL')) {
 
-		function getParamFromURL($param, $param_sub_position = false) {
-//$segs = $this->uri->segment_array ();
-				if ($_POST) {
-						if ($_POST['search_by_keyword']) {
-								if ($param == 'keyword') {
-										return $_POST['search_by_keyword'];
-								}
-						}
-				}
-				$url = uri_string();
-				$rem = site_url();
-				$url = str_ireplace($rem, '', $url);
-				$segs = explode('/', $url);
-				foreach ($segs as $segment) {
-						$seg1 = explode(':', $segment);
-//	var_dump($seg1);
-						if (($seg1[0]) == ($param)) {
-//if (stristr ( $segment, $param . ':' ) == true) {
-								if ($param_sub_position == false) {
-										$the_param = str_ireplace($param . ':', '', $segment);
-										if ($param == 'custom_fields_criteria') {
-												$the_param1 = base64_decode($the_param);
-												$the_param1 = unserialize($the_param1);
-												return $the_param1;
-										}
-										return $the_param;
-								}
-								else {
-										$the_param = str_ireplace($param . ':', '', $segment);
-										$params_list = explode(',', $the_param);
-										if ($param == 'custom_fields_criteria') {
-												$the_param1 = base64_decode($the_param);
-												$the_param1 = unserialize($the_param1);
-												return $the_param1;
-										}
-//$param_value = $params_list [$param_sub_position - 1];
-//$param_value = $the_param;
-										return $the_param;
-								}
-						}
-				}
-		}
+		// function getParamFromURL($param = false) {
+				// $url = getCurentURL();
+				// $site = site_url();
+				// $url = str_ireplace($site, '', $url);
+				// $segs = explode('/', $url);
+				// foreach ($segs as $segment) {
+						// $segment = explode(':', $segment);
+						// if ($segment[0] == $param) {
+								// return $segment[1];
+						// }
+				// }
+				// return false;
+		// }
+// 
+// }
 
-}if (!function_exists('getParamFromURL')) {
 
-		function getParamFromURL($param = false) {
-				$url = getCurentURL();
-				$site = site_url();
-				$url = str_ireplace($site, '', $url);
-				$segs = explode('/', $url);
-				foreach ($segs as $segment) {
-						$segment = explode(':', $segment);
-						if ($segment[0] == $param) {
-								return $segment[1];
-						}
-				}
-				return false;
-		}
 
-}if (!function_exists('pathToURL')) {
+if (!function_exists('pathToURL')) {
 
 		function pathToURL($path) {
 //var_dump($path);
@@ -1369,52 +1353,7 @@ function _autolink_create_html_tags(& $value, $key, $other = null) {
 		$value = "<a href=\"$key\"$target$nofollow>$key</a>";
 }
 
-/**
-
-* Fetch the number of followers from twitter api
-
-*
-
-* @author Peter Ivanov <peter@ooyes.net> * @copyright    http://www.ooyes.net
-
-* @version    0.2
-
-* @link http://www.ooyes.net
-
-* @param string $username
-
-* @return string
-
-*/
-function twitter_followers_counter($username) {
-		$cache_file = CACHEDIR . 'twitter_followers_counter_' . md5($username);
-		if (is_file($cache_file) == false) {
-				$cache_file_time = strtotime('1984-01-11 07:15');
-		}
-		else {
-				$cache_file_time = filemtime($cache_file);
-		}
-		$now = strtotime(date('Y-m-d H:i:s'));
-		$api_call = $cache_file_time;
-		$difference = $now - $api_call;
-		$api_time_seconds = 1800;
-		if ($difference >= $api_time_seconds) {
-				$api_page = 'http://twitter.com/users/show/' . $username;
-				$xml = file_get_contents($api_page);
-				$profile = new SimpleXMLElement($xml);
-				$count = $profile->followers_count;
-				if (is_file($cache_file) == true) {
-						@ unlink($cache_file);
-				}
-				touch($cache_file);
-				file_put_contents($cache_file, strval($count));
-				return strval($count);
-		}
-		else {
-				$count = file_get_contents($cache_file);
-				return strval($count);
-		}
-}
+ 
 
 function w3cDate($time = NULL) {
 		if (empty ($time))
@@ -1947,16 +1886,7 @@ function urlencode2($url) {
 		return $urlenc;
 }
 
-function cache_file_memory_storage($path) {
-		static $mem = array();
-		$path_md = md5($path);
-		if ($mem["{$path_md}"] != false) {
-				return $mem[$path_md];
-		}
-		$cont = @ file_get_contents($path);
-		$mem[$path_md] = $cont;
-		return $cont;
-}
+
 
 /*$fullstring = "this is my [tag]dog[/tag]";
 $parsed = get_string_between ( $fullstring, "[tag]", "[/tag]" );
@@ -1970,94 +1900,6 @@ function get_string_between($string, $start, $end) {
 		$ini += strlen($start);
 		$len = strpos($string, $end, $ini) - $ini;
 		return substr($string, $ini, $len);
-}
-
-function cache_get_file($cache_id, $cache_group = 'global') {
-		$cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
-		return cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . CACHE_FILES_EXTENSION;
-}
-
-function cache_clean_group($cache_group = 'global') {
-//$startTime = slog_time ();
-/*$cleanPattern = CACHEDIR . $cache_group . DIRECTORY_SEPARATOR . '*' . CACHE_FILES_EXTENSION;
-
-$cache_group = $cache_group . DIRECTORY_SEPARATOR;
-
-$cache_group = reduce_double_slashes ( $cache_group );
-
-if (substr ( $cache_group, - 1 ) == DIRECTORY_SEPARATOR) {
-
-$cache_group_noslash = substr ( $cache_group, 0, - 1 );
-
-} else {
-
-$cache_group_noslash = ($cache_group);
-
-}
-
-$recycle_bin = CACHEDIR . 'deleted'. DIRECTORY_SEPARATOR;
-
-if (is_dir ( $recycle_bin ) == false) {
-
-mkdir ( $recycle_bin );
-
-}*/
-		try {
-//print 'delete cache:'  .$cache_group;
-				$dir = cache_get_dir('global');
-//$dir_del = cache_get_dir ( 'global', true );
-//var_dump(CACHEDIR . $cache_group);
-				if (is_dir($dir)) {
-//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
-						recursive_remove_directory($dir);
-				}
-				$dir = cache_get_dir($cache_group);
-//$dir_del = cache_get_dir ( $cache_group, true );
-//var_dump(CACHEDIR . $cache_group);
-				if (is_dir($dir)) {
-//dirmv ( $dir, $dir_del, $overwrite = true, $funcloc = NULL );
-						recursive_remove_directory($dir);
-				}
-		}
-		catch (Exception $e) {
-//$cache = false;
-		}
-}
-
-function cache_get_dir($cache_group = 'global', $deleted_cache_dir = false) {
-		if (strval($cache_group) != '') {
-				$cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
-//we will seperate the dirs by 1000s
-				$cache_group_explode = explode(DIRECTORY_SEPARATOR, $cache_group);
-				$cache_group_new = array();
-				foreach ($cache_group_explode as $item) {
-						if (intval($item) != 0) {
-								$item_temp = intval($item) / 1000;
-								$item_temp = ceil($item_temp);
-								$item_temp = $item_temp . '000';
-								$cache_group_new[] = $item_temp;
-								$cache_group_new[] = $item;
-						}
-						else {
-								$cache_group_new[] = $item;
-						}
-				}
-				$cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
-				if ($deleted_cache_dir == false) {
-						$cacheDir = CACHEDIR . $cache_group;
-				}
-				else {
-//$cacheDir = CACHEDIR . 'deleted' . DIRECTORY_SEPARATOR . date ( 'YmdHis' ) . DIRECTORY_SEPARATOR . $cache_group;
-						$cacheDir = CACHEDIR . $cache_group;
-				}
-				if (!is_dir($cacheDir)) {
-						mkdir_recursive($cacheDir);
-				}
-				return $cacheDir;
-		}
-		else {
-				return $cache_group;
-		}
 }
 
 /**

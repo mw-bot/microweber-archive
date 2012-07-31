@@ -22,7 +22,7 @@ class Index extends CI_Controller {
 
 	function index() {
 		$this -> benchmark -> mark('the_index_controller_start');
-		require_once (APPPATH . 'controllers/advanced/index/_controller.php');
+	 	require_once (APPPATH . 'controllers/advanced/index/_controller.php');
 		$this -> benchmark -> mark('the_index_controller_end');
 	}
 

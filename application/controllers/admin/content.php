@@ -992,32 +992,7 @@ class Content extends CI_Controller {
 		CI::library('output')->set_output ( $primarycontent );
 	}
 	
-	function categories_migrate_old_category_items() {
-		global $cms_db_tables;
-		
-		$table = $cms_db_tables ['table_taxonomy'];
-		$table_items = $cms_db_tables ['table_taxonomy_items'];
-		
-		$q = "select * from $table where taxonomy_type='category_item' ";
-		$q = $this->core_model->dbQuery ( $q );
-		if (! empty ( $q )) {
-			foreacH ( $q as $item ) {
-				
-				$item_to_save = $item;
-				$item_to_save ['id'] = false;
-				$save = $this->taxonomy_model->taxonomySave ( $item_to_save );
-				
-				$q1 = "delete from $table where id='{$item['id']}' ";
-				$q1 = $this->core_model->dbQ ( $q1 );
-			
-			}
-		
-		}
-		p ( $q );
-		
-		//	var_dump($_REQUEST);
-		exit ();
-	}
+	 
 	
 	function taxonomy_categories() {
 		$this->template ['functionName'] = strtolower ( __FUNCTION__ );

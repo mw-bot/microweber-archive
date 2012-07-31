@@ -1,6 +1,6 @@
 <?php
 
-  
+require_once (APPPATH . 'functions' . '/mw_functions.php');
 
 if (!defined("DS")) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -43,8 +43,6 @@ $this -> load -> library('session');
  $this->load->model ( 'Cart_model', 'cart_model' );
  $this->load->model ( 'Template_model', 'template_model' );
  $this->load->model ( 'Mw_model', 'mw' );*/
-
-require_once (APPPATH . 'functions' . '/mw_functions.php');
 
 $db_setup = CACHEDIR_ROOT . '/db_tmp/index.php';
 if (is_file($db_setup) == false) {
@@ -181,7 +179,6 @@ if ($debugmode != false) {
 
 }
 
- 
 if (isset($_POST['search_by_keyword']) and $_POST['search_by_keyword'] != '') {
 
 	if (($_POST['search_by_keyword_auto_append_params']) == false) {
@@ -205,7 +202,6 @@ if (isset($_POST['search_by_keyword']) and $_POST['search_by_keyword'] != '') {
 	}
 
 }
- 
 
 /*
  * If there is referrer, store it in cookie and redirect to clean location
@@ -271,85 +267,16 @@ if ($ref != '') {
 
 	$url = getCurentURL();
 
-	$segs = explode('.', $url);
+	 
 
-	$segs = str_ireplace('http://', '', $segs);
-
-	$segs = str_ireplace('https://', '', $segs);
-
-	$segs = $segs[0];
-
-	$test_if_user_subdomain = addslashes($segs);
-
-	$subdomain_user = array();
-
-	//$subdomain_user ['username'] = $test_if_user_subdomain;
-	//$subdomain_user = $this->users_model->getUsers ( $subdomain_user , array(0,1));
-	if (!empty($subdomain_user)) {
-
-		$subdomain_user = $subdomain_user[0];
-
-		setcookie("microweber_referrer_user_id", $subdomain_user['id'], time() + 60 * 60 * 24 * 90, '/');
-		// 90 days
-		setcookie("referrer_id", $subdomain_user['id'], time() + 60 * 60 * 24 * 90, '/');
-		// 90 days
-
-		$subdomain_user_test = $this -> session -> userdata('subdomain_user');
-
-		$subdomain_user_test = serialize($subdomain_user_test);
-
-		$subdomain_user_test = md5($subdomain_user_test);
-
-		$subdomain_user_test2 = serialize($subdomain_user);
-
-		$subdomain_user_test2 = md5($subdomain_user_test2);
-
-		if ($subdomain_user_test != $subdomain_user_test2) {
-
-			$this -> session -> set_userdata('subdomain_user', $subdomain_user);
-
-		}
-
-		//set the cannonical URL for duplicated content
-		// http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html
-
-		$url = getCurentURL();
-
-		$url = str_ireplace($subdomain_user['username'] . '.', '', $url);
-
-		$this -> template['meta_cannonical_url'] = $url;
-
-	} else {
-
-		/*	$subdomain_user_test = $this->session->userdata ( 'subdomain_user' );
-
-		 $subdomain_user_test = serialize ( $subdomain_user_test );
-
-		 $subdomain_user_test = md5 ( $subdomain_user_test );
-
-		 $subdomain_user_test2 = serialize ( false );
-
-		 $subdomain_user_test2 = md5 ( $subdomain_user_test2 );
-
-		 if ($subdomain_user_test != $subdomain_user_test2) {
-
-		 $this->session->set_userdata ( 'subdomain_user', false );
-
-		 }
-
-		 $this->template ['meta_cannonical_url'] = false;*/
-
-	}
- 
 }
 
 /*
  * Make some initializations - constants, libraries, template variables
  */
 
- 
 $this -> template['className'] = strtolower(get_class());
- 
+
 global $cms_db_tables;
 $this -> template['cms_db_tables'] = $cms_db_tables;
 

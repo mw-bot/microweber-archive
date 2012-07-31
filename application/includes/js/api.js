@@ -60,6 +60,27 @@ mw.load_layout_element = function($layout_element_name, $update_element) {
 	 }); 
 }
 
+// mw.reload_module_interval('custom_fields/');
+mw.reload_module_interval = function($module_name, $interval) {
+	if($interval == undefined){
+	$interval = 500;	
+	}
+	
+	$interval = parseInt($interval);
+	
+	
+	 
+ 
+	 
+	
+		  t_reload_module_interval=setInterval("mw.reload_module('"+$module_name+"')",$interval);
+
+
+	
+	
+	
+}
+
 mw.reload_module = function($module_name) {
 	
 	
@@ -80,7 +101,7 @@ mw.reload_module = function($module_name) {
 				//$("div.module[mw_params_module='"+$module_name+"']").each(
 			//  $mods = $("div.module");
 				 
-					$mods = $("div.module[data-module='"+$module_name+"']", '.edit')
+					$mods = $(".module[data-type='"+$module_name+"']", '.edit')
 					
 				$mods.each(
  								function() {
