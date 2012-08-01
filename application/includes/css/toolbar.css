@@ -159,7 +159,7 @@ background-image: -webkit-gradient(
     margin: 2px 5px 0 5px;
 }
  .mw_module_hold{
-    padding: 6px 12px;
+    padding: 6px 6px;
     display: inline-block;
  }
 
@@ -178,8 +178,16 @@ background-image: -webkit-gradient(
   display: block;
   clear: both;
   padding-top: 4px;
-  min-width: 80px;
+  min-width: 95px;
+  max-width: 95px;
 }
+
+.module_name{
+  white-space: nowrap;
+  display: block;
+  overflow: hidden;
+}
+
 #mw_css_editor  {
 	padding:0px !important;
 }
@@ -345,7 +353,8 @@ background: url(../img/navbg.jpg) repeat-x;
   padding:18px 20px 19px;
   text-decoration: none;
   outline: none;
-
+  color: #212121;
+  text-shadow:1px 1px 0px white;
 }
 #mw_tabs li:last-child {
   background-image: none;
@@ -426,7 +435,7 @@ background-image: -webkit-gradient(
 }
 
 
-#mw-text-editor .buttons{
+#mw-text-editor{
   width: 100%;
   height:35px;
   overflow: hidden;
@@ -465,11 +474,10 @@ background-image: -webkit-gradient(
 
 
 
-.mw_drag_started, li.module-item.ui-draggable-dragging{
+div.mw_drag_started, li.module-item.ui-draggable-dragging{
   padding:20px;
   background:white;
   list-style: none;
-  box-shadow:0 0 8px #000;
 }
 
 .mw-element-hover .mw-sorthandle{
@@ -546,7 +554,9 @@ outline:1px solid #D4D4D4;
 
 #show_hide_sub_panel{
   display: block;
-  position: absolute;
+  position: fixed;
+  z-index: 999;
+
   right: 200px;
   right: 20px;
     top: 16px;
@@ -572,7 +582,25 @@ outline:1px solid #D4D4D4;
   font-size: 10px;
   color: #6f6f6f;
   top: 1px;
-  right: 3px;
+  right: 6px;
+  line-height: normal;
   text-shadow:1px 0 0 #fff;
+}
+
+.mw_editor{
+  line-height: normal;
+}
+
+.mw_editor_btn{
+  display: inline-block;
+  cursor: pointer;
+  background-image: url(../img/editor.png);
+  background-repeat: no-repeat;
+}
+
+.mw_editor_bold{
+  background-position: -90px 0;
+  width:20px;
+  height: 27px;
 }
 

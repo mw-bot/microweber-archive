@@ -1,9 +1,10 @@
 <?
 
 $config = array();
-$config['name'] = "Facebook Subscribe button";
+$config['name'] = "Subscribe";
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
 $config['ui'] = true;
+$config['categories'] = "social";    
 
 

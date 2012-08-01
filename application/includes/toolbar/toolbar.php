@@ -205,6 +205,9 @@
 		
 		
     </script>
+
+    <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
+
 <div class="mw" id="live_edit_toolbar_holder">
   <div class="mw" id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="<?php print site_url(); ?>" id="mw_toolbar_logo">Microweber - Live Edit</a>
@@ -214,7 +217,7 @@
     <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
 
 
-   <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
+
 
 
       <ul id="mw_tabs">
@@ -285,7 +288,7 @@
     </div>
     <div id="mw-text-editor" class="mw_editor" style="display: block">
 
-        <span class="mw_editor_btn" data-command="bold">asdasdsa</span>
+        <span class="mw_editor_btn mw_editor_bold" data-command="bold"></span>
 
 
     </div>
