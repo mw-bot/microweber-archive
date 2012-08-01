@@ -66,10 +66,7 @@
 <script src="<?php   print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js" type="text/javascript"></script>
 <?php /* <script src="http://code.jquery.com/ui/jquery-ui-git.js" type="text/javascript"></script> */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/edit_libs.js" type="text/javascript"></script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.js" type="text/javascript"></script>
-<link href="<?php   print( INCLUDES_URL);  ?>js/farbtastic/farbtastic.css"    rel="stylesheet" type="text/css" />
-<script src="<?php   print( INCLUDES_URL);  ?>js/freshereditor.js" type="text/javascript"></script>
-<link href="<?php   print( INCLUDES_URL);  ?>js/freshereditor.css" rel="stylesheet" type="text/css" />
+
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/api.js" type="text/javascript"></script>
@@ -82,9 +79,9 @@
 
 	
         $(document).ready(function () {
-            $('.edit').freshereditor({
+           /* $('.edit').freshereditor({
                 toolbar_selector: "#mw-text-editor"
-            });
+            }); */
             mw.edit.init_sortables();
 
             mw.history.init();
@@ -194,7 +191,7 @@
 		
 		
 		
-		
+
 		
 		
 		
@@ -286,7 +283,12 @@
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>
-    <div id="mw-text-editor"></div>
+    <div id="mw-text-editor" class="mw_editor" style="display: block">
+
+        <span class="mw_editor_btn" data-command="bold">asdasdsa</span>
+
+
+    </div>
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>
   </div>

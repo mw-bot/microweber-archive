@@ -123,11 +123,11 @@ function parse_micrwober_tags($layout, $options = false) {
 		} else {
 			$get_global = false;
 		}
- 
+
 		if ($rel == 'page') {
 			$data = get_page(PAGE_ID);
 			//p(PAGE_ID);
-		//	p($data);
+			//	p($data);
 		} else if ($attr['post']) {
 			$data = get_post($attr['post']);
 			if ($data == false) {
@@ -161,11 +161,11 @@ function parse_micrwober_tags($layout, $options = false) {
 				$field_content = $data['custom_fields'][$field];
 			}
 		}
-	 
+
 		if ($field_content != false and $field_content != '') {
 			$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
-			 $field_content = parse_micrwober_tags($field_content);
+			$field_content = parse_micrwober_tags($field_content);
 			pq($elem) -> html($field_content);
 
 		} else {
@@ -268,7 +268,7 @@ function parse_micrwober_tags($layout, $options = false) {
 	//
 
 	$layout = $pq -> htmlOuter();
- 
+
 	if (!empty($replaced_scripts)) {
 		foreach ($replaced_scripts as $key => $value) {
 			if ($value != '') {
@@ -351,17 +351,40 @@ function parse_micrwober_tags($layout, $options = false) {
 				// }
 
 				$module_html = "<div class='module __WRAP_NO_WRAP__' ";
+				//	$module_html = "<div class='module __WRAP_NO_WRAP__' ";
+				$module_has_class = false;
+
 				if (!empty($attrs)) {
+
+					if ($attrs['module']) {
+						$attrs['data-type'] = $attrs['module'];
+						unset($attrs['module']);
+					}
+
+					if ($attrs['type']) {
+						$attrs['data-type'] = $attrs['type'];
+						unset($attrs['type']);
+					}
+
 					$z = 0;
 					foreach ($attrs as $nn => $nv) {
-						$module_html .= " {$nn}='{$nv}'  ";
+
+						if ($nn == 'class') {
+							$module_has_class = $nv;
+						} else {
+							$module_html .= " {$nn}='{$nv}'  ";
+						}
 
 						if ($nn == 'module') {
 							$module_name = $nv;
+							$attrs['data-type'] = $module_name;
+							unset($attrs[$nn]);
 						}
 
 						if ($nn == 'type') {
 							$module_name = $nv;
+							$attrs['data-type'] = $module_name;
+							unset($attrs[$nn]);
 						}
 
 						if ($nn == 'data-type') {
@@ -369,6 +392,7 @@ function parse_micrwober_tags($layout, $options = false) {
 						}
 
 						if ($nn == 'data-module') {
+							$attrs['data-type'] = $module_name;
 							$module_name = $nv;
 						}
 
@@ -385,7 +409,7 @@ function parse_micrwober_tags($layout, $options = false) {
 					}
 
 					$mod_content = load_module($module_name, $attrs);
-				 
+
 					$mod_content = parse_micrwober_tags($mod_content, $options);
 					$module_html .= '>' . $mod_content . '</div>';
 

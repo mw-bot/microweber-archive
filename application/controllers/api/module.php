@@ -157,7 +157,15 @@ class Module extends CI_Controller {
 				if (trim($data['mw_params_module']) != '') {
 					$mod_n = $data['module'] = $data['mw_params_module'];
 				}
+
 			}
+
+			if ($data['type'] != false) {
+				if (trim($data['type']) != '') {
+					$mod_n = $data['data-type'] = $data['type'];
+				}
+			}
+
 			if ($data['data-type'] == false) {
 				$mod_n = $data['data-type'] = $data['module'];
 			}
@@ -166,13 +174,18 @@ class Module extends CI_Controller {
 					$mod_n = $data['module'] = $data['data-module'];
 				}
 			}
- 			if ($data['module']) {
+
+			if ($data['module']) {
 				unset($data['module']);
+			}
+
+			if ($data['type']) {
+				unset($data['type']);
 			}
 
 			$data['data-type'] = rtrim($data['data-type'], '/');
 			$data['data-type'] = rtrim($data['data-type'], '\\');
-
+ 
 			$has_id = false;
 			foreach ($data as $k => $v) {
 
@@ -194,7 +207,7 @@ class Module extends CI_Controller {
 				$tags .= "id=\"$mod_n\" ";
 
 			}
-
+ 
 			$tags = "<module {$tags} />";
 		} else {
 		}
@@ -213,7 +226,6 @@ class Module extends CI_Controller {
 		$res = parse_micrwober_tags($tags, $opts);
 		$res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
 
-	 
 		print $res;
 		exit();
 		// phpinfo();

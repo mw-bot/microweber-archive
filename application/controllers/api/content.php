@@ -57,6 +57,11 @@ class Content extends CI_Controller {
 
     function cf_save()
     {
+        	//@todo remove this
+		exit('this function will be removed soon');
+		
+			
+			
         $id = is_admin();
         if ($id == false) {
             exit('Error: not logged in as admin.');
@@ -171,6 +176,10 @@ class Content extends CI_Controller {
 
     function cf_load()
     {
+        	//@todo remove this
+		exit('this function will be removed soon');
+		
+			
         $page_or_post = url_param("page_id", true);
         $page_or_post2 = url_param("post_id", true);
         $content_id = false;
@@ -258,6 +267,11 @@ class Content extends CI_Controller {
 
     function save_cf()
     {
+    	
+		//@todo remove this
+		exit('this function will be removed soon');
+		
+		
         $id = user_id();
         if ($id == 0) {
             exit('Error: not logged in.');
@@ -301,7 +315,13 @@ class Content extends CI_Controller {
 
     function delete_cf()
     {
-        $id = user_id();
+      
+	  
+	  //@todo remove this
+		exit('this function will be removed soon');
+		
+	  
+	    $id = user_id();
         if ($id == 0) {
             exit('Error: not logged in.');
         }
@@ -506,7 +526,7 @@ class Content extends CI_Controller {
         }
         $id = is_admin();
         if ($id == false) {
-            // exit ( 'Error: not logged in as admin.' );
+             exit ( 'Error: not logged in as admin.' );
         }
         if ($_POST) {
             $save = post_save($_POST);
@@ -906,6 +926,14 @@ class Content extends CI_Controller {
 	 }*/
     function delete_custom_field_by_name()
     {
+        	
+			//@todo remove this
+		exit('this function will be removed soon');
+		
+			
+			
+			
+			
         $a = is_admin();
         if ($a == false) {
             exit('Error: not logged in as admin.');

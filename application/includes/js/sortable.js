@@ -646,16 +646,16 @@ mw.drag = {
 
 					$is_this_element = $(this).hasClass('.element');
 					$(this).addClass('freshereditor');
-					$(this).parent('.element').freshereditor("edit", true);
+                    //$(this).parent('.element').freshereditor("edit", true);
 
-                    $("#mw-text-editor").slideDown();
+                    //$("#mw-text-editor").slideDown();
 
-					$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+                   //	$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
 					$(this).parent('.element').children().removeAttr("contenteditable");
 
 
 
-                                   					$(this).parent('.element').children('.module').freshereditor("edit", false);
+                                            		//$(this).parent('.element').children('.module').freshereditor("edit", false);
 
 
 
@@ -719,11 +719,11 @@ mw.drag = {
 
 
 
-		$('.freshereditor', '.edit').freshereditor("edit", false);
+		//$('.freshereditor', '.edit').freshereditor("edit", false);
 		$('.freshereditor', '.edit').removeClass("freshereditor");
 		$('*[contenteditable]', '.edit').removeAttr("contenteditable");
 
-         $("#mw-text-editor").slideUp();
+         //$("#mw-text-editor").slideUp();
 
 
 	},

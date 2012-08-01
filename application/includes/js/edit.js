@@ -367,9 +367,9 @@ $need_re_init = false;
 				$('.row').sortable('destroy');
 				$(".row,.element", '.edit').enableSelection();
 				$(".mw-sorthandle", '.edit').disableSelection();
-				$(".edit").freshereditor("edit", true);
-                $("#mw-text-editor").slideDown('fast');
-				mw.settings.editables_created = true
+				//$(".edit").freshereditor("edit", true);
+                //$("#mw-text-editor").slideDown('fast');
+				mw.settings.editables_created = true;
 				$("#mw-layout-edit-site-top-bar-r").html("Text edit");
 			}
 		}
@@ -383,10 +383,10 @@ $need_re_init = false;
 	remove_content_editable: function () {
 		mw.settings.text_edit_started = false;
 		mw.settings.editables_created = false;
-		$('.freshereditor',".edit").freshereditor("edit", false);
+		//$('.freshereditor',".edit").freshereditor("edit", false);
 		$('.freshereditor',".edit").removeClass('freshereditor');
 		$('*[contenteditable]',".edit").removeAttr('contenteditable');
-        $("#mw-text-editor").slideUp();
+        //$("#mw-text-editor").slideUp();
 	},
 
 

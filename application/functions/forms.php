@@ -8,7 +8,9 @@
  * @category    forms
  * @author      Microweber
  * @link        http://microweber.com
- * @param $for - use this patameter when you want to get votes for something else than posts.
+ * @param string $field_type
+ * @param string $field_id
+ * @param array $settings
  */
 
 function make_field($field_type = 'text', $field_id = 0, $settings = false) {
@@ -21,14 +23,12 @@ function make_field($field_type = 'text', $field_id = 0, $settings = false) {
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);
 	if ($settings == 'y') {
-		  	$file = $dir . $field_type . '_settings.php';
-		  
+		$file = $dir . $field_type . '_settings.php';
+
 	} else {
-			$file = $dir . $field_type . '.php';
-		
+		$file = $dir . $field_type . '.php';
+
 	}
-
-
 
 	$CI = get_instance();
 	$CI -> load -> vars($CI -> template);
@@ -40,5 +40,10 @@ function make_field($field_type = 'text', $field_id = 0, $settings = false) {
 }
 
 function save_field($id, $data) {
+	
+	
+	
+	
+	
 
 }

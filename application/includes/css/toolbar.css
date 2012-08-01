@@ -153,13 +153,10 @@ background-image: -webkit-gradient(
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 11px;
 	text-decoration: none;
-	margin-right: 5px;
-	margin-left: 5px;
     text-align: center;
     line-height: normal;
     cursor: move;
-    margin-top: 4px;
-
+    margin: 2px 5px 0 5px;
 }
  .mw_module_hold{
     padding: 6px 12px;
@@ -266,7 +263,6 @@ padding:0px !important;
 /*  modules slider */
 .modules_bar_slider{
   position: relative;
-  overflow: hidden;
   float: right;
   height: 75px;
   margin-top: -8px;
@@ -284,7 +280,7 @@ padding:0px !important;
     overflow: hidden;
     cursor: pointer;
     position: absolute;
-    top: 0;
+    top: -4px;
     z-index: 2;
   }
   .modules_bar_slide_left.active, .modules_bar_slide_right.active{
@@ -315,7 +311,7 @@ padding:0px !important;
   top: -9999px;
   left: -9999px;
   background:#E9E9E9;
-  height: 75px;
+  height: 72px;
   border-bottom: 1px solid #DADADA;
 }
 .mw_tab_active{
@@ -342,16 +338,23 @@ background: url(../img/navbg.jpg) repeat-x;
 
 #mw_tabs li{
   float: left;
+    background: url(../img/nav_item_border.jpg) no-repeat right top;
 }
 #mw_tabs li a{
   display: block;
   padding:18px 20px 19px;
   text-decoration: none;
   outline: none;
+
+}
+#mw_tabs li:last-child {
+  background-image: none;
 }
 
 #mw_tabs li.active{
   background: url(../img/nav_active_left.jpg) no-repeat;
+  margin-left: -2px;
+  padding-left: 2px;
 }
 
 #mw_tabs li.active a{

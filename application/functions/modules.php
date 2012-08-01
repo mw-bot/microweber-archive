@@ -164,13 +164,14 @@ function load_module($module_name, $attrs = array()) {
 
 		$module_in_default_dir = MODULES_DIR . $module_name . '';
 		$module_in_default_dir = normalize_path($module_in_default_dir, 1);
+		//p($module_in_default_dir);
 		$module_in_default_file = MODULES_DIR . $module_name . '.php';
 		$module_in_default_file_custom_view = MODULES_DIR . $module_name . '_' . $custom_view . '.php';
 
 		$module_in_default_file = normalize_path($module_in_default_file, false);
- 
+
 		if (is_dir($module_in_default_dir)) {
-		 
+
 			$mod_d1 = normalize_path($module_in_default_dir, 1);
 
 			if ($custom_view == true) {

@@ -98,7 +98,11 @@ mw.tools = {
     $(".mw_dropdown a").click(function(){
       $(this).parents(".mw_dropdown_fields").hide();
       var html = $(this).html();
+      var curr_html = $(this).parents(".mw_dropdown").find(".mw_dropdown_val").html();
       $(this).parents(".mw_dropdown").find(".mw_dropdown_val").html(html);
+      if(html!=curr_html){
+         $(this).parents(".mw_dropdown").trigger("change");
+      }
       return false;
     });
   },
@@ -106,7 +110,7 @@ mw.tools = {
     scale:function(){
       var window_width = $(window).width();
       $(".modules_bar").each(function(){
-           $(this).width(window_width-260);
+           $(this).width(window_width-314);
            $(this).find(".modules_bar_slider").width(window_width-220);
       });
     },
@@ -490,6 +494,16 @@ editablePurify = function(el){
 $(document).ready(function(){
 
     windowOnScroll.stop();
+    mw.wysiwyg.prepare();
+
+    $(".mw_dropdown").change(function(){
+
+    });
+
+    $(".mjbold").mousedown(function(event){
+      mw.wysiwyg._do('bold');
+      event.preventDefault();
+    });
 
 });
 
@@ -518,7 +532,26 @@ mw.toolbar = {
 
 
 mw.wysiwyg = {
-
+    isThereEditableContent:false,
+    _do:function(what){
+      if(mw.wysiwyg.isThereEditableContent){
+         document.execCommand(what, null, null);
+      }
+    },
+    prepare:function(){
+      var items = $(".element > *");
+      items.mousedown(function(){
+        $(this).attr('contenteditable','true').focus();
+        mw.wysiwyg.isThereEditableContent=true;
+      });
+      items.blur(function(){
+           if($(".editor_hover").length==0){
+              $(this).attr('contenteditable','false');
+              mw.wysiwyg.isThereEditableContent=false;
+           }
+      });
+      $(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
+    }
 }
 
 
