@@ -8,7 +8,7 @@
 
     mw.settings = {
         site_url:'<?php print site_url(); ?>', //mw.settings.site_url
-
+        includes_url: '<?php   print( INCLUDES_URL);  ?>',
         page_id : '<?php print intval(PAGE_ID) ?>',
         post_id : '<?php print intval(POST_ID) ?>',
         category_id : '<?php print intval(CATEGORY_ID) ?>',
@@ -295,10 +295,17 @@
             <span class="mw_editor_btn mw_editor_italic" data-command="italic"><span class="ico"></span></span>
             <span class="mw_editor_btn mw_editor_underline" data-command="underline"><span class="ico"></span></span>
 
+            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-colorpicker"><span class="ico"></span></span>
+
+
+
+            <span class="mw_dlm"></span>
+            <span class="mw_editor_btn mw_editor_element" data-command="custom-createelement"><span class="ico"></span></span>
         </div>
 
 
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="mw_editor_btnz" onclick="mw.edit.save()" style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:30px; z-index: 2000">Save</span>
+        <span class="mw_editor_btnz" onclick="mw.edit.save()"
+        style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:30px; z-index: 2000">Save</span>
 
 
     </div>

@@ -81,8 +81,8 @@ if (defined('INTERNAL_API_CALL') == true) {
 				}
 			}
 			$page = $this -> content_model -> getContentByURLAndCache($url);
-//p($page);
-		} 
+			//p($page);
+		}
 
 		if (empty($page)) {
 
@@ -136,7 +136,6 @@ if (defined('INTERNAL_API_CALL') == true) {
 			}
 		}
 
-		
 		if (defined('PAGE_ID') == false) {
 			define('PAGE_ID', $page['id']);
 		}

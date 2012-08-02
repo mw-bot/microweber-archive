@@ -604,7 +604,6 @@ outline:1px solid #D4D4D4;
 }
 .editor_wrapper{
   padding: 4px 20px;
-  overflow: hidden;
 }
 
 .mw_editor_btn:hover, .mw_editor_btn_active{
@@ -647,12 +646,24 @@ outline:1px solid #D4D4D4;
   display: inline-block;
 }
 
+.wysiwyg_external{
+  position: fixed;
+  top: -9999px;
+  z-index: 999;
+}
+
+
 .mw_editor_bold .ico{background-position: -89px 5px;}
 .mw_editor_italic .ico{background-position: -119px 5px;}
 .mw_editor_underline .ico{background-position: -150px 6px;}
 
+.mw_editor_font_color  .ico {background-position: -181px 3px;width: 33px;}
+
 .mw_editor_undo .ico{background-position: -12px 4px;}
 .mw_editor_redo .ico{background-position: -42px 4px;}
+
+
+.mw_editor_element .ico{background-position: -637px 4px;}
 
 /*  End WYSIWYG  */
 

@@ -527,15 +527,29 @@ mw.toolbar = {
 
 
 
+/* A Cool HTML5 Richtext Editor */
 
 mw.wysiwyg = {
+    _external:function(){
+      var external = document.createElement('div');
+      external.className='wysiwyg_external';
+      document.body.appendChild(external);
+      return external;
+    },
     isThereEditableContent:false,
     _do:function(what){
       if(mw.wysiwyg.isThereEditableContent){
          document.execCommand(what, null, null);
       }
     },
+    save_selected_element:function(){
+        $("#mw-text-editor").addClass("editor_hover");
+    },
+    deselect_selected_element:function(){
+        $("#mw-text-editor").removeClass("editor_hover");
+    },
     prepare:function(){
+      mw.wysiwyg.external = mw.wysiwyg._external();
       var items = $(".element > *").not(".module");
       items.mousedown(function(){
         $(this).attr('contenteditable','true').focus();
@@ -552,10 +566,51 @@ mw.wysiwyg = {
     init:function(){
       $(".mw_editor_btn").mousedown(function(event){
           var command = this.dataset!=undefined?this.dataset.command:this.getAttribute('data-command');
-          mw.wysiwyg._do(command);
+          if(command.indexOf('custom-')==-1){
+             mw.wysiwyg._do(command);
+          }
+          else{
+            var name = command.replace('custom-', "");
+
+            mw.wysiwyg[name]();
+          }
           $(this).addClass("mw_editor_btn_active");
           event.preventDefault();
       });
+    },
+    applier:function(tag, classname){
+      var range = window.getSelection().getRangeAt(0);
+      var selectionContents = range.extractContents();
+      var el = document.createElement(tag);
+      el.className = classname;
+      el.appendChild(selectionContents);
+      range.insertNode(el);
+      return el;
+    },
+    external_tool:function(el, url){
+        var el = $(el).eq(0);
+        var offset = el.offset();
+        $(mw.wysiwyg.external).css({
+          top: offset.top - $(window).scrollTop() + el.height(),
+          left:offset.left
+        });
+
+        $(mw.wysiwyg.external).html("<iframe src='" + url + "' scrolling='no' frameborder='0' />");
+    },
+    createelement : function(){
+       var el = mw.wysiwyg.applier('div', 'element');
+       mw.drag.init(el);
+       mw.drag.fix_handles();
+    },
+    colorpicker:function(){
+        var el = ".mw_editor_font_color";
+        mw.wysiwyg.external_tool(el, mw.settings.includes_url+"toolbar/editor_tools/color_picker/index.php");
+        $(mw.wysiwyg.external).find("iframe").width(360).height(180);
+    },
+    fontColor:function(color){
+       if(mw.wysiwyg.isThereEditableContent){
+         document.execCommand('forecolor', null, color);
+       }
     }
 }
 
@@ -599,6 +654,14 @@ $(".element").keyup(function(event){
           top:mw.mouse.y-offset.top+(scroll_top)+30
         });
       }  }, 100);
+    });
+
+
+
+    $(document.body).mousedown(function(){
+      if($(".editor_hover").length==0){
+        $(mw.wysiwyg.external).empty().css("top", "-9999px");
+      }
     });
 
 

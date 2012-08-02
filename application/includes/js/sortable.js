@@ -159,7 +159,7 @@ mw.drag = {
 		mw.drag.init(".module-item");
 		mw.drag.sort(".element > *,.edit,.column > *");
 
-                mw.drag.edit(".element > *");
+        mw.drag.edit(".element > *");
 		mw.drag.fix_handles();
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
