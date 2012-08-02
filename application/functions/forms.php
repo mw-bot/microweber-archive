@@ -14,7 +14,7 @@
  */
 
 function make_field($field_id = 0, $field_type = 'text', $settings = false) {
-$CI = get_instance();
+	$CI = get_instance();
 	if (is_array($field_id)) {
 		if (!empty($field_id)) {
 			$data = $field_id;
@@ -25,14 +25,22 @@ $CI = get_instance();
 
 			print $field_id;
 
-
-
-//getById($table, $id = 0, $is_this_field = false)
+			$data = $CI -> core_model -> getById('table_custom_fields', $id = $field_id, $is_this_field = false);
+			//p($data);
+			//getById($table, $id = 0, $is_this_field = false)
 			//exit('$field_id' . $field_id);
 		}
 
 	}
-	 
+
+	if (is_array($data)) {
+		if (!empty($data)) {
+
+			$CI -> load -> vars(array('data' => $data));
+			$field_type = $data['custom_field_type'];
+		}
+
+	}
 
 	$dir = dirname(__FILE__);
 	$dir = $dir . DS . 'custom_fields' . DS;
@@ -45,7 +53,6 @@ $CI = get_instance();
 
 	}
 
-	
 	$CI -> load -> vars($CI -> template);
 
 	$layout = $CI -> load -> file($file, true);

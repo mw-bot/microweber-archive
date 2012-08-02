@@ -25,8 +25,8 @@
  
  <?
  
-//  make_field($field);
-  make_field($field['id']);
+ print  make_field($field);
+  //make_field($field['id']);
  
  // p( $field); ?>
  

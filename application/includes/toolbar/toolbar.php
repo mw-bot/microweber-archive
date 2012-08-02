@@ -288,7 +288,13 @@
     </div>
     <div id="mw-text-editor" class="mw_editor">
         <div class="editor_wrapper">
+            <span class="mw_editor_btn mw_editor_undo" data-command="undo"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_redo" data-command="redo"><span class="ico"></span></span>
+            <span class="mw_dlm"></span>
             <span class="mw_editor_btn mw_editor_bold" data-command="bold"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_italic" data-command="italic"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_underline" data-command="underline"><span class="ico"></span></span>
+
         </div>
 
 

@@ -1,5 +1,5 @@
 <?
-  p($params);
+ // p($params);
  $module_id = $params['id'];
 $rand = rand();
 
@@ -36,7 +36,16 @@ function mw_make_new_field($type){
 
 
 
+<?
+ 
+ //$more = 	$more =  get_instance()->core_model->getCustomFields ( false,  $params['id'], 1,0,1);
 
+ 
+
+  $more = get_custom_fields($params['id']); 
+
+  p( $more);
+?>
 
 
 

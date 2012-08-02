@@ -553,6 +553,7 @@ mw.wysiwyg = {
       $(".mw_editor_btn").mousedown(function(event){
           var command = this.dataset!=undefined?this.dataset.command:this.getAttribute('data-command');
           mw.wysiwyg._do(command);
+          $(this).addClass("mw_editor_btn_active");
           event.preventDefault();
       });
     }
