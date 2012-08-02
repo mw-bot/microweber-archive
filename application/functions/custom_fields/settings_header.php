@@ -3,7 +3,9 @@
 $rand = round($rand);
 
 
-var_dump($form_values);
+$is_for_module = url_param('for_module_id',1);
+
+ // var_dump($is_for_module);
 
 
    ?>
@@ -11,20 +13,20 @@ var_dump($form_values);
 
 
 function save_cf_<? print $rand ?>(){
-				 
-	
-	var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?>").serializeArray();
-$.post("<? print site_url('api/forms/save_field') ?>",    serializedForm, function(data)         {
+ 	var serializedForm = serializedForm = $("#custom_fields_edit<? print $rand ?> :input").serialize();
+	$.post("<? print site_url('api/forms/save_field') ?>",    serializedForm, function(data)         {
         });
-	
-	
 }
 
 		 
 </script>
 
-<form class="form-horizontal" id="custom_fields_edit<? print $rand ?>"  >
+<div class="form-horizontal" id="custom_fields_edit<? print $rand ?>"  >
 <fieldset>
+<? if($is_for_module != false): ?>
+<input type="text" name="to_table" value="table_modules" />
+<input type="text" name="to_table_id" value="<? print strval($is_for_module) ?>" />
+<? endif; ?>
 <div class="control-group">
   <label class="control-label" for="input_field_label<? print $rand ?>">Field label</label>
   <div class="controls">

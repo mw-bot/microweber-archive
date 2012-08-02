@@ -1,5 +1,5 @@
 <?
-// p($params);
+  p($params);
  $module_id = $params['id'];
 $rand = rand();
 
@@ -7,7 +7,7 @@ $rand = rand();
 ?>
  
  
- <button onclick="make_new_field()" value="make_new_field()">make_new_field()</button>
+ <button onclick="mw_make_new_field('text')" value="mw_make_new_field('text')">mw_make_new_field('text')</button>
 <div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"></div>
 
 
@@ -18,8 +18,8 @@ $rand = rand();
 <script type="text/javascript">
 
 
-function make_new_field(){
-					$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/make_field/settings:y/for_module_id:') ?><? print $params['module_id']; ?>');
+function mw_make_new_field($type){
+					$('#custom-fields-form-wrap-<? print $rand ?>').load('<? print site_url('api/forms/make_field/settings:y/for_module_id:') ?><? print $params['id']; ?>/type:'+$type);
 
 	
 }

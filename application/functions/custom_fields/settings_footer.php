@@ -29,4 +29,4 @@
   <button class="btn">Cancel</button>
 </div>
 </fieldset>
-</form>
+</div>

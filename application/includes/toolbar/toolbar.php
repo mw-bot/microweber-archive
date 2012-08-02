@@ -286,9 +286,13 @@
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>
-    <div id="mw-text-editor" class="mw_editor" style="display: block">
+    <div id="mw-text-editor" class="mw_editor">
+        <div class="editor_wrapper">
+            <span class="mw_editor_btn mw_editor_bold" data-command="bold"><span class="ico"></span></span>
+        </div>
 
-        <span class="mw_editor_btn mw_editor_bold" data-command="bold"></span>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="mw_editor_btnz" onclick="mw.edit.save()" style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:30px; z-index: 2000">Save</span>
 
 
     </div>

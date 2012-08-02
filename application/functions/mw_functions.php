@@ -549,8 +549,14 @@ function cf_val($content_id, $field_name, $use_vals_array = true) {
 
 }
 
-function get_custom_fields($content_id) {
-	return get_custom_fields_for_content ( $content_id );
+function get_custom_fields($for_id, $table = false, $get_full = true) {
+	
+	
+		$more = false;
+	$more =  get_instance()->core_model->getCustomFields ( $table, $for_id,$get_full);
+	
+	
+	return $more;
 }
 
 function get_custom_fields_config_for_content($content_id, $page_id) {
@@ -1572,7 +1578,7 @@ function post_save($data) {
    $params['id'] = 15; //the post id
    $params['size'] = 200; //the thumbnail size
    @return 		string - The thumbnail link.
-   @example 	Use <? print post_thumbnail($post['id']);
+   @example 	Use  print post_thumbnail($post['id']);
 
  */
 

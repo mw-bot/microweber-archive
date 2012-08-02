@@ -456,9 +456,6 @@ body.not-allowed{
 }
 
 
-#mw-text-editor{
-  display: none;
-}
 
 #live_edit_toolbar_holder,
 #live_edit_toolbar{
@@ -471,6 +468,10 @@ body.not-allowed{
   position: fixed;
   top: 0;
   left: 0;
+}
+
+[contenteditable]{
+  outline: none;
 }
 
 

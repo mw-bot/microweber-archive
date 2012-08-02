@@ -18,8 +18,14 @@ class Forms extends CI_Controller {
 	function make_field() {
 
 		$settings = url_param('settings', true);
+		$field_id = url_param('id', true);
+		$field_type = url_param('type', true);
 
-		$field = make_field($field_type = 'text', $field_id, $settings);
+		if (trim($field_type) == '') {
+			$field_type = 'text';
+		}
+
+		$field = make_field($field_id, $field_type, $settings);
 		print $field;
 		exit ;
 	}
@@ -35,7 +41,7 @@ class Forms extends CI_Controller {
 		}
 
 		$data = $_POST;
-		$data =       	get_instance() -> core_model -> saveCustomField($data);
+		$data =        	get_instance() -> core_model -> saveCustomField($data);
 
 		print($data);
 		exit ;

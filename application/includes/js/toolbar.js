@@ -551,11 +551,19 @@ mw.wysiwyg = {
     },
     init:function(){
       $(".mw_editor_btn").mousedown(function(event){
-          mw.wysiwyg._do(this.dataset.command);
+          var command = this.dataset!=undefined?this.dataset.command:this.getAttribute('data-command');
+          mw.wysiwyg._do(command);
           event.preventDefault();
       });
     }
 }
+
+
+
+
+
+
+
 
 
 

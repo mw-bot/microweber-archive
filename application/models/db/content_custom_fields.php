@@ -36,20 +36,21 @@ if ($query[0] == $table_name) {
 
 	$fields_to_add = array();
 	$fields_to_add[] = array('to_table', 'varchar(1500) default NULL');
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('to_table_id', 'varchar(250) default NULL');
+	//$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
 	//$fields_to_add [] = array ('updated_on', 'datetime default NULL' );
 	//$fields_to_add [] = array ('created_on', 'datetime default NULL' );
 	$fields_to_add[] = array('custom_field_name', 'TEXT default NULL');
 	$fields_to_add[] = array('custom_field_value', 'LONGTEXT default NULL');
 
-	$fields_to_add[] = array('custom_field_type', 'varchar(1500) default NULL');
+	$fields_to_add[] = array('custom_field_type', 'varchar(50) default NULL');
 	$fields_to_add[] = array('custom_field_required', 'varchar(100) default NULL');
 	$fields_to_add[] = array('custom_field_values', 'LONGTEXT default NULL');
 
 	$fields_to_add[] = array('field_order', 'int(11) default 999');
 
 	$fields_to_add[] = array('field_for', 'varchar(150) default NULL');
-	$fields_to_add[] = array('custom_field_field_for', 'varchar(150) default NULL');
+	$fields_to_add[] = array('custom_field_field_for', 'varchar(50) default NULL');
 
 	$fields_to_add[] = array('custom_field_is_active', 'char(1) default "y"');
 

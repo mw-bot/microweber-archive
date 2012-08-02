@@ -315,13 +315,7 @@ class Content extends CI_Controller {
 
     function delete_cf()
     {
-      
-	  
-	  //@todo remove this
-		exit('this function will be removed soon');
-		
-	  
-	    $id = user_id();
+        $id = user_id();
         if ($id == 0) {
             exit('Error: not logged in.');
         }
@@ -526,7 +520,7 @@ class Content extends CI_Controller {
         }
         $id = is_admin();
         if ($id == false) {
-             exit ( 'Error: not logged in as admin.' );
+              exit ( 'Error: not logged in as admin.' );
         }
         if ($_POST) {
             $save = post_save($_POST);
@@ -926,14 +920,6 @@ class Content extends CI_Controller {
 	 }*/
     function delete_custom_field_by_name()
     {
-        	
-			//@todo remove this
-		exit('this function will be removed soon');
-		
-			
-			
-			
-			
         $a = is_admin();
         if ($a == false) {
             exit('Error: not logged in as admin.');

@@ -13,11 +13,26 @@
  * @param array $settings
  */
 
-function make_field($field_type = 'text', $field_id = 0, $settings = false) {
+function make_field($field_id = 0, $field_type = 'text', $settings = false) {
+$CI = get_instance();
+	if (is_array($field_id)) {
+		if (!empty($field_id)) {
+			$data = $field_id;
+		}
 
-	if ($field_id != 0) {
-		exit('$field_id' . $field_id);
+	} else {
+		if ($field_id != 0) {
+
+			print $field_id;
+
+
+
+//getById($table, $id = 0, $is_this_field = false)
+			//exit('$field_id' . $field_id);
+		}
+
 	}
+	 
 
 	$dir = dirname(__FILE__);
 	$dir = $dir . DS . 'custom_fields' . DS;
@@ -30,7 +45,7 @@ function make_field($field_type = 'text', $field_id = 0, $settings = false) {
 
 	}
 
-	$CI = get_instance();
+	
 	$CI -> load -> vars($CI -> template);
 
 	$layout = $CI -> load -> file($file, true);
@@ -40,10 +55,5 @@ function make_field($field_type = 'text', $field_id = 0, $settings = false) {
 }
 
 function save_field($id, $data) {
-	
-	
-	
-	
-	
 
 }

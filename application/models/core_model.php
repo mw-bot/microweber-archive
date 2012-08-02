@@ -1722,7 +1722,7 @@ function saveCustomField($data_to_save) {
 
 		if (intval ( $data_to_save ['post_id'] ) != 0) {
 			if (($data_to_save ['id'])) {
-				$data_to_save ['id'] = intval ( $data_to_save ['id'] );
+				$data_to_save ['id'] = strval ( $data_to_save ['id'] );
 				$q = " select * from  $table_custom_field where
 								 id = '{$data_to_save ['id']}'	   ";
 
@@ -1832,27 +1832,43 @@ function saveCustomField($data_to_save) {
 		}
 		return $array;
 	}
-	function getCustomFields($table, $id = 0, $return_full = false, $field_for = false) {
+	function getCustomFields($table, $id = 0, $return_full = false, $field_for = false, $debug = false) {
 
-		$id = intval ( $id );
+		//$id = intval ( $id );
+		 
+		
+		
+		
 
 		if ($id == 0) {
 
-			return false;
+		//	return false;
 
 		}
+		
+		// $id = addslashes( $id );
+	//	$id = addslashes($id, '%_');
+		
 
 		global $cms_db_tables;
-
+if($table != false){
 		$table_assoc_name = $this->dbGetAssocDbTableNameByRealName ( $table );
+
+
+} else {
+	
+	$table_assoc_name = "MW_ANY_TABLE";
+}
+
+
+
 
 		$table_custom_field = $cms_db_tables ['table_custom_fields'];
 
 		$the_data_with_custom_field__stuff = array ();
 
 		if (strval ( $table_assoc_name ) != '') {
-
-			if (intval ( $id ) != 0) {
+ 
 
 				if ($field_for != false) {
 					$field_for = trim ( $field_for );
@@ -1861,21 +1877,50 @@ function saveCustomField($data_to_save) {
 					$field_for_q = " ";
 				}
 
+			if($table_assoc_name == 'MW_ANY_TABLE'){
+				
+				
+				$qt = '';
+				
+			} else {
+				$qt = "to_table = '{$table_assoc_name}' and";
+			}
+
+		 if ($return_full == true) {
+		 	
+			$select_what = '*';
+		 } else {
+		 	$select_what = '*';
+			
+		 }
+
 				$q = " SELECT
-								 * from  $table_custom_field where
-								 to_table = '$table_assoc_name'
-								 and to_table_id={$id}
+								 {$select_what} from  $table_custom_field where
+								 {$qt}
+								  to_table_id='{$id}'
 								 $field_for_q
 								 order by field_order asc  ";
 
+
+
+if($debug != false){
+	p($q );
+}
+
+
 				$cache_id = __FUNCTION__ . '_' . crc32 ( $q );
 
-				//$cache_id = md5 ( $cache_id );
-				// p($q);
+			 
+			 
+				
 				$q = $this->dbQuery ( $q, $cache_id, 'custom_fields' );
 				// $q = $this->dbQuery ( $q );
 				// p($q);
 				if (! empty ( $q )) {
+
+
+ 
+
 
 					if ($return_full == true) {
 						$to_ret = array ();
@@ -1976,7 +2021,7 @@ function saveCustomField($data_to_save) {
 
 				}
 
-			}
+		 
 
 		}
 

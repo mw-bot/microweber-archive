@@ -126,8 +126,7 @@ function parse_micrwober_tags($layout, $options = false) {
 
 		if ($rel == 'page') {
 			$data = get_page(PAGE_ID);
-			//p(PAGE_ID);
-			//	p($data);
+
 		} else if ($attr['post']) {
 			$data = get_post($attr['post']);
 			if ($data == false) {
@@ -145,6 +144,10 @@ function parse_micrwober_tags($layout, $options = false) {
 		if ($get_global == true) {
 			$field_content = $CI -> core_model -> optionsGetByKey($field, $return_full = false, $orderby = false);
 		} else {
+			
+			
+		 
+			
 			if ($use_id_as_field != false) {
 				$field_content = $data[$use_id_as_field];
 
@@ -161,7 +164,7 @@ function parse_micrwober_tags($layout, $options = false) {
 				$field_content = $data['custom_fields'][$field];
 			}
 		}
-
+ 
 		if ($field_content != false and $field_content != '') {
 			$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 
