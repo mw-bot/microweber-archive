@@ -45,13 +45,14 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 	$dir = dirname(__FILE__);
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);
-	if ($settings == 'y') {
+	if ($settings == true) {
 		$file = $dir . $field_type . '_settings.php';
 
 	} else {
 		$file = $dir . $field_type . '.php';
 
 	}
+	$CI -> load -> vars(array('data' => $data));
 
 	$CI -> load -> vars($CI -> template);
 
@@ -61,6 +62,42 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 
 }
 
-function save_field($id, $data) {
+function save_field($data) {
+	$id = user_id();
+	if ($id == 0) {
+		exit('Error: not logged in.');
+	}
+	$id = is_admin();
+	if ($id == false) {
+		exit('Error: not logged in as admin.');
+	}
 
+ 
+	$data =         	get_instance() -> core_model -> saveCustomField($data);
+
+	return ($data);
+	//exit
+}
+
+
+
+
+function remove_field($id) {
+	$uid = user_id();
+	if ($uid == 0) {
+		exit('Error: not logged in.');
+	}
+	$uid = is_admin();
+	if ($uid == false) {
+		exit('Error: not logged in as admin.');
+	}
+$id = intval($id);
+ $data =         	get_instance() -> core_model -> deleteCustomFieldById($id);
+
+	return ($data);
+ 
+ 
+  
+ 
+	 
 }

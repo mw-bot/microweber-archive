@@ -4545,7 +4545,10 @@ if($debug != false){
 		// print $q;
 		// exit;
 
-		$stmt = $this->db->query ( $q );
+	//	$stmt = $this->db->query ( $q );
+		
+				$this->dbQ ($q  );
+		
 
 		if ($delete_cache_group != false) {
 
@@ -4583,7 +4586,7 @@ if($debug != false){
 		}
 
 		// var_dump( "DELETE FROM $table where id='$id' ");
-		$this->db->query ( "DELETE FROM $table where id='$id' " );
+		$this->dbQ ( "DELETE FROM $table where id='$id' " );
 
 		if ($delete_cache_group != false) {
 

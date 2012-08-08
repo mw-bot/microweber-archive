@@ -41,21 +41,21 @@
           <a  href="javascript:mw.edit.create_columns(ROW_ID,3)" class="mw-make-cols mw-make-cols-3" >3</a> \
           <a  href="javascript:mw.edit.create_columns(ROW_ID,4)" class="mw-make-cols mw-make-cols-4" >4</a> \
           <a  href="javascript:mw.edit.create_columns(ROW_ID,5)" class="mw-make-cols mw-make-cols-5" >5</a> ',
-    	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)"><span>&nbsp;</span></a> ',
+    	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.drag.delete_element(ROW_ID)"><span>&nbsp;</span></a> ',
     	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
     	sorthandle_col:
         "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
-            <div class='mw_col_delete mw_edit_delete_element'>\
-                <a class='mw_edit_btn mw_edit_delete' onclick=\"mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
+            <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
+                <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick=\"mw.drag.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
             </div>\
-            <span class='mw-sorthandle-moveit'>Move</span>\
+            <span contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
     	sorthandle_module:
             "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
                 <div class='mw-element-name-handle'>MODULE_NAME</div>\
                 <div class='mw_col_delete mw_edit_delete_element'>\
-                    <a class='mw_edit_btn mw_edit_delete right' href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
-                    <a class='mw_edit_btn mw_edit_settings right' href=\"javascript:mw.edit.module_settings(MODULE_ID)\">Settings</a>\
+                    <a class='mw_edit_btn mw_edit_delete right' href=\"javascript:mw.drag.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
+                    <a class='mw_edit_btn mw_edit_settings right' href=\"javascript:mw.drag.module_settings(MODULE_ID)\">Settings</a>\
                 </div>\
                 <span class='mw-sorthandle-moveit'>Move</span>\
             </div>"
@@ -70,8 +70,7 @@
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script src="<?php   print( INCLUDES_URL);  ?>js/api.js" type="text/javascript"></script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/edit.js" type="text/javascript"></script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
+ <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
 <script type="text/javascript">
@@ -82,7 +81,8 @@
            /* $('.edit').freshereditor({
                 toolbar_selector: "#mw-text-editor"
             }); */
-            mw.edit.init_sortables();
+           mw.drag.create();
+
 
             mw.history.init();
             mw.tools.module_slider.init();
@@ -356,11 +356,23 @@
 
 
             <span class="mw_dlm"></span>
+
+
+            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="Remove Formatting"><span class="ico"></span></span>
+
+
+
+            <span class="mw_dlm"></span>
+
+
+
             <span class="mw_editor_btn mw_editor_element" data-command="custom-createelement"><span class="ico"></span></span>
         </div>
 
 
-        <span class="mw_editor_btnz" onclick="mw.edit.save()"
+        <span class="mw_editor_btnz" onclick="mw.drag.save()"
         style="color:#fff;cursor:pointer;display: inline-block;padding: 5px 10px;background: #6D7983;box-shadow:0 0 5px #ccc;position: fixed;top: 130px;right:30px; z-index: 2000">Save</span>
 
 

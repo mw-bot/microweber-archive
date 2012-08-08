@@ -1,4 +1,10 @@
 
+mw.external_tool = function(name){
+  return mw.settings.includes_url  +  "toolbar/editor_tools/"+name+"/index.php";
+}
+
+mw.external_tool("some_tool");
+
 mw.tools = {
   preloader:function(init, element){
     if(init=='stop'){$("#preloader").hide()}
@@ -16,6 +22,7 @@ mw.tools = {
       var html = ''
         + '<div class="mw_modal mw_modal_maximized" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
+            + '<span class="mw_modal_title"></span>'
             + '<span class="mw_modal_close" onclick="$(document.getElementById(\''+id+'\')).remove();">Close</span>'
             + '<span class="mw_modal_minimize" onclick="mw.tools.modal.minimax(\''+id+'\');">Minimize</span>'
           + '</div>'
@@ -24,7 +31,7 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
-    init:function(html, width, height, callback){
+    init:function(html, width, height, callback, title){
         var modal = mw.tools.modal.source();
         $(document.body).append(modal.html);
         var modal_object = $(document.getElementById(modal.id));
@@ -37,6 +44,7 @@ mw.tools = {
         });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
+        typeof title==='string'?$(modal_object).find(".mw_modal_title").html(title):'';
         return modal_return;
     },
     minimize:function(id){
@@ -79,6 +87,11 @@ mw.tools = {
     },
     settings_window:function(callback){
         var modal = mw.modal("");
+        return modal;
+    },
+    rte_tool:function(tool_name, title){
+        var frame = "<iframe src='" + mw.external_tool(tool_name) + "' scrolling='auto' frameborder='0'></iframe>";
+        var modal = mw.tools.modal.init(frame, 430, 'auto', false, title);
         return modal;
     }
   },
@@ -243,7 +256,7 @@ mw.extras = {
 mw.random = function(){return Math.floor(Math.random()*(new Date().getTime()));}
 
 
-mw.edit.image_settings={
+mw.image_settings={
     html:function(){
         var id = 'image_'+mw.random();
         var html = ''
@@ -254,7 +267,7 @@ mw.edit.image_settings={
         return {html:html,id:id};
     },
     prepare:function(){
-       var item = mw.edit.image_settings.html();
+       var item = mw.image_settings.html();
        $(document.body).append(item.html);
        return item.id;
     },
@@ -272,10 +285,10 @@ mw.edit.image_settings={
     },
     init:function(el){  return false;
        var id = mw.edit.image_settings.prepare();
-       mw.edit.image_settings.scale(el, id);
+       mw.image_settings.scale(el, id);
 
-       mw.edit.image_settings.del_init(id, el);
-       mw.edit.image_settings.change_init(id, el);
+       mw.image_settings.del_init(id, el);
+       mw.image_settings.change_init(id, el);
     },
     del_init:function(id, el){
        $("#"+id).find(".image_close").click(function(){
@@ -497,13 +510,6 @@ $(document).ready(function(){
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
 
-    $(".mw_dropdown").change(function(){
-
-    });
-
-
-
-
 });
 
 mw.toolbar = {
@@ -541,7 +547,7 @@ mw.wysiwyg = {
     isThereEditableContent:false,
     _do:function(what){
       if(mw.wysiwyg.isThereEditableContent){
-         document.designMode = 'on';
+         document.designMode = 'on';  // for firefox
          document.execCommand(what);
          document.designMode = 'off';
       }
@@ -558,9 +564,11 @@ mw.wysiwyg = {
       $("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
       items.bind("mousedown mouseup",function(){
-        $(this).attr('contenteditable','true');
-        this.focus();
-        mw.wysiwyg.isThereEditableContent=true;
+        if(!mw.isDrag){
+          $(this).attr('contenteditable','true');
+          this.focus();
+          mw.wysiwyg.isThereEditableContent=true;
+        }
       });
       items.blur(function(){
            if($(".editor_hover").length==0){
@@ -614,12 +622,12 @@ mw.wysiwyg = {
     },
     fontcolorpicker:function(){
         var el = ".mw_editor_font_color";
-        mw.wysiwyg.external_tool(el, mw.settings.includes_url+"toolbar/editor_tools/color_picker/index.php#fontColor");
+        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontColor");
         $(mw.wysiwyg.external).find("iframe").width(360).height(180);
     },
     fontbgcolorpicker:function(){
         var el = ".mw_editor_font_background_color";
-        mw.wysiwyg.external_tool(el, mw.settings.includes_url+"toolbar/editor_tools/color_picker/index.php#fontbg");
+        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontbg");
 
         $(mw.wysiwyg.external).find("iframe").width(360).height(180);
     },
@@ -656,53 +664,88 @@ mw.wysiwyg = {
         return checker;
     },
     check_selection:function(){
-       var range = window.getSelection().getRangeAt(0);
-       var selection_clone = range.cloneContents();
-       $(mw.wysiwyg.checker).empty().append(selection_clone);
-       var checker_tags = $(mw.wysiwyg.checker).find("*");
-       wys_is_bold = false;
-       wys_is_italic = false;
-       wys_is_underlined = false;
-       if(checker_tags.length==0){
-         wys_is_bold = mw.wysiwyg.does_selection_has(range, 'b') || mw.wysiwyg.does_selection_has(range, 'b');
-         wys_is_italic = mw.wysiwyg.does_selection_has(range, 'i') || mw.wysiwyg.does_selection_has(range, 'em');
-         wys_is_underlined = mw.wysiwyg.does_selection_has(range, 'u');
-        }
-        else{
-           checker_tags.each(function(){
-              var tagname = this.tagName.toLowerCase();
-              if(tagname=='b' || tagname =='strong'){
-                   wys_is_bold = true;
-              }
-              if(tagname=='i' || tagname =='em'){
-                   wys_is_italic = true;
-              }
-              if(tagname=='u'){
-                   wys_is_underlined = true;
-              }
-           });
-       }
-      wys_is_bold ? $(".mw_editor_bold").addClass("mw_editor_btn_active") : $(".mw_editor_bold").removeClass("mw_editor_btn_active");
-      wys_is_italic ? $(".mw_editor_italic").addClass("mw_editor_btn_active") : $(".mw_editor_italic").removeClass("mw_editor_btn_active");
-      wys_is_underlined ? $(".mw_editor_underline").addClass("mw_editor_btn_active") : $(".mw_editor_underline").removeClass("mw_editor_btn_active");
+       var selection = window.getSelection();
+       if(mw.wysiwyg.isThereEditableContent && selection.rangeCount>0){
+           var range = selection.getRangeAt(0);
+           var selection_clone = range.cloneContents();
+           $(mw.wysiwyg.checker).empty().append(selection_clone);
+           var checker_tags = $(mw.wysiwyg.checker).find("*");
+           wys_is_bold = false;
+           wys_is_italic = false;
+           wys_is_underlined = false;
+           if(checker_tags.length==0){
+             wys_is_bold = mw.wysiwyg.does_selection_has(range, 'b') || mw.wysiwyg.does_selection_has(range, 'b');
+             wys_is_italic = mw.wysiwyg.does_selection_has(range, 'i') || mw.wysiwyg.does_selection_has(range, 'em');
+             wys_is_underlined = mw.wysiwyg.does_selection_has(range, 'u');
+             wys_is_link = mw.wysiwyg.does_selection_has(range, 'a');
+            }
+            else{
+               checker_tags.each(function(){
+                  var tagname = this.tagName.toLowerCase();
+                  if(tagname=='b' || tagname =='strong'){
+                       wys_is_bold = true;
+                  }
+                  if(tagname=='i' || tagname =='em'){
+                       wys_is_italic = true;
+                  }
+                  if(tagname=='u'){
+                       wys_is_underlined = true;
+                  }
+                  if(tagname=='a'){
+                       wys_is_link = true;
+                  }
+               });
+           }
+          wys_is_bold ? $(".mw_editor_bold").addClass("mw_editor_btn_active") : $(".mw_editor_bold").removeClass("mw_editor_btn_active");
+          wys_is_italic ? $(".mw_editor_italic").addClass("mw_editor_btn_active") : $(".mw_editor_italic").removeClass("mw_editor_btn_active");
+          wys_is_underlined ? $(".mw_editor_underline").addClass("mw_editor_btn_active") : $(".mw_editor_underline").removeClass("mw_editor_btn_active");
+
+          wys_is_link ? $(".mw_editor_link").addClass("mw_editor_btn_active") : $(".mw_editor_link").removeClass("mw_editor_btn_active");
+      }
+    },
+    popup:function(url, title){
+
+    },
+    link:function(){
+        mw.tools.modal.init("Link", 400, 200);
+    },
+    image:function(){
+        var modal = mw.tools.modal.rte_tool("rte_image_editor", "Upload Picture");
+        $(modal.main).css("top", 100);
+        console.log(modal);
     }
 }
 
+
+mw.simpletabs = function(selector){
+    if(selector==undefined){
+      $(".mw_simple_tabs_nav").each(function(){
+        var parent = $(this).parents(".mw_simple_tabs").eq(0);
+        parent.find(".tab").addClass(".semi_hidden");
+        parent.find(".tab").eq(0).removeClass(".semi_hidden");
+        $(this).find("a").eq(0).addClass("active");
+        $(this).find("a").click(function(){
+
+            return false;
+        });
+      });
+    }
+}
 
 
 $(window).load(function(){
     mw.toolbar.module_icons();
 
-$(".element").keyup(function(event){
-    editablePurify(this);
-});
+    $(".element").keyup(function(event){
+        editablePurify(this);
+    });
 
-$(".element").mouseup(function(event){
-    mw.wysiwyg.check_selection();
-});
-$(".element").mousedown(function(event){
-    $(".mw_editor_btn").removeClass("mw_editor_btn_active")
-});
+    $(".element").mouseup(function(event){
+        mw.wysiwyg.check_selection();
+    });
+    $(".element").mousedown(function(event){
+        $(".mw_editor_btn").removeClass("mw_editor_btn_active")
+    });
 
 
 
@@ -717,7 +760,7 @@ $(".mw_dropdown_action_font_size").change(function(){
 
   mw.remote_drag.from_pc();
   $(".edit img").click(function(){
-      mw.edit.image_settings.init(this);
+      mw.image_settings.init(this);
   });
 
   mw.image.resize.init(".element img");

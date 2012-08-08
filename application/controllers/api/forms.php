@@ -31,20 +31,20 @@ class Forms extends CI_Controller {
 	}
 
 	function save_field() {
-		$id = user_id();
-		if ($id == 0) {
-			exit('Error: not logged in.');
-		}
-		$id = is_admin();
-		if ($id == false) {
-			exit('Error: not logged in as admin.');
-		}
 
-		$data = $_POST;
-		$data =        	get_instance() -> core_model -> saveCustomField($data);
-
+		$data = save_field($_POST);
 		print($data);
 		exit ;
+
+	}
+	
+	
+	function remove_field() {
+
+		$data = remove_field($_POST['id']);
+		//print($data);
+		exit ;
+
 	}
 
 }

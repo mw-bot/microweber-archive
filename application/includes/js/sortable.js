@@ -1,14 +1,4 @@
-/**
- * Starts the drag and drop functionality
- *
- * @method mw.edit.init_sortables()
- */
-mw.edit.init_sortables = function () {
-
-    mw.drag.create();
-
-};
-
+ 
 
 mw.isDrag = false;
 mw.resizable_row_width = false;
@@ -22,6 +12,13 @@ mw.dragCurrent = null;
 mw.currentDragMouseOver = null;
 
 
+
+
+/**
+ * Makes Droppable area
+ *
+ * @return Dom Element
+ */
 mw.dropables = {
   prepare:function(){
     var dropable = document.createElement('div');
@@ -150,7 +147,7 @@ mw.drag = {
 
         mw.dropables.prepare();
 
-	    mw.edit.remove_content_editable();
+	   mw.drag.edit_remove();
 
 		mw.drag.fix_placeholders(true);
 		mw.drag.fixes()
@@ -266,6 +263,7 @@ mw.drag = {
            $(this).parent().parent().removeClass("moveit-hover");
        });
 
+
 	},
 	sort: function (selector) {
          var selector = selector || '.row, .edit';
@@ -322,7 +320,10 @@ mw.drag = {
         $(selector).bind("mouseleave", function(){
 
           if (mw.isDrag) {
-            mw.currentDragMouseOver = null; }
+            mw.currentDragMouseOver = null; 
+            
+            
+            }
         });
 
     	mw.drag.the_drop();
@@ -433,7 +434,7 @@ mw.drag = {
 	/**
 	 * Various fixes
 	 *
-	 * @method mw.drag.fixes()
+	 * @example mw.drag.fixes()
 	 */
 	fixes: function () {
 		$("img[data-module-name]", '.edit').remove();
@@ -464,7 +465,7 @@ mw.drag = {
     /**
 	 * fix_placeholders in the layout
 	 *
-	 * @method mw.drag.fix_placeholders(isHard , selector)
+	 * @example mw.drag.fix_placeholders(isHard , selector)
 	 */
     fix_placeholders:function(isHard, selector){
       var selector = selector || '.row';
@@ -494,7 +495,7 @@ mw.drag = {
     /**
 	 * Makes handles for all elements
 	 *
-	 * @method mw.drag.fix_column_sizes_to_percent()
+	 * @example mw.drag.fix_column_sizes_to_percent()
 	 */
 	fix_column_sizes_to_percent: function (row_id_or_object) {
 	  return false;
@@ -536,10 +537,41 @@ mw.drag = {
 
 
 
+/**
+	 * Makes handles for given row
+	 *
+	 * @example mw.drag.init_row_handles
+	 * @param $el_id - the id of the row element
+	 */
+	init_row_handles: function ($el_id) {
+		if ($el_id == undefined || $el_id == 'undefined') {
+			$el_id = mw.settings.row_id;
+		}
+		else {
+			mw.settings.row_id = $el_id;
+		}
+		$(".mw-layout-edit-curent-row-element").html($el_id);
+		$exisintg_num = $('#' + $el_id).children(".column").size();
+		text = mw.settings.sorthandle_row_columns_controlls
+		if (text != undefined) {
+			text = text.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
+			$('#' + $el_id).children("div:first").find(".columns_set").html(text);
+		}
+		text1 = mw.settings.sorthandle_row_delete
+		if (text1 != undefined) {
+			text1 = text1.replace(/ROW_ID/g, "'" + '' + $el_id + "'");
+			$('#' + $el_id).children("div:first").find(".mw_row_delete").html(text1);
+
+		}
+		$(".mw-make-cols", '#' + $el_id).removeClass('active');
+		$(".mw-make-cols-" + $exisintg_num, '#' + $el_id).addClass('active');
+	},
+
+
 	/**
 	 * Makes handles for all elements
 	 *
-	 * @method mw.drag.fix_handles()
+	 * @example mw.drag.fix_handles()
 	 */
 	fix_handles: function () {
 
@@ -554,7 +586,7 @@ mw.drag = {
 					$el_id = 'mw-row-' + new Date().getTime() + Math.floor(Math.random() * 101);
 					$(this).attr('id', $el_id);
 				}
-				mw.edit.init_row_handles($el_id);
+				mw.drag.init_row_handles($el_id);
 			});
 
 			$('.element:not(.empty-element)', '.edit').each(function (index) {
@@ -594,9 +626,9 @@ mw.drag = {
 
 
 
+
 			mw.drag.sort_handles_events();
-			mw.edit.fix_zindex();
-		}
+ 		}
 	},
 
 
@@ -604,12 +636,12 @@ mw.drag = {
 	/**
 	 * Makes contentEditable events on selector
 	 *
-	 * @method mw.drag.edit(".element > *");
+	 * @example mw.drag.edit(".element > *");
 	 */
 	edit: function (selector) {
 
 
-
+//return false;
 
 	  $(selector, '.edit').unbind('mousedown.edit');
 		$(selector, '.edit').bind("mousedown.edit", function (e) {
@@ -629,7 +661,7 @@ mw.drag = {
 					console.log('mousedown on element : ' + this.tagName);
 				}
 
-				if (!$is_freshereditor && !$is_this_module) {
+				if (!$is_freshereditor && !$is_this_module && !$is_this_handle ) {
 					$(this).closest('.mw-sorthandle').show();
 
 					$el_id = $(this).attr('id');
@@ -713,26 +745,21 @@ mw.drag = {
 	/**
 	 * Removes contentEditable for ALL elements
 	 *
-	 * @method mw.drag.edit_remove();
+	 * @example mw.drag.edit_remove();
 	 */
 	edit_remove: function () {
 
-
-
-		//$('.freshereditor', '.edit').freshereditor("edit", false);
-		$('.freshereditor', '.edit').removeClass("freshereditor");
+ 
 		$('*[contenteditable]', '.edit').removeAttr("contenteditable");
-
-         //$("#mw-text-editor").slideUp();
-
-
+ 
 	},
 
 
     /**
-     * One call of this function fixes all ContentEditable elements in the page to have onchange event.
+     * Put onchange for contenteditable
+	 * One call of this function fixes all ContentEditable elements in the page to have onchange event.
 	 *
-	 * @method mw.drag.fix_onChange_editable_elements();
+	 * @example mw.drag.fix_onChange_editable_elements();
 	 */
     fix_onChange_editable_elements : function()   {
       $('[contenteditable]').live('focus', function() {
@@ -751,10 +778,12 @@ mw.drag = {
 
 
 
+
 	/**
-	 * Loads new dropped modules
-	 *
-	 * @method mw.drag.load_new_modules()
+	 * Scans for new dropped modules and loads them
+	 * 
+	 * @example mw.drag.load_new_modules()
+	 * @return void
 	 */
 	load_new_modules: function (callback) {
 
@@ -823,7 +852,7 @@ mw.drag = {
 	/**
 	 * Loads new dropped layouts
 	 *
-	 * @method mw.edit.load_layout_element()
+	 * @example mw.drag.load_layout_element()
 	 */
 	load_layout_element: function ($layout_element_name, $update_element) {
 
@@ -835,17 +864,47 @@ mw.drag = {
 			window.mw_sortables_created = false;
             mw.image.resize.init($update_element + " img");
 		});
-		//	mw.edit.unwrap_layout_holder()
+		//	mw.drag.unwrap_layout_holder()
 	},
 
 
+/**
+   * Loads module settings in lightbox
+   *
+   * @method mw.drag.module_settings()
+   */
+  module_settings: function($module_id) {
+    $module = $('#' + $module_id);
+    var attributes = {};
+    $.each($module[0].attributes, function(index, attr) {
+      attributes[attr.name] = attr.value;
+    });
 
+
+    data1 = attributes
+    //data1.module = '' + $module_name;
+    data1.view = 'admin';
+/*data1.module_id = $module_id;
+		data1.page_id = window.page_id;
+		data1.post_id = window.post_id;
+		data1.category_id = window.category_id;*/
+
+    mw.modal("", 600, 450, function() {
+      $(this.container).load(mw.settings.site_url + "api/module", data1);
+      $(this.container).attr('data-settings-for-module', $module_id);
+
+    });
+
+  },
 
 
 	/**
-	 * Loads module is element id
-	 *
-	 * @method mw.edit.load_layout_element()
+	 * Loads the module in the given dom element by the $update_element selector .
+	 * 
+	 * @example mw.drag.load_module('user_login', '#login_box')
+	 * @param $module_name
+	 * @param $update_element
+	 * @return void
 	 */
 	load_module: function ($module_name, $update_element) {
 		var attributes = {};
@@ -856,7 +915,145 @@ mw.drag = {
 			window.mw_sortables_created = false;
 		});
 
-	}
+	},
+	
+	
+	
+	
+	
+	
+  /**
+   * Deletes element by id or selector
+   *
+   * @method mw.edit.delete_element($el_id)
+   * @param Element id or selector
+   */
+  delete_element: function($el_id) {
+    var r = confirm(mw.settings.sorthandle_delete_confirmation_text);
+    if (r == true) {
+      if ($el_id == undefined || $el_id == 'undefined') {
+        $el_id = mw.settings.element_id;
+      }
+      //	alert($el_id);
+      $($el_id).remove();
+      $('#' + $el_id).remove();
+		mw.drag.fix_placeholders(true);
+    }
+  },
+
+	
+	
+  /**
+   * Saves the page
+   *
+   * @method mw.drag.save()
+   */
+  save: function() {
+
+    $("#mw-saving-loader").fadeIn();
+
+
+    $(".mw_non_sortable", '.edit').removeClass('mw_non_sortable');
+    $(".mw-sorthandle-parent-outline", '.edit').removeClass('mw-sorthandle-parent-outline');
+
+    $(".mw-sorthandle", '.edit').remove();
+    $('.ui-resizable-handle', '.edit').remove();
+    $('.ui-draggable', '.edit').removeClass("ui-draggable");
+    $('.ui-resizable', '.edit').removeClass("ui-resizable");
+    $('.column', '.edit').removeClass("selected");
+
+
+
+
+    var custom_styles = new Array();
+    var regEx = /^mw-style/;
+    var elm = $(".mw-custom-style", '.edit');
+    $save_custom_styles = false
+    elm.each(function(j) {
+      var classes = $(this).attr('class').split(/\s+/);
+      //it will return  foo1, foo2, foo3, foo4
+      for (var i = 0; i < classes.length; i++) {
+        var className = classes[i];
+
+        if (className.match(regEx)) {
+          $save_custom_styles = true
+          custom_styles.push(className);
+          //elm.removeClass(className);
+        }
+      }
+    });
+
+    if ($save_custom_styles == true) {
+      custom_styles.unique();
+      $styles_join = custom_styles.join(',');
+      $sav = {};
+      $sav['content_id'] = window.content_id;
+      $sav['save_field_content_layout_style'] = $styles_join;
+      $.ajax({
+        type: 'POST',
+        url: mw.settings.site_url + 'api/content/save_field_simple',
+        data: $sav,
+        async: true
+      });
+    }
+
+    var master = {};
+
+    $('.edit').each(function(j) {
+      j++;
+      content = $(this).get(0).innerHTML;
+      if (window.no_async == true) {
+        $async_save = false;
+        window.no_async = false;
+      } else {
+        $async_save = true;
+      }
+      var nic_obj = {};
+      var attrs = $(this).get(0).attributes;
+      for (var i = 0; i < attrs.length; i++) {
+        temp1 = attrs[i].nodeName;
+        temp2 = attrs[i].nodeValue;
+        if ((temp2 != null) && (temp1 != null) && (temp1 != undefined) && (temp2 != undefined)) {
+          if ((new String(temp2).indexOf("function(") == -1) && (temp2 != "") && (temp1 != "")) {
+            nic_obj[temp1] = temp2;
+          }
+        }
+      }
+      var obj = {
+        attributes: nic_obj,
+        html: content
+      }
+      var objX = "field_data_" + j;
+      var arr1 = [{
+        "attributes": nic_obj
+      }, {
+        "html": (content)
+      }];
+      master[objX] = obj;
+    });
+    $emp = false;
+    if (!$emp) {
+      master_prev = master;
+      $.ajax({
+        type: 'POST',
+        url: mw.settings.site_url + 'api/content/save_field',
+        data: master,
+        datatype: "json",
+        async: true,
+        beforeSend: function() {
+          window.saving = true;
+          $("#mw-saving-loader").fadeIn();
+        },
+        success: function(data) {
+          mw.history.init();
+          window.saving = false;
+          window.mw_sortables_created = false;
+          window.mw_drag_started = false;
+          $("#mw-saving-loader").fadeOut();
+        }
+      });
+    }
+  }
 
 
 }
@@ -958,10 +1155,14 @@ $.fn.mwUnwrap = function() {
     return this;
 };
 
+
+
+
+
 /**
  * Makes resizable columns
  *
- * @method mw.resizable_columns()
+ * @example mw.resizable_columns()
  */
 mw.resizable_columns = function () {
 
@@ -1049,8 +1250,7 @@ mw.resizable_columns = function () {
 					},
 					create: function (event, ui) {
 						//$(".row", '.edit').equalWidths();
-					   	mw.edit.equal_height();
-
+					    
 
 						var el = $(this);
 
@@ -1089,8 +1289,7 @@ mw.resizable_columns = function () {
                         var parent = ui.element.parent('.row');
                         mw.drag.fix_column_sizes_to_percent(parent);
 
-						mw.edit.fix_zindex();
-						mw.settings.resize_started = false;
+ 						mw.settings.resize_started = false;
 						mw.drag.fixes()
 						mw.drag.fix_placeholders()
 					}
@@ -1107,3 +1306,161 @@ mw.resizable_columns = function () {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mw.drop_regions = {
+
+  dropTimeout:null,
+  global_drop_is_in_region:false,
+  which : 'none',
+
+  create:function(element){
+    var el = $(element);
+    var height = el.height();
+    var width = el.width();
+    var offset = el.offset();
+    var region_left = {
+      l:offset.left,
+      r:offset.left+50,
+      t:offset.top,
+      b:offset.top+height
+    }
+    var region_right = {
+      l:offset.left+width-50,
+      r:offset.left+width,
+      t:offset.top,
+      b:offset.top+height
+    }
+    return {
+        left:region_left,
+        right:region_right
+    }
+  },
+  is_in_region:function(regions, event){
+    var l = regions.left;
+    var r = regions.right;
+    var mx = event.pageX;
+    var my = event.pageY;
+    if(mx>l.l && mx<l.r && my>l.t && my<l.b){
+        return 'left';
+    }
+    else if(mx>r.l && mx<r.r && my>r.t && my<r.b){
+      return 'right';
+    }
+    else{return 'none'}
+  },
+  init:function(element, event, callback){
+    if(mw.drop_regions.dropTimeout==null){
+        mw.drop_regions.dropTimeout = setTimeout(function(){
+            var regions = mw.drop_regions.create(element);
+            var is_in_region = mw.drop_regions.is_in_region(regions, event);
+            if(is_in_region=='left'){
+               callback.call(this, 'left');
+               mw.drop_regions.global_drop_is_in_region = true;
+               mw.drop_regions.which = 'left';
+            }
+            else if(is_in_region=='right'){
+               callback.call(this, 'right');
+               mw.drop_regions.global_drop_is_in_region = true;
+               mw.drop_regions.which = 'right';
+            }
+            else{
+              mw.drop_regions.global_drop_is_in_region = false;
+               mw.drop_regions.which = 'none';
+            }
+            mw.drop_regions.dropTimeout = null;
+        }, 37);
+    }
+  }
+}
+
+
+
+
+
+mw.history = {
+
+	/**
+	 * Microweber history  class
+	 *
+	 * @class mw.history
+	 */
+
+	/**
+	 * Loads the history module
+	 *
+	 * @method mw.history.init()
+	 */
+	init: function () {
+		data = {}
+		data.module = 'admin/mics/edit_block_history';
+		data.page_id = mw.settings.page_id;
+		data.post_id = mw.settings.post_id;
+		data.category_id = mw.settings.category_id;
+		data.for_url = document.location.href;
+		$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
+	},
+
+	/**
+	 * Loads the history from file
+	 *
+	 * @method mw.history.load()
+	 */
+	load: function ($base64fle) {
+		if ($base64fle != undefined) {
+			$.ajax({
+				type: 'POST',
+				url: mw.settings.site_url + "api/content/load_history_file",
+				data: {
+					history_file: $base64fle
+				},
+				dataType: "json",
+				success: function (data) {
+					$.each(data, function (i, d) {
+						if (window.console && window.console.log) {
+							window.console.log('  Replacing from history - element id: ' + this.page_element_id + '  - Content: ' + this.page_element_content);
+						}
+						$("#" + this.page_element_id).html(this.page_element_content);
+					});
+				}
+			})
+		}
+	}
+}
+
+window.onload = function(){
+  $(".element").mousemove(function(event){
+      if(mw.isDrag){
+        mw.drop_regions.init(this, event, function(region){
+
+        });
+      }
+     // event.stopPropagation();
+  });
+}
+
+
+
+
+

@@ -10,6 +10,15 @@ $rand = rand();
 
 <button onclick="mw_make_new_field('text')" value="mw_make_new_field('text')">mw_make_new_field('text')</button>
 <div  class="custom-fields-form-wrap custom-fields-form-wrap-<? print $rand ?>" id="custom-fields-form-wrap-<? print $rand ?>"></div>
+
+
+
+
+
+
+
+
+
 <script type="text/javascript">
 
 
@@ -26,17 +35,11 @@ function mw_make_new_field($type){
 		 
 			});
 </script>
-<?
- 
- //$more = 	$more =  get_instance()->core_model->getCustomFields ( false,  $params['id'], 1,0,1);
 
- 
 
-  $more = get_custom_fields($params['id']); 
 
-  p( $more);
-?>
 
+<module type="custom_fields" view="list" for_module_id="<? print  $module_id ?>" id="mw_custom_fields_list_<? print $params['id']; ?>" />
 
 <h2>Tab 2 - settings</h2>
 <fieldset>

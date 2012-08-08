@@ -101,7 +101,11 @@ mw.reload_module = function($module_name) {
 				//$("div.module[mw_params_module='"+$module_name+"']").each(
 			//  $mods = $("div.module");
 				 
-					$mods = $(".module[data-type='"+$module_name+"']", '.edit')
+					$mods = $(".module[data-type='"+$module_name+"']", '.edit');
+					if($mods.length == 0){
+					$mods = $($module_name);	
+					//alert('cant_reload_mod' + $module_name)	;
+					}
 					
 				$mods.each(
  								function() {
