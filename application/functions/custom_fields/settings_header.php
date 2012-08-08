@@ -17,8 +17,12 @@ function save_cf_<? print $rand ?>(){
 		mw.reload_module('custom_fields')
 		mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
 		
-		 	$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
 		
+		
+		<? if(intval($data['id']) == 0): ?>
+		
+		 	$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
+		<? endif; ?>
 		
 		
 		
@@ -32,18 +36,10 @@ function remove_cf_<? print $rand ?>(){
 		
 		mw.reload_module('custom_fields')
 		mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
-		
-		 
-		$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
-		
-		
+	   $('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
 		
         });
-		
-		
-		
-	
-	
+
 }
 		 
 </script>

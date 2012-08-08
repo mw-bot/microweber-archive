@@ -26,6 +26,7 @@
     </script>
 </head>
 <body>
+
     <div id="colorpicker"></div>
 </body>
 </html>

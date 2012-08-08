@@ -443,8 +443,8 @@ define ( 'ADMIN_STATIC_FILES_RELATIVE_URL',   $application_folder . '/views/admi
 
 
 
-define ( 'INCLUDES_PATH', APPPATH . '/includes/' ); //full filesystem path  
-define ( 'INCLUDES_DIR', INCLUDES_PATH); //full filesystem path  
+define ( 'INCLUDES_PATH', ROOTPATH. DIRECTORY_SEPARATOR. APPPATH . 'includes/' ); //full filesystem path
+define ( 'INCLUDES_DIR', INCLUDES_PATH); //full filesystem path
 define ( 'INCLUDES_URL', SITEURL . $application_folder. '/includes/' ); //full filesystem path  
  
 

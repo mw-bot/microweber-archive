@@ -1,6 +1,9 @@
 
 mw.external_tool = function(name){
-  return mw.settings.includes_url  +  "toolbar/editor_tools/"+name+"/index.php";
+  //return mw.settings.includes_url  +  "toolbar/editor_tools/"+name+"/index.php";
+
+
+  return mw.settings.site_url  +  "external_tools/" + name + "/";
 }
 
 mw.external_tool("some_tool");
@@ -545,6 +548,7 @@ mw.wysiwyg = {
       return external;
     },
     isThereEditableContent:false,
+    selection:'',
     _do:function(what){
       if(mw.wysiwyg.isThereEditableContent){
          document.designMode = 'on';  // for firefox
@@ -710,26 +714,47 @@ mw.wysiwyg = {
         mw.tools.modal.init("Link", 400, 200);
     },
     image:function(){
+        mw.wysiwyg.save_selection();
         var modal = mw.tools.modal.rte_tool("rte_image_editor", "Upload Picture");
         $(modal.main).css("top", 100);
-        console.log(modal);
+    },
+    save_selection:function(){
+        var selection = window.getSelection();
+        var range =  selection.getRangeAt(0);
+        mw.wysiwyg.selection = {
+          sel:selection,
+          range:range,
+          element:$('[contenteditable="true"]')
+        }
+    },
+    restore_selection:function(){
+        mw.wysiwyg.selection.element.attr("contenteditable", "true");
+        mw.wysiwyg.selection.element.focus();
+        mw.wysiwyg.selection.sel.removeAllRanges()
+        mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
     }
 }
 
 
-mw.simpletabs = function(selector){
-    if(selector==undefined){
-      $(".mw_simple_tabs_nav").each(function(){
+mw.simpletabs = function(context){
+      var context = context || document.body;
+      $(".mw_simple_tabs_nav", context).each(function(){
         var parent = $(this).parents(".mw_simple_tabs").eq(0);
-        parent.find(".tab").addClass(".semi_hidden");
-        parent.find(".tab").eq(0).removeClass(".semi_hidden");
+        parent.find(".tab").addClass("semi_hidden");
+        parent.find(".tab").eq(0).removeClass("semi_hidden");
         $(this).find("a").eq(0).addClass("active");
         $(this).find("a").click(function(){
-
+            var parent = $(this).parents(".mw_simple_tabs_nav").eq(0);
+            var parent_master =  $(this).parents(".mw_simple_tabs").eq(0);
+            parent.find("a").removeClass("active");
+            $(this).addClass("active");
+            parent_master.find(".tab").addClass("semi_hidden");
+            var index = parent.find("a").index(this);
+            parent_master.find(".tab").eq(index).removeClass("semi_hidden");
             return false;
         });
       });
-    }
+
 }
 
 
