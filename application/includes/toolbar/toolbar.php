@@ -28,9 +28,9 @@
 		edit_area_placeholder : '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>',
 		
 		empty_column_placeholder : '<div id="_ID_" class="empty-element empty-element-column">Please drag items here</div>',
-		
+
     	//handles
-    	sorthandle_row : "<div class='mw-sorthandle mw-sorthandle-row'>\
+    	sorthandle_row : "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-row'>\
 	    	    <div class='columns_set'></div>\
 	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
 	    	    <div class='mw_row_delete mw.edit.delete_element'>&nbsp;</div>\
@@ -44,14 +44,14 @@
     	sorthandle_row_delete : '<a class=\"mw_edit_delete_element\" href="javascript:mw.edit.delete_element(ROW_ID)"><span>&nbsp;</span></a> ',
     	sorthandle_delete_confirmation_text : "Are you sure you want to delete this element?",
     	sorthandle_col:
-        "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
+        "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-element'>\
             <div class='mw_col_delete mw_edit_delete_element'>\
                 <a class='mw_edit_btn mw_edit_delete' onclick=\"mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
             </div>\
             <span class='mw-sorthandle-moveit'>Move</span>\
         </div>",
     	sorthandle_module:
-            "<div class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
+            "<div contenteditable='false' class='mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
                 <div class='mw-element-name-handle'>MODULE_NAME</div>\
                 <div class='mw_col_delete mw_edit_delete_element'>\
                     <a class='mw_edit_btn mw_edit_delete right' href=\"javascript:mw.edit.delete_element(ELEMENT_ID)\"><span>&nbsp;</span></a>\
@@ -229,18 +229,18 @@
       </ul>
     </div>
     <div id="tab_modules" class="mw_toolbar_tab">
-      <div class="mw_dropdown left" id="module_category_selector"> <span class="mw_dropdown_val">Recommended</span>
+      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_category_selector"> <span class="mw_dropdown_val">Recommended</span>
         <div class="mw_dropdown_fields">
           <ul>
-            <li><a href="#">Recommended</a></li>
-            <li><a href="#">Forms</a></li>
-            <li><a href="#">Media</a></li>
-            <li><a href="#">Users</a></li>
-            <li><a href="#">Navigation</a></li>
-            <li><a href="#">Content</a></li>
-            <li><a href="#">Online Shop</a></li>
-            <li><a href="#">Social Networks</a></li>
-            <li><a href="#">Others</a></li>
+            <li><a href="#" rel="recommended">Recommended</a></li>
+            <li><a href="#" rel="forms">Forms</a></li>
+            <li><a href="#" rel="media">Media</a></li>
+            <li><a href="#" rel="users">Users</a></li>
+            <li><a href="#" rel="navigation">Navigation</a></li>
+            <li><a href="#" rel="content">Content</a></li>
+            <li><a href="#" rel="shop">Online Shop</a></li>
+            <li><a href="#" rel="social">Social Networks</a></li>
+            <li><a href="#" rel="others">Others</a></li>
           </ul>
         </div>
       </div>
@@ -252,7 +252,7 @@
       <div class="mw_clear">&nbsp;</div>
     </div>
     <div id="tab_layouts" class="mw_toolbar_tab">
-      <div class="mw_dropdown left" id="module_layout_selector"> <span class="mw_dropdown_val">Recommended</span>
+      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_layout_selector"> <span class="mw_dropdown_val">Recommended</span>
         <div class="mw_dropdown_fields">
           <ul>
             <li><a href="#">Recommended</a></li>
@@ -288,15 +288,71 @@
     </div>
     <div id="mw-text-editor" class="mw_editor">
         <div class="editor_wrapper">
-            <span class="mw_editor_btn mw_editor_undo" data-command="undo"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_redo" data-command="redo"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_undo" data-command="undo" title="Undo"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_redo" data-command="redo" title="Redo"><span class="ico"></span></span>
             <span class="mw_dlm"></span>
-            <span class="mw_editor_btn mw_editor_bold" data-command="bold"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_italic" data-command="italic"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_underline" data-command="underline"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-colorpicker"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="Font Color"><span class="ico"></span></span>
 
+            <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="Font Background Color"><span class="ico"></span></span>
+
+            <span class="mw_dlm"></span>
+
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="Font"> <span class="mw_dropdown_val">Arial</span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li><a href="#" style="font-family: Arial">Arial</a></li>
+                  <li><a href="#" style="font-family: Tahoma">Tahoma</a></li>
+                  <li><a href="#" style="font-family: Verdana">Verdana</a></li>
+                  <li><a href="#" style="font-family: Georgia">Georgia</a></li>
+                  <li><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="Font Size"> <span class="mw_dropdown_val">12</span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li><a href="#">9</a></li>
+                  <li><a href="#">10</a></li>
+                  <li><a href="#">11</a></li>
+                  <li><a href="#">12</a></li>
+                  <li><a href="#">13</a></li>
+                  <li><a href="#">14</a></li>
+                  <li><a href="#">15</a></li>
+                  <li><a href="#">16</a></li>
+                  <li><a href="#">17</a></li>
+                  <li><a href="#">18</a></li>
+                  <li><a href="#">19</a></li>
+                  <li><a href="#">20</a></li>
+                  <li><a href="#">21</a></li>
+                </ul>
+              </div>
+            </div>
+
+
+
+            <span class="mw_dlm"></span>
+
+
+            <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="Ordered List"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="Unordered List"><span class="ico"></span></span>
+
+            <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="Indent"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="Outdent"><span class="ico"></span></span>
+
+
+
+            <span class="mw_dlm"></span>
+
+            <span class="mw_editor_btn mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
 
 
             <span class="mw_dlm"></span>

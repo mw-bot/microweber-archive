@@ -7,7 +7,9 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/colorpicker.js"></script>
     <script type="text/javascript">
+        var command = window.location.hash.replace("#", "");
         $(document).ready(function(){
+
           $(document.body).mouseenter(function(){
             parent.mw.wysiwyg.save_selected_element();
           });
@@ -17,7 +19,7 @@
           $('#colorpicker').ColorPicker({
             flat: true,
             onChange:function(hsb, hex){
-              parent.mw.wysiwyg.fontColor(hex)
+              parent.mw.wysiwyg[command](hex);
             }
           });
         });

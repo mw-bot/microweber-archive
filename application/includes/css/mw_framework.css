@@ -48,7 +48,7 @@ body:-webkit-full-screen {
     display: none;
     padding-top: 5px;
   }
-    .mw_dropdown_fields ul{
+    .mw_dropdown_type_navigation ul{
       background: #f1f1f1 url(../img/dropdown_fields_bottom.png) no-repeat center bottom;
       background-size: 100% 6px;
       margin: 0;
@@ -61,7 +61,7 @@ body:-webkit-full-screen {
       .mw_dropdown_fields li{
           list-style: none;
       }
-       .mw_dropdown_fields li a{
+       .mw_dropdown_type_navigation li a{
             display: block;
             padding: 5px 6px 5px 13px;
             text-shadow:1px 1px 0px white;
@@ -69,7 +69,7 @@ body:-webkit-full-screen {
             color: #212121;
             text-decoration: none !important;
        }
-       .mw_dropdown_fields li:first-child a{
+       .mw_dropdown_type_navigation li:first-child a{
           -webkit-border-top-left-radius: 5px;
           -webkit-border-top-right-radius: 5px;
           -moz-border-radius-topleft: 5px;
@@ -77,7 +77,7 @@ body:-webkit-full-screen {
           border-top-left-radius: 5px;
           border-top-right-radius: 5px;
        }
-       .mw_dropdown_fields li:last-child a{
+       .mw_dropdown_type_navigation li:last-child a{
           -webkit-border-bottom-right-radius: 5px;
           -webkit-border-bottom-left-radius: 5px;
           -moz-border-radius-bottomright: 5px;
@@ -86,7 +86,7 @@ body:-webkit-full-screen {
           border-bottom-left-radius: 5px;
        }
 
-       .mw_dropdown_fields li a:hover{
+       .mw_dropdown_type_navigation li a:hover{
             border:1px solid #8CB2CA;
             padding: 4px 5px 4px 12px;
             background: -moz-linear-gradient(top,  #ffffff 0%, #b5d8ee 1%, #9ac0d9 100%);
@@ -101,15 +101,21 @@ body:-webkit-full-screen {
 
     .mw_dropdown_val{
       display: inline-block;
-      box-shadow:inset 0px 1px 0px #B8B8B8;
+      white-space: nowrap;
+      overflow: hidden;      
       font-size: 11px;
-      border: 1px solid #DCDCDC;
-      border-top: none;
-      background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
-      padding: 8px 39px 7px 11px;
-      -webkit-border-radius: 7px;
-      -moz-border-radius: 7px;
-      border-radius: 7px;
+
+    }
+
+    .mw_dropdown_type_navigation .mw_dropdown_val{
+        border: 1px solid #DCDCDC;
+        border-top: none;
+        background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
+        padding: 8px 39px 7px 11px;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        border-radius: 7px;
+        box-shadow:inset 0px 1px 0px #B8B8B8;
     }
 
 /* Image edit */
