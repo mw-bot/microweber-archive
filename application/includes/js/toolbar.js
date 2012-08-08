@@ -3,7 +3,7 @@ mw.external_tool = function(name){
   //return mw.settings.includes_url  +  "toolbar/editor_tools/"+name+"/index.php";
 
 
-  return mw.settings.site_url  +  "external_tools/" + name + "/";
+  return mw.settings.site_url  +  "editor_tools/" + name + "/";
 }
 
 mw.external_tool("some_tool");
@@ -99,13 +99,9 @@ mw.tools = {
     }
   },
   dropdown:function(callback){
-
-
     $(".mw_dropdown").click(function(){
       $(this).find(".mw_dropdown_fields").toggle();
     });
-
-
     $(".mw_dropdown").hover(function(){
         $(this).addClass("hover");
     }, function(){
@@ -114,9 +110,10 @@ mw.tools = {
     $(".mw_dropdown a").click(function(){
       $(this).parents(".mw_dropdown_fields").hide();
       var html = $(this).html();
-      var curr_html = $(this).parents(".mw_dropdown").find(".mw_dropdown_val").html();
-      $(this).parents(".mw_dropdown").find(".mw_dropdown_val").html(html);
-      if(html!=curr_html){
+      var value = this.parentNode.value;
+      var curr_value = $(this).parents(".mw_dropdown").attr("data-value");
+      if(value!=curr_value){
+         $(this).parents(".mw_dropdown").find(".mw_dropdown_val").html(html).attr("data-value", value);
          $(this).parents(".mw_dropdown").trigger("change");
       }
       return false;
@@ -489,6 +486,28 @@ $.expr[':'].noop = function(){
 })( jQuery );
 
 
+(function( $ ){
+  $.fn.getDropdownValue = function() {
+    return this.attr("data-value");
+  };
+})( jQuery );
+(function( $ ){
+  $.fn.setDropdownValue = function(val) {
+     var isValidOption = false;
+     var el = this;
+     el.find("li").each(function(){
+       if(this.value===val){
+            el.attr("data-value", val);
+            var isValidOption = true;
+            el.find(".mw_dropdown_val").html(val);
+            return false;
+       }
+     });
+     this.attr("data-value", val);
+  };
+})( jQuery );
+
+
 
 
 
@@ -776,10 +795,12 @@ $(window).load(function(){
 
 
 $(".mw_dropdown_action_font_family").change(function(){
-     mw.wysiwyg.fontFamily($(this).find(".mw_dropdown_val").html());
+    var val = $(this).getDropdownValue();
+     mw.wysiwyg.fontFamily(val);
 });
 $(".mw_dropdown_action_font_size").change(function(){
-     mw.wysiwyg.fontSize($(this).find(".mw_dropdown_val").html());
+    var val = $(this).getDropdownValue();
+     mw.wysiwyg.fontSize(val);
 });
 
 

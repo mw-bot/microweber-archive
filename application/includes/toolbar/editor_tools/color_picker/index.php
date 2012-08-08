@@ -1,11 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<link rel="stylesheet" href="css/colorpicker.css" type="text/css" />
-    <link rel="stylesheet" media="screen" type="text/css" href="css/layout.css" />
-    <title>ColorPicker - jQuery plugin</title>
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/colorpicker.js"></script>
+    <link rel="stylesheet" href="<? print pathToURL(dirname(__FILE__)); ?>/css/colorpicker.css" type="text/css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="<? print pathToURL(dirname(__FILE__)); ?>/css/layout.css" />
+	<script type="text/javascript" src="<? print pathToURL(dirname(__FILE__)); ?>/js/colorpicker.js"></script>
     <script type="text/javascript">
         var command = window.location.hash.replace("#", "");
         $(document).ready(function(){
@@ -23,10 +18,4 @@
             }
           });
         });
-    </script>
-</head>
-<body>
-
-    <div id="colorpicker"></div>
-</body>
-</html>
+    </script><div id="colorpicker"></div>

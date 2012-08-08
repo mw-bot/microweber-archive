@@ -26,11 +26,7 @@ class Index extends CI_Controller {
 		$this -> benchmark -> mark('the_index_controller_end');
 	}
 
-	function userbase() {
-
-		require_once (APPPATH . 'controllers/advanced/userbase/_controller.php');
-
-	}
+ 
 
 	function captcha() {
 
@@ -38,45 +34,10 @@ class Index extends CI_Controller {
 
 	}
 
-	function users() {
-		require_once (APPPATH . 'controllers/advanced/users/_controller.php');
-
-	}
-
-	function dashboard() {
-		require_once (APPPATH . 'controllers/advanced/dashboard/_controller.php');
-
-	}
-
-	function external_tools() {
-		$tool = $this -> uri -> segment(2);
-		$tool = str_replace('..', '', $tool);
-
-		$p_index = INCLUDES_PATH . 'toolbar/editor_tools/index.php';
-		$p_index = normalize_path($p_index, false);
-
-       $p = INCLUDES_PATH . 'toolbar/editor_tools/'.$tool.'/index.php';
-		$p = normalize_path($p, false);
-
-
-		$primarycontent = get_instance() -> load -> file($p);
-        	$layout = get_instance() -> load -> file($p_index);
-
-                //p($layout,1);
-
-
-
-	   //	$layout = str_replace('{content}', $primarycontent, $layout);
-
-
-
-              // // print $layout;
-               // exit;
-   require_once ($p);
-
-	}
+	 
 
 	function login() {
+		exit("login() is removed from here");
 		$back_to = $this -> core_model -> getParamFromURL('back_to');
 
 		global $cms_db_tables;

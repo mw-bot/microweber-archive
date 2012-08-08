@@ -96,8 +96,7 @@ $route ['admin/mercury/(:any)'] = "admin/index/mercury/$1";
 
 
 
-  $route ['external_tools'] = "index/external_tools/$1";
-    $route ['external_tools/(:any)'] = "index/external_tools/$1";
+
   
 $route ['admin/edit'] = "admin/index/edit";
 $route ['admin/edit/(:any)'] = "admin/index/edit/$1";
@@ -115,7 +114,10 @@ $route ['webdav/(:any)'] = "webdav/index/$1";
 $route ['api/js'] = "api/js";
 $route ['api/js/(:any)'] = "api/js/index/$1";
 
- 
+
+	
+	
+	
 $route ['users'] = "index/users/";
 $route ['users/(:any)'] = "index/users/$1";
  
@@ -135,7 +137,9 @@ $route ['ajax_helpers/(:any)'] = "ajax_helpers/$1";
 $route ['captcha'] = "captcha";
 $route ['captcha/(:any)'] = "captcha/index";
 
-
+   $route ['editor_tools'] = "api/editor_tools/index";
+    $route ['editor_tools/(:any)'] = "api/editor_tools/index/$1";
+	
 
 //!!!!!! MUST BE LAST
 $route ['(:any)'] = "index/index/$1";

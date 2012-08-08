@@ -302,17 +302,37 @@
             <span class="mw_dlm"></span>
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="Font"> <span class="mw_dropdown_val">Arial</span>
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value=""> <span class="mw_dropdown_val">Format</span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li><a href="#" style="font-family: Arial">Arial</a></li>
-                  <li><a href="#" style="font-family: Tahoma">Tahoma</a></li>
-                  <li><a href="#" style="font-family: Verdana">Verdana</a></li>
-                  <li><a href="#" style="font-family: Georgia">Georgia</a></li>
-                  <li><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
+                  <li value="h1"><a href="#">Heading 1</a></li>
+                  <li value="h2"><a href="#">Heading 2</a></li>
+                  <li value="h3"><a href="#">Heading 3</a></li>
+                  <li value="h4"><a href="#">Heading 4</a></li>
+                  <li value="h5"><a href="#">Heading 5</a></li>
+                  <li value="h6"><a href="#">Heading 6</a></li>
+                  <li value="p"><a href="#">Paragraph</a></li>
                 </ul>
               </div>
             </div>
+
+
+
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="Font" data-value="Arial"> <span class="mw_dropdown_val">Arial</span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
+                  <li value="Tahoma"><a href="#" style="font-family:Tahoma">Tahoma</a></li>
+                  <li value="Verdana"><a href="#" style="font-family:Verdana">Verdana</a></li>
+                  <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
+                  <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
+                </ul>
+              </div>
+            </div>
+
+
+
 
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="Font Size"> <span class="mw_dropdown_val">12</span>
               <div class="mw_dropdown_fields">
