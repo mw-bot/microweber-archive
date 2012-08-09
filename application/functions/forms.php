@@ -23,10 +23,10 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 	} else {
 		if ($field_id != 0) {
 
-			print $field_id;
+			//print $field_id;
 
 			$data = $CI -> core_model -> getById('table_custom_fields', $id = $field_id, $is_this_field = false);
-			//p($data);
+			 //p($data);
 			//getById($table, $id = 0, $is_this_field = false)
 			//exit('$field_id' . $field_id);
 		}
@@ -52,7 +52,7 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 		$file = $dir . $field_type . '.php';
 
 	}
-	$CI -> load -> vars(array('data' => $data));
+	$CI -> load -> vars(array('data' => $data, 'field_type' => $field_type));
 
 	$CI -> load -> vars($CI -> template);
 
@@ -71,16 +71,12 @@ function save_field($data) {
 	if ($id == false) {
 		exit('Error: not logged in as admin.');
 	}
-
- 
-	$data =         	get_instance() -> core_model -> saveCustomField($data);
+ $data = get_instance() -> core_model -> addSlashesToArrayAndEncodeHtmlChars ( $data );
+	$data =          	get_instance() -> core_model -> saveCustomField($data);
 
 	return ($data);
 	//exit
 }
-
-
-
 
 function remove_field($id) {
 	$uid = user_id();
@@ -91,13 +87,23 @@ function remove_field($id) {
 	if ($uid == false) {
 		exit('Error: not logged in as admin.');
 	}
-$id = intval($id);
- $data =         	get_instance() -> core_model -> deleteCustomFieldById($id);
+	$id = intval($id);
+	$data =          	get_instance() -> core_model -> deleteCustomFieldById($id);
 
 	return ($data);
- 
- 
-  
- 
-	 
+
 }
+
+
+
+
+
+function save_form_data($data){
+	p($data);
+	
+	
+	
+	
+}
+
+

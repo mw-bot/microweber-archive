@@ -889,11 +889,16 @@ mw.drag = {
 		data1.post_id = window.post_id;
 		data1.category_id = window.category_id;*/
 
-    mw.modal("", 600, 450, function() {
+    mw.tools.modal.init({
+	html:"", 
+	width:600, 
+	height:450, 
+	callback:function() {
       $(this.container).load(mw.settings.site_url + "api/module", data1);
       $(this.container).attr('data-settings-for-module', $module_id);
 
-    });
+    }	
+	});
 
   },
 

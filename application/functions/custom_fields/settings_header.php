@@ -2,10 +2,17 @@
 
 $rand = round($rand);
 
-
+ 
 $is_for_module = url_param('for_module_id',1);
  
-
+if(!empty($data)){
+	
+if(trim($data['field_type']) != ''){
+	
+$field_type = 	$data['field_type'];
+}
+	
+}
    ?>
 <script type="text/javascript">
 
@@ -18,12 +25,14 @@ function save_cf_<? print $rand ?>(){
 		mw.reload_module('#mw_custom_fields_list_<? print strval($is_for_module) ?>');
 		
 		
-		
-		<? if(intval($data['id']) == 0): ?>
-		
-		 	$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();
-		<? endif; ?>
-		
+		if(serializedForm.id == undefined){
+		//$('#custom_fields_edit<? print strval($rand) ?>').fadeOut();	
+			
+		}
+	 
+			 
+			
+ 
 		
 		
         });
@@ -63,8 +72,13 @@ function remove_cf_<? print $rand ?>(){
   <label class="control-label" for="select_custom_field_type<? print $rand ?>">Field type</label>
   <div class="controls">
     <select id="select_custom_field_type<? print $rand ?>" name="custom_field_type">
-      <option <? if(trim($data['custom_field_type']) == 'text'): ?> selected="selected" <? endif; ?> value="text">text</option>
-      <option  <? if(trim($data['custom_field_type']) == 'dropdown'): ?>  selected="selected"  <? endif; ?>  value="dropdown">dropdown</option>
+      <option <? if(trim($field_type) == 'text'): ?> selected="selected" <? endif; ?> value="text">text</option>
+      <option  <? if(trim($field_type) == 'dropdown'): ?>  selected="selected"  <? endif; ?>  value="dropdown">dropdown</option>
+       <option  <? if(trim($field_type) == 'checkbox'): ?>  selected="selected"  <? endif; ?>  value="checkbox">checkbox</option>
+     
+      
+      
+      
     </select>
   </div>
 </div>

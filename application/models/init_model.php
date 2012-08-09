@@ -4,35 +4,11 @@ define('FIRECMS_DB_VERSION', 2);
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-//l setcookie  ( string $name  [, string $value  [, int $expire=0  [, string $path  [, string $domain  [, bool $secure=false  [, bool $httponly=false  ]]]]]] )
-//setcookie ( 'fckEditor_filesurl', base64_encode ( $media_url ), time () + 36000, '/' );
-$media_url = base_url();
-$media_url = $media_url . '/' . USERFILES_DIRNAME . '/media/';
-$media_url = reduce_double_slashes($media_url);
-
-/*if ($_COOKIE ['fckEditor_filespath'] == false) {
- setcookie ( 'fckEditor_filespath', base64_encode ( MEDIAFILES ), time () + 36000, '/' );
- }
- if ($_COOKIE ['fckEditor_filesurl'] == false) {
- setcookie ( 'fckEditor_filesurl', base64_encode ( $media_url ), time () + 36000, '/' );
- }
-
- if ($_COOKIE ['site_url'] != SITEURL) {
- setcookie ( 'site_url', SITEURL, time () + 36000, '/' );
- }
-
- if ($_COOKIE ['root_path'] != ROOTPATH) {
- setcookie ( 'root_path', ROOTPATH, time () + 36000, '/' );
- }
-
- if ($_COOKIE ['index_path'] != FCPATH) {
- setcookie ( 'index_path', FCPATH, time () + 36000, '/' );
- }
-
- $tbpath = static_url () . 'js/tiny_mce/plugins/tinybrowser/';
- if ($_COOKIE ['tiny_browser_path'] != $tbpath) {
- setcookie ( 'tiny_browser_path', $tbpath, time () + 36000, '/' );
- }*/
+/**
+ * Sets up the database
+ * Must have write permissions to the cache folder - CACHEDIR_ROOT, defined in index.php
+ *
+ */
 
 class Init_model extends CI_Model {
 
@@ -77,9 +53,12 @@ class Init_model extends CI_Model {
 		if (is_dir($dir) == true) {
 
 			touch($cache_file);
-			$handle = (@opendir($dir));
+			//$handle = (@opendir($dir));
 			//require_once ($dir . 'options.php');
-			while (false !== ($file = readdir($handle))) {
+
+			foreach (glob($dir."*.php") as $filename) {
+				$file = $filename;
+
 				if (stristr($file, 'disabled') == false) {
 
 					$exts = explode(".", $file);
@@ -89,10 +68,15 @@ class Init_model extends CI_Model {
 
 					//if (stristr ( $file, '.php' ) == TRUE) {
 					if ($ext == 'php') {
-						$checksum = @md5_file($dir . $file);
-						$src_filename = @md5($file);
+						$checksum = file_get_contents($file);
+
+						//$hash = hash_file('crc32b',"myfile.CSV" );
+
+						$src_filename = url_title($file) . crc32($file);
+						//p($src_filename);
 						$inc = false;
 						$dir_and_file = reduce_double_slashes($dir2 . $src_filename);
+						//p($dir_and_file);
 						if (file_exists($dir_and_file) == false) {
 							$inc = true;
 							@touch($dir_and_file);
@@ -113,14 +97,55 @@ class Init_model extends CI_Model {
 						}
 						if ($inc == true) {
 							//print "inc $dir.$file      ";
-							require_once ($dir . $file);
+							require_once ($file);
 						}
 					}
 				}
+
 			}
 
-			@closedir($handle);
+			/*while (false !== ($file = readdir($handle))) {
+			 if (stristr($file, 'disabled') == false) {
 
+			 $exts = explode(".", $file);
+			 $n = count($exts) - 1;
+			 $ext = $exts[$n];
+			 $ext = strtolower($ext);
+
+			 //if (stristr ( $file, '.php' ) == TRUE) {
+			 if ($ext == 'php') {
+			 $checksum = @md5_file($dir . $file);
+			 $src_filename = @md5($file);
+			 $inc = false;
+			 $dir_and_file = reduce_double_slashes($dir2 . $src_filename);
+			 if (file_exists($dir_and_file) == false) {
+			 $inc = true;
+			 @touch($dir_and_file);
+			 $fp = @fopen($dir_and_file, 'w');
+			 @fwrite($fp, $checksum);
+			 @fclose($fp);
+			 } else {
+			 $content = file_get_contents($dir2 . $src_filename);
+			 //var_dump($checksum , $content);
+			 if ($checksum == $content) {
+			 $inc = false;
+			 } else {
+			 $inc = true;
+			 $fp = @fopen($dir2 . $src_filename, 'w');
+			 @fwrite($fp, $checksum);
+			 @fclose($fp);
+			 }
+			 }
+			 if ($inc == true) {
+			 //print "inc $dir.$file      ";
+			 require_once ($dir . $file);
+			 }
+			 }
+			 }
+			 }
+
+			 @closedir($handle);
+			 */
 		}
 
 	}// end db_setup
@@ -339,7 +364,8 @@ class Init_model extends CI_Model {
 		if ($query -> num_rows() == 0) {
 
 			$columns = implode(',', $aColumns);
-			$fColumns = implode(',', $aForeignColumns); ;
+			$fColumns = implode(',', $aForeignColumns);
+			;
 			$onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
 			$onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
 
@@ -358,44 +384,5 @@ class Init_model extends CI_Model {
 
 	}
 
-}
-
-function parseTextForEmail($text) {
-	$email = array();
-	$invalid_email = array();
-
-	$text = ereg_replace("[^A-Za-z._0-9@ ]", " ", $text);
-
-	$token = trim(strtok($text, " "));
-
-	while ($token !== "") {
-
-		if (strpos($token, "@") !== false) {
-
-			$token = ereg_replace("[^A-Za-z._0-9@]", "", $token);
-
-			//checking to see if this is a valid email address
-			if (is_valid_email($email) !== true) {
-				$email[] = strtolower($token);
-			} else {
-				$invalid_email[] = strtolower($token);
-			}
-		}
-
-		$token = trim(strtok(" "));
-	}
-
-	$email = array_unique($email);
-	$invalid_email = array_unique($invalid_email);
-
-	return array("valid_email" => $email, "invalid_email" => $invalid_email);
-
-}
-
-function is_valid_email($email) {
-	if (eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.([a-z]){2,4})$", $email))
-		return true;
-	else
-		return false;
 }
 ?>

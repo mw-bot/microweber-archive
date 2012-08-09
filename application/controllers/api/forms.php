@@ -37,13 +37,18 @@ class Forms extends CI_Controller {
 		exit ;
 
 	}
-	
-	
+
 	function remove_field() {
 
 		$data = remove_field($_POST['id']);
 		//print($data);
 		exit ;
+
+	}
+
+	function post_form() {
+
+		save_form_data($_POST);
 
 	}
 

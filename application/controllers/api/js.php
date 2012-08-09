@@ -14,6 +14,46 @@ class js extends CI_Controller {
 
 	function index() {
 		header("Content-type: text/javascript");
+		/*
+		 $layout = $this -> load -> file(APPPATH . 'controllers/api/js/' . 'api.js', true);
+		 $layout = $this -> content_model -> applyGlobalTemplateReplaceables($layout);
+		 $this -> output -> set_output($layout);
+		 */
+
+		$url = url(true);
+
+		$url1 = explode('?', $url);
+		if (count($url1) > 1) {
+
+			$url = $url1[0];
+		}
+		//p($url);
+		$url_base = site_url();
+
+		$try_file = str_replace($url_base, '', $url);
+		$try_file = str_replace('..', '', $try_file);
+		$try_file = str_replace('api/js', '', $try_file);
+
+		$f = INCLUDES_DIR . 'api' . DS . $try_file;
+		$f = normalize_path($f, false);
+
+		$ext = file_extension($f);
+		if ($ext == false) {
+			$ext = '.js';
+			$f = $f . $ext;
+		}
+
+		$layout = $this -> load -> file($f, true);
+		$layout = $this -> content_model -> applyGlobalTemplateReplaceables($layout);
+		$this -> output -> set_output($layout);
+
+		//include ($f);
+
+	}
+
+	function index_old() {
+		exit('index_old will be removed');
+		header("Content-type: text/javascript");
 		$url = url();
 		$cache_id = "js_api";
 		$cache_group = 'global/blocks';

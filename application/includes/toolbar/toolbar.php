@@ -69,7 +69,7 @@
 
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
-<script src="<?php   print( INCLUDES_URL);  ?>js/api.js" type="text/javascript"></script>
+<script src="<?php   print( site_url('api.js'));  ?>" type="text/javascript"></script>
  <script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
 <script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js?v=<?php echo uniqid(); ?>" type="text/javascript"></script>
@@ -152,7 +152,7 @@
 
                     success: function () {
 
-  
+
                         if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
 
@@ -202,7 +202,7 @@
 		
 
 		
-		
+
 		
     </script>
 
@@ -229,18 +229,18 @@
       </ul>
     </div>
     <div id="tab_modules" class="mw_toolbar_tab">
-      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_category_selector"> <span class="mw_dropdown_val">Recommended</span>
+      <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_category_selector" data-value='recommended'> <span class="mw_dropdown_val">Recommended</span>
         <div class="mw_dropdown_fields">
           <ul>
-            <li><a href="#" rel="recommended">Recommended</a></li>
-            <li><a href="#" rel="forms">Forms</a></li>
-            <li><a href="#" rel="media">Media</a></li>
-            <li><a href="#" rel="users">Users</a></li>
-            <li><a href="#" rel="navigation">Navigation</a></li>
-            <li><a href="#" rel="content">Content</a></li>
-            <li><a href="#" rel="shop">Online Shop</a></li>
-            <li><a href="#" rel="social">Social Networks</a></li>
-            <li><a href="#" rel="others">Others</a></li>
+            <li value="recommended"><a href="#">Recommended</a></li>
+            <li value="forms"><a href="#">Forms</a></li>
+            <li value="media"><a href="#">Media</a></li>
+            <li value="users"><a href="#">Users</a></li>
+            <li value="navigation"><a href="#">Navigation</a></li>
+            <li value="content"><a href="#">Content</a></li>
+            <li value="shop"><a href="#">Online Shop</a></li>
+            <li value="social"><a href="#">Social Networks</a></li>
+            <li value="others"><a href="#">Others</a></li>
           </ul>
         </div>
       </div>
@@ -303,7 +303,11 @@
 
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value=""> <span class="mw_dropdown_val">Format</span>
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">Format</span>
+                </span>
               <div class="mw_dropdown_fields">
                 <ul>
                   <li value="h1"><a href="#">Heading 1</a></li>
@@ -319,7 +323,11 @@
 
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="Font" data-value="Arial"> <span class="mw_dropdown_val">Arial</span>
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="Font" data-value="Arial">
+              <span class="mw_dropdown_val_holder">
+                  <span class="dd_rte_arr"></span>
+                  <span class="mw_dropdown_val">Arial</span>
+              </span>
               <div class="mw_dropdown_fields">
                 <ul>
                   <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
@@ -334,22 +342,21 @@
 
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="Font Size"> <span class="mw_dropdown_val">12</span>
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="Font Size">
+
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">10pt</span>
+                </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li><a href="#">9</a></li>
-                  <li><a href="#">10</a></li>
-                  <li><a href="#">11</a></li>
-                  <li><a href="#">12</a></li>
-                  <li><a href="#">13</a></li>
-                  <li><a href="#">14</a></li>
-                  <li><a href="#">15</a></li>
-                  <li><a href="#">16</a></li>
-                  <li><a href="#">17</a></li>
-                  <li><a href="#">18</a></li>
-                  <li><a href="#">19</a></li>
-                  <li><a href="#">20</a></li>
-                  <li><a href="#">21</a></li>
+                  <li value="1"><a href="#">8pt</a></li>
+                  <li value="2"><a href="#">10pt</a></li>
+                  <li value="3"><a href="#">12pt</a></li>
+                  <li value="4"><a href="#">14pt</a></li>
+                  <li value="5"><a href="#">18pt</a></li>
+                  <li value="6"><a href="#">24pt</a></li>
+                  <li value="7"><a href="#">36pt</a></li>
                 </ul>
               </div>
             </div>
@@ -397,9 +404,71 @@
 
 
     </div>
+
+    <?php /*  THE SMALL EDITOR  */ " Starts Here " ?>
+
+    <div id="mw_small_editor">
+        <div class="mw_small_editor_top">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="Font" data-value="Arial">
+              <span class="mw_dropdown_val_holder">
+                  <span class="dd_rte_arr"></span>
+                  <span class="mw_dropdown_val">Arial</span>
+              </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
+                  <li value="Tahoma"><a href="#" style="font-family:Tahoma">Tahoma</a></li>
+                  <li value="Verdana"><a href="#" style="font-family:Verdana">Verdana</a></li>
+                  <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
+                  <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
+                </ul>
+              </div>
+            </div>
+            <span class="mw_dlm"></span>
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_small" title="Font Size">
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val">10pt</span>
+                </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="1"><a href="#">8pt</a></li>
+                  <li value="2"><a href="#">10pt</a></li>
+                  <li value="3"><a href="#">12pt</a></li>
+                  <li value="4"><a href="#">14pt</a></li>
+                  <li value="5"><a href="#">18pt</a></li>
+                  <li value="6"><a href="#">24pt</a></li>
+                  <li value="7"><a href="#">36pt</a></li>
+                </ul>
+              </div>
+            </div>
+            <span class="mw_dlm"></span>
+            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Add/Edit/Remove Image"><span class="ico"></span></span>
+            <div class="mw_clear">&nbsp;</div>
+        </div>
+        <div class="mw_small_editor_bottom">
+          <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ico"></span></span>
+          <span class="mw_dlm"></span>
+          <span class="mw_editor_btn mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
+          <div class="mw_clear">&nbsp;</div>
+        </div>
+
+    </div><!-- /mw_small_editor -->
+
+
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>
   </div>
-  <!-- /end .mw --> 
+
+
+
+
+  <!-- /end .mw -->
 </div>
 <!-- /end mw_holder --> 

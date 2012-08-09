@@ -124,16 +124,21 @@ if ($editmode != false) {
 
 $debugmode = getParamFromURL('debugmode');
 if ($debugmode != false) {
-
+	$adm = is_admin();
 	$debugmode = $this -> session -> userdata('debugmode');
 	if ($debugmode == true) {
-		$this -> output -> enable_profiler(true);
+		if ($adm == true) {
+			$this -> output -> enable_profiler(true);
+		}
 	}
 
 	if ($debugmode == 'y') {
-		$adm = $this -> core_model -> is_admin();
+
 		if ($adm == true) {
 			$this -> session -> set_userdata('debugmode', true);
+
+		} else {
+			$this -> session -> set_userdata('debugmode', false);
 
 		}
 	}
@@ -267,15 +272,13 @@ if ($ref != '') {
 
 	$url = getCurentURL();
 
-	 
-
 }
 
 /*
  * Make some initializations - constants, libraries, template variables
  */
 
-$this -> template['className'] = strtolower(get_class());
+//$this -> template['className'] = strtolower(get_class());
 
 global $cms_db_tables;
 $this -> template['cms_db_tables'] = $cms_db_tables;
@@ -288,7 +291,7 @@ $this -> template['__REQUEST'] = $_REQUEST;
 
 // $this->load->vars ( $this->template );
 
-$uid = $this -> core_model -> userId();
+$uid = user_id();
 
 if ($uid > 0) {
 	$user_session = $this -> session -> userdata('user_session');

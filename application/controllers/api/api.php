@@ -1,6 +1,6 @@
 <?php
 
-class js extends CI_Controller {
+class api extends CI_Controller {
 
 	function __construct() {
 
@@ -9,50 +9,60 @@ class js extends CI_Controller {
 		require_once (APPPATH . 'controllers/default_constructor.php');
 		//p($user_session);
 		//	require_once (APPPATH . 'controllers/api/default_constructor.php');
+		
+		
+		
+		$url = url(true);
+		$url_base = site_url('api');
+
+		$try_file = str_replace($url_base, '', $url);
+		$try_file = str_replace('..', '', $try_file);
+
+		$f = INCLUDES_DIR . 'api' . DS . $try_file;
+		$f = normalize_path($f, false);
+		
+		
+		$ext = file_extension($f);
+		if($ext == false){
+			$ext = '.php';
+			$f = $f.$ext;
+		}
+		
+		include($f);
+ 
 
 	}
 
 	function index() {
+
+		$url = url(true);
+		$url_base = site_url('api');
+
+		$try_file = str_replace($url_base, '', $url);
+		$try_file = str_replace('..', '', $try_file);
+
+		$f = INCLUDES_DIR . 'api' . DS . $try_file;
+		$f = normalize_path($f, false);
+		
+		
+		$ext = file_extension($f);
+		if($ext == false){
+			$ext = '.php';
+			$f = $f.$ext;
+		}
+		
+		//include($f);
+ 
+
+		//$layout = $this -> load -> file($f, true);
+		//$layout = $this -> content_model -> applyGlobalTemplateReplaceables($layout);
+
+		//$this -> output -> set_output($layout);
+
 	}
-	
-	
-	
+
 	function css() {
-		
-		
-		
-	}
-	
-	
-		function external_tools() {
-		$tool = $this -> uri -> segment(2);
-		$tool = str_replace('..', '', $tool);
-
-		$p_index = INCLUDES_PATH . 'toolbar/editor_tools/index.php';
-		$p_index = normalize_path($p_index, false);
-
-       $p = INCLUDES_PATH . 'toolbar/editor_tools/'.$tool.'/index.php';
-		$p = normalize_path($p, false);
-
-
-		$primarycontent = get_instance()->load->file($p);
-        	$layout = get_instance()->load->file($p_index);
-p($p_index);
-               p($layout,1);
-
-
-
-	   //	$layout = str_replace('{content}', $primarycontent, $layout);
-
-
-
-              // // print $layout;
-               // exit;
-   require_once ($p);
 
 	}
-	
-	
-	
+
 }
-

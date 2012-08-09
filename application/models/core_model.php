@@ -1741,6 +1741,29 @@ function saveCustomField($data_to_save) {
 
 			}
 		}
+		
+		
+		if (is_array ( $data_to_save ['custom_field_value']  )) {
+			
+			$array =  $data_to_save ['custom_field_value'] ;
+			array_walk_recursive($array, function(&$item, $key) {
+            if(is_string($item)) {
+                //$item = decodeUnicodeString($item);
+            }
+        });
+        $json = json_encode($array);
+     //  p($json);
+			//$d = base64_encode ( json_encode ( $data_to_save ['custom_field_value']   ) );
+		//	$d = base64_encode ( $json );
+			$d = base64_encode ( serialize ( $data_to_save ['custom_field_value']   ) );
+			
+			$data_to_save ['custom_field_values'] = $d;
+			
+							//$data_to_save ['custom_field_values'] = base64_encode ( json_encode ( $data_to_save ['custom_field_value']   ) );
+						}
+
+
+
 
 		$save = $this->saveData ( $table_custom_field, $data_to_save );
 
@@ -1942,8 +1965,9 @@ if($debug != false){
 									// p ( $a1 );
 									$a1 = stripslashes ( $a1 );
 									// p ( $a1 );
-									$a1 = json_decode ( $a1 );
-									$a1 = $this->objectToArray ( $a1 );
+									//$a1 = json_decode ( $a1 );
+									$a1 = unserialize ( $a1 );
+									//$a1 = $this->objectToArray ( $a1 );
 									// p ( $a1 );
 									// p($it ['custom_field_values']);
 									// $a = unserialize( base64_decode ( $it

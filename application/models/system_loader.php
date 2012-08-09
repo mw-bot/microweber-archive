@@ -1542,13 +1542,21 @@ function parseFloat($ptString) {
 		return $result;
 }
 
-if (!function_exists('file_extension')) {
+ 
 
 		function file_extension($filename) {
+			if(strstr($filename, '.')){
 				return end(explode(".", $filename));
+			} else {
+				return false;
+			}
+			
+			
+			
+				
 		}
 
-}
+ 
 
 function float123($str, $set = FALSE) {
 		if (preg_match("/([0-9\.,-]+)/", $str, $match)) {

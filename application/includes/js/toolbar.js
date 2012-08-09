@@ -20,8 +20,8 @@ mw.tools = {
     }
   },
   modal:{
-    source:function(){
-      var id = "modal_"+mw.random();
+    source:function(id){
+      var id = id || "modal_"+mw.random();
       var html = ''
         + '<div class="mw_modal mw_modal_maximized" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
@@ -34,8 +34,12 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
-    init:function(html, width, height, callback, title){
-        var modal = mw.tools.modal.source();
+    _init:function(html, width, height, callback, title, name){
+        if(typeof name==='string' && $("#"+name).length>0){
+            return false;
+        }
+        var modal = mw.tools.modal.source(name);
+
         $(document.body).append(modal.html);
         var modal_object = $(document.getElementById(modal.id));
         modal_object.width(width).height(height).find(".mw_modal_container").append(html).height(height-60);
@@ -43,19 +47,23 @@ mw.tools = {
         modal_object.show().draggable({
           handle:'.mw_modal_toolbar',
           containment:'body',
-          stack: ".mw_modal"
+          stack: ".mw_modal",
+          iframeFix: true
         });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
         typeof title==='string'?$(modal_object).find(".mw_modal_title").html(title):'';
+        typeof name==='string'?$(modal_object).attr("name", name):'';
         return modal_return;
+    },
+    init:function(o){
+      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name);
     },
     minimize:function(id){
         var modal = $("#"+id);
         var window_h = $(window).height();
         var window_w = $(window).width();
         var modal_width = modal.width();
-
         var old_position = {
           width:modal.css("width"),
           height:modal.css("height"),
@@ -63,7 +71,6 @@ mw.tools = {
           top:modal.css("top")
         }
         modal.data("old_position", old_position);
-
         var margin =  24*($(".is_minimized").length);
         modal.addClass("is_minimized");
         modal.animate({
@@ -92,14 +99,22 @@ mw.tools = {
         var modal = mw.modal("");
         return modal;
     },
-    rte_tool:function(tool_name, title){
+    rte_tool:function(tool_name, title, name){
         var frame = "<iframe src='" + mw.external_tool(tool_name) + "' scrolling='auto' frameborder='0'></iframe>";
-        var modal = mw.tools.modal.init(frame, 430, 'auto', false, title);
+        var modal = mw.tools.modal.init({
+          html:frame,
+          width:430,
+          height:'auto',
+          callback:false,
+          title:title,
+          name:name
+        });
         return modal;
     }
   },
   dropdown:function(callback){
     $(".mw_dropdown").click(function(){
+      $(".mw_dropdown").not(this).find(".mw_dropdown_fields").hide()
       $(this).find(".mw_dropdown_fields").toggle();
     });
     $(".mw_dropdown").hover(function(){
@@ -110,12 +125,8 @@ mw.tools = {
     $(".mw_dropdown a").click(function(){
       $(this).parents(".mw_dropdown_fields").hide();
       var html = $(this).html();
-      var value = this.parentNode.value;
-      var curr_value = $(this).parents(".mw_dropdown").attr("data-value");
-      if(value!=curr_value){
-         $(this).parents(".mw_dropdown").find(".mw_dropdown_val").html(html).attr("data-value", value);
-         $(this).parents(".mw_dropdown").trigger("change");
-      }
+      var value = this.parentNode.getAttribute("value");
+      $(this).parents(".mw_dropdown").setDropdownValue(value, true);
       return false;
     });
   },
@@ -354,14 +365,14 @@ mw.remote_drag = {
         });
     },
     load_file : function(reader, file, element){
-          if(file.type.indexOf("image")!=-1){
+          if(file.type.contains("image")){
              reader.onload = function(e) {
                var result = e.target.result;
                element.after( "<img src='"+result+"' />");
   		     }
              reader.readAsDataURL(file);
           }
-          else if(file.type.indexOf("pdf")!=-1){
+          else if(file.type.contains("pdf")){
               reader.onload = function(e) {
                var result = e.target.result;
                element.after( "<span>"+e.target.result+"</span>");
@@ -492,16 +503,17 @@ $.expr[':'].noop = function(){
   };
 })( jQuery );
 (function( $ ){
-  $.fn.setDropdownValue = function(val) {
+  $.fn.setDropdownValue = function(val, triggerChange) {
      var isValidOption = false;
      var el = this;
      el.find("li").each(function(){
-       if(this.value===val){
-            el.attr("data-value", val);
-            var isValidOption = true;
-            el.find(".mw_dropdown_val").html(val);
-            return false;
-       }
+         if(this.getAttribute('value')==val){
+              el.attr("data-value", val);
+              var isValidOption = true;
+              el.find(".mw_dropdown_val").html(this.getElementsByTagName('a')[0].innerHTML);
+              triggerChange?el.trigger("change"):'';
+              return false;
+         }
      });
      this.attr("data-value", val);
   };
@@ -557,7 +569,7 @@ mw.toolbar = {
 
 
 
-/* A Cool HTML5 Richtext Editor */
+/* A Cool HTML5 WYSIWYG Editor */
 
 mw.wysiwyg = {
     _external:function(){  //global element for handelig the iframe tools
@@ -566,14 +578,17 @@ mw.wysiwyg = {
       document.body.appendChild(external);
       return external;
     },
+    execCommand:function(a,b,c){
+      if(mw.wysiwyg.isThereEditableContent){
+         document.designMode = 'on';  // for firefox
+         document.execCommand(a,b,c);
+         document.designMode = 'off';
+      }
+    },
     isThereEditableContent:false,
     selection:'',
     _do:function(what){
-      if(mw.wysiwyg.isThereEditableContent){
-         document.designMode = 'on';  // for firefox
-         document.execCommand(what);
-         document.designMode = 'off';
-      }
+        mw.wysiwyg.execCommand(what);
     },
     save_selected_element:function(){
         $("#mw-text-editor").addClass("editor_hover");
@@ -604,7 +619,7 @@ mw.wysiwyg = {
     init:function(){
       $(".mw_editor_btn").mousedown(function(event){
           var command = this.dataset!=undefined?this.dataset.command:this.getAttribute('data-command');
-          if(command.indexOf('custom-')==-1){
+          if(!command.contains('custom-')){
              mw.wysiwyg._do(command);
           }
           else{
@@ -651,29 +666,29 @@ mw.wysiwyg = {
     fontbgcolorpicker:function(){
         var el = ".mw_editor_font_background_color";
         mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontbg");
-
         $(mw.wysiwyg.external).find("iframe").width(360).height(180);
     },
     fontColor:function(color){
        if(mw.wysiwyg.isThereEditableContent){
-         document.execCommand('forecolor', null, color);
+         mw.wysiwyg.execCommand('forecolor', null, color);
        }
     },
     fontbg:function(color){
        if(mw.wysiwyg.isThereEditableContent){
-         document.execCommand('backcolor', null, "#"+color);
+         mw.wysiwyg.execCommand('backcolor', null, "#"+color);
        }
     },
     fontFamily:function(font_name){
        if(mw.wysiwyg.isThereEditableContent){
-         document.execCommand('fontname', null, font_name);
+         mw.wysiwyg.execCommand('fontname', null, font_name);
        }
     },
     fontSize:function(px){
         var obj = {
           fontSize:px+'px'
         }
-        var el = mw.wysiwyg.applier('span', 'mw_applier', obj);
+        //var el = mw.wysiwyg.applier('span', 'mw_applier', obj);
+        mw.wysiwyg.execCommand('fontsize', null, px);
     },
     does_selection_has:function(range,tagname){
       try{
@@ -730,12 +745,23 @@ mw.wysiwyg = {
 
     },
     link:function(){
-        mw.tools.modal.init("Link", 400, 200);
+        if($("#mw_rte_link").length>0){
+           $("#mw_rte_link").remove();
+        }
+        else{
+          var modal =  mw.tools.modal.rte_tool("rte_link_editor", "Add/Edit LInk", 'mw_rte_link');
+          $(modal.main).css("top", 200);
+        }
     },
     image:function(){
-        mw.wysiwyg.save_selection();
-        var modal = mw.tools.modal.rte_tool("rte_image_editor", "Upload Picture");
-        $(modal.main).css("top", 100);
+        if($("#mw_rte_image").length>0){
+           $("#mw_rte_image").remove();
+        }
+        else{
+          mw.wysiwyg.save_selection();
+          var modal = mw.tools.modal.rte_tool("rte_image_editor", "Upload Picture", 'mw_rte_image');
+          $(modal.main).css("top", 200);
+        }
     },
     save_selection:function(){
         var selection = window.getSelection();
@@ -751,6 +777,9 @@ mw.wysiwyg = {
         mw.wysiwyg.selection.element.focus();
         mw.wysiwyg.selection.sel.removeAllRanges()
         mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
+    },
+    format:function(command){
+        mw.wysiwyg.execCommand('formatblock', false, command);
     }
 }
 
@@ -777,6 +806,11 @@ mw.simpletabs = function(context){
 }
 
 
+
+
+
+
+
 $(window).load(function(){
     mw.toolbar.module_icons();
 
@@ -794,6 +828,7 @@ $(window).load(function(){
 
 
 
+
 $(".mw_dropdown_action_font_family").change(function(){
     var val = $(this).getDropdownValue();
      mw.wysiwyg.fontFamily(val);
@@ -801,6 +836,10 @@ $(".mw_dropdown_action_font_family").change(function(){
 $(".mw_dropdown_action_font_size").change(function(){
     var val = $(this).getDropdownValue();
      mw.wysiwyg.fontSize(val);
+});
+$(".mw_dropdown_action_format").change(function(){
+    var val = $(this).getDropdownValue();
+    mw.wysiwyg.format(val);
 });
 
 
@@ -827,16 +866,18 @@ $(".mw_dropdown_action_font_size").change(function(){
         });
       }  }, 100);
     });
-
-
-
     $(document.body).mousedown(function(){
       if($(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
-
         mw.wysiwyg.check_selection();
       }
+      if($(".mw_dropdown.hover").length==0){
+        $("div.mw_dropdown_fields").hide();
+      }
     });
+
+
+    $("#mw_small_editor").draggable();
 
 
 });
