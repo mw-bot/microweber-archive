@@ -814,6 +814,7 @@ border-radius: 3px;
 
 #mw_small_editor{
   position: fixed;
+  visibility:hidden;
   z-index: 999;
   width:211px;
   height: 68px;

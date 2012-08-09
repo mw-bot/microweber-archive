@@ -879,6 +879,20 @@ $(".mw_dropdown_action_format").change(function(){
 
     $("#mw_small_editor").draggable();
 
+    $("#mw-text-editor").mousedown(function(){
+      $(this).addClass("mousedown");
+    });
+    $("#mw-text-editor").mouseup(function(){
+        $(this).removeClass("mousedown");
+    });
+    $("#mw-text-editor").mouseleave(function(){
+        if($(this).hasClass("mousedown")){
+            $(this).removeClass("mousedown");
+            $("#mw_small_editor").visible();
+        }
+    });
+
+
 
 });
 
