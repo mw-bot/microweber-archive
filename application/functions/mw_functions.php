@@ -1264,6 +1264,14 @@ function menu_tree($menu_id, $max_depth = false) {
 	print $menu_items;
 }
 
+
+function pages_tree($content_parent = 0, $link = false, $actve_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
+	 // $CI = get_instance ();
+	$menu_items =  get_instance()->content_model->content_helpers_getPagesAsUlTree($content_parent , $link , $actve_ids , $active_code , $remove_ids ,$removed_ids_code , $ul_class_name  ,$include_first);
+
+	print $menu_items;
+}
+
 function get_page_for_post($post_id) {
 
 	$url = post_link ( $post_id );
@@ -1374,7 +1382,11 @@ function page_save($data) {
 	}
 
 }
-
+function save_data($table, $data, $data_to_save_options = false) {
+	$CI = get_instance ();
+	return $CI->core_model->saveData($table, $data, $data_to_save_options);
+	
+}
 function post_save($data) {
 	 // $CI = get_instance ();
 

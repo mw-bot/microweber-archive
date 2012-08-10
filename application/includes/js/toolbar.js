@@ -74,8 +74,8 @@ mw.tools = {
         var margin =  24*($(".is_minimized").length);
         modal.addClass("is_minimized");
         modal.animate({
-            top:window_h-40-margin,
-            left:window_w-modal_width-10,
+            top:window_h-24-margin,
+            left:window_w-modal_width,
             height:24
         });
         modal.draggable("option", "disabled", true);
@@ -602,10 +602,15 @@ mw.wysiwyg = {
       $("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
       items.bind("mousedown mouseup",function(){
-        if(!mw.isDrag){
+        if(!mw.isDrag && $(".module.element-active").length==0){
           $(this).attr('contenteditable','true');
           this.focus();
           mw.wysiwyg.isThereEditableContent=true;
+        }
+        if($(".module.element-active").length>0){
+          $(".module.element-active").parents(".element").attr("contenteditable", false);
+          this.blur();
+          mw.wysiwyg.isThereEditableContent=false;
         }
       });
       items.blur(function(){
@@ -826,7 +831,8 @@ $(window).load(function(){
     });
 
 
-
+  mw.smallEditor = $("#mw_small_editor");
+mw.bigEditor = $("#mw-text-editor");
 
 
 $(".mw_dropdown_action_font_family").change(function(){
@@ -877,20 +883,40 @@ $(".mw_dropdown_action_format").change(function(){
     });
 
 
-    $("#mw_small_editor").draggable();
-
-    $("#mw-text-editor").mousedown(function(){
-      $(this).addClass("mousedown");
-    });
-    $("#mw-text-editor").mouseup(function(){
-        $(this).removeClass("mousedown");
-    });
-    $("#mw-text-editor").mouseleave(function(){
-        if($(this).hasClass("mousedown")){
-            $(this).removeClass("mousedown");
-            $("#mw_small_editor").visible();
+    $("#mw_small_editor").draggable({
+        drag:function(){
+          mw.SmallEditorIsDragging = true;
+        },
+        stop:function(){
+          mw.SmallEditorIsDragging = false;
         }
     });
+
+
+
+    $("#mw-text-editor").mousedown(function(){
+      mw.mouseDownOnEditor = true;
+      $(this).addClass("hover");
+    });
+    $("#mw-text-editor").mouseup(function(){
+        mw.mouseDownOnEditor = false;
+        $(this).removeClass("hover");
+    });
+    $("#mw-text-editor").mouseleave(function(){
+        if(mw.mouseDownOnEditor){
+            $("#mw_small_editor").visible();
+            $("#mw-text-editor").animate({opacity:0}, function(){
+              $(this).invisible();
+            });
+            $("#mw-text-editor").removeClass("hover");
+        }
+    });
+    $(document.body).mouseup(function(){
+         mw.mouseDownOnEditor = false;
+         mw.SmallEditorIsDragging = false;
+    });
+
+
 
 
 

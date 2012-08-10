@@ -450,9 +450,16 @@ background-image: -webkit-gradient(
   border-bottom: 1px solid #E5E5E5;
   z-index: 996;
   box-shadow:0 1px 0 #F3F3F3;
-
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
 }
 
+#mw-text-editor.hover{
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
 
 #mw_history_files {
 
@@ -845,6 +852,12 @@ border-radius: 3px;
 
 
 /*  End WYSIWYG  */
+
+
+module.denied{
+  cursor: not-allowed;
+  cursor: no-drop;
+}
 
 
 

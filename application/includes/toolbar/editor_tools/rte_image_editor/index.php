@@ -1,7 +1,7 @@
 
 
 
-<div class="mw_simple_tabs">
+<div class="mw_simple_tabs ">
     <ul>
         <li><a href="#">My Computer</a></li>
         <li><a href="#">Image URL</a></li>

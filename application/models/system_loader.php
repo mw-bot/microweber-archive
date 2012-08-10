@@ -36,6 +36,8 @@ $cms_db_tables['table_countries'] = TABLE_PREFIX . 'countries';
 $cms_db_tables['table_cart_orders_shipping_cost'] = TABLE_PREFIX . 'cart_orders_shipping_cost';
 $cms_db_tables['table_cart_currency'] = TABLE_PREFIX . 'cart_currency';
 $cms_db_tables['table_reports'] = TABLE_PREFIX . 'reports';
+
+$cms_db_tables['table_forms'] = TABLE_PREFIX . "forms";
 //stats
 $cms_db_tables['table_stats_site'] = 'piwik_site';
 $cms_db_tables['table_stats_access'] = 'piwik_access';

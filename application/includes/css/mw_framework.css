@@ -179,6 +179,7 @@ body:-webkit-full-screen {
   font-size: 11px;
   white-space: nowrap;
   margin-left: 6px;
+  margin-top: 3px;
 }
 
 .mw_modal_minimize{
@@ -266,6 +267,24 @@ body:-webkit-full-screen {
     background-position: 0 0;
     top: -8px;
 }
+
+
+.mw_dropable_vertical .mw_dropable_arr{
+  width: 8px;
+  height: 16px;
+  background-position: -16px -18px;
+  left: -4px;
+  top: 50%;
+  margin-top: -8px;
+}
+
+.mw_dropable_arr_rigt  .mw_dropable_arr{
+  background-position: -25px -18px;
+  left: 6px;
+}
+
+
+
 
 .currentDragMouseOver{
   outline: dotted 0px #56B2F3;

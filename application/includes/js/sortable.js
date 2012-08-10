@@ -1,4 +1,4 @@
- 
+
 
 mw.isDrag = false;
 mw.resizable_row_width = false;
@@ -12,6 +12,9 @@ mw.dragCurrent = null;
 mw.currentDragMouseOver = null;
 
 
+
+mw.mouseDownOnEditor = false;
+mw.SmallEditorIsDragging = false;
 
 
 /**
@@ -55,11 +58,29 @@ mw.drag = {
 	create: function () {
          mw.top_half = false;
          $(document.body).mousemove(function(event){
+
+           if(mw.mouseDownOnEditor){
+            $("#mw_small_editor").css({
+               top:event.pageY-$(window).scrollTop(),
+               left:event.pageX-100
+            });
+           }
+           if(mw.SmallEditorIsDragging){
+                var offset_small = mw.smallEditor.offset();
+                var offset_big = mw.bigEditor.offset();
+                if(offset_small.top<offset_big.top+50){
+                    mw.SmallEditorIsDragging = false;
+                    mw.smallEditor.invisible();
+                    mw.bigEditor.visible();
+                    mw.bigEditor.animate({opacity:1}, 200);
+                }
+           }
+
            mw.mouse = {
              x:event.pageX,
              y:event.pageY
            }
-           if(mw.isDrag && mw.currentDragMouseOver!=null){
+           if(mw.isDrag && mw.currentDragMouseOver!=null  && (!$(mw.currentDragMouseOver).hasClass("module")  && $(mw.currentDragMouseOver).parents(".module").length==0)){
 
             var el = $(mw.currentDragMouseOver);
             $(".ui-draggable-dragging").show();
@@ -90,6 +111,7 @@ mw.drag = {
               }
               else{
                   mw.dropable.data("position", 'right');
+                  mw.dropable.addClass("mw_dropable_arr_rigt");
                   mw.dropable.css({
                       top:offset.top,
                       left:offset.left+width,
@@ -100,6 +122,7 @@ mw.drag = {
             }
             else{
                 mw.dropable.removeClass("mw_dropable_vertical");
+                mw.dropable.removeClass("mw_dropable_arr_rigt");
                 if(event.pageY > offset.top+(height/2)){  //is on the bottom part
 
                   mw.top_half = false;
@@ -111,6 +134,7 @@ mw.drag = {
                   });
                   mw.dropable.data("position", "bottom");
                   mw.dropable.removeClass("mw_dropable_arr_up");
+                  mw.dropable.removeClass("mw_dropable_arr_rigt");
                 }
                 else{
                   mw.top_half = true;
@@ -156,7 +180,7 @@ mw.drag = {
 		mw.drag.init(".module-item");
 		mw.drag.sort(".element > *,.edit,.column > *");
 
-        mw.drag.edit(".element > *");
+        mw.drag.edit(".element");
 		mw.drag.fix_handles();
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
@@ -179,7 +203,7 @@ mw.drag = {
 
 	init: function (selector, callback) {
 
-        $(selector).not(".ui-draggable").each(function(){
+        $(selector).not(".ui-draggable").not(".module .module").each(function(){
             var el = $(this);
             if( el.hasClass("module-item")){
                 helper = function(event, ui) {
@@ -194,6 +218,8 @@ mw.drag = {
             	cursorAt: {
             		top: -30
             	},
+				scroll:true,
+				scrollSensitivity:100,
             	helper: helper,
             	start: function () {
             		mw.isDrag = true;
@@ -269,7 +295,7 @@ mw.drag = {
          var selector = selector || '.row, .edit';
 
          $(selector).not(".mw-sorthandle").bind("mouseleave", function(event){
-           if (mw.isDrag) {
+           if (mw.isDrag && ($(this).hasClass("module") && $(this).parents(".module").length==0)) {
              mw.currentDragMouseOver = this;
              var el = this;
              var offset = $(el).offset();
@@ -283,13 +309,13 @@ mw.drag = {
 
          });
          $(selector).notmouseenter().bind("mouseenter", function(){
-           if(mw.isDrag){
-                mw.currentDragMouseOver = null;
+           if(mw.isDrag && ($(this).hasClass("module") || $(this).parents(".module").length==0)){
+                mw.currentDragMouseOver = this;
            }
          });
 
 		$(selector).notmouseenter().not(".mw-sorthandle").bind("mouseenter", function (event) {
-			if (mw.isDrag) {
+			if (mw.isDrag && ($(this).hasClass("module") && $(this).parents(".module").length==0)) {
     			if (this.className.indexOf('ui-draggable-dragging')==-1 && $(this).parents(".ui-draggable-dragging").length==0) {
                    mw.currentDragMouseOver = this;
                    $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -340,7 +366,7 @@ mw.drag = {
                         if(hovered.hasClass("empty-element")){
                            hovered.before(mw.dragCurrent);
                            $(mw.dragCurrent).removeClass("mw_drag_float");
-                                 $(mw.dragCurrent).removeClass("mw_drag_float_right");
+                           $(mw.dragCurrent).removeClass("mw_drag_float_right");
                         }
                         else{
 
@@ -425,6 +451,8 @@ mw.drag = {
 
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
             mw.currentDragMouseOver = null;
+
+
 				}, 37);
 			}
 
@@ -650,7 +678,6 @@ mw.drag = {
 
 
 				$is_this_module = ($(this).hasClass('module') || $(this).parents(".element:first").hasClass('module'));
-				$is_freshereditor = $(this).hasClass('freshereditor');
 				$is_this_row = $(this).hasClass('row');
 				$is_this_handle = $(this).hasClass('mw-sorthandle');
 				$is_mw_delete_element = $(this).hasClass('mw.edit.delete_element');
@@ -661,7 +688,7 @@ mw.drag = {
 					console.log('mousedown on element : ' + this.tagName);
 				}
 
-				if (!$is_freshereditor && !$is_this_module && !$is_this_handle ) {
+				if (!$is_this_module && !$is_this_handle ) {
 					$(this).closest('.mw-sorthandle').show();
 
 					$el_id = $(this).attr('id');
@@ -677,21 +704,10 @@ mw.drag = {
 					mw.settings.text_edit_started = true;
 
 					$is_this_element = $(this).hasClass('.element');
-					$(this).addClass('freshereditor');
-                    //$(this).parent('.element').freshereditor("edit", true);
 
-                    //$("#mw-text-editor").slideDown();
 
-                   //	$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
+
 					$(this).parent('.element').children().removeAttr("contenteditable");
-
-
-
-                                            		//$(this).parent('.element').children('.module').freshereditor("edit", false);
-
-
-
-
 
 
 
@@ -715,7 +731,7 @@ mw.drag = {
 					if ($.browser.msie) {
 						$("img, .element p").each(function () {
 							this.oncontrolselect = function () {
-								return false
+								return false;
 							}
 						});
 					}
@@ -725,6 +741,7 @@ mw.drag = {
 
 
 					$('img').attr("contenteditable", false);
+					$('.module').attr("contenteditable", false);
 
 					$('.element.mw-module-wrap').attr("contenteditable", false);
 					//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
@@ -812,6 +829,8 @@ mw.drag = {
                 $(this).after("<div class='element mw-module-wrap' id='" + $el_id_new + "'></div>");
 
 				mw.drag.load_module($name, '#' + $el_id_new);
+
+
 
 			   $(this).remove();
 

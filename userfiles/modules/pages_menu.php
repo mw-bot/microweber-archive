@@ -1,4 +1,1 @@
-
-
-Lorem Ipsum
-
+<h1>Pages tree</h1><? pages_tree() ?>

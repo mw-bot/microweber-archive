@@ -26,7 +26,7 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 			//print $field_id;
 
 			$data = $CI -> core_model -> getById('table_custom_fields', $id = $field_id, $is_this_field = false);
-			 //p($data);
+			//p($data);
 			//getById($table, $id = 0, $is_this_field = false)
 			//exit('$field_id' . $field_id);
 		}
@@ -71,8 +71,8 @@ function save_field($data) {
 	if ($id == false) {
 		exit('Error: not logged in as admin.');
 	}
- $data = get_instance() -> core_model -> addSlashesToArrayAndEncodeHtmlChars ( $data );
-	$data =          	get_instance() -> core_model -> saveCustomField($data);
+	$data =    get_instance() -> core_model -> addSlashesToArrayAndEncodeHtmlChars($data);
+	$data =             	get_instance() -> core_model -> saveCustomField($data);
 
 	return ($data);
 	//exit
@@ -88,22 +88,47 @@ function remove_field($id) {
 		exit('Error: not logged in as admin.');
 	}
 	$id = intval($id);
-	$data =          	get_instance() -> core_model -> deleteCustomFieldById($id);
+	$data =             	get_instance() -> core_model -> deleteCustomFieldById($id);
 
 	return ($data);
 
 }
 
+function save_form_data($data) {
+	$CI = get_instance();
+	global $cms_db_tables;
 
+	$table = $cms_db_tables['table_forms'];
 
+	$db_system_fields = $CI -> core_model -> mapArrayToDatabaseTable($table, $data);
 
+	$form_fields = array_diff($data, $db_system_fields);
 
-function save_form_data($data){
-	p($data);
-	
-	
-	
-	
+	$add_enrty = save_data($table, $db_system_fields);
+
+	$fields_data = array();
+
+	foreach ($form_fields as $k => $v) {
+		$custom_field_data = array();
+		$custom_field_data['to_table'] = 'table_forms';
+		$custom_field_data['to_table_id'] = $add_enrty;
+		$custom_field_data['custom_field_name'] = $k;
+		$custom_field_data['custom_field_value'] = $v;
+		$custom_field_data['field_for'] = $db_system_fields['form_title'];
+		
+		
+		$cf_data =             	get_instance() -> core_model -> saveCustomField($custom_field_data);
+		
+		
+		
+		//	$custom_field_data['to_table']  = 'table_forms';
+
+	}
+
+	p($add_enrty);
+
+//	p($table);
+	p($cf_data);
+//	p($form_fields);
+
 }
-
-
