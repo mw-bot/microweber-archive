@@ -80,7 +80,7 @@ mw.drag = {
              x:event.pageX,
              y:event.pageY
            }
-           if(mw.isDrag && mw.currentDragMouseOver!=null  && (!$(mw.currentDragMouseOver).hasClass("module")  && $(mw.currentDragMouseOver).parents(".module").length==0)){
+           if(mw.isDrag && mw.currentDragMouseOver!=null  && ( $(mw.currentDragMouseOver).parents(".module").length==0)){
 
             var el = $(mw.currentDragMouseOver);
             $(".ui-draggable-dragging").show();
@@ -180,7 +180,6 @@ mw.drag = {
 		mw.drag.init(".module-item");
 		mw.drag.sort(".element > *,.edit,.column > *");
 
-        mw.drag.edit(".element");
 		mw.drag.fix_handles();
         mw.drag.fix_column_sizes_to_percent();
 		mw.resizable_columns();
@@ -293,9 +292,10 @@ mw.drag = {
 	},
 	sort: function (selector) {
          var selector = selector || '.row, .edit';
+         var el = $(selector).not(".mw-sorthandle").not(".module *").not(".mw-sorthandle *").notmouseenter();
 
-         $(selector).not(".mw-sorthandle").bind("mouseleave", function(event){
-           if (mw.isDrag && ($(this).hasClass("module") && $(this).parents(".module").length==0)) {
+         el.bind("mouseleave", function(event){
+           if (mw.isDrag && ($(this).parents(".module").length==0)) {
              mw.currentDragMouseOver = this;
              var el = this;
              var offset = $(el).offset();
@@ -308,14 +308,14 @@ mw.drag = {
            }
 
          });
-         $(selector).notmouseenter().bind("mouseenter", function(){
-           if(mw.isDrag && ($(this).hasClass("module") || $(this).parents(".module").length==0)){
+         el.bind("mouseenter", function(){
+           if(mw.isDrag && ($(this).parents(".module").length==0)){
                 mw.currentDragMouseOver = this;
            }
          });
 
-		$(selector).notmouseenter().not(".mw-sorthandle").bind("mouseenter", function (event) {
-			if (mw.isDrag && ($(this).hasClass("module") && $(this).parents(".module").length==0)) {
+		el.bind("mouseenter", function (event) {
+			if (mw.isDrag && ($(this).parents(".module").length==0)) {
     			if (this.className.indexOf('ui-draggable-dragging')==-1 && $(this).parents(".ui-draggable-dragging").length==0) {
                    mw.currentDragMouseOver = this;
                    $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -343,7 +343,7 @@ mw.drag = {
 			}
 			event.stopPropagation();
 		});
-        $(selector).bind("mouseleave", function(){
+        el.bind("mouseleave", function(){
 
           if (mw.isDrag) {
             mw.currentDragMouseOver = null; 
@@ -661,103 +661,6 @@ mw.drag = {
 
 
 
-	/**
-	 * Makes contentEditable events on selector
-	 *
-	 * @example mw.drag.edit(".element > *");
-	 */
-	edit: function (selector) {
-
-
-//return false;
-
-	  $(selector, '.edit').unbind('mousedown.edit');
-		$(selector, '.edit').bind("mousedown.edit", function (e) {
-			if (!mw.isDrag) {
-
-
-
-				$is_this_module = ($(this).hasClass('module') || $(this).parents(".element:first").hasClass('module'));
-				$is_this_row = $(this).hasClass('row');
-				$is_this_handle = $(this).hasClass('mw-sorthandle');
-				$is_mw_delete_element = $(this).hasClass('mw.edit.delete_element');
-				$columns_set = $(this).hasClass('columns_set');
-
-				is_image = this.tagName == 'IMG' ? true : false;
-				if (window.console != undefined) {
-					console.log('mousedown on element : ' + this.tagName);
-				}
-
-				if (!$is_this_module && !$is_this_handle ) {
-					$(this).closest('.mw-sorthandle').show();
-
-					$el_id = $(this).attr('id');
-					if ($el_id == undefined || $el_id == 'undefined') {
-						$el_id = 'mw-element-' + mw.random();
-						$(this).attr('id', $el_id);
-					}
-					mw.settings.element_id = $el_id;
-					mw.settings.sortables_created = true;
-					if (window.console != undefined) {
-						console.log('contenteditable started on element id: ' + $el_id);
-					}
-					mw.settings.text_edit_started = true;
-
-					$is_this_element = $(this).hasClass('.element');
-
-
-
-					$(this).parent('.element').children().removeAttr("contenteditable");
-
-
-
-
-                     mw.drag.fix_onChange_editable_elements();
-
-                       r = $(this).parents('.row:first');
-
-                       if(r.length > 0 ){
-                         $(this).parent('.element').unbind("change");
-                            $(this).parent('.element').bind("change", function(event){
-
-
-
-                        mw.drag.fix_placeholders(true , r)
-                            });
-                        }
-
-
-
-					if ($.browser.msie) {
-						$("img, .element p").each(function () {
-							this.oncontrolselect = function () {
-								return false;
-							}
-						});
-					}
-
-
-
-
-
-					$('img').attr("contenteditable", false);
-					$('.module').attr("contenteditable", false);
-
-					$('.element.mw-module-wrap').attr("contenteditable", false);
-					//$(this).parent('.element').children('.mw-sorthandle').freshereditor("edit", false);
-					setTimeout("mw.settings.sorthandle_hover=false", 300);
-					e.stopPropagation();
-				}
-				else {
-					mw.settings.sorthandle_hover = true;
-				}
-			}
-		});
-
-
-       
-
-	},
 
 	/**
 	 * Removes contentEditable for ALL elements
@@ -766,7 +669,6 @@ mw.drag = {
 	 */
 	edit_remove: function () {
 
- 
 		$('*[contenteditable]', '.edit').removeAttr("contenteditable");
  
 	},
@@ -778,15 +680,24 @@ mw.drag = {
 	 *
 	 * @example mw.drag.fix_onChange_editable_elements();
 	 */
-    fix_onChange_editable_elements : function()   {
-      $('[contenteditable]').live('focus', function() {
+    fix_onChange_editable_elements : function(el)   {
+
+
+
+    var el = el || '[contenteditable]';
+
+
+      $(el).bind('focus', function() {
     var $this = $(this);
     $this.data('before', $this.html());
     return $this;
-}).live('blur keyup paste', function() {
+}).bind('blur keyup paste', function() {
     var $this = $(this);
     if ($this.data('before') !== $this.html()) {
         $this.data('before', $this.html());
+
+              
+
         $this.trigger('change');
     }
     return $this;

@@ -601,11 +601,28 @@ mw.wysiwyg = {
       mw.wysiwyg.checker = mw.wysiwyg._checker();
       $("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
-      items.bind("mousedown mouseup",function(){
+      items.bind("mouseup",function(){
+
+
+
         if(!mw.isDrag && $(".module.element-active").length==0){
           $(this).attr('contenteditable','true');
+          $(this).find('.mw-sorthandle').attr('contenteditable','false');
           this.focus();
           mw.wysiwyg.isThereEditableContent=true;
+          mw.drag.fix_onChange_editable_elements(this);
+
+                         $(this).unbind("change");
+                             $(this).bind("change", function(event){
+
+
+
+                        mw.drag.fix_placeholders(true , $(this))
+                            });
+
+
+
+
         }
         if($(".module.element-active").length>0){
           $(".module.element-active").parents(".element").attr("contenteditable", false);
@@ -811,6 +828,18 @@ mw.simpletabs = function(context){
 }
 
 
+mw.disable_selection = function(element){
+    var el = element || ".module";
+    var el = $(el, ".edit").not(".unselectable");
+
+    el.attr("unselectable", "on");
+    el.addClass("unselectable");
+    el.bind("selectstart", function(event){
+      event.preventDefault();
+      return false;
+    });
+}
+
 
 
 
@@ -829,6 +858,10 @@ $(window).load(function(){
     $(".element").mousedown(function(event){
         $(".mw_editor_btn").removeClass("mw_editor_btn_active")
     });
+
+
+    mw.disable_selection();
+
 
 
   mw.smallEditor = $("#mw_small_editor");
