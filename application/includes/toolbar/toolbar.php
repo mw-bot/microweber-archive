@@ -1,3 +1,5 @@
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
 <script type="text/javascript">
 
     window.onerror = function(err, file, row){alert(err + "\nFile: " + file + "\nRow: " + row)}
@@ -78,9 +80,7 @@
 
 	
         $(document).ready(function () {
-           /* $('.edit').freshereditor({
-                toolbar_selector: "#mw-text-editor"
-            }); */
+
            mw.drag.create();
 
 
@@ -232,6 +232,7 @@
       <div class="mw_dropdown mw_dropdown_type_navigation left" id="module_category_selector" data-value='recommended'> <span class="mw_dropdown_val">Recommended</span>
         <div class="mw_dropdown_fields">
           <ul>
+            <li value="-1" class="other-action"><div class="dd_search"><input type="text" id="dd_module_search" class="dd_search" /><span class="tb_search_magnify"></span></div></li>
             <li value="recommended"><a href="#">Recommended</a></li>
             <li value="forms"><a href="#">Forms</a></li>
             <li value="media"><a href="#">Media</a></li>
@@ -376,10 +377,10 @@
 
             <span class="mw_dlm"></span>
 
-            <span class="mw_editor_btn mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
-            <span class="mw_editor_btn mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
 
 
             <span class="mw_dlm"></span>
@@ -455,10 +456,10 @@
           <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ico"></span></span>
           <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ico"></span></span>
           <span class="mw_dlm"></span>
-          <span class="mw_editor_btn mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
-          <span class="mw_editor_btn mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ico"></span></span>
+          <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ico"></span></span>
           <div class="mw_clear">&nbsp;</div>
         </div>
 

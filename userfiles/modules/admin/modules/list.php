@@ -17,6 +17,13 @@ $modules = get_modules($modules_options );
 
 ?>
 
+
+<script type="text/javascript">
+
+ Modules_List = {}
+
+</script>
+
 <ul class="modules-list">
   <? foreach($modules as $module2): ?>
   <?
@@ -29,7 +36,19 @@ $modules = get_modules($modules_options );
   <? $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']); ?>
-  <li data-filter="<? print $module2['name'] ?>" data-category="<? print $module2['categories']; ?>" class="module-item" alt="<? print addslashes($module2['description']) ?>">
+  <?php
+    $module_id = $module2['module_clean'] . "_" . uniqid();
+   ?>
+  <li id="<?php print($module_id); ?>"  class="module-item">
+  <script type="text/javascript">
+     Modules_List['<?php print($module_id); ?>'] = {
+       id:'<?php print($module_id); ?>',
+       name:'<? print $module2["module"] ?>',
+       title:'<? print $module2["name"] ?>',
+       description:'<? print addslashes($module2["description"]) ?>',
+       category:'<? print $module2["categories"]; ?>'
+     }
+  </script>
   <span class="mw_module_hold">
     <? if($module2['icon']): ?>
 
@@ -41,9 +60,8 @@ $modules = get_modules($modules_options );
                 title="<? print addslashes($module2['description']) ?>"
                 class="module_draggable"
                 data-module-name="<? print $module2['module'] ?>"
-                data-module-name-enc="<? print $module2['module_clean'] ?>|<? print $module2['name_clean'] ?>_<? print date("YmdHis") ?>"
-                src="<? print $module2['icon'] ?>"
-                 />
+                src="<? print $module2['icon'] ?>"  />
+
           </span>
 
 

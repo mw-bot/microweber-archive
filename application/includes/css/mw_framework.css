@@ -203,6 +203,30 @@ body:-webkit-full-screen {
   overflow-y:auto;
   overflow-x:hidden;
 }
+.iframe_fix{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  background:transparent;
+  display: none;
+}
+.mw_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity:.2;
+}
+
+.mw_modal_type_iframe .mw_modal_container{
+  padding: 0;
+}
 
 .mw_modal_maximized{
   overflow: hidden;
