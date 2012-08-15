@@ -8,26 +8,25 @@
 
 
     Uploader = mw.files.browser({
-      open:false
+
     });
+
+
 
     mw.filechange(Uploader, function(){
-          var el = this;
-          if(el.files){
-            var files = el.files;
-            $.each(files, function(){
-                var reader = new FileReader();
-                var file = mw.files.processer(reader, el);
+
+         this.validate(function(){
+            mw.files.upload(Uploader, function(){
+                console.log(this);
             });
-          }
-          else{
+         });
 
-          }
     });
 
-    $("#rte_image_upload").click(function(){
-       $(Uploader).click();
-    });
+
+    mw.files.browser_connector("#rte_image_upload", Uploader);
+
+
   });
 </script>
 
@@ -45,7 +44,13 @@
         </center>
 
 
+
+
+
     </div>
+
+
+
     <div class="tab">Enter the URL of an image somewhere on the web</div>
     <div class="tab">Search for Images</div>
 </div>
