@@ -229,8 +229,8 @@ mw.simpletabs = function(context){
 
 
 mw.files = {
-    drag_from_pc:function(){
-        $(".element, .element>*").each(function(){
+    drag_from_pc:function(selector){
+        $(selector).each(function(){
             var el = $(this);
             this.addEventListener('dragover', function(event){
                 event.stopPropagation();
@@ -255,7 +255,7 @@ mw.files = {
              toreturn.name = file.name;
              reader.onload = function(e) {
                toreturn.result = e.target.result;
-               callback.call(toreturn)
+               callback.call(toreturn);
   		     }
              reader.readAsDataURL(file);
           }
@@ -273,8 +273,7 @@ mw.files = {
           }
     },
     browser_settings:{
-        accepts:"png,gif,jpg,jpeg,tiff,bmp",
-        multiple:true
+        accepts:"png,gif,jpg,jpeg,tiff,bmp"
     },
     browser_connector:function(element, uploader){
         var el = $(element);
@@ -345,50 +344,64 @@ mw.files = {
         return u;
     },
     iframe_uploader:function(input_file, url, callback){
-        var target = 'target_' + mw.random();
-        var form = document.createElement('form');
-        form.enctype = 'multipart/form-data';
-        form.action = url;
-        form.method = 'post';
-        form.target = target;
-        form.id = "form_"+target;
-        $(form).append(input_file);
-
-        var frame = document.createElement('iframe');
-        frame.src= "javascript:false;";
-        //frame.className= 'semi_hidden';
-        frame.id = target;
-        frame.name = target;
-        frame.onload = function(){
-          if(!$(frame).hasClass("submitet")){
-              $(frame).addClass("submitet");
-              $("#form_"+target).submit();
+      if($(input_file).parents("form").length==0){
+          var target = 'target_' + mw.random();
+          var form = document.createElement('form');
+          form.enctype = 'multipart/form-data';
+          form.action = url;
+          form.method = 'post';
+          form.target = target;
+          form.id = "form_"+target;
+          $(form).append(input_file);
+          var frame = document.createElement('iframe');
+          frame.src= "javascript:false;";
+          frame.className= 'semi_hidden';
+          frame.id = target;
+          frame.name = target;
+          frame.onload = function(){
+            if(!$(frame).hasClass("submitet")){
+                $(frame).addClass("submitet");
+                $("#form_"+target).submit();
+            }
+            else{
+              var data = frame.contentDocument.body.innerHTML;
+              var json = $.parseJSON(data);
+              callback.call(json);
+            }
           }
-          else{
-             callback.call(frame);
-          }
-        }
-        form.appendChild(frame);
-        document.body.appendChild(form);
+          form.appendChild(frame);
+          document.body.appendChild(form);
+      }
+      else{
+         $(input_file).parents("form").submit();
+      }
     },
     upload_settings:{
         url:'http://pecata/Microweber/iframe_submit_test.php'
     },
-    upload:function(uploader, object, callback){
+    upload:function(uploader, object, single_file_uploaded, all_uploaded){
         var obj = mw.files.upload_settings;
         typeof object=='object' ? $.extend(obj, object) : '';
         if(uploader.files){
             var files = uploader.files;
             var len = files.length;
+            var all = {};
+            var count = 0;
             $.each(files, function(i){
                  mw.files.processer(this, function(){
                    var data = {
                      file:this.result,
                      name:this.name
                    }
-                   $.post(obj.url, data, function(){
-                        if((i+1)==len && typeof callback == 'function'){
-                           callback.call(files);
+                   $.post(obj.url, data, function(data){
+                        count += 1; //increasing after success
+                        var json = $.parseJSON( data );
+                        all['item_'+i] = json;
+                        if(typeof single_file_uploaded == 'function'){
+                           single_file_uploaded.call(json);
+                        }
+                        if(count==len && typeof all_uploaded == 'function'){
+                           all_uploaded.call(all);
                         }
                    });
                  });
@@ -396,7 +409,12 @@ mw.files = {
         }
         else{  // browser has no filereader;
             mw.files.iframe_uploader(uploader, obj.url, function(){
-              callback.call(this);
+              if(typeof single_file_uploaded == 'function'){
+                single_file_uploaded.call(this);
+              }
+              if(typeof all_uploaded == 'function'){
+                all_uploaded.call(this);
+              }
             });
         }
     }

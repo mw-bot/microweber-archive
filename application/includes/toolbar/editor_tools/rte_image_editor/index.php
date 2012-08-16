@@ -16,8 +16,10 @@
     mw.filechange(Uploader, function(){
 
          this.validate(function(){
-            mw.files.upload(Uploader, function(){
-                console.log(this);
+            mw.files.upload(Uploader, {}, function(){
+                console.log('file is uploaded - ' + this);
+            }, function(){
+                console.log('all files are uploaded - ' + this);
             });
          });
 
@@ -41,6 +43,7 @@
 
         <center style="padding-top: 100px;">
             <span class="bluebtn" id="rte_image_upload">Upload image from my compyter</span>
+            <i style="opacity:.5"><br /><br /><br />Drag your files here</i>
         </center>
 
 
