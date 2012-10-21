@@ -16,14 +16,14 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
     $cache_id = (int) crc32($cache_id);
     //$cache_group = 'gr' . crc32($cache_group);
     // $cache_id = 'id' . crc32($cache_id);
-    $mode = 2;
+    $mode = 1;
     switch ($mode) {
         case 1:
             if ($replace_with_new != false) {
                 $mem[$cache_group][$cache_id] = $replace_with_new;
-                asort($mem[$cache_group]);
+             //   asort($mem[$cache_group]);
                 $mem_hits[$cache_group][$cache_id] = 1;
-                asort($mem);
+               // asort($mem);
             }
 
             if (isset($mem[$cache_group][$cache_id])) {
