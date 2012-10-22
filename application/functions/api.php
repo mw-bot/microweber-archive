@@ -52,11 +52,14 @@ function execute_document_ready($l) {
 //                for ($index = 0; $index < 20000; $index++) {
 //                     $l = $api_function($l);
 //                }
-                $l = $api_function($l);
+                $l1 = $api_function($l);
+				if(is_string($l1)){
+					$l = $l1;
+				}
             }
         }
     }
-    $l = parse_micrwober_tags($l, $options = false);
+  //  $l = parse_micrwober_tags($l, $options = false);
 
     return $l;
 }
