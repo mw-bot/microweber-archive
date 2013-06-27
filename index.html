@@ -1,36 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>Microweber by microweber</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>Microweber by ooyes</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Microweber</h1>
-        <h2>Microweber cms</h2>
-        <a href="https://github.com/ooyes/Microweber" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Microweber</h1>
+        <p class="header">Microweber cms</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <p>This quick guide will only show you the very basics of the Microweber architecture and you will continue to learn more in the next chapters.</p>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/microweber/Microweber/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/microweber/Microweber/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/microweber/Microweber">View On GitHub</a></li>
+        </ul>
 
-<h1>Basics</h1>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/microweber">microweber</a></p>
+
+
+      </header>
+      <section>
+        <p>This quick guide will only show you the very basics of the Microweber architecture and you will continue to learn more in the next chapters.</p>
+
+<h1>
+<a name="basics" class="anchor" href="#basics"><span class="octicon octicon-link"></span></a>Basics</h1>
 
 <p>Microweber (MW) has many powerful features, but its basic operation is quite simple. When a request is made to a page, the system determines what page to display and which template to use.</p>
 
@@ -38,7 +41,8 @@
 
 <p>How MW displays information depends on how you structure your content.</p>
 
-<h2>Content architecture</h2>
+<h2>
+<a name="content-architecture" class="anchor" href="#content-architecture"><span class="octicon octicon-link"></span></a>Content architecture</h2>
 
 <p>The content is divided in few content types. With them you can organize your website with the structure you need.</p>
 
@@ -53,15 +57,19 @@
 
 <p><img src="../wiki/_img/content_architecture.png?raw=true" alt="Image"></p>
 </li>
-</ol><h2>Template basics</h2>
+</ol><h2>
+<a name="template-basics" class="anchor" href="#template-basics"><span class="octicon octicon-link"></span></a>Template basics</h2>
 
 <p>The templates are set of files that offers you different ways to display information. They are simple PHP files and you can use any php function in them.</p>
 
 <p>You can make any html or php page a template by putting it into the template directory and loading it into the browser. </p>
 
-<h4><a href="02.1-Working-with-templates">Working with templates guide</a></h4>
+<h4>
+<a name="working-with-templates-guide" class="anchor" href="#working-with-templates-guide"><span class="octicon octicon-link"></span></a><a href="02.1-Working-with-templates">Working with templates guide</a>
+</h4>
 
-<h1>Live edit</h1>
+<h1>
+<a name="live-edit" class="anchor" href="#live-edit"><span class="octicon octicon-link"></span></a>Live edit</h1>
 
 <p>You can define editable regions in your template where the user will be able to type text and <em>Drag and Drop</em> modules</p>
 
@@ -80,9 +88,12 @@
 <li>Add attribute <em>rel="content"</em> and set the scope of your field.</li>
 <li>The main editable region of the page must have attribute <em>field="content"</em>
 </li>
-</ul><h4><a href="02.1-Live-edit">Working with editable regions guide</a></h4>
+</ul><h4>
+<a name="working-with-editable-regions-guide" class="anchor" href="#working-with-editable-regions-guide"><span class="octicon octicon-link"></span></a><a href="02.1-Live-edit">Working with editable regions guide</a>
+</h4>
 
-<h1>Modules</h1>
+<h1>
+<a name="modules" class="anchor" href="#modules"><span class="octicon octicon-link"></span></a>Modules</h1>
 
 <p>The Mw modules will help you to make easy modifications and add functionality to your pages.</p>
 
@@ -102,26 +113,15 @@ It can be very simple, or it can be hugely complex, there are no limitations.</p
 
 </pre></div>
 
-<h4><a href="02.3-Modules">See the Modules guide</a></h4>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/ooyes/Microweber/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/ooyes/Microweber/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/ooyes/Microweber"></a> is maintained by <a href="https://github.com/ooyes">ooyes</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<h4>
+<a name="see-the-modules-guide" class="anchor" href="#see-the-modules-guide"><span class="octicon octicon-link"></span></a><a href="02.3-Modules">See the Modules guide</a>
+</h4>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
