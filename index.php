@@ -122,12 +122,12 @@ if (!defined('MW_BARE_BONES')) {
 
             $controller->admin();
             if ($close_conn == true and $installed == true) {
-                db_query('close');
+               // db_query('close');
             }
             exit();
         } else {
             if ($close_conn == true and $installed == true) {
-                db_query('close');
+               // db_query('close');
             }
             error('No access allowed to admin');
             exit();
@@ -190,7 +190,7 @@ if (!defined('MW_BARE_BONES')) {
 
 
     if ($close_conn == true and $installed == true) {
-        db_query('close');
+       // db_query('close');
     }
     //exit('No method');
 }

@@ -1570,10 +1570,13 @@ class MwController
             exit();
         } else {
 
-            print 'NO LAYOUT IN ' . __FILE__;
-            d($template_view);
-            d($page);
+          //  print 'NO LAYOUT IN ' . __FILE__;
 
+            print 'Error! Please try again later.';
+
+          //  d($template_view);
+            //d($page);
+            clearcache();
             exit();
         }
         // var_dump ( $page );
