@@ -746,8 +746,32 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 								//
 							}
 							//
-							 $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 
+
+                            preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $mod_content, $modinner);
+                            $proceed_with_parse = false;
+                            if(!empty($modinner) and isset($modinner[0][0])){
+
+                                $proceed_with_parse = true;
+                            } else {
+                                preg_match_all('/<module.*[^>]*>/',$mod_content, $modinner);
+                                if(!empty($modinner) and isset($modinner[0][0])){
+
+                                    $proceed_with_parse = true;
+                                }else {
+                                    preg_match_all('/<mw.*[^>]*>/',$mod_content, $modinner);
+                                    if(!empty($modinner) and isset($modinner[0][0])){
+
+                                        $proceed_with_parse = true;
+                                    }
+
+                                }
+
+                            }
+
+if($proceed_with_parse == true){
+							 $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+}
 							//if (trim($mod_content) != '') {
 							if ($mod_no_wrapper == false) {
 								$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';

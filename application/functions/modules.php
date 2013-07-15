@@ -647,6 +647,7 @@ function module_info($module_name)
     global $_mw_modules_info_register;
     if (isset($_mw_modules_info_register[$module_name])) {
 
+       
         return $_mw_modules_info_register[$module_name];
 
     }
