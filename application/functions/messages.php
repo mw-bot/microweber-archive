@@ -55,9 +55,9 @@ function mw_db_init_notifications_table() {
 
 }
 /*
-api_expose('\mw\Notifications::save');
+api_expose('Notifications::save');
 
-function \mw\Notifications::save($params) {
+function Notifications::save($params) {
 
 	$params = parse_params($params);
 
@@ -72,7 +72,7 @@ function \mw\Notifications::save($params) {
 	mw_var('FORCE_SAVE', $table);
 
 	if (!isset($params['rel']) or !isset($params['rel_id'])) {
-		return ('Error: invalid data you must send rel and rel_id as params for \mw\Notifications::save function');
+		return ('Error: invalid data you must send rel and rel_id as params for Notifications::save function');
 	}
 	$old = date("Y-m-d H:i:s", strtotime('-30 days'));
 	$cleanup = "delete from $table where created_on < '{$old}'";
@@ -103,8 +103,8 @@ function \mw\Notifications::save($params) {
 	return $data;
 }*/
 
-
-function delete_notifications_for_module($module) {
+/*
+function Notifications::delete_for_module($module) {
 
 	if (($module) != false and $module != '') {
 
@@ -117,7 +117,7 @@ function delete_notifications_for_module($module) {
 		$get_params['fields'] = 'id';
 		$get_params['module'] = db_escape_string($module);
 
-		$data = \mw\Notifications::get($get_params);
+		$data = Notifications::get($get_params);
 		if(isarr($data )){
 		  $ids = array_values_recursive($data);
 		  $idsi = implode(',',$ids);
@@ -128,9 +128,9 @@ function delete_notifications_for_module($module) {
 		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
 		return true;
 	}
-}
-
-function mark_notifications_as_read($module) {
+}*/
+/*
+function Notifications::mark_as_read($module) {
 
 	if (($module) != false and $module != '') {
 
@@ -144,7 +144,7 @@ function mark_notifications_as_read($module) {
 		$get_params['fields'] = 'id';
 		$get_params['module'] = db_escape_string($module);
 
-		$data = \mw\Notifications::get($get_params);
+		$data = Notifications::get($get_params);
 		if (isarr($data)) {
 			foreach ($data as $value) {
 				$save['is_read'] = 'y';
@@ -158,14 +158,14 @@ function mark_notifications_as_read($module) {
 		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
 		return $data;
 	}
-}
-
-function read_notification($id) {
+}*/
+/*
+function Notifications::read($id) {
 	$params = array();
 	$params['id'] = trim($id);
 	$params['one'] = true;
 
-	$get = \mw\Notifications::get($params);
+	$get = Notifications::get($params);
 
 	if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
 		$save = array();
@@ -179,9 +179,9 @@ function read_notification($id) {
 	}
 
 	return $get;
-}
-
-function get_notification($id) {
+}*/
+/*
+function Notifications::get_by_id($id) {
 	$params = array();
 
 	if ($id != false) {
@@ -192,14 +192,14 @@ function get_notification($id) {
 		$params['id'] = db_escape_string($id);
 		$params['one'] = true;
 
-		$get = \mw\Notifications::get($params);
+		$get = Notifications::get($params);
 		return $get;
 
 	}
-}
-
-api_expose('notifications_reset');
-function notifications_reset() {
+}*/
+/*
+api_expose('Notifications::reset');
+function Notifications::reset() {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
@@ -214,10 +214,10 @@ function notifications_reset() {
 
 	return true;
 
-}
-
+}*/
+/*
 api_expose('delete_notification');
-function delete_notification($id) {
+function Notifications::delete($id) {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
@@ -232,9 +232,9 @@ function delete_notification($id) {
 
 	return true;
 
-}
+}*/
 /*
-function \mw\Notifications::get($params) {
+function Notifications::get($params) {
 	$params = parse_params($params);
 
 	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
@@ -296,8 +296,8 @@ function email_get_transport_object() {
 	return false;
 
 }
-
-function mw_mail($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false) {
+/*
+function \mw\email\Sender::send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false) {
 
 	$function_cache_id = false;
 
@@ -345,8 +345,8 @@ function mw_mail($to, $subject, $message, $add_hostname_to_subject = false, $no_
 		}
 
 	}
-}
-
+}*/
+/*
 api_expose('email_send_test');
 function email_send_test($params) {
 
@@ -382,4 +382,4 @@ function email_send_test($params) {
 
 	return true;
 
-}
+}*/

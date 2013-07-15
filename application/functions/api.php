@@ -52,6 +52,19 @@ function exec_action($api_function, $data = false)
                 }
                 unset($hooks[$api_function][$hook_key]);
 
+            } else {
+
+
+                try {
+                    if ($data != false) {
+                        call_user_func($hook_value,$data); // As of PHP 5.3.0
+                    } else {
+                        call_user_func($hook_value,false);
+                    }
+                } catch (Exception $e) {
+
+                }
+
             }
         }
     }

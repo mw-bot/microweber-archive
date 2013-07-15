@@ -318,7 +318,7 @@ function user_social_login($params)
                         $provider1 = ucwords($provider);
                         $notif['title'] = "New user registration with {$provider1}";
                         $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                        \mw\Notifications::save($notif);
+                        Notifications::save($notif);
 
                         save_log($notif);
 
@@ -478,7 +478,7 @@ function register_user($params)
             $notif['title'] = "New user registration";
             $notif['description'] = "You have new user registration";
             $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-            \mw\Notifications::save($notif);
+            Notifications::save($notif);
 
             save_log($notif);
 
@@ -1259,7 +1259,7 @@ function user_send_forgot_password($params)
                     $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                     //d($data_res);
-                    mw_mail($to, $subject, $content, true, $no_cache = true);
+                    \mw\email\Sender::send($to, $subject, $content, true, $no_cache = true);
 
                     return array('success' => 'Your password reset link has been sent to ' . $to);
                 } else {

@@ -86,7 +86,7 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'menus.php')
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.php');
+//include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.php');
 
 if (MW_IS_INSTALLED == true) {
 
