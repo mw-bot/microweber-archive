@@ -508,7 +508,7 @@ function post_form($params) {
 		$notif['title'] = "New form entry";
 		$notif['description'] = "You have new form entry";
 		$notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . array_pp($pp_arr);
-		post_notification($notif);
+		\mw\Notifications::save($notif);
 		//	d($cf_to_save);
 		if ($email_to == false) {
 			$email_to = get_option('email_from', 'email');

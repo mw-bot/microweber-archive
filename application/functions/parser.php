@@ -186,9 +186,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 	$d = 1;
     $parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
 	if (isset($passed_reps[$parser_mem_crc])) {
-		   return $layout;
+
+		//   return $layout;
 	} else {
-        $passed_reps[$parser_mem_crc] = true;
+      //  $passed_reps[$parser_mem_crc] = true;
     }
 
 	$use_apc = false;
@@ -198,7 +199,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
             if(!is_object($parser_cache_object)){
                 $parser_cache_object = new \mw\cache\Apc();
-                //d($parser_cache_object);
+
             }
 
 
@@ -295,6 +296,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 			$matches1 = $mw_script_matches[0];
 			foreach ($matches1 as $key => $value) {
 				if ($value != '') {
+                   // d($value);
 					$v1 = crc32($value);
 					$v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
 					$layout = str_replace($value, $v1, $layout);
@@ -469,8 +471,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				unset($replaced_scripts[$key]);
 			}
 		}
+      //  d($replaced_modules);
 
-		if (!empty($replaced_modules)) {
+		if (isarr($replaced_modules)) {
 
 			$attribute_pattern = '@
 			(?P<name>\w+)# attribute name
@@ -488,6 +491,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 			$attrs = array();
 			foreach ($replaced_modules as $key => $value) {
 				if ($value != '') {
+
+
+                    $replace_key=  $key;
+
 					$attrs = array();
 					if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
 						foreach ($attrs1 as $item) {
@@ -568,10 +575,13 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 									$mod_as_element = true;
 									$userclass = str_replace('module-as-element', '', $userclass);
 								}
-								$userclass = str_replace('ui-sortable', '', $userclass);
+                                $userclass = str_replace(' module  module ', 'module ', $userclass);
+
+                                $userclass = str_replace('ui-sortable', '', $userclass);
 								$userclass = str_replace('module-item', '', $userclass);
 								$userclass = str_replace('module module module', 'module', $userclass);
-								$userclass = str_replace('module  module ', 'module ', $userclass);
+
+                                $userclass = str_replace('module  module ', 'module ', $userclass);
 
 							} else {
 								$module_html .= " {$nn}='{$nv}'  ";
@@ -708,7 +718,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							if ($coming_from_parent_strz1 == true) {
 								//   $attrs['data-parent-module'] = $coming_from_parentz;
 							}
+
 							$mod_content = load_module($module_name, $attrs);
+
 							$plain_modules = mw_var('plain_modules');
 							if ($plain_modules != false) {
 								//d($plain_modules);
@@ -725,8 +737,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 								}
 								//
 							}
-							//d($mod_content);
-							$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+							//
+							//$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+
 							//if (trim($mod_content) != '') {
 							if ($mod_no_wrapper == false) {
 								$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
@@ -737,12 +750,22 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							//	$module_html = '';
 							//}
 
-							$layout = str_replace($key, $module_html, $layout);
+
+                            $layout = str_replace($value, $module_html, $layout);
+							$layout = str_replace($replace_key, $module_html, $layout);
+                           if($module_name == 'comments'){
+//                               d($replace_key);
+//                               d($value);
+//                           d($module_html);
+//                               d($layout);
+//                            exit();
+                           }
+                         //
 						}
 					}
 					//
 				}
-				unset($replaced_modules[$key]);
+				 unset($replaced_modules[$replace_key]);
 				// $layout = str_replace($key, $value, $layout);
 			}
 		}

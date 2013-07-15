@@ -11,7 +11,7 @@ if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
 
 action_hook('mw_db_init_default', 'mw_db_init_notifications_table');
 api_expose('notifications_reset');
-api_expose('post_notification');
+api_expose('\mw\Notifications::save');
 api_expose('delete_notification');
 api_expose('email_send_test');
 $_mw_email_transport_object = false;
@@ -69,7 +69,7 @@ class Notifications
 
     }
 
-    function post_notification($params)
+    function save($params)
     {
 
         $params = parse_params($params);
@@ -85,7 +85,7 @@ class Notifications
         mw_var('FORCE_SAVE', $table);
 
         if (!isset($params['rel']) or !isset($params['rel_id'])) {
-            return ('Error: invalid data you must send rel and rel_id as params for post_notification function');
+            return ('Error: invalid data you must send rel and rel_id as params for \mw\Notifications::save function');
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
         $cleanup = "delete from $table where created_on < '{$old}'";
@@ -126,7 +126,7 @@ class Notifications
             $get_params['fields'] = 'id';
             $get_params['module'] = db_escape_string($module);
 
-            $data = get_notifications($get_params);
+            $data = \mw\Notifications::get($get_params);
             if (isarr($data)) {
                 $ids = array_values_recursive($data);
                 $idsi = implode(',', $ids);
@@ -154,7 +154,7 @@ class Notifications
             $get_params['fields'] = 'id';
             $get_params['module'] = db_escape_string($module);
 
-            $data = get_notifications($get_params);
+            $data = \mw\Notifications::get($get_params);
             if (isarr($data)) {
                 foreach ($data as $value) {
                     $save['is_read'] = 'y';
@@ -176,7 +176,7 @@ class Notifications
         $params['id'] = trim($id);
         $params['one'] = true;
 
-        $get = get_notifications($params);
+        $get = \mw\Notifications::get($params);
 
         if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
             $save = array();
@@ -204,7 +204,7 @@ class Notifications
             $params['id'] = db_escape_string($id);
             $params['one'] = true;
 
-            $get = get_notifications($params);
+            $get = \mw\Notifications::get($params);
             return $get;
 
         }

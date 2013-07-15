@@ -54,10 +54,10 @@ function mw_db_init_notifications_table() {
 	return true;
 
 }
+/*
+api_expose('\mw\Notifications::save');
 
-api_expose('post_notification');
-
-function post_notification($params) {
+function \mw\Notifications::save($params) {
 
 	$params = parse_params($params);
 
@@ -72,7 +72,7 @@ function post_notification($params) {
 	mw_var('FORCE_SAVE', $table);
 
 	if (!isset($params['rel']) or !isset($params['rel_id'])) {
-		return ('Error: invalid data you must send rel and rel_id as params for post_notification function');
+		return ('Error: invalid data you must send rel and rel_id as params for \mw\Notifications::save function');
 	}
 	$old = date("Y-m-d H:i:s", strtotime('-30 days'));
 	$cleanup = "delete from $table where created_on < '{$old}'";
@@ -101,7 +101,7 @@ function post_notification($params) {
 
 	$data = save($table, $params);
 	return $data;
-}
+}*/
 
 
 function delete_notifications_for_module($module) {
@@ -117,7 +117,7 @@ function delete_notifications_for_module($module) {
 		$get_params['fields'] = 'id';
 		$get_params['module'] = db_escape_string($module);
 
-		$data = get_notifications($get_params);
+		$data = \mw\Notifications::get($get_params);
 		if(isarr($data )){
 		  $ids = array_values_recursive($data);
 		  $idsi = implode(',',$ids);
@@ -144,7 +144,7 @@ function mark_notifications_as_read($module) {
 		$get_params['fields'] = 'id';
 		$get_params['module'] = db_escape_string($module);
 
-		$data = get_notifications($get_params);
+		$data = \mw\Notifications::get($get_params);
 		if (isarr($data)) {
 			foreach ($data as $value) {
 				$save['is_read'] = 'y';
@@ -165,7 +165,7 @@ function read_notification($id) {
 	$params['id'] = trim($id);
 	$params['one'] = true;
 
-	$get = get_notifications($params);
+	$get = \mw\Notifications::get($params);
 
 	if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
 		$save = array();
@@ -192,7 +192,7 @@ function get_notification($id) {
 		$params['id'] = db_escape_string($id);
 		$params['one'] = true;
 
-		$get = get_notifications($params);
+		$get = \mw\Notifications::get($params);
 		return $get;
 
 	}
@@ -233,8 +233,8 @@ function delete_notification($id) {
 	return true;
 
 }
-
-function get_notifications($params) {
+/*
+function \mw\Notifications::get($params) {
 	$params = parse_params($params);
 
 	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
@@ -267,7 +267,7 @@ function get_notifications($params) {
 		$return = get($params);
 	}
 	return $return;
-}
+}*/
 
 $_mw_email_transport_object = false;
 function email_get_transport_object() {

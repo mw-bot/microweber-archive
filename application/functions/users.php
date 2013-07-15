@@ -318,7 +318,7 @@ function user_social_login($params)
                         $provider1 = ucwords($provider);
                         $notif['title'] = "New user registration with {$provider1}";
                         $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                        post_notification($notif);
+                        \mw\Notifications::save($notif);
 
                         save_log($notif);
 
@@ -478,7 +478,7 @@ function register_user($params)
             $notif['title'] = "New user registration";
             $notif['description'] = "You have new user registration";
             $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-            post_notification($notif);
+            \mw\Notifications::save($notif);
 
             save_log($notif);
 
