@@ -5,10 +5,10 @@
   
   
 <?php 
- var_dump(debug_backtrace());
+/* var_dump(debug_backtrace());
 $arr = get_defined_functions();
 
-print_r($arr['user']);
+print_r($arr['user']);*/
 
 $mtime = microtime(); 
    $mtime = explode(" ",$mtime); 
