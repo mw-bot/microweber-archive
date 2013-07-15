@@ -545,6 +545,11 @@ function thumbnail_img($params)
     if (!is_dir($cd)) {
         mkdir_recursive($cd);
     }
+    $index_file = $cd.'index.html';
+    if (!is_file($index_file)) {
+        file_put_contents($index_file, 'Thumbnail directory is not allowed');
+    }
+
     $ext = strtolower(get_file_extension($src));
     $cache = crc32(serialize($params)) . '.'.$ext;
 

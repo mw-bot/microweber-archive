@@ -53,15 +53,7 @@ class MwView {
         extract((array)$this);
 
         ob_start();
-		// write content
 
-
-		foreach ($this as $k => $v) {
-			if (is_array($v)) {
-				//d($v);
-				//extract ( ( array ) $v );
-			}
-		}
 
 		//	set_include_path(dirname($this -> v) . DS . PATH_SEPARATOR . get_include_path());
 		//$old_dir = getcwd();

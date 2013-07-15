@@ -2771,12 +2771,19 @@ function db_update_position($table, $data = array())
  * @package Database
  * @subpackage Advanced
  */
+$mw_escaped_strings = array();
 function db_escape_string($value)
 {
+    global $mw_escaped_strings;
+    if(isset($mw_escaped_strings[$value])){
+        return $mw_escaped_strings[$value];
+    }
+
     $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
     $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
-
-    return str_replace($search, $replace, $value);
+    $new = str_replace($search, $replace, $value);
+    $mw_escaped_strings[$value] = $new;
+    return $new;
 }
 
 /**

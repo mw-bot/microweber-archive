@@ -184,13 +184,14 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 
 	$d = 1;
-    $parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
-	if (isset($passed_reps[$parser_mem_crc])) {
+    $parser_mem_crc = 'parser_' . crc32($layout) ;
 
-		//   return $layout;
-	} else {
-      //  $passed_reps[$parser_mem_crc] = true;
-    }
+//	if (isset($passed_reps[$parser_mem_crc])) {
+//
+//	    return $layout;
+//	} else {
+//       $passed_reps[$parser_mem_crc] = true;
+//    }
 
 	$use_apc = false;
 	if (defined('APC_CACHE') and APC_CACHE == true) {
@@ -350,6 +351,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 			$parse_mode = intval($options['parse_mode']);
 		}
 
+
+
+
+
 		switch ($parse_mode) {
 			case 1 :
 				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
@@ -371,8 +376,11 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				break;
 
 			case 5 :
-				include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
 
+                preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
+                if(!empty($layoutmatches) and isset($layoutmatches[0][0])){
+				include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
+                }
 				break;
 
 			case 345434536 :
