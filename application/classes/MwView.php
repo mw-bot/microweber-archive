@@ -50,9 +50,11 @@ class MwView {
 	}
 
 	function __toString() {
-		ob_start();
+        extract((array)$this);
+
+        ob_start();
 		// write content
-		extract((array)$this);
+
 
 		foreach ($this as $k => $v) {
 			if (is_array($v)) {
@@ -60,6 +62,7 @@ class MwView {
 				//extract ( ( array ) $v );
 			}
 		}
+
 		//	set_include_path(dirname($this -> v) . DS . PATH_SEPARATOR . get_include_path());
 		//$old_dir = getcwd();
 		$file_dir = dirname($this -> v) . DS;

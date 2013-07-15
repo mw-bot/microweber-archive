@@ -1,5 +1,5 @@
 <?php
-
+namespace mw;
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
     define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
@@ -9,12 +9,12 @@ if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
     define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
 }
 action_hook('mw_db_init_default', 'mw_db_init_notifications_table');
-action_hook('on_load', 'Notifications::db_init');
+action_hook('on_load', '\mw\Notifications::db_init');
 
 
-api_expose('Notifications/delete');
-api_expose('Notifications/save');
-api_expose('Notifications/reset');
+api_expose('/mw/Notifications/delete');
+api_expose('/mw/Notifications/save');
+api_expose('/mw/Notifications/reset');
 
 class Notifications
 {
@@ -25,7 +25,7 @@ class Notifications
         $params['id'] = trim($id);
         $params['one'] = true;
 
-        $get = Notifications::get($params);
+        $get = \mw\Notifications::get($params);
 
         if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
             $save = array();
@@ -56,7 +56,7 @@ class Notifications
             $get_params['fields'] = 'id';
             $get_params['module'] = db_escape_string($module);
 
-            $data = Notifications::get($get_params);
+            $data = \mw\Notifications::get($get_params);
             if (isarr($data)) {
                 foreach ($data as $value) {
                     $save['is_read'] = 'y';
@@ -122,7 +122,7 @@ class Notifications
             $get_params['fields'] = 'id';
             $get_params['module'] = db_escape_string($module);
 
-            $data = Notifications::get($get_params);
+            $data = \mw\Notifications::get($get_params);
             if (isarr($data)) {
                 $ids = array_values_recursive($data);
                 $idsi = implode(',', $ids);
@@ -194,7 +194,7 @@ class Notifications
         mw_var('FORCE_SAVE', $table);
 
         if (!isset($params['rel']) or !isset($params['rel_id'])) {
-            return ('Error: invalid data you must send rel and rel_id as params for Notifications::save function');
+            return ('Error: invalid data you must send rel and rel_id as params for \mw\Notifications::save function');
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
         $cleanup = "delete from $table where created_on < '{$old}'";
@@ -233,7 +233,7 @@ class Notifications
             $params['id'] = db_escape_string($id);
             $params['one'] = true;
 
-            $get = Notifications::get($params);
+            $get = \mw\Notifications::get($params);
             return $get;
 
         }

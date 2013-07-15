@@ -1496,7 +1496,11 @@ function get_page_by_url($url = '', $no_recursive = false)
  */
 function get_content_by_id($id)
 {
+global $mw_global_content_memory;
 
+    if(isset($mw_global_content_memory[$id])){
+        return $mw_global_content_memory[$id];
+    }
 
     // ->'content';
     $table = MW_TABLE_PREFIX . 'content';
@@ -1522,12 +1526,16 @@ function get_content_by_id($id)
     //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
     if (isset($q[0])) {
         $content = $q[0];
+
     } else {
+
+        $mw_global_content_memory[$id] = false;
         return false;
     }
+    $mw_global_content_memory[$id] = $content;
     return $content;
 }
-
+$mw_global_content_memory = array();
 /**
  * Get single content item by id from the content_table
  *

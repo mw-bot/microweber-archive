@@ -1706,9 +1706,29 @@ function load_module_lic($module_name = false)
 
 $mw_mod_counter = 0;
 $mw_mod_counter_array = array();
+$mw_loaded_mod_memory = array();
 function load_module($module_name, $attrs = array())
 {
-    $function_cache_id = false;
+//    $args = func_get_args();
+//    $function_cache_id = false;
+//    if(is_array($attrs)){
+//        ksort($attrs);
+//    }
+//
+//    foreach ($args as $k => $v) {
+//        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//     }
+//    $function_cache_id = crc32($function_cache_id);
+//    global $mw_loaded_mod_memory;
+//
+//    if(isset($mw_loaded_mod_memory[$function_cache_id])){
+//       // return $function_cache_id;
+//       // print $function_cache_id;
+//
+//        return $mw_loaded_mod_memory[$function_cache_id];
+//    }
+
+
     //if (defined('PAGE_ID') == false) {
     // define_constants();
     // }
@@ -2031,12 +2051,13 @@ function load_module($module_name, $attrs = array())
 
             //$lic_l1 = null;
             unset($lic_l1);
-            return $lic_l1e_file . $module_file;
+            $module_file =  $lic_l1e_file . $module_file;
         }
+       // $mw_loaded_mod_memory[$function_cache_id] = $module_file;
         return $module_file;
     } else {
         //define($cache_content, FALSE);
-
+       // $mw_loaded_mod_memory[$function_cache_id] = false;
         return false;
     }
 }

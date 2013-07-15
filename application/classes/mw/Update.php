@@ -124,7 +124,7 @@ class Update
 
         }
 
-        if (function_exists('Notifications::save')) {
+        if (function_exists('\mw\Notifications::save')) {
 
 
             $count = 0;
@@ -150,11 +150,11 @@ class Update
                 $notif['title'] = "New updates are available";
                 $notif['description'] = "There are $count new updates are available";
 
-                Notifications::save($notif);
+                \mw\Notifications::save($notif);
             }
 
         }
-        /*if(function_exists('Notifications::save')){
+        /*if(function_exists('\mw\Notifications::save')){
 
 
                $count = 0;
@@ -178,7 +178,7 @@ class Update
            $notif['title'] = "New updates are avaiable";
            $notif['description'] = "There are $count new updates are available";
            // d($notif);
-           //Notifications::save($notif);
+           //\mw\Notifications::save($notif);
            }
 
        }*/

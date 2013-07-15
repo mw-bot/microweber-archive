@@ -55,9 +55,9 @@ function mw_db_init_notifications_table() {
 
 }
 /*
-api_expose('Notifications::save');
+api_expose('\mw\Notifications::save');
 
-function Notifications::save($params) {
+function \mw\Notifications::save($params) {
 
 	$params = parse_params($params);
 
@@ -72,7 +72,7 @@ function Notifications::save($params) {
 	mw_var('FORCE_SAVE', $table);
 
 	if (!isset($params['rel']) or !isset($params['rel_id'])) {
-		return ('Error: invalid data you must send rel and rel_id as params for Notifications::save function');
+		return ('Error: invalid data you must send rel and rel_id as params for \mw\Notifications::save function');
 	}
 	$old = date("Y-m-d H:i:s", strtotime('-30 days'));
 	$cleanup = "delete from $table where created_on < '{$old}'";
@@ -104,7 +104,7 @@ function Notifications::save($params) {
 }*/
 
 /*
-function Notifications::delete_for_module($module) {
+function \mw\Notifications::delete_for_module($module) {
 
 	if (($module) != false and $module != '') {
 
@@ -117,7 +117,7 @@ function Notifications::delete_for_module($module) {
 		$get_params['fields'] = 'id';
 		$get_params['module'] = db_escape_string($module);
 
-		$data = Notifications::get($get_params);
+		$data = \mw\Notifications::get($get_params);
 		if(isarr($data )){
 		  $ids = array_values_recursive($data);
 		  $idsi = implode(',',$ids);
@@ -130,7 +130,7 @@ function Notifications::delete_for_module($module) {
 	}
 }*/
 /*
-function Notifications::mark_as_read($module) {
+function \mw\Notifications::mark_as_read($module) {
 
 	if (($module) != false and $module != '') {
 
@@ -144,7 +144,7 @@ function Notifications::mark_as_read($module) {
 		$get_params['fields'] = 'id';
 		$get_params['module'] = db_escape_string($module);
 
-		$data = Notifications::get($get_params);
+		$data = \mw\Notifications::get($get_params);
 		if (isarr($data)) {
 			foreach ($data as $value) {
 				$save['is_read'] = 'y';
@@ -160,12 +160,12 @@ function Notifications::mark_as_read($module) {
 	}
 }*/
 /*
-function Notifications::read($id) {
+function \mw\Notifications::read($id) {
 	$params = array();
 	$params['id'] = trim($id);
 	$params['one'] = true;
 
-	$get = Notifications::get($params);
+	$get = \mw\Notifications::get($params);
 
 	if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
 		$save = array();
@@ -181,7 +181,7 @@ function Notifications::read($id) {
 	return $get;
 }*/
 /*
-function Notifications::get_by_id($id) {
+function \mw\Notifications::get_by_id($id) {
 	$params = array();
 
 	if ($id != false) {
@@ -192,14 +192,14 @@ function Notifications::get_by_id($id) {
 		$params['id'] = db_escape_string($id);
 		$params['one'] = true;
 
-		$get = Notifications::get($params);
+		$get = \mw\Notifications::get($params);
 		return $get;
 
 	}
 }*/
 /*
-api_expose('Notifications::reset');
-function Notifications::reset() {
+api_expose('\mw\Notifications::reset');
+function \mw\Notifications::reset() {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
@@ -217,7 +217,7 @@ function Notifications::reset() {
 }*/
 /*
 api_expose('delete_notification');
-function Notifications::delete($id) {
+function \mw\Notifications::delete($id) {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
@@ -234,7 +234,7 @@ function Notifications::delete($id) {
 
 }*/
 /*
-function Notifications::get($params) {
+function \mw\Notifications::get($params) {
 	$params = parse_params($params);
 
 	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {

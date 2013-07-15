@@ -1232,9 +1232,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     return $result;
 }
 
-if (is_admin() == true) {
-    api_expose('get');
-}
+
 
 
 
