@@ -222,6 +222,10 @@ function get_content($params = false)
             if (isset($get['url'])) {
                 $get['url'] = site_url($get['url']);
             }
+            if (isset($get['title'])) {
+                //$item['url'] = page_link($item['id']);
+                $get['title'] = string_clean($get['title']);
+            }
             return $get;
         }
         if (isarr($get)) {
@@ -231,6 +235,11 @@ function get_content($params = false)
                     //$item['url'] = page_link($item['id']);
                     $item['url'] = site_url($item['url']);
                 }
+                if (isset($item['title'])) {
+                    //$item['url'] = page_link($item['id']);
+                    $item['title'] = string_clean($item['title']);
+                }
+
                 $data2[] = $item;
             }
             $get = $data2;
@@ -1526,7 +1535,9 @@ global $mw_global_content_memory;
     //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
     if (isset($q[0])) {
         $content = $q[0];
-
+        if(isset($content['title'])){
+        $content['title'] = string_clean($content['title']);
+        }
     } else {
 
         $mw_global_content_memory[$id] = false;

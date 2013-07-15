@@ -1773,6 +1773,7 @@ function load_module($module_name, $attrs = array())
     $module_name = reduce_double_slashes($module_name);
 
     $module_namei = $module_name;
+
     if (strstr($module_name, 'admin')) {
 
         $module_namei = str_ireplace('\\admin', '', $module_namei);
@@ -2053,6 +2054,7 @@ function load_module($module_name, $attrs = array())
             unset($lic_l1);
             $module_file =  $lic_l1e_file . $module_file;
         }
+       // d($module_file);
        // $mw_loaded_mod_memory[$function_cache_id] = $module_file;
         return $module_file;
     } else {

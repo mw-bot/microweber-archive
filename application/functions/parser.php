@@ -471,7 +471,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				unset($replaced_scripts[$key]);
 			}
 		}
-      //  d($replaced_modules);
+
 
 		if (isarr($replaced_modules)) {
 
@@ -738,7 +738,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 								//
 							}
 							//
-							//$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+							 $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 
 							//if (trim($mod_content) != '') {
 							if ($mod_no_wrapper == false) {
