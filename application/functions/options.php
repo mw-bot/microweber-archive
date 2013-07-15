@@ -304,11 +304,25 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
         $q = "select option_value from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
 
     }
-    $function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
-    //
-    //
+  // $get = db_query($q, $function_cache_id, $cache_group);
+
+
+  //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
+    $q = "select * from $table where option_key is not null {$ok1} {$ok2} ";
     //d($q);
-    $get = db_query($q, $function_cache_id_q, $cache_group);
+    $q_cache_id = crc32($q);
+    $get_all = db_query($q, $q_cache_id, $cache_group);
+    if(!isarr($get_all)){
+        return false;
+    }
+    $get  = array();
+    foreach($get_all as $get_opt){
+        if(isset($get_opt['option_key']) and $ok == $get_opt['option_key']){
+            $get[]= $get_opt;
+        }
+    }
+
+
     //
 
     if (!empty($get)) {
