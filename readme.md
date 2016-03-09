@@ -1,3 +1,16 @@
+# THIS REPO CONTAINS VERY OLD CODE KEPT ONLY FOR HISTORICAL PURPOSE
+
+![REPO IS MOVED HERE](https://github.com/microweber/microweber/ "")
+
+
+
+
+
+------------------------------------------
+
+
+
+
 # Microweber: the Drag-and-Drop CMS
 
 ![Live edit](http://new.microweber.com/cdn/docs/banner_modules.png "")
